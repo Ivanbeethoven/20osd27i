@@ -1,0 +1,70 @@
+\section{Implementation and Integration Status}
+\label{sec:implementation}
+
+The audit fixes the file-system and backend revisions rather than assuming
+the current default branches have the same behavior.
+\ifanonymouspreview
+The internal evidence ledger records the exact repositories, revisions,
+source locations, and configuration gates. These identifiers are withheld
+from this name-switching preview.
+\else
+The inspected revisions are BrewFS
+\code{518e7cc39b2f} and the RustFS research fork
+\code{cc4926fac110}.\footnote{Fixed sources:
+\url{https://github.com/brewfs/brewfs/tree/518e7cc39b2ff0b421ecf0f656de6d468cacb9b8} and
+\url{https://github.com/Ivanbeethoven/rustfs/tree/cc4926fac1107aee76540f28bf22dbd47fcbca24}.}
+\fi
+The accompanying evidence ledger distinguishes specification, code presence,
+runtime connection, and measured behavior. This preparation did not execute
+new mounts, fault tests, or performance runs.
+
+\paragraph{Workspace paths.}
+The ordinary volume and legacy workspace paths use the VFS infrastructure.
+The Entity workspace instead uses a dedicated FUSE adapter, direct I/O,
+zero metadata TTL, and no ordinary VFS slice-cache/writeback path. It is
+explicitly experimental and fresh-only. Its current API bounds include a
+16 MiB I/O/chunk limit, a 1 MiB FUSE maximum write, a 4,096-entry complete
+directory interface, and a packed-owner census bounded at 256 active owners
+per store. These limits constrain the first evaluation; exceeding them is
+a separate implementation task.
+
+\paragraph{Snapshot components.}
+The packed reader, producer, authenticated indexes, and supporting
+publication components are present. A standalone read-only mount is
+available, but its current CLI rejects nonzero payload-cache and prefetch
+budgets. A cache sweep must therefore distinguish supported metadata caches
+from a new payload-cache implementation. Native Base supplies another data
+path and is not interchangeable with the Entity workspace in an ablation.
+
+\paragraph{Layout integration gates.}
+Three inspected connections prevent us from claiming a complete combined
+runtime. The Entity mount's S3 configuration does not propagate the ordinary
+CLI's EC hint; the packed fixture producer also uses a default hint setting;
+and the strict durable create-only upload used by EntityData does not attach
+the hint metadata. The last path must retain its conditional-create and
+precondition-failure semantics when instrumented or extended.
+
+Even after these connections are supplied, the Entity FUSE maximum write
+and direct upload formation produce upper objects no larger than 1 MiB in
+that path. The current automatic rule only emits a hint above 1 MiB.
+Consequently, a large logical file is not sufficient to exercise automatic
+upper-object B selection. Initial policy experiments must use packed
+containers or the ordinary finalized upload path; Entity upper experiments
+can test supported fixed hints, actual small-object behavior, or an explicitly
+new aggregation design. We will not imply that this extra design already
+exists.
+
+\paragraph{Backend gates and measurement.}
+RustFS contains B parsing/persistence and q-aware write, read, and healing
+code. New q writes are disabled by default and were disabled in the historical
+configuration inspected by this audit. A valid experiment will record actual
+object $(B,q)$, eligibility, and physical read counters rather than only flags.
+Ordinary-VFS write-budget release and shared-buffer replies are additional
+retained optimizations, not consequences of changing B. They must remain
+constant when isolating layout effects.
+
+The AX directory provides deployment and mount contracts; its smoke path can
+use a durable directory without a \sysname{} mount. Formal end-to-end experiments
+will verify mount identity and correlate agent tool operations with the
+file-system and object counters. Starting an AX task alone is insufficient
+integration evidence.

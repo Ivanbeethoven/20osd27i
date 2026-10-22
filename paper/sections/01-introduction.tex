@@ -1,0 +1,74 @@
+\section{Introduction}
+\label{sec:intro}
+
+Coding agents interact with repositories by navigating directories, reading
+files, editing code, and invoking builds and tests. Systems such as SWE-agent
+and OpenHands make these interactions part of a repeated tool-use
+loop~\cite{sweagent2024,openhands2025}. Running several such tasks from the same
+repository version creates an opportunity to share their initial state.
+Each task nevertheless needs an independent view: an edit, deletion, or
+generated file in one workspace must not silently change another task's input.
+The opportunity is particularly relevant when workspaces are provisioned on
+different clients and their durable state resides in object storage.
+
+Sharing file contents addresses only part of the cost. A workspace also needs
+a namespace, file attributes, and mappings from file offsets to stored data.
+Materializing these records for every task can repeat work even when most of
+the baseline is unchanged. Keeping a shared baseline in a conventional mutable
+metadata service can instead make its read path depend on per-file queries.
+Moving metadata to objects introduces another trade-off: fetching an index or
+a group of entries saves some lookups but may transfer unused metadata or
+file data. Finally, a short request at the file-system interface need not
+become a short physical read in an erasure-coded object store.
+
+These issues do not make copy-on-write workspaces or object-resident metadata
+new abstractions. OverlayFS already provides layered namespace
+semantics~\cite{overlayfs}; BranchFS applies copy-on-write branches to agentic
+exploration~\cite{branchfs2026}. DeltaFS places private namespace changes and
+immutable logs over shared storage~\cite{deltafs2021}. Immutable distribution
+systems also provide indexed, demand-loaded baselines~\cite{cvmfs2011,nydus_rafs}.
+The research question for \sys is therefore narrower: \emph{which representation
+and access boundaries make shared agent workspaces inexpensive when their
+metadata and data must be fetched from remote objects?} Answering it requires
+comparisons with these approaches, rather than treating full directory copying
+as the only alternative.
+
+Our design separates three decisions that become possible at different
+times. When a workspace is created, it can pin a shared immutable lower and
+allocate only its private state. When a read-only subtree is published, its
+directory entries, common attributes, and data locators can be organized
+together for subsequent access. When an object is finalized for upload, its
+actual wire length is known and can inform the backend's layout. Keeping
+these boundaries explicit also identifies the state that still requires
+coordination: mutable upper records, snapshot publication, and reader
+ownership remain separate from immutable lower lookup.
+
+\sys implements components of this design in three parts. First,
+\emph{delta-based workspaces} resolve a pinned baseline and private current
+state into an independent view. The private state includes deletion markers
+and data mappings; it is not a byte-delta compression format. Second,
+\emph{packed metadata} represents selected read-only subtrees as immutable
+snapshots indexed by directory-name ranges. The reader can resolve supported
+lower namespace, attribute, and data-location queries from those objects.
+Third, \emph{variable-granularity object storage} uses a
+\sysname--RustFS interface to request an encoding block for a finalized object.
+RustFS validates the request and persists the effective encoding and
+verification geometry for subsequent reads and repair.
+
+The combination is a testable hypothesis, not an assumed multiplicative
+speedup. A sparse private upper can preserve reuse of packed lower pages;
+packing can in turn create objects whose partial access benefits from finer
+physical verification. Conversely, frequent subtree rebuilding can defeat
+amortization, an upper read may still fetch a complete object for integrity,
+and whole-object caching can hide or reverse a backend layout benefit.
+The evaluation must expose these cases.
+
+This working draft makes three contributions at the level of design and
+research preparation. It defines the state and lookup contracts that connect
+private workspaces to shared packed snapshots; it describes a per-object layout
+interface while separating file, object, encoding, and verification sizes; and
+it provides an evidence-driven evaluation protocol covering provisioning,
+metadata, physical I/O, and agent execution. Our source audit also identifies
+integration gaps that must be closed before claiming an evaluated end-to-end
+system. We do not report an acceleration factor or claim reduced write
+amplification without measurements.

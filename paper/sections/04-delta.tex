@@ -1,0 +1,106 @@
+\section{Delta-Based Workspaces}
+\label{sec:delta}
+
+\subsection{Private current state over a pinned lower}
+
+The Entity representation stores the current state of changed entities in a
+private upper. A name record is either present, explicitly removed, or absent
+from the upper. A present record points to the workspace's entity; a deletion
+marker, or whiteout, suppresses the inherited name. Only absence permits
+fallback to the lower, subject to the directory's merge and opacity rules.
+Thus a deleted lower file cannot reappear merely because its upper payload
+has been reclaimed.
+
+For a parent directory $d$ and name $n$, the basic resolution rule is
+\begin{equation}
+R_i(d,n)=
+\begin{cases}
+e, & \Delta_i(d,n)=\operatorname{Present}(e),\\
+\bot, & \text{the name is hidden in }W_i,\\
+R_S(d,n), & \text{otherwise}.
+\end{cases}
+\end{equation}
+The hidden case includes a whiteout and the applicable directory-opacity
+rules. The equation describes visibility, rather than prescribing how many
+database or object requests a lookup performs. The actual reader can reuse
+cached upper state and packed lower pages.
+
+Directory enumeration combines upper and lower names under the same rule.
+It must suppress duplicates, apply deletions, and return attributes associated
+with the visible entity. An upper directory's current attributes are not an
+arithmetic merge of the two layers' attributes. Stable identity also matters:
+within a workspace, hard-link aliases must continue to refer to the same
+logical inode when private state is materialized. The selected runtime's
+supported operation set and directory limits are part of the experimental
+contract, rather than an assumption of complete POSIX compatibility.
+
+\subsection{Representing changed data without cloning the baseline}
+
+Private file contents use explicit mappings. For a changed logical chunk,
+the normalized map covers its applicable range with spans of three kinds:
+\emph{Data}, which references newly stored upper bytes; \emph{LowerRange},
+which references inherited bytes in the pinned snapshot; and \emph{Hole},
+which reads as zeros. A missing interval in an explicit map must not be
+interpreted as an implicit lower reference. The distinction prevents stale
+baseline data from leaking into a region that has been overwritten or
+truncated.
+
+Consider a file inherited from $S$. A write to a short interval materializes
+the required private attributes and mapping, stores the new bytes, and
+replaces the corresponding interval. Unchanged intervals can continue to
+reference $S$. This does not require a byte-difference algorithm or a copy of
+the entire lower file. It also does not imply that a 4 KiB application write
+always produces exactly a 4 KiB object: upload boundaries, format overhead,
+and the chosen data path still determine object size.
+
+Truncation requires a separate inheritance boundary. The Entity model keeps
+a lower-visible size that can decrease but does not increase. After a file is
+truncated and later extended, the newly visible region reads as zeros or new
+upper data; it must not resurrect bytes that remain in the immutable lower.
+The ordinary file length alone cannot encode this history-sensitive rule.
+
+These mappings create a useful separation between view changes and physical
+objects. Two workspaces may retain the same lower reference while storing
+different upper spans. A reader combines the spans needed for its request.
+An upper object and a lower packed frame can nevertheless have different
+integrity and fetch policies. In the inspected Entity path, upper-object
+integrity is checked over the full object, whereas the packed lower exposes
+authenticated frame reads. We preserve this distinction in
+Section~\ref{sec:layout} and the experiments.
+
+\subsection{Mutation ordering and lifecycle boundaries}
+
+The private metadata protocol must keep related namespace changes
+consistent. For example, rename can affect the old parent, new parent, and a
+replaced target; publishing a new data mapping must not expose incomplete
+payload. The Entity data path performs a durable conditional object upload
+before publishing the corresponding mapping. Its lease and authority checks
+are intended to fence stale writers. These code-level mechanisms still
+require concurrent-history and failure testing before a complete runtime
+guarantee can be claimed.
+
+Snapshot ownership is equally important. An immutable object cannot be
+removed while a live workspace or reader still references it. A publication
+or ownership transition must retain old readers until they release their
+references, and cleanup must distinguish unreachable construction artifacts
+from live lower objects. Library support for ownership and recovery is not
+evidence that the mount lifecycle has implemented every transition.
+The current Entity mount is experimental and fresh-only: reopen, resume,
+and process-crash takeover remain integration obligations.
+
+For live logical metadata bytes, the accounting identity is
+\begin{equation}
+M_{\mathrm{live\text{-}meta}}=M_S+\sum_i M_{\Delta_i}+M_{\mathrm{control}}.
+\end{equation}
+Here $M_S$ counts the shared lower's live metadata once, $M_{\Delta_i}$ counts
+workspace $i$'s private names, attributes, deletion records, and data mappings,
+and $M_{\mathrm{control}}$ counts bindings and ownership records not already
+included in either term. These are disjoint logical categories. Upper payload,
+encoding and checksum overhead, construction or unreclaimed objects, and
+caches are measured separately in the physical-space and resource accounting.
+This expression exposes the sharing benefit to test, not a measured saving.
+$M_{\Delta_i}$ contains current records and mapping overhead, not merely changed
+fields; it can grow as more entities and deletion records become private.
+We will compare the resulting costs with full materialization, reflinks,
+OverlayFS, and BranchFS under their respective visibility and durability
+contracts.

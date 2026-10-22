@@ -1,0 +1,118 @@
+\section{Packed Metadata}
+\label{sec:packed}
+
+\subsection{An immutable snapshot with access-oriented structure}
+
+Packed Metadata covers the metadata and access structure of selected
+read-only subtrees. It is not a small standalone packet containing a few
+attributes. The inspected format includes a manifest with authenticated
+roots, paged indexes, directory-oriented metadata pages, object containers,
+and file-data descriptors. Together these structures describe a complete
+immutable lower view and how its contents can be read.
+
+A logical read group is organized around a parent directory and a range of
+raw entry names. Name order is a format-defined byte order, not a locale's
+collation. Group metadata brings together directory entries, frequently
+needed attributes, and locators for file data. A physical container can hold
+more than one logical group, so logical grouping and physical object size
+remain distinct decisions. Small contents may be inline, but metadata
+co-location, inlining, compression, and data co-packing are separate factors
+in our evaluation.
+
+The current representation uses a PM11 manifest and IP06 hierarchical
+indexes. Its GroupMeta raw page is bounded at 256 KiB. Other indexes support
+different access paths, including inode lookup and data-frame location.
+Bounding a page does not bound the entire snapshot or force all directory
+entries into memory at mount time. Conversely, it does not make every
+operation a constant number of GETs: a cold lookup can traverse several
+pages, and a data read can require descriptor and payload access.
+
+\begin{figure}[t]
+\centering
+\input{figures/packed-path}
+\caption{A representative lower access. A directory-name lookup descends
+indexed ranges and obtains an entry, common attributes, and a data locator.
+File reads use the authenticated frame descriptor and payload range.
+Direct inode-based getattr and other access paths may use separate indexes;
+this diagram is not a fixed GET-count claim.}
+\label{fig:packed}
+\end{figure}
+
+\subsection{Lookup, attributes, enumeration, and read}
+
+For a name lookup, the lower reader identifies the directory's relevant
+range and traverses the authenticated index to its metadata page. The
+returned record can supply the common attributes and location information
+needed by subsequent operations. A direct getattr can instead use an inode
+index carrying hot attributes; it need not fetch a whole directory group.
+Figure~\ref{fig:packed} illustrates a typical name-based access, not all
+possible paths.
+
+Enumeration uses ordered ranges and page navigation to avoid requiring a
+single unbounded directory object. At the snapshot-reader layer, weighted
+indexes also support directory-ordinal access. These capabilities must be
+distinguished from the Entity bridge's current limits: the bridge has a
+bounded whole-directory interface and cannot yet expose arbitrary-sized
+directory enumeration. Large-directory snapshot microbenchmarks will
+therefore be reported separately from complete workspace measurements.
+
+A file-data locator identifies an inline value or a referenced data region.
+For an external frame, the reader resolves and validates its descriptor,
+requests the applicable object range, and verifies the returned contents
+according to the snapshot format. Failed authentication or an unavailable
+referenced object is an error; it must not silently become a successful
+negative name lookup. An index's absence result and a storage failure are
+different outcomes.
+
+For these supported lower queries, the needed namespace, attributes, and
+data locations reside in the snapshot rather than in per-file records in
+the mutable metadata database. The writable overlay may still check its
+private state first. We will instrument these two kinds of database traffic
+separately and test cold lower access while denying the lower-record path.
+Counting only cache hits would not establish this property.
+
+\subsection{Publication, ownership, and construction cost}
+
+Snapshot production begins from a fixed source view. The producer groups
+entries, builds metadata and data objects, and constructs the indexes and
+manifest. A safe publication contract requires all referenced dependencies
+to be durable and validated before the new binding becomes visible. Old
+readers must retain their previous immutable view until it is safe to
+reclaim. A source that changes during capture requires an explicit
+consistency mechanism; an immutable output format alone does not supply it.
+
+The repository contains producer, source-import, binding, journal, reader-pin,
+and collection components. The binding proof explicitly does not, by itself,
+prove source-view consistency or the closure of all uploaded dependencies.
+We therefore treat end-to-end publication and failure recovery as obligations
+for the selected integration, not as consequences of a successful manifest
+serialization. Ordinary close or fsync does not automatically rebuild a
+packed snapshot.
+
+Publication can be expensive. Reading source metadata, sorting names,
+compressing data, uploading objects, and creating authenticated indexes all
+consume resources. The relevant comparison includes this cost and any
+rebuild or reclamation work over the snapshot's actual reuse lifetime.
+For each additive resource metric $c$, we will measure
+\begin{equation}
+C_c(K)=C_{c,\mathrm{build}}+C_{c,\mathrm{publish}}
+       +\sum_{i=1}^{K}C_{c,i}+C_{c,\mathrm{reclaim}}.
+\end{equation}
+CPU-seconds, transferred bytes, and monetary cost are separate metrics;
+concurrent task wall-clock times are not summed into a batch makespan.
+
+\subsection{What the layout must earn}
+
+Immutable metadata on object storage is already a strong existing design
+space~\cite{deltafs2021,cvmfs2011,nydus_rafs}. The specific case for \sys rests
+on the cost of its directory-oriented joint records and paged access under
+the writable-upper contract. We will compare against an immutable sorted-KV
+lower with identical record content and cache capacity, and against at least
+one demand-loaded immutable-image system where its operation contract is
+compatible. The sorted-KV reference is a mechanism control, not a claimed
+reproduction of DeltaFS.
+
+The layout can lose when accesses have little locality, object latency
+dominates a cold index walk, or snapshots are rebuilt too frequently. These
+outcomes will define its operating region. They should not be hidden by
+reporting only warm directory scans.

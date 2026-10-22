@@ -1,0 +1,4 @@
+interface:
+  display_name: "OSDI Systems Paper"
+  short_description: "Evidence-grounded OSDI writing and experiment planning"
+  default_prompt: "Use $osdi-systems-paper to develop an evidence-grounded systems-paper outline, draft, and evaluation plan from this repository."

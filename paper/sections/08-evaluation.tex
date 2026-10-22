@@ -1,0 +1,194 @@
+\section{Evaluation Plan}
+\label{sec:evaluation}
+
+This section is a protocol for future experiments. It contains no generated
+measurements or assumed speedups. The companion experiment matrix defines
+E00--E16, including instruments, negative cases, and execution gates.
+Table~\ref{tab:rqs} connects the principal questions to those experiments.
+
+\begin{table*}[t]
+\centering
+\begin{tabularx}{\textwidth}{@{}p{0.65cm}p{4.6cm}Yp{1.75cm}@{}}
+\toprule
+RQ & Question & Primary evidence & Experiments\\
+\midrule
+1 & Is the workload favorable to shared immutable state? & Cross-task overlap, mutation footprint, stage-specific metadata and I/O distributions & E01--E02\\
+2 & When does the delta representation reduce workspace cost? & Time to usable workspace, private metadata, modification and lifecycle costs & E03--E04\\
+3 & What does the packed lower save, and at what cost? & Lower-KV calls, object requests/bytes, latency, cache effects, construction amortization & E05--E07\\
+4 & What changes when $(B,q)$ and client policy change? & Persisted geometry, physical bytes, verification/EC CPU, durable writes and repair & E08--E10\\
+5 & Do the mechanisms provide additional combined value? & Legal factorial or nested comparisons under one runtime contract & E11\\
+6 & Do the effects matter for complete multi-agent tasks? & Deterministic replay, live-task makespan, resource use, output-quality controls & E12--E13\\
+7 & Which semantics and failure boundaries hold? & Differential operations, fault injection, integrity, reclamation and long-run resource bounds & E14--E16\\
+\bottomrule
+\end{tabularx}
+\caption{Research questions and planned evidence. E00 first checks that each
+configuration is connected and produces the claimed effective treatment.}
+\label{tab:rqs}
+\end{table*}
+
+\subsection{Environment and baseline contracts}
+
+Our proposed primary testbed has two client machines, one dedicated metadata
+machine, and four RustFS storage machines connected by 25 GbE. A practical
+target is 24--32 physical cores and 128 GiB memory per client, with independent
+NVMe storage and fixed cache allocations. The initial storage geometry is
+one drive per storage host in a verified 2+2 set. These are requested resources,
+not a report of machines already used. A single-host four-drive setup serves
+only as a functional and mechanism testbed; it cannot establish independence
+of machine failure domains.
+
+We will record processor, memory, disks, network, OS/kernel, FUSE settings,
+toolchain, complete configuration, build features, immutable image digests,
+and source revisions. Durability, compression, cache budget, readahead,
+direct I/O, metadata TTL, inline thresholds, and backend gates are part of
+the treatment definition. Larger coding geometries will be separate
+experiments because they can change whether q selection actually reduces
+a frame.
+
+External baselines include full copying, reflinks where supported, OverlayFS,
+BranchFS, and an object-backed file system such as JuiceFS~\cite{juicefs_architecture} sharing the same
+backend resources. At least one mature immutable lower, such as Nydus or
+CernVM-FS, will be tested with a compatible writable layer. An immutable
+sorted-KV lower with equal records and cache capacity provides a specific
+layout control. A real DeltaFS comparison depends on its operation and
+workflow compatibility; we will not label our sorted-KV control ``DeltaFS.''
+
+We will compare local workspace service separately from remote durable
+service. An OverlayFS local fsync is not equivalent to remote coded-object
+completion. Similarly, BranchFS's ephemeral branch uses different fsync and
+commit semantics~\cite{branchfs2026}. Where a baseline needs a checkpoint to
+meet the selected persistence boundary, its completion cost is included.
+If equivalent semantics cannot be provided, we report separate operating
+points instead of one unconditional speed ranking.
+
+\subsection{Workloads and measurements}
+
+\researchq{1} The workload study will collect repository navigation, reading,
+editing, build/test, and cleanup activity from a pinned agent harness and
+model configuration. It will measure read-set overlap, directory locality,
+reuse distance, mutation footprint, and per-task operation distributions.
+Expected lookup and attribute probes are distinguished from I/O failures.
+An instrumentation-on/off control will quantify trace overhead and loss.
+
+The proposed expanded panel contains 20 compatible tasks each from
+SWE-bench Verified, a fixed public SWE-bench Pro version~\cite{swebench_pro_v2}, and a multilingual
+set informed by Multi-SWE-bench~\cite{swebench2024,multi_swebench2025}.
+Exact task lists and revisions will be frozen after capability screening.
+An official audit has identified limitations in using SWE-bench Verified
+to measure frontier model ability~\cite{swebench_audit2026}; we use it as a
+reproducible workload source and retain other task families. Filesystem
+performance does not establish improved reasoning ability.
+
+The minimum live-agent core will use 20 prespecified tasks, three systems,
+and three independent repetitions at one concurrency setting: 180 runs.
+The 60-task extension requires 540 runs for that same setting, before any
+additional model or concurrency sweep. Pilot task duration and token use
+will determine a frozen budget. Broad concurrency sweeps first use replay;
+they are not silently multiplied across every live condition.
+
+\researchq{2} Provisioning experiments vary lower size, workspace count, and
+modification fraction. Initial values are $10^4$--$10^6$ files, 1--128
+workspaces, and 0--50\% modified files. We measure control-plane return,
+mount readiness, first navigation, and first durable edit separately.
+Prepositioned and cold-staged baselines are separate cases. Churn experiments
+add deletion, rename, truncation, and repeated lifecycles, subject to the
+selected implementation's ownership and cleanup support.
+
+\researchq{3} Lower lookup experiments compare mutable per-file KV, immutable
+sorted-KV, and the packed layout using equivalent values and cache budgets.
+They include positive and negative lookup, direct getattr, enumeration,
+lookup-plus-read, deep paths, and wide directories. The snapshot reader's
+large-directory study is separated from the Entity bridge's 4,096-entry
+limit. We count upper/control/lower KV requests independently, as well as
+index, GroupMeta, descriptor, and payload object requests and bytes.
+
+Cold-client, index-warm, metadata-warm, and data-warm states are explicitly
+defined; backend page-cache state is another variable. Unsupported
+payload-cache controls are not treated as available flags. Snapshot
+construction, publication, rebuilding, and reclamation enter each resource
+accounting metric. We report a break-even reuse count only if the measured
+net per-workspace benefit is positive.
+
+\researchq{4} A backend-only study uses a fixed S3 request stream before adding
+the file-system path. Object sizes cross inline, 1 MiB, coding-block, and
+multipart boundaries. B settings include default, current automatic, and
+the four supported fixed values. q settings are legacy or the implemented
+selector, grouped by \emph{persisted} geometry. If automatic and default
+produce the same $(B,q)$, they are a no-treatment control, not evidence for an
+adaptive layout benefit.
+
+Reads vary length, alignment, coding/frame-boundary crossing, and healthy
+versus degraded state. The primary measurements are physical data/parity
+read bytes, checksum work, EC CPU, HTTP payload, request counts, and latency.
+Client Range and full-object policies are then separated while keeping
+cache admission and coalescing constant or exposing them as additional
+factors. Upper and lower results are separate because their integrity
+and upload paths differ.
+
+Writes include append, overwrite, tails, multipart retry, and frequent
+durability requests. We record accepted writes, staging, remote completion,
+metadata commit, and drained background debt. Repair experiments measure
+read/write/network work and interference with healthy requests. The paper
+will claim lower write amplification only if these measurements support
+it; a read benefit can coexist with increased checksum or write cost.
+
+\subsection{Composition and complete agent execution}
+
+\researchq{5} Mechanism comparisons must retain one runtime contract. Switching
+from a buffered ordinary volume to a direct-I/O Entity mount is not a pure
+delta ablation. We will implement or validate matched controls for complete
+metadata materialization versus shared lower state, lower layout, and
+backend geometry. Only configurations that can actually be constructed
+enter a factorial comparison. If a packed lower structurally requires the
+shared-workspace path, its effect is conditional and the design is nested.
+Where full crossing is possible, task-level log-latency interactions will
+test whether combined effects differ from independent component effects.
+
+\researchq{6} Deterministic replay and live agents answer different questions.
+Replay freezes tool inputs, write contents, and dependencies, preserving
+file-tree and output checks. A FUSE log containing only inode IDs and
+request lengths is not necessarily replayable; paths, handle lifetimes,
+payload references, initial state, and ordering must be recovered or
+recaptured. Arrival-driven and closed-loop replay are reported separately.
+
+Live AX/DSH experiments keep the task, model identifier, prompt, tools,
+token/time budgets, and concurrency policy fixed. Mount probes must verify
+that workspaces and subprocesses reach the intended file system rather than
+a fallback directory. We measure batch makespan, tasks per hour,
+provisioning, resource use, and the traced storage critical path. Model
+waiting and I/O can overlap, so their durations cannot simply be added.
+Output correctness is checked with the task harness; an exit code of zero
+is not a resolved issue.
+
+\subsection{Correctness, failures, and analysis}
+
+\researchq{7} Differential and known-answer tests cover whiteouts, same-name
+recreation, lower-file modifications, truncate/extend, holes, links,
+rename-overwrite, open-unlink-read, and cross-workspace visibility within
+the supported contract. Fault injection targets object upload, manifest
+and binding publication, mapping commit, process restart, missing objects,
+frame corruption, and repair interruption. Fresh-only Entity behavior is
+reported as such; reopen or crash-takeover experiments require a completed
+runtime extension. Fail-closed behavior is distinct from successful recovery.
+
+Long runs cover multiple cache and cleanup cycles and track tail latency,
+memory, open descriptors, owners, pending uploads, retained objects, and
+reclamation backlog. Background publishing or repair is added only where
+the selected runtime supports it. High mutation, poor locality, frequent
+snapshot rebuilding, and large sequential reads are explicit boundary
+workloads, not exclusions from the evaluation.
+
+The independent unit is a run or a task, not each of its millions of
+requests. Initial plans use at least ten independent microbenchmark blocks
+and three live repeats per selected task; the formal sample sizes are
+frozen after a variance pilot. Conditions are interleaved in randomized
+host/time blocks. We report absolute effects, paired ratios, and 95\%
+task- or repository-clustered bootstrap intervals. Repeated task outcomes
+are not treated as independent binary pairs.
+
+For live speed comparisons, the primary endpoint includes all assigned
+tasks under the same deadline; failed and timed-out attempts remain in the
+throughput and completion accounting. Completed-only latency is secondary
+and accompanied by success rates and failure causes. Early failures do not
+count as fast completions. This protocol prevents storage behavior or model
+failures from creating an apparent speedup through selective omission.

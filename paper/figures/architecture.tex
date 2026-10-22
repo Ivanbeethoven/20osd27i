@@ -1,0 +1,22 @@
+\begin{tikzpicture}[
+  box/.style={draw,rounded corners=2pt,align=center,text width=4.5cm,minimum height=0.85cm,font=\small,fill=black!3},
+  flow/.style={-{Latex[length=2mm]},semithick},
+  todo/.style={flow,dashed},
+  lab/.style={font=\footnotesize,fill=white,inner sep=1.5pt}
+]
+\node[box] (view) at (0,0) {Agent tools and FUSE view\\$W_i=\operatorname{Resolve}(S,\Delta_i)$};
+\node[box] (upper) at (-5.3,-1.55) {Private upper $\Delta_i$\\names, attributes, data maps};
+\node[box] (lower) at (0,-1.55) {Packed lower reader\\name ranges and paged indexes};
+\node[box] (producer) at (5.3,-1.55) {Snapshot producer\\selected immutable subtrees};
+\node[box] (objects) at (0,-3.2) {Shared snapshot objects\\manifest, indexes, GroupMeta, frames};
+\node[box] (upload) at (-5.3,-3.2) {Private data uploads\\finalized object length $L_o$};
+\node[box] (backend) at (5.3,-3.2) {RustFS object layout\\persisted coding $B$ and read frame $q$};
+\draw[flow] (view) -| (upper);
+\draw[flow] (view) -- (lower);
+\draw[flow] (upper) -- (upload);
+\draw[flow] (lower) -- (objects);
+\draw[flow] (producer) -- (objects);
+\draw[flow] (objects) -- (backend);
+\draw[todo] (producer) -- node[lab,right]{layout hint} (backend);
+\draw[todo] (upload.south) -- ++(0,-0.65) -| node[lab,pos=0.25,below]{upper upload hint: integration gate} (backend.south);
+\end{tikzpicture}

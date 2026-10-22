@@ -1,0 +1,28 @@
+{
+  "main": {
+    "pages": 12,
+    "body_end_page": 11,
+    "all_letter": true,
+    "metadata_author": "",
+    "system_name_occurrences": 17,
+    "source_identity_occurrences": 1,
+    "font_report": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nYNILRE+NimbusRomNo9L-Medi            Type 1            Custom           yes yes yes    129  0\nCULQAH+NimbusRomNo9L-ReguItal        Type 1            Custom           yes yes yes    130  0\nDHREUF+NimbusRomNo9L-Regu            Type 1            Custom           yes yes yes    132  0\nXRMTFG+NimbusMonL-Regu-Extend_850    Type 1            Custom           yes yes yes    150  0\nLKMYHI+StandardSymL                  Type 1            Builtin          yes yes yes    166  0\nGIGFZE+CMR10                         Type 1            Builtin          yes yes yes    168  0\nJKFCCP+CMMI10                        Type 1            Builtin          yes yes yes    169  0\nNBFNGF+CMEX10                        Type 1            Builtin          yes yes yes    171  0\nFJJVLJ+CMSY10                        Type 1            Builtin          yes yes yes    172  0\n",
+    "rendered_pages": 12,
+    "all_fonts_embedded": true,
+    "no_type3_fonts": true,
+    "visual_review": "All pages rendered and reviewed via contact sheets; title, figures, equations, tables and reference pages additionally inspected at full page resolution."
+  },
+  "anonymous-preview": {
+    "pages": 12,
+    "body_end_page": 11,
+    "all_letter": true,
+    "metadata_author": "",
+    "system_name_occurrences": 0,
+    "source_identity_occurrences": 0,
+    "font_report": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nVVBTLQ+NimbusRomNo9L-Medi            Type 1            Custom           yes yes yes    129  0\nCULQAH+NimbusRomNo9L-ReguItal        Type 1            Custom           yes yes yes    130  0\nDHREUF+NimbusRomNo9L-Regu            Type 1            Custom           yes yes yes    132  0\nLMYCMJ+NimbusMonL-Regu-Extend_850    Type 1            Custom           yes yes yes    150  0\nLKMYHI+StandardSymL                  Type 1            Builtin          yes yes yes    166  0\nGIGFZE+CMR10                         Type 1            Builtin          yes yes yes    168  0\nJKFCCP+CMMI10                        Type 1            Builtin          yes yes yes    169  0\nNBFNGF+CMEX10                        Type 1            Builtin          yes yes yes    171  0\nFJJVLJ+CMSY10                        Type 1            Builtin          yes yes yes    172  0\n",
+    "rendered_pages": 12,
+    "all_fonts_embedded": true,
+    "no_type3_fonts": true,
+    "visual_review": "All pages rendered and reviewed via contact sheets; title, figures, equations, tables and reference pages additionally inspected at full page resolution."
+  }
+}

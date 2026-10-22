@@ -1,0 +1,14 @@
+\begin{tikzpicture}[
+  b/.style={draw,rounded corners=2pt,align=center,text width=6.5cm,minimum height=0.56cm,font=\small,fill=black!3},
+  a/.style={-{Latex[length=1.7mm]},semithick}
+]
+\node[b] (root) {Pinned manifest and authenticated roots};
+\node[b,below=0.35cm of root] (index) {Paged directory-name index\\$(\text{parent},\text{raw-name interval})$};
+\node[b,below=0.35cm of index] (group) {GroupMeta page\\entry $+$ common attributes $+$ data locator};
+\node[b,below=0.35cm of group] (frame) {Authenticated frame descriptor\\container offset, length, content verification};
+\node[b,below=0.35cm of frame] (data) {Payload Range read and verification};
+\draw[a] (root) -- (index);
+\draw[a] (index) -- (group);
+\draw[a] (group) -- (frame);
+\draw[a] (frame) -- (data);
+\end{tikzpicture}

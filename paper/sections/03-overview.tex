@@ -1,0 +1,69 @@
+\section{Overview and System Contract}
+\label{sec:overview}
+
+Let $S$ be a pinned immutable snapshot and $\Delta_i$ the private upper of
+workspace $i$. Its logical view is
+\begin{equation}
+  W_i = \operatorname{Resolve}(S,\Delta_i).
+\end{equation}
+The design selects a read-only subtree for publication; the inspected
+workspace binds one precise lower manifest. This does not require a
+monolithic snapshot of the entire source volume, nor does it establish
+support for independently binding several manifests in one workspace.
+The upper records private names, current attributes, deletion state, and
+file-data mappings. New payload bytes are stored separately from those
+metadata records. Figure~\ref{fig:overview} shows the intended connection
+between the representation and the object layout.
+
+\begin{figure*}[t]
+\centering
+\input{figures/architecture}
+\caption{Design overview. Solid arrows denote the logical paths present in
+the inspected components, not completed runtime validation. Dashed arrows
+mark layout-hint connections that the selected Entity mount and packed
+producer must explicitly wire and verify. Private upper/control state still
+uses a metadata service. The shared snapshot includes metadata and file-data
+locators, rather than a single metadata packet.}
+\label{fig:overview}
+\end{figure*}
+
+The intended isolation property is view-local mutation: operations in
+$W_i$ do not change $S$ or another workspace's private state. This is a
+namespace and data-visibility property, not a complete security sandbox.
+Process isolation, network access, and escape prevention belong to the agent
+runtime. We do not infer their guarantees from the file-system overlay.
+Nor does the design require automatic merging of independent agents' edits
+or a transaction spanning several workspaces.
+
+The immutable snapshot has an identity and authenticated roots. Clients bind
+to that identity instead of following a mutable ``latest'' pointer during
+each lookup. Upper records identify the workspace and its objects. The
+reader resolves upper state first and follows lower references only where
+the upper representation permits inheritance. Publication and reclamation
+must preserve the lifetime of every referenced immutable object.
+
+For example, two workspaces can read the same dependency entry from a shared
+packed directory page. If one workspace overwrites an interval of that file,
+its private mapping records the new bytes while unchanged intervals still
+reference the lower. A later lower read follows its data locator to a packed
+frame, whose object is served using its persisted encoding block $B$ and
+verification quantum $q$. This connects namespace sharing to the bytes read
+by storage. The connection is path-dependent: the inspected upper reader
+verifies a whole object before slicing it, which can prevent a short
+application read from becoming a short backend range.
+
+Our audit distinguishes two writable workspace implementations. The older
+workspace path uses the ordinary VFS stack, while the experimental Entity
+path has a dedicated FUSE adapter and explicit current-state data mappings.
+Sections~\ref{sec:delta}--\ref{sec:packed} explain the Entity model and packed
+snapshot contract. Section~\ref{sec:implementation} states which connections
+are present, gated, or incomplete. This separation avoids describing
+properties of one path as guarantees of another.
+
+The target correctness contract has three boundaries. Within a workspace,
+each supported operation must preserve namespace and data invariants under
+the implemented concurrency protocol. Across workspaces, changes remain
+private. Across failure and publication events, only a validated snapshot
+and durable referenced state may become visible. The latter requires
+explicit fault testing; the current fresh-only Entity mount does not yet
+establish crash takeover or reopen/resume guarantees.

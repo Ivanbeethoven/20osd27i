@@ -1,0 +1,82 @@
+\section{Background and Motivation}
+\label{sec:motivation}
+
+\subsection{Workspaces as shared state and private changes}
+
+A workspace contains more than a version-controlled source tree. Tools may
+also inspect dependency directories, generated artifacts, build trees, and
+temporary files. The intended deployment chooses which directory subtrees
+are stable enough to publish as immutable baselines; other state remains
+mutable. Multiple tasks can reference the same published subtree without
+requiring their subsequent writes to become mutually visible.
+
+The useful workload properties must be established empirically. We will
+measure the overlap of files and metadata read across tasks, the fraction of
+the initial namespace that each task modifies, and the lifetime of a shared
+baseline. These quantities distinguish a favorable workload from one in which
+tasks rewrite most files or repeatedly invalidate their dependencies. Agent
+framework papers establish that repository navigation and editing occur;
+they do not establish the frequency of \sysname's storage bottlenecks.
+We therefore treat high sharing and sparse mutation as hypotheses rather
+than facts about all coding agents.
+
+An earlier project pilot used DSH 0.1.5-rc.1 with the configured model
+\code{deepseek-v4-flash} over a WSL passthrough FUSE file system. It is a
+workload lead, not a \sysname/RustFS performance measurement. This draft does
+not reuse its numerical results because the raw event records and timing
+definitions have not been revalidated here. The formal study will recover or
+recapture the traces and distinguish handler service time, overlapping I/O,
+tool time, and task wall-clock time.
+
+\subsection{Metadata sharing does not determine metadata access}
+
+Namespace organization and caching have long been central to file-system
+performance. TableFS organizes local metadata in a table;
+IndexFS combines partitioning, caching, and bulk insertion; LocoFS and
+InfiniFS revisit the organization of distributed metadata
+services~\cite{tablefs2013,indexfs2014,locofs2017,infinifs2022}.
+These systems caution against assuming that every metadata operation always
+requires a distinct network round trip. A fair comparison must include their
+relevant techniques and an equal cache budget.
+
+\sys studies a restricted opportunity: selected lower subtrees cannot change
+after publication. Their lookup records need not participate in the same
+update protocol as the private upper. An immutable representation can carry
+directory entries, frequently used attributes, and data locators together,
+allowing a client to fetch enough information for several related operations.
+The benefit depends on access locality and cache state. For random point
+lookups, a group may fetch more bytes than an individual record. For a cold
+deep path, several index pages may be required. Both cases belong in the
+motivation study and the evaluation.
+
+The property being tested is \emph{lower-query independence}, not the
+elimination of a metadata service. Upper lookups, workspace control, reader
+pins, publication, and reclamation may still require mutable records.
+This distinction is also essential when comparing \sys with DeltaFS, whose
+private logs and selectively assembled namespaces already challenge a
+single global metadata ground truth~\cite{deltafs2021}.
+
+\subsection{Logical request size differs from physical work}
+
+There are at least five relevant sizes: an application's request, a
+file-system logical chunk, the finalized uploaded object, an erasure-coding
+block, and a per-shard verification/read frame. Compression, framing, and
+partial tail objects make the uploaded length differ from file length.
+Erasure coding then distributes each coding block across data and parity
+shards. A range request can require a larger verified interval on each shard
+that serves it.
+
+Storage systems already make different decisions about striping, coding,
+and redundancy transitions~\cite{azureec2012,morph2024,okapi2025}.
+\sysname's proposed connection is specifically between finalized object
+length and the backend's coding and verification geometry. It leaves the
+data/parity ratio fixed during a causal comparison. Smaller blocks do not
+by themselves reduce that ratio, and smaller verification frames add
+checksums and processing overhead.
+
+Moreover, the client may fetch a full object even for a short application
+read. In that case, a smaller backend quantum may not reduce the bytes
+requested. We will trace the complete path, including the lower reader,
+upper integrity check, client cache, HTTP request, shard reads, and repair.
+This is necessary to determine whether a physical-layout optimization
+benefits the intended workspace workload.

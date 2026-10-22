@@ -1,0 +1,37 @@
+{
+  "verified_on": "2026-10-22",
+  "skill_name": "osdi-systems-paper",
+  "portable_skill_created": true,
+  "initializer": "/root/.codex/skills/oai/skill-creator/scripts/init_skill.py",
+  "quick_validate": "passed",
+  "relative_reference_links_checked": 6,
+  "broken_relative_links": [],
+  "independent_behavior_forward_test": "not_performed",
+  "skill_page_installed": false,
+  "git_commit": null,
+  "git_push": false,
+  "installation_blocker": "Automatic approval review denied an escalated write into protected /root/.codex/skills/remote-skills. No workaround was attempted.",
+  "official_templates": [
+    {
+      "filename": "usenix2019_v3.2.tex",
+      "source": "https://www.usenix.org/sites/default/files/usenix2019_v3.2.tex",
+      "bytes": 10332,
+      "sha256": "b2203c8d5adc698cc3ecf937636607041fabbfa91fc3481e18cfc4d46cc2d73e"
+    },
+    {
+      "filename": "usenix2019_v3.sty",
+      "source": "https://www.usenix.org/sites/default/files/usenix2019_v3.sty",
+      "bytes": 3712,
+      "sha256": "4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45ff6"
+    }
+  ],
+  "skill_application_review": {
+    "performed": true,
+    "artifacts": [
+      "planning/01-research-outline.zh.md",
+      "planning/02-experiment-plan.zh.md"
+    ],
+    "output": "plan_review.md",
+    "scope": "Review of root-authored planning artifacts by the skill author; this is an application exercise, not a blind independent validation of the skill itself."
+  }
+}

@@ -1,0 +1,12 @@
+\section{Conclusion}
+
+\sys investigates how private workspace changes, shared immutable metadata,
+and finalized object layouts can be organized under one file-system design.
+Delta-based views preserve independent changes, packed snapshots provide
+directory-oriented lower access, and the backend interface makes encoding
+and physical verification geometry explicit. The source audit establishes
+concrete components and identifies the connections and lifecycle support
+that still require work. The planned evaluation will determine when the
+design reduces total workspace and storage cost, how much of that effect
+survives complete agent execution, and where existing approaches remain
+preferable. No quantitative performance conclusion is drawn in this draft.

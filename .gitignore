@@ -1,6 +1,6 @@
+# Generated LaTeX output from the generic root template.
 build/
 *.aux
-*.bbl
 *.bcf
 *.blg
 *.fdb_latexmk
@@ -13,3 +13,8 @@ build/
 *.synctex.gz
 *.toc
 *.pdf
+# The research package ships these reviewed PDF/BibTeX artifacts intentionally.
+!paper/main.pdf
+!paper/anonymous-preview.pdf
+!paper/main.bbl
+!paper/anonymous-preview.bbl

@@ -1,0 +1,144 @@
+{
+  "retrieved_date": "2026-10-22",
+  "repository": "Ivanbeethoven/rustfs",
+  "commit": "cc4926fac1107aee76540f28bf22dbd47fcbca24",
+  "sources": [
+    {
+      "path": "crates/config/src/constants/object.rs",
+      "connector_reported_sha": "709053e8ca46ff86a883097942d0122255ef49a7",
+      "url": "https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/config/src/constants/object.rs",
+      "retrieval": "GitHub fetch_file fixed ref",
+      "characters": 52342,
+      "excerpts": [
+        [
+          130,
+          155
+        ]
+      ]
+    },
+    {
+      "path": "crates/ecstore/src/object_api/ec_block_layout.rs",
+      "connector_reported_sha": "30d343c752854e0f8265e45fd2c7d8ebd10af381",
+      "url": "https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/object_api/ec_block_layout.rs",
+      "retrieval": "GitHub fetch_file fixed ref",
+      "characters": 18196,
+      "excerpts": [
+        [
+          1,
+          55
+        ],
+        [
+          176,
+          232
+        ],
+        [
+          235,
+          326
+        ]
+      ]
+    },
+    {
+      "path": "crates/ecstore/src/set_disk/ops/object.rs",
+      "connector_reported_sha": "28c78e56c8e76d96a8c1e3c05bd9dc075d6f45ac",
+      "url": "https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/set_disk/ops/object.rs",
+      "retrieval": "GitHub fetch_file fixed ref",
+      "characters": 1031425,
+      "excerpts": [
+        [
+          3684,
+          3700
+        ]
+      ]
+    },
+    {
+      "path": "crates/ecstore/src/set_disk/ops/multipart.rs",
+      "connector_reported_sha": "f2848c04b4d15c9a0a1f0fac64f8e6f8cd21ba41",
+      "url": "https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/set_disk/ops/multipart.rs",
+      "retrieval": "GitHub fetch_file fixed ref",
+      "characters": 456806,
+      "excerpts": [
+        [
+          1679,
+          1702
+        ],
+        [
+          2269,
+          2283
+        ]
+      ]
+    },
+    {
+      "path": "crates/ecstore/src/set_disk/read.rs",
+      "connector_reported_sha": "8ab5904594d731be31b6553a7b18489392b08420",
+      "url": "https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/set_disk/read.rs",
+      "retrieval": "GitHub fetch_file fixed ref",
+      "characters": 350182,
+      "excerpts": [
+        [
+          1087,
+          1125
+        ]
+      ]
+    },
+    {
+      "path": "crates/ecstore/src/set_disk/core/io_primitives.rs",
+      "connector_reported_sha": "d6676d14f5e36f3f8c8d867d9899b02afb2e47b6",
+      "url": "https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/set_disk/core/io_primitives.rs",
+      "retrieval": "GitHub fetch_file fixed ref",
+      "characters": 576420,
+      "excerpts": [
+        [
+          1335,
+          1412
+        ]
+      ]
+    },
+    {
+      "path": "crates/ecstore/src/set_disk/ops/heal.rs",
+      "connector_reported_sha": "72c200f39cc572d48c573a9d0621ab79f8823197",
+      "url": "https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/set_disk/ops/heal.rs",
+      "retrieval": "GitHub fetch_file fixed ref",
+      "characters": 369056,
+      "excerpts": [
+        [
+          1082,
+          1100
+        ],
+        [
+          4864,
+          4910
+        ]
+      ]
+    },
+    {
+      "path": "crates/ecstore/src/erasure/coding/erasure.rs",
+      "connector_reported_sha": "4548816e8504ae2893a916da2418374b12339f40",
+      "url": "https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/erasure/coding/erasure.rs",
+      "retrieval": "GitHub fetch_file fixed ref",
+      "characters": 113243,
+      "excerpts": [
+        [
+          650,
+          659
+        ],
+        [
+          1077,
+          1105
+        ]
+      ]
+    },
+    {
+      "path": "crates/ecstore/src/config/storageclass.rs",
+      "connector_reported_sha": "52e72c6b5ce0138244edaf11d45953f7ebfb6a79",
+      "url": "https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/config/storageclass.rs",
+      "retrieval": "GitHub fetch_file fixed ref",
+      "characters": 35710,
+      "excerpts": [
+        [
+          22,
+          33
+        ]
+      ]
+    }
+  ]
+}

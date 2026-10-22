@@ -1,0 +1,65 @@
+\section{Related Work and Limits of the Claim}
+\label{sec:related}
+
+\paragraph{Workspaces and agent-native file systems.}
+OverlayFS supplies the layered semantics that motivate the private upper
+and shared lower~\cite{overlayfs}. BranchFS provides copy-on-write branch
+contexts for agentic exploration, including a commit/abort lifecycle; its
+workshop prototype and proposed kernel abstraction must be
+distinguished~\cite{branchfs2026}. YoloFS studies staging, snapshots, and
+permissions to improve visibility and control over agent
+effects~\cite{yolofs2026}. AgentFS also documents a file-system and tool-state
+abstraction for agents~\cite{agentfs2025}. These efforts make an
+``agent filesystem'' label insufficient as a novelty claim. \sys instead
+targets the costs of shared remote lower metadata and object access. It does
+not replace process isolation or provide all of these systems' user-control
+and commit semantics.
+
+\paragraph{Namespace and metadata organization.}
+TableFS, IndexFS, LocoFS, and InfiniFS demonstrate that record organization,
+partitioning, and caching can substantially change metadata access
+paths~\cite{tablefs2013,indexfs2014,locofs2017,infinifs2022}.
+Recent systems also revisit hierarchical object metadata and distributed
+update coordination~\cite{mantle2025,switchfs2026}. We compare mechanisms at
+their actual service boundaries instead of assuming that every baseline
+performs a remote per-file lookup.
+
+DeltaFS is a particularly close conceptual predecessor. It uses private
+namespaces and immutable mutation logs over shared storage, with selective
+composition of prior state~\cite{deltafs2021}. \sys cannot claim private
+deltas or object-resident snapshots as inventions. Its proposed distinction
+is a directory-oriented lower layout that combines common attributes and
+data locators in paged access units, composed with an online private upper
+and a backend layout interface. Whether this particular combination is
+worth its complexity is an evaluation question.
+
+\paragraph{Immutable distribution and storage backends.}
+CernVM-FS provides demand-driven software distribution with indexed
+catalogs, while Nydus describes metadata/data organization for lazy
+image access~\cite{cvmfs2011,nydus_rafs}. Slacker and DADI also address
+image distribution and startup costs~\cite{slacker2016,dadi2020}.
+These are stronger points of comparison for immutable baselines than a
+model that downloads every file before use. The experiment plan therefore
+requires a mature lazy-lower baseline and counts image construction and
+staging separately.
+
+Distributed systems such as Ceph and Tectonic separate aspects of metadata
+and data services~\cite{ceph2006,tectonic2021}; this separation itself is not
+a contribution of \sysname. Erasure-coded storage research considers
+repair cost, changing redundancy over a file's lifetime, and the relation
+between data placement and redundancy~\cite{azureec2012,morph2024,okapi2025}.
+Okapi's separation of striping and redundancy grouping is different from
+our $(B,q)$ distinction, although both motivate making coupled decisions
+explicit. We keep code rate fixed and measure checksum, tail, and repair
+cost rather than inferring a lower redundancy ratio from smaller blocks.
+
+\paragraph{Scope and unresolved evidence.}
+The design is most plausible for stable shared baselines and sparse private
+changes. A workload with poor name locality, high mutation, or rapid
+snapshot churn may favor existing mutable metadata services or local
+overlays. The current Entity mount limits scale and lifecycle guarantees;
+the current automatic B policy can be identical to the default, and its
+upper objects do not exercise the above-1-MiB branch through ordinary
+FUSE writes. These are material limits, not editorial details. Results
+must determine whether all three title mechanisms deserve equally strong
+performance claims.

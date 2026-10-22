@@ -1,10 +1,13 @@
-LATEXMK ?= latexmk
-MAIN = main.tex
+.PHONY: all paper template clean
 
-.PHONY: all clean
+all: paper
 
-all:
-	$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error -file-line-error $(MAIN)
+paper:
+	$(MAKE) -C paper
+
+template:
+	$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
 
 clean:
-	$(LATEXMK) -C $(MAIN)
+	$(MAKE) -C paper clean
+	$(LATEXMK) -C main.tex
