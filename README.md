@@ -83,6 +83,6 @@ python3 tools/validate_plan.py
 
 调查采用可复查的 GitHub 仓库星标及内容适用性；仓库星标不是某个 skill 的安装数，也不能证明“全网最流行”。新 skill 综合了 OSDI 官方规则、实际论文结构、科学写作与系统论文写作参考，未直接搬运上游整套技能。
 
-可移植 skill 已通过结构和相对链接检查。平台自动审批拒绝了向受保护 Skills 目录写入，因此**没有完成在线安装、git commit 或 push**；本包交付的是源码，不声称已经安装。
+可移植 skill 已通过结构和相对链接检查。平台自动审批拒绝了向受保护 Skills 目录写入，因此 skill 本身**没有完成在线安装**；本包交付的是源码，不声称已经安装。研究准备包已提交并推送到私有仓库。
 
 按 [OSDI 2027 CFP](https://www.usenix.org/conference/osdi27/call-for-papers) 与 [作者要求](https://www.usenix.org/conference/osdi27/requirements-authors)，正文最多 12 页、参考文献另计，双盲审稿，公开项目需处理识别信息。官方同时限制全部或大部分由 AI 生成的投稿。本稿仅供研究和作者讨论；正式投稿需要作者基于真实实现和实验主导实质性重写、审定与匿名处理。编译成功不等于证据齐备或投稿资格已经满足。
