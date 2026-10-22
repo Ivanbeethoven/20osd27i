@@ -1,0 +1,20 @@
+name: Build LaTeX paper
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  latex:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: xu-cheng/latex-action@v4
+        with:
+          root_file: main.tex
+          args: -pdf -interaction=nonstopmode -halt-on-error -file-line-error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: osdi2027-paper
+          path: build/main.pdf
+
