@@ -2,13 +2,19 @@
 \label{sec:implementation}
 
 The audit fixes the file-system and backend revisions rather than assuming
-the current default branches have the same behavior.
+the current default branches have the same behavior. The upstream checkout
+used to prepare this revision is BrewFS
+\code{f80e7148c82e9f1ef235ab19318b89cb41a093a2}; the line-stable source
+inventory below pins the earlier research checkpoint
+\code{518e7cc39b2f} and records the delta separately. This distinction keeps
+deployment changes in the current tree from silently changing an experiment
+arm.
 \ifanonymouspreview
 The internal evidence ledger records the exact repositories, revisions,
 source locations, and configuration gates. These identifiers are withheld
 from this name-switching preview.
 \else
-The inspected revisions are BrewFS
+The inspected research revisions are BrewFS
 \code{518e7cc39b2f} and the RustFS research fork
 \code{cc4926fac110}.\footnote{Fixed sources:
 \url{https://github.com/brewfs/brewfs/tree/518e7cc39b2ff0b421ecf0f656de6d468cacb9b8} and

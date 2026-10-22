@@ -8,9 +8,10 @@ Table~\ref{tab:rqs} connects the principal questions to those experiments.
 
 \begin{table*}[t]
 \centering
-\begin{tabularx}{\textwidth}{@{}p{0.65cm}p{4.6cm}Yp{1.75cm}@{}}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}p{0.65cm}p{4.6cm}Yp{1.60cm}@{}}
 \toprule
-RQ & Question & Primary evidence & Experiments\\
+RQ & Question & Primary evidence & Plan\\
 \midrule
 1 & Is the workload favorable to shared immutable state? & Cross-task overlap, mutation footprint, stage-specific metadata and I/O distributions & E01--E02\\
 2 & When does the delta representation reduce workspace cost? & Time to usable workspace, private metadata, modification and lifecycle costs & E03--E04\\
@@ -85,6 +86,48 @@ The 60-task extension requires 540 runs for that same setting, before any
 additional model or concurrency sweep. Pilot task duration and token use
 will determine a frozen budget. Broad concurrency sweeps first use replay;
 they are not silently multiplied across every live condition.
+
+To make the file-system load explicit, each task is segmented into six
+traceable phases: (A) workspace creation and dependency discovery, (B)
+repository navigation (`stat', `readdir', `open', `readlink', and small
+reads), (C) edit and patch writes, (D) build and test with sequential reads
+and generated files, (E) dependency installation or cleanup with create,
+rename, unlink, and hard-link operations, and (F) diff, discard, or retained
+workspace teardown. We retain the phase boundaries in the trace and report
+both per-phase and whole-task critical paths. A controlled replay uses the
+same paths, payload hashes, handle lifetimes, and synchronization events;
+the live run additionally records model/tool spans. This prevents a fast
+provisioning path from being mistaken for a faster build, and exposes the
+small-file metadata pressure that a fio-only study would miss.
+
+The primary agent-load panel is a small, prespecified matrix rather than a
+post-hoc selection of favorable traces:
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}p{1.1cm}p{3.3cm}Yp{2.0cm}@{}}
+\toprule
+Phase & Representative operations & Treatment and baseline controls & Primary outputs\\
+\midrule
+A/B & fan-out, path walk, `git status', grep, metadata-only scans &
+shared lower versus materialized checkout; cold/index-warm/data-warm states &
+ready time, lower-KV calls, GETs, metadata P99\\
+C & patch, overwrite, truncate, sparse write, fsync &
+matched write-completion and cache budgets; 0.1--10\% mutation &
+upper bytes, commit and drain tail, write amplification\\
+D & compiler reads, test binaries, generated artifacts &
+same dependency image and local build cache; sequential/random mix &
+critical path, read bytes, CPU, task makespan\\
+E/F & install, rename/unlink storms, retry, diff/discard &
+same lifecycle and durability boundary; retain failed and timed-out runs &
+tombstones, retained objects, cleanup lag, success\\
+\bottomrule
+\end{tabularx}
+\caption{Agent file-system load panel. The table defines the workload
+phases; it does not assert that every agent task exercises them equally.}
+\label{tab:agent-load}
+\end{table*}
 
 \researchq{2} Provisioning experiments vary lower size, workspace count, and
 modification fraction. Initial values are $10^4$--$10^6$ files, 1--128

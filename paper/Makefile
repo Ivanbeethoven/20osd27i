@@ -3,10 +3,10 @@
 all: named anonymous
 
 named:
-	latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+	latexmk -xelatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
 
 anonymous:
-	latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error anonymous-preview.tex
+	latexmk -xelatex -interaction=nonstopmode -halt-on-error -file-line-error anonymous-preview.tex
 
 clean:
 	latexmk -c main.tex

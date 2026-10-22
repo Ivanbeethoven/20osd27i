@@ -1,0 +1,88 @@
+schema: brewfs-agent-workload-v1
+status: planned
+purpose: >-
+  Define reproducible agent file-system load phases before selecting favorable
+  traces. This file is a protocol, not an observation log.
+source_revision:
+  brewfs: f80e7148c82e9f1ef235ab19318b89cb41a093a2
+  research_checkpoint: 518e7cc39b2ff0b421ecf0f656de6d468cacb9b8
+  rustfs: cc4926fac1107aee76540f28bf22dbd47fcbca24
+systems:
+  - id: brewfs_entity
+    path: workspace-entity-v1
+    required_gates: [E00, G01, G02, G03, G04, G05, G06]
+  - id: brewfs_materialized
+    path: matched entity API with pre-materialized lower
+    required_gates: [G07]
+  - id: overlayfs
+    path: local lower plus writable upper
+    required_gates: [G07]
+  - id: juicefs
+    path: pinned JuiceFS version on the same object and metadata services
+    required_gates: [G07, G13]
+  - id: lazy_lower
+    path: Nydus or CernVM-FS plus a durability-matched writable upper
+    required_gates: [G13]
+controls:
+  cache_states: [cold_client, index_warm, metadata_warm, data_warm]
+  concurrency: [1, 4, 16, 64]
+  workspace_fanout: [1, 4, 16, 64, 128]
+  mutation_fraction: [0.0, 0.001, 0.01, 0.10, 0.50]
+  directory_fanout_entity: [100, 1000, 4096]
+  cache_budget:
+    memory_bytes: freeze_per_run
+    ssd_bytes: freeze_per_run
+    kernel_page_cache: evict_or_report
+  completion_points:
+    - tool_return
+    - fsync_return
+    - remote_object_complete
+    - metadata_commit
+    - writeback_queue_drained
+phases:
+  - id: A
+    name: provision_and_discover
+    operations: [workspace_create, fork, mount, statfs, readdir, stat, readlink]
+    metrics: [provision_ready_us, first_tool_us, lower_kv_calls, metadata_get_bytes]
+  - id: B
+    name: repository_navigation
+    operations: [git_status, grep, find, path_walk, small_read, getattr]
+    metrics: [phase_wall_us, lower_object_gets, object_bytes, metadata_p99_us]
+  - id: C
+    name: edit_and_sync
+    operations: [patch, overwrite, truncate, sparse_write, fsync, close]
+    metrics: [upper_bytes, upload_bytes, commit_us, drain_us, write_amp]
+  - id: D
+    name: build_and_test
+    operations: [sequential_read, random_read, compile, link, generated_files, test]
+    metrics: [critical_path_us, read_bytes, cpu_us, task_makespan_us, output_hash]
+  - id: E
+    name: dependency_and_churn
+    operations: [create_storm, rename, unlink, link, install, cleanup, retry]
+    metrics: [metadata_ops, tombstones, conflict_rate, retained_objects, gc_lag_us]
+  - id: F
+    name: review_and_lifecycle
+    operations: [diff, discard, keep, reopen_if_supported, lease_expiry]
+    metrics: [discard_us, owner_count, recovery_result, failure_class, cleanup_bytes]
+replay:
+  required_fields: [paths, inode_ids, handles, payload_hashes, offsets, lengths, ordering, sync_events, initial_tree_hash]
+  modes: [closed_loop, arrival_driven]
+  correctness: [tree_hash, file_hashes, metadata_oracle, errno_sequence]
+live_agent:
+  core_tasks: 20
+  systems: 3
+  repetitions: 3
+  core_runs: 180
+  extension_tasks: 60
+  extension_runs: 540
+  fixed_fields: [model_id, provider, prompt_hash, toolset, token_budget, wall_budget, retry_policy, task_manifest]
+  primary_endpoint: all_assigned_tasks_completed_by_deadline
+negative_outcomes:
+  - low_cross_task_overlap
+  - high_mutation_or_snapshot_churn
+  - packed_overfetch_or_index_cold_start
+  - effective_B_equals_default
+  - upper_full_object_integrity_hides_q_benefit
+  - model_wait_dominates_storage_critical_path
+  - owner_or_directory_bound_reached
+  - failure_or_timeout_rate_increases
