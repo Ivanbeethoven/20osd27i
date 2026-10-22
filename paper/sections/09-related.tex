@@ -15,6 +15,31 @@ targets the costs of shared remote lower metadata and object access. It does
 not replace process isolation or provide all of these systems' user-control
 and commit semantics.
 
+Table~\ref{tab:comparison} makes the intended advantage more precise. The
+last column is a hypothesis to be tested under matched persistence and cache
+budgets, rather than a claim that the prototype dominates every row.
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}p{1.60cm}p{1.95cm}p{2.15cm}p{2.0cm}Y@{}}
+\toprule
+System & Shared baseline & Private view & Remote metadata/data & Boundary tested in this work\\
+\midrule
+OverlayFS & local lower tree & kernel upper/copy-up & none by itself & remote immutable lower, explicit object reads, and durable upper\\
+DeltaFS & immutable logs and manifests & per-job namespace & object store plus registry & current-value upper, directory-oriented pages, and online POSIX lookup\\
+BranchFS & local COW branch context & branch commit/abort & prototype-local & remote persistence and multi-client lower sharing\\
+CVMFS/Nydus & lazy immutable catalog/image & requires an external upper & cached objects/blobs & writable workspace semantics and metadata/data locator co-location\\
+JuiceFS & chunk/slice/block volume & shared mutable POSIX view & object store plus KV & lower-query independence and an explicit persisted $(B,q)$ layout\\
+\sys & selected packed lower & tombstone-aware private upper & packed objects plus control KV & sparse mutation, cold lower access, and layout effects in one measured contract\\
+\bottomrule
+\end{tabularx}
+\caption{Comparison axes used to choose baselines. Existing systems already
+provide individual mechanisms; the claimed opportunity is their scoped
+composition for remote agent workspaces.}
+\label{tab:comparison}
+\end{table*}
+
 \paragraph{Namespace and metadata organization.}
 TableFS, IndexFS, LocoFS, and InfiniFS demonstrate that record organization,
 partitioning, and caching can substantially change metadata access

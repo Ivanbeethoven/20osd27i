@@ -12,6 +12,7 @@ build/
 *.run.xml
 *.synctex.gz
 *.toc
+*.xdv
 *.pdf
 # The research package ships these reviewed PDF/BibTeX artifacts intentionally.
 !paper/main.pdf

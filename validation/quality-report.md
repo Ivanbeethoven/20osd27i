@@ -1,13 +1,13 @@
 # Final quality report
 
-Date: 2026-10-22. Scope: research planning, writing, bibliographic verification and artifact quality. No new BrewFS performance, mount, correctness or fault experiments were run.
+Date: 2026-10-23. Scope: research planning, writing, bibliographic verification and artifact quality. No new BrewFS performance, mount, correctness or fault experiments were run.
 
 ## PDF and LaTeX
 
 | Check | Named draft | Neutral-name preview |
 |---|---:|---:|
-| Successful pdfLaTeX/latexmk build | Yes | Yes |
-| Total PDF pages | 12 | 12 |
+| Successful XeLaTeX/latexmk build | Yes | Yes |
+| Total PDF pages | 13 | 13 |
 | Last body page | 11 | 11 |
 | Paper size on every page | US Letter, 612 × 792 pt | US Letter, 612 × 792 pt |
 | Unresolved citations or references in final log | 0 | 0 |
@@ -20,7 +20,7 @@ Date: 2026-10-22. Scope: research planning, writing, bibliographic verification 
 
 Both PDFs were rendered in full. Every page was inspected in contact sheets, with additional full-page inspection of the title, architecture figure, geometry table/equations, RQ table and references. The final RQ table's column widths were corrected to remove header overflow. Figures use vector text/lines, remain legible in grayscale, and distinguish current logical paths from planned integration with solid/dashed arrows.
 
-Build tools: pdfTeX 1.40.25 (TeX Live 2023/Debian), latexmk 4.83. The official style is unmodified: SHA-256 `4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45ff6`. No margin, column, line-spacing or font-size reduction was used to evade the venue limit. Underfull justification diagnostics and the style's nonfatal microtype/breakurl notices do not indicate clipped content; final visual inspection found none.
+Build tools: XeTeX 3.141592653-2.6-0.999998 (TeX Live 2026), latexmk 4.83. The official style is unmodified: SHA-256 `4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45ff6`. XeLaTeX uses the repository's `paper/usenix2019_v3_xetex.sty` compatibility copy; the official style remains unchanged. No margin, column, line-spacing or font-size reduction was used to evade the venue limit. Underfull justification diagnostics and XeTeX's ignored-`inputenc` notice do not indicate clipped content; final visual inspection found none.
 
 The PDF anonymity checks only confirm the documented name switch and removal of obvious fixed-source identifiers. They do not certify a fully anonymous submission. The draft is an internal author working document, and no result claims were invented to fill the evaluation section.
 

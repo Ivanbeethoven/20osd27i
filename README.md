@@ -1,6 +1,6 @@
 # BrewFS — OSDI 论文研究准备包
 
-版本：2026-10-22。工作标题：
+版本：2026-10-23。工作标题：
 
 **BrewFS: Delta-Based Multi-Agent Workspaces with Packed Metadata and Variable-Granularity Object Storage**
 
@@ -11,7 +11,7 @@
 1. `paper/main.pdf`：可直接阅读的英文初稿。正文依次为问题与动机、系统契约、Delta、Packed、对象布局、实现状态、评估计划和相关工作。
 2. `planning/01-research-outline.zh.md`：研究论点、贡献边界、章节及图表规划、评审风险与推进顺序。
 3. `planning/02-experiment-plan.zh.md`：7 个 RQ、E00–E16 共 17 项实验、环境、基线、因果对照、指标、统计和失败处理。
-4. `evidence/implementation_inventory.csv` 和 `evidence/source_evidence.md`：固定提交上的 39 项实现事实与边界；区分设计、代码存在、运行时接通与实测。
+4. `evidence/implementation_inventory.csv`、`evidence/source_evidence.md` 和 `evidence/current-head-audit.md`：固定提交与当前上游 HEAD 的实现事实和边界；区分设计、代码存在、运行时接通与实测。
 5. `references/literature_matrix.md`：逐项核验真实相关工作及与本研究的重叠，不把概念相似误写成首创。
 
 ## 文件地图
@@ -21,7 +21,7 @@
 | `paper/` | LaTeX 源码、两份 PDF、BibTeX、Makefile、TikZ 架构图与访问路径图。 |
 | `paper/template/` | 原样保留的官方 USENIX 示例及样式；论文自身使用独立标题和真实参考文献。 |
 | `planning/` | 中文大纲、实验协议、OSDI 风格研究、英文学术写作 skill 调查和模板来源。 |
-| `experiments/` | 17 项实验矩阵、13 项待完成实现门槛、未执行 manifest 示例、未来观测记录 schema、只有表头的度量模板。 |
+| `experiments/` | 17 项实验矩阵、agent 负载协议、13 项待完成实现门槛、未执行 manifest 示例、未来观测记录 schema、只有表头的度量模板。 |
 | `references/` | 29 条书目的来源登记与比较矩阵。23 篇研究论文（含工作坊），6 项官方资料。 |
 | `evidence/` | 固定版本代码审计、实现清单、远端来源记录、skill 热度和验证/安装状态记录。 |
 | `skills/osdi-systems-paper/` | 独立撰写的可移植 OSDI 系统论文写作 skill；带英文改写、证据及实验、BrewFS 专用约束和来源说明。 |
@@ -42,7 +42,7 @@
 
 ## 正式实验前的优先门槛
 
-审计基线：BrewFS `518e7cc39b2ff0b421ecf0f656de6d468cacb9b8`；RustFS research fork `cc4926fac1107aee76540f28bf22dbd47fcbca24`。源码链接和位置在 evidence 文件中。
+当前克隆的上游 HEAD 是 BrewFS `f80e7148c82e9f1ef235ab19318b89cb41a093a2`；为了保持行级证据稳定，现有 source inventory 仍固定 research checkpoint `518e7cc39b2ff0b421ecf0f656de6d468cacb9b8`，RustFS research fork 为 `cc4926fac1107aee76540f28bf22dbd47fcbca24`。二者的差异记录在 `evidence/current-head-audit.md`，正式实验必须重新生成 manifest。
 
 1. 核验所选挂载入口，分别接通 Entity S3 配置、Packed producer 和 strict durable create-only PUT 的 hint；保留 conditional-create/412 语义。
 2. 记录实际最终对象大小。Entity 挂载的 MAX_WRITE 为 1 MiB，当前直接上传形成的 upper 对象不能触发 auto 的“大于 1 MiB”分支。不能用大逻辑文件冒充大上传对象；聚合是尚未实现的新设计。
@@ -67,11 +67,12 @@ SWE-bench Pro 和 JuiceFS 分别引用官方数据集及架构文档，没有虚
 
 ## 构建与复核
 
-需要 Python 3，以及含 `latexmk`、pdfLaTeX、BibTeX、USENIX 所需常用包、TikZ、`xurl` 的 TeX 环境。样式已附，无须在线下载模板。源码使用数值引用的 `plain` 样式。
+需要 Python 3，以及含 Windows `xelatex`、`latexmk`、BibTeX、USENIX 所需常用包、TikZ、`xurl` 的 TeX 环境。样式已附，无须在线下载模板。源码使用数值引用的 `plain` 样式；XeLaTeX 使用 `paper/usenix2019_v3_xetex.sty` 兼容副本，官方样式文件保持原样。
 
 ```bash
 cd paper
-make
+latexmk -xelatex main.tex
+latexmk -xelatex anonymous-preview.tex
 cd ..
 python3 tools/validate_plan.py
 ```
