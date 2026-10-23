@@ -1,0 +1,14 @@
+{
+  "protected": [
+    "experiments/agent-fuse-observations/analyze.py",
+    "experiments/agent-fuse-observations/derived/methods.csv",
+    "experiments/agent-fuse-observations/derived/recompute-check.json",
+    "experiments/agent-fuse-observations/derived/request-sizes.csv",
+    "experiments/agent-fuse-observations/derived/summary.json",
+    "experiments/agent-fuse-observations/derived/tasks.csv",
+    "experiments/agent-fuse-observations/derived/timeseries-1s.csv",
+    "paper/main.tex",
+    "paper/sections/08-evaluation.tex"
+  ],
+  "changed": []
+}

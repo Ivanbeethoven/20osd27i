@@ -1,0 +1,638 @@
+{
+  "width_pt": 504,
+  "height_pt": 230,
+  "nodes": {
+    "n:upper": [
+      2,
+      27,
+      158,
+      66
+    ],
+    "n:span-0": [
+      2,
+      117,
+      50,
+      22
+    ],
+    "n:span-1": [
+      52,
+      117,
+      28,
+      22
+    ],
+    "n:span-2": [
+      80,
+      117,
+      50,
+      22
+    ],
+    "n:span-3": [
+      130,
+      117,
+      28,
+      22
+    ],
+    "n:private-objects": [
+      8,
+      174,
+      124,
+      22
+    ],
+    "n:manifest": [
+      178,
+      27,
+      154,
+      28
+    ],
+    "n:index": [
+      178,
+      70,
+      154,
+      25
+    ],
+    "n:groupmeta": [
+      178,
+      110,
+      154,
+      27
+    ],
+    "n:frame": [
+      178,
+      151,
+      154,
+      34
+    ],
+    "n:finalized-object": [
+      350,
+      27,
+      152,
+      26
+    ],
+    "n:admission": [
+      350,
+      70,
+      152,
+      32
+    ],
+    "n:persisted-layout": [
+      350,
+      113,
+      152,
+      22
+    ],
+    "n:shards": [
+      350,
+      155,
+      152,
+      64
+    ]
+  },
+  "text": [
+    {
+      "text": "(a) Delta-based workspace i",
+      "size_pt": 9,
+      "bbox": [
+        2,
+        2,
+        118.54248046875001,
+        11
+      ]
+    },
+    {
+      "text": "(b) Packed snapshot S",
+      "size_pt": 9,
+      "bbox": [
+        178,
+        2,
+        96.52148437500001,
+        11
+      ]
+    },
+    {
+      "text": "(c) Stored layout",
+      "size_pt": 9,
+      "bbox": [
+        350,
+        2,
+        71.00683593750001,
+        11
+      ]
+    },
+    {
+      "text": "\u0394\u1d62 in mutable metadata service",
+      "size_pt": 8.3,
+      "bbox": [
+        24.52109375,
+        31.7,
+        112.9578125,
+        10.3
+      ]
+    },
+    {
+      "text": "present \u2192 private entity",
+      "size_pt": 8,
+      "bbox": [
+        10,
+        47,
+        84.484375,
+        10
+      ]
+    },
+    {
+      "text": "hidden \u2192 ENOENT",
+      "size_pt": 8,
+      "bbox": [
+        10,
+        61,
+        69.8046875,
+        10
+      ]
+    },
+    {
+      "text": "absent + visible \u2192 S",
+      "size_pt": 8,
+      "bbox": [
+        10,
+        75,
+        73.1484375,
+        10
+      ]
+    },
+    {
+      "text": "Explicit file map after a write",
+      "size_pt": 8.3,
+      "bbox": [
+        2,
+        99.7,
+        103.324462890625,
+        10.3
+      ]
+    },
+    {
+      "text": "LowerRange",
+      "size_pt": 8,
+      "bbox": [
+        4.318359375,
+        123,
+        45.36328125,
+        10
+      ]
+    },
+    {
+      "text": "Data",
+      "size_pt": 8,
+      "bbox": [
+        57.55078125,
+        123,
+        16.8984375,
+        10
+      ]
+    },
+    {
+      "text": "LowerRange",
+      "size_pt": 8,
+      "bbox": [
+        82.318359375,
+        123,
+        45.36328125,
+        10
+      ]
+    },
+    {
+      "text": "Hole",
+      "size_pt": 8,
+      "bbox": [
+        135.7734375,
+        123,
+        16.453125,
+        10
+      ]
+    },
+    {
+      "text": "Private payload object",
+      "size_pt": 8,
+      "bbox": [
+        30.642578125,
+        180,
+        78.71484375,
+        10
+      ]
+    },
+    {
+      "text": "Data ref",
+      "size_pt": 8,
+      "bbox": [
+        29.771484375,
+        156,
+        28.45703125,
+        10
+      ]
+    },
+    {
+      "text": "0",
+      "size_pt": 8,
+      "bbox": [
+        141.775390625,
+        145,
+        4.44921875,
+        10
+      ]
+    },
+    {
+      "text": "Upper GET: verify whole object",
+      "size_pt": 8,
+      "bbox": [
+        2,
+        201,
+        110.7109375,
+        10
+      ]
+    },
+    {
+      "text": "Durable PUT, then publish map",
+      "size_pt": 8,
+      "bbox": [
+        2,
+        216,
+        111.61328125,
+        10
+      ]
+    },
+    {
+      "text": "Pinned manifest / roots",
+      "size_pt": 8.3,
+      "bbox": [
+        212.555712890625,
+        30.7,
+        84.88857421875,
+        10.3
+      ]
+    },
+    {
+      "text": "Same S for all workspaces",
+      "size_pt": 8,
+      "bbox": [
+        207.6484375,
+        42,
+        94.703125,
+        10
+      ]
+    },
+    {
+      "text": "Paged directory-name index",
+      "size_pt": 8.3,
+      "bbox": [
+        203.096630859375,
+        76.7,
+        103.80673828125,
+        10.3
+      ]
+    },
+    {
+      "text": "GroupMeta page",
+      "size_pt": 8.3,
+      "bbox": [
+        223.854736328125,
+        112.7,
+        62.29052734375,
+        10.3
+      ]
+    },
+    {
+      "text": "name  |  attributes  |  data locator",
+      "size_pt": 8,
+      "bbox": [
+        196.669921875,
+        124,
+        116.66015625,
+        10
+      ]
+    },
+    {
+      "text": "Packed frame descriptor",
+      "size_pt": 8.3,
+      "bbox": [
+        210.02275390625,
+        155.7,
+        89.9544921875,
+        10.3
+      ]
+    },
+    {
+      "text": "Authenticated payload range",
+      "size_pt": 8,
+      "bbox": [
+        204.072265625,
+        169,
+        101.85546875,
+        10
+      ]
+    },
+    {
+      "text": "Snapshot metadata on object storage",
+      "size_pt": 8,
+      "bbox": [
+        178,
+        201,
+        132.98046875,
+        10
+      ]
+    },
+    {
+      "text": "No per-file lower database records",
+      "size_pt": 8,
+      "bbox": [
+        178,
+        216,
+        122.28125,
+        10
+      ]
+    },
+    {
+      "text": "Finalized upload length L\u2092",
+      "size_pt": 8.3,
+      "bbox": [
+        378.2891845703125,
+        29.7,
+        95.421630859375,
+        10.3
+      ]
+    },
+    {
+      "text": "Private or snapshot object",
+      "size_pt": 8,
+      "bbox": [
+        379.751953125,
+        41,
+        92.49609375,
+        10
+      ]
+    },
+    {
+      "text": "RustFS: validate B; choose q",
+      "size_pt": 8.3,
+      "bbox": [
+        372.483642578125,
+        73.7,
+        107.03271484375,
+        10.3
+      ]
+    },
+    {
+      "text": "Eligible writes: q | s, qd | B",
+      "size_pt": 8,
+      "bbox": [
+        379.236328125,
+        87,
+        93.52734375,
+        10
+      ]
+    },
+    {
+      "text": "Persist (B, q, d, p) with object",
+      "size_pt": 8,
+      "bbox": [
+        373.98046875,
+        119,
+        104.0390625,
+        10
+      ]
+    },
+    {
+      "text": "2+2 example: s = B/d = 2q",
+      "size_pt": 8,
+      "bbox": [
+        379.19140625,
+        157,
+        93.6171875,
+        10
+      ]
+    },
+    {
+      "text": "D0",
+      "size_pt": 8,
+      "bbox": [
+        354,
+        171,
+        10.2265625,
+        10
+      ]
+    },
+    {
+      "text": "D1",
+      "size_pt": 8,
+      "bbox": [
+        354,
+        182,
+        10.2265625,
+        10
+      ]
+    },
+    {
+      "text": "P0",
+      "size_pt": 8,
+      "bbox": [
+        354,
+        193,
+        9.78515625,
+        10
+      ]
+    },
+    {
+      "text": "P1",
+      "size_pt": 8,
+      "bbox": [
+        354,
+        204,
+        9.78515625,
+        10
+      ]
+    },
+    {
+      "text": "B hint h(L\u2092)",
+      "size_pt": 8,
+      "bbox": [
+        435,
+        56,
+        39.92578125,
+        10
+      ]
+    },
+    {
+      "text": "Reads / repair use stored layout",
+      "size_pt": 8,
+      "bbox": [
+        369.302734375,
+        220,
+        113.39453125,
+        10
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "e:data-ref",
+      "source": "n:span-1",
+      "target": "n:private-objects",
+      "points": [
+        [
+          66,
+          139
+        ],
+        [
+          66,
+          174
+        ]
+      ],
+      "meaning": "reference/access dependency"
+    },
+    {
+      "id": "e:visible-lower",
+      "source": "n:upper",
+      "target": "n:index",
+      "points": [
+        [
+          160,
+          81
+        ],
+        [
+          178,
+          81
+        ]
+      ],
+      "meaning": "reference/access dependency"
+    },
+    {
+      "id": "e:roots",
+      "source": "n:manifest",
+      "target": "n:index",
+      "points": [
+        [
+          255,
+          55
+        ],
+        [
+          255,
+          70
+        ]
+      ],
+      "meaning": "reference/access dependency"
+    },
+    {
+      "id": "e:name-page",
+      "source": "n:index",
+      "target": "n:groupmeta",
+      "points": [
+        [
+          255,
+          95
+        ],
+        [
+          255,
+          110
+        ]
+      ],
+      "meaning": "reference/access dependency"
+    },
+    {
+      "id": "e:locator",
+      "source": "n:groupmeta",
+      "target": "n:frame",
+      "points": [
+        [
+          255,
+          137
+        ],
+        [
+          255,
+          151
+        ]
+      ],
+      "meaning": "reference/access dependency"
+    },
+    {
+      "id": "e:lower-span",
+      "source": "n:span-2",
+      "target": "n:frame",
+      "points": [
+        [
+          105,
+          139
+        ],
+        [
+          105,
+          166
+        ],
+        [
+          178,
+          166
+        ]
+      ],
+      "meaning": "reference/access dependency"
+    },
+    {
+      "id": "e:hint",
+      "source": "n:finalized-object",
+      "target": "n:admission",
+      "points": [
+        [
+          426,
+          53
+        ],
+        [
+          426,
+          70
+        ]
+      ],
+      "meaning": "integration pending"
+    },
+    {
+      "id": "e:commit-layout",
+      "source": "n:admission",
+      "target": "n:persisted-layout",
+      "points": [
+        [
+          426,
+          102
+        ],
+        [
+          426,
+          113
+        ]
+      ],
+      "meaning": "reference/access dependency"
+    },
+    {
+      "id": "e:stored-geometry",
+      "source": "n:persisted-layout",
+      "target": "n:shards",
+      "points": [
+        [
+          426,
+          135
+        ],
+        [
+          426,
+          155
+        ]
+      ],
+      "meaning": "reference/access dependency"
+    },
+    {
+      "id": "e:backend-range",
+      "source": "n:frame",
+      "target": "n:shards",
+      "points": [
+        [
+          332,
+          168
+        ],
+        [
+          350,
+          168
+        ]
+      ],
+      "meaning": "reference/access dependency"
+    }
+  ]
+}

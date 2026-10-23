@@ -17,5 +17,11 @@ build/
 # The research package ships these reviewed PDF/BibTeX artifacts intentionally.
 !paper/main.pdf
 !paper/anonymous-preview.pdf
+!paper/figures/agent-fuse/*.pdf
+!paper/figures/system-architecture.pdf
+!paper/figures/system-architecture-v2.pdf
+!paper/figures/system-architecture-compact.pdf
+!planning/paper-layout.pdf
+!experiments/ax-multi-agent/report/main.pdf
 !paper/main.bbl
 !paper/anonymous-preview.bbl

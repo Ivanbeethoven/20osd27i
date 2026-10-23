@@ -1,0 +1,194 @@
+{
+  "main": {
+    "pages": 16,
+    "body_end_page": 14,
+    "all_letter": true,
+    "metadata_author": "",
+    "system_name_occurrences": 19,
+    "source_identity_occurrences": 1,
+    "fonts": [
+      {
+        "name": "DWNTRA+NimbusRomNo9L-Medi",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "VGPCXC+NimbusRomNo9L-ReguItal",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "UACRXE+NimbusRomNo9L-Regu",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "OJFNKL+NimbusMonL-Regu",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "HKRIDO+CMR10",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "ULGDNB+CMMI10",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "GCWJKM+ArialMT",
+        "type": "Type0",
+        "embedded": true
+      },
+      {
+        "name": "FYHTKC+ArialMT",
+        "type": "Type0",
+        "embedded": true
+      },
+      {
+        "name": "NAHCEU+StandardSymL",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "JLSYEZ+CMEX10",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "SNZKIN+CMSY10",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "AAAAAA+Arial-BoldMT",
+        "type": "TrueType",
+        "embedded": true
+      },
+      {
+        "name": "AAAAAA+ArialMT",
+        "type": "TrueType",
+        "embedded": true
+      }
+    ],
+    "all_fonts_embedded": true,
+    "no_type3_fonts": true,
+    "figure_pages": {
+      "3": [
+        "Figure 1: Request composition and sizes for \ufb01ve Core and three Exploratory runs. (a,b) Each method\u2019s share uses all captured"
+      ],
+      "4": [
+        "Figure 2: Cumulative all-method, all-status calls for each complete capture. Counts accumulate at the ends of one-second"
+      ],
+      "6": [
+        "Figure 3: Logical architecture of the Entity workspace design. (1) Each client resolves private state before inheriting visible"
+      ],
+      "8": [
+        "Figure 4: A representative lower access. A directory-name"
+      ]
+    },
+    "profile_minimum_printed_font_pt": 8.000160217285156,
+    "latex_errors": [],
+    "rendered_pages": 16,
+    "visual_review": "All pages rendered; workload profile, temporal figure, unchanged architecture and RQ table checked at page scale.",
+    "sha256": "8a8a76f37cc86b813e6b0444cf8f7baa55cb61217f2b7cd3ba2a339deb0e93d3"
+  },
+  "anonymous-preview": {
+    "pages": 16,
+    "body_end_page": 14,
+    "all_letter": true,
+    "metadata_author": "",
+    "system_name_occurrences": 1,
+    "source_identity_occurrences": 1,
+    "fonts": [
+      {
+        "name": "PQKDGY+NimbusRomNo9L-Medi",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "HSLGEA+NimbusRomNo9L-ReguItal",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "PCEZTS+NimbusRomNo9L-Regu",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "ORGXKA+NimbusMonL-Regu",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "UZJLYX+CMR10",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "QNUKFQ+CMMI10",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "GCWJKM+ArialMT",
+        "type": "Type0",
+        "embedded": true
+      },
+      {
+        "name": "FYHTKC+ArialMT",
+        "type": "Type0",
+        "embedded": true
+      },
+      {
+        "name": "ANDZWL+StandardSymL",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "BNGTLT+CMEX10",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "AVWUFZ+CMSY10",
+        "type": "Type1",
+        "embedded": true
+      },
+      {
+        "name": "AAAAAA+Arial-BoldMT",
+        "type": "TrueType",
+        "embedded": true
+      },
+      {
+        "name": "AAAAAA+ArialMT",
+        "type": "TrueType",
+        "embedded": true
+      }
+    ],
+    "all_fonts_embedded": true,
+    "no_type3_fonts": true,
+    "figure_pages": {
+      "3": [
+        "Figure 1: Request composition and sizes for \ufb01ve Core and three Exploratory runs. (a,b) Each method\u2019s share uses all captured"
+      ],
+      "4": [
+        "Figure 2: Cumulative all-method, all-status calls for each complete capture. Counts accumulate at the ends of one-second"
+      ],
+      "6": [
+        "Figure 3: Logical architecture of the Entity workspace design. (1) Each client resolves private state before inheriting visible"
+      ],
+      "8": [
+        "Figure 4: A representative lower access. A directory-name"
+      ]
+    },
+    "profile_minimum_printed_font_pt": 8.000160217285156,
+    "latex_errors": [],
+    "rendered_pages": 16,
+    "visual_review": "All pages rendered; workload profile, temporal figure, unchanged architecture and RQ table checked at page scale.",
+    "sha256": "9f8e6ba240a28324d89b87fd177af12b0485f2e1f9e1dc4f017921ec3e88011a"
+  }
+}

@@ -5,8 +5,8 @@
 \node[b] (root) {Pinned manifest and authenticated roots};
 \node[b,below=0.35cm of root] (index) {Paged directory-name index\\$(\text{parent},\text{raw-name interval})$};
 \node[b,below=0.35cm of index] (group) {GroupMeta page\\entry $+$ common attributes $+$ data locator};
-\node[b,below=0.35cm of group] (frame) {Authenticated frame descriptor\\container offset, length, content verification};
-\node[b,below=0.35cm of frame] (data) {Payload Range read and verification};
+\node[b,below=0.35cm of group] (frame) {Packed frame descriptor\\container offset, length, content verification};
+\node[b,below=0.35cm of frame] (data) {Payload range read and verification};
 \draw[a] (root) -- (index);
 \draw[a] (index) -- (group);
 \draw[a] (group) -- (frame);

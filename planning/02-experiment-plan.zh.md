@@ -1,21 +1,25 @@
 # BrewFS：研究问题、实验设计与环境协议
 
-版本：2026-10-22。**以下均为待执行计划，不含本轮新产生的性能结果。** 建议硬件、样本规模和参数不是已使用环境。固定代码基线与能力状态见 `evidence/implementation_inventory.csv`；实际执行后必须生成新的 immutable manifest。
+版本：2026-10-23。**E00–E16 均为待执行计划，不含本轮新产生的系统性能结果。** 已有 8 个任务、1,138,884 条 FUSE 请求的重分析仍仅支持已报告的负载结构观察。建议硬件、样本规模和参数不是已使用环境。当前原理审计固定 BrewFS `242af5f7e9bba7afc0c61778f1084fcb20e083a0`，见 `evidence/principles-code/`；原 `implementation_inventory.csv` 保留 `518e7cc` 历史检查点，RustFS 扩展仍限定于研究 fork `cc4926fac110`。实际执行后必须生成新的 immutable manifest。
 
 ## 1. 实验目的与执行原则
 
-实验需要回答四类不同问题：真实负载为什么需要这个设计；每项机制是否有效；多个机制能否在一个工作区路径中协同；语义、故障和长期资源代价是否可接受。它们需要不同证据，不能用单个吞吐图替代。
+实验需要回答四类不同问题：真实负载为什么需要某项机制；各项独立使用是否有效；所选机制组合的收益与代价是什么；语义、故障和长期资源代价是否可接受。三项机制均可选，组合不是单机制实验的前提，也不预设必须同时开启才能获益。不同问题需要不同证据，不能用单个吞吐图替代。
 
-当前主要风险不是样本数不足，而是处理组定义不清：legacy 与 Entity 的 I/O 路径不同，hint 会牵动客户端策略，q 默认关闭且可能不改变实际布局，Packed producer 和 Entity mount 尚有 hint 传参缺口。因此，先执行 E00，再开展性能实验。所有试验均保留负面结果、失败、超时、layout fallback 和未支持操作。
+三项机制统一称为基于增量状态的多智能体工作区（Delta-Based Multi-Agent Workspaces，简称增量工作区）、打包式元数据（Packed Metadata）和可变粒度对象存储（Variable-Granularity Object Storage）。增量工作区由共享不可变下层（shared immutable lower）与私有可写上层（private writable upper，简称私有上层）组合；打包式元数据机制的产物称为打包式不可变快照（packed immutable snapshot，简称 packed snapshot）。中英文名称沿用[已确认术语表](terminology.zh.md)，单独使用、省略与组合关系见 [机制关系框架](03-mechanism-relationships.zh.md)。增量工作区可使用原生下层；Packed 可独立只读使用；普通 flat 卷具有独立对象路径。
+
+对象粒度分层记录：g 为客户端块大小，控制普通路径的 Slice 数据对象划分；L_o 为含适用压缩与成帧的最终上传对象长度；B 表示纠删码编码块大小（erasure-coding block size），q 表示物理校验／读取粒度（physical verification/read quantum）。布局提示（layout hint）主要请求 B；自动提示策略（automatic hint policy）以 L_o 为依据，不改变 g。Packed 数据帧属于快照格式，与 g、B、q 分属不同层。当前 g 默认 4 MiB 并提供固定配置；PPT 的 1/4/8/16 MiB 是研究档位，尚无在线动态选档实现。
+
+当前主要风险不是样本数不足，而是处理组定义不清：legacy 与 Entity 的 I/O 路径不同，布局提示会牵动客户端策略，q 默认关闭且可能不改变实际布局，打包式不可变快照构建器和 Entity 挂载尚有布局提示传参缺口。因此，先执行 E00，再开展性能实验。所有试验均保留负面结果、失败、超时、layout fallback 和未支持操作。
 
 ## 2. 研究问题总表
 
 | RQ | 可证伪的问题 | 对应实验 | 主要终点 |
 |---|---|---|---|
 | RQ1 | 选定 agent 工作负载是否共享足够多的不可变基线，并形成重复元数据及局部 I/O？ | E01、E02 | shared/read-set overlap、mutation footprint、metadata/data 比例与访问局部性 |
-| RQ2 | 工作区增量表示能否在相同持久化和缓存条件下降低创建、首次可用及存储成本？ | E03、E04 | provision-to-ready、first-tool latency、private metadata bytes、lifecycle cost |
-| RQ3 | Packed lower 是否减少元数据库查询及总成本，何时被 overfetch、索引冷启动和构建代价抵消？ | E05、E06、E07 | lower-KV calls、GET/HEAD/bytes、lookup/readdir P99、amortization |
-| RQ4 | 最终对象长度驱动的 B 与受约束 q 能否减少真实物理 I/O，代价和因果来源是什么？ | E08、E09、E10 | persisted geometry、physical bytes、checksum/EC CPU、durable write/repair cost |
+| RQ2 | 工作区的增量状态表示能否在相同持久化和缓存条件下降低创建、首次可用及存储成本？ | E03、E04 | provision-to-ready、first-tool latency、private metadata bytes、lifecycle cost |
+| RQ3 | 打包式不可变快照独立读取或作为下层时，是否减少元数据库查询及总成本，何时被 overfetch、索引冷启动和构建代价抵消？ | E05、E06、E07 | lower-KV calls、GET/HEAD/bytes、lookup/readdir P99、amortization |
+| RQ4 | 固定客户端 g、取数策略、对象长度与后端 B/q 分别如何影响请求、传输和物理 I/O？ | E08、E09、E10 | object count/bytes、persisted geometry、physical bytes、checksum/EC CPU、durable write/repair cost |
 | RQ5 | D、P、G 的组合是否产生可解释的额外收益？ | E11 | 交互效应、同资源 Pareto 曲线、限制与反例 |
 | RQ6 | 系统改进能否改善真实多 agent 的就绪、任务时间、吞吐和资源消耗？ | E12、E13 | job makespan、provisioning、storage critical path、success/control metrics |
 | RQ7 | 隔离、完整性、发布/恢复和回收的承诺在故障与长期负载下是否成立？ | E14、E15、E16 | semantic mismatches、corruption detection、recovery、reclamation backlog、tail latency |
@@ -56,7 +60,7 @@
 |---|---|
 | 主机 | CPU 型号/物理核/SMT、NUMA、频率策略、RAM、SSD 型号/固件/数量、文件系统与 mount options、NIC/switch/link speed |
 | OS | 发行版、kernel、FUSE/fuse3 版本、容器运行时、cgroup 配额、ulimit、I/O scheduler、时间同步方式 |
-| BrewFS | git SHA、dirty diff hash、Cargo features、Rust toolchain、mount entry、完整配置、logical chunk/block/slice 参数 |
+| BrewFS | git SHA、dirty diff hash、Cargo features、Rust toolchain、mount entry、完整配置、logical chunk、客户端 g、slice 参数及其适用数据路径 |
 | RustFS | fork URL/SHA、build flags、d/p/drive placement、inline 阈值、B hint gate、q gates、mmap/read reclaim/write reclaim、checksum/protected modes |
 | KV | 引擎和版本、资源预算、WAL/AOF/fsync 策略、持久化完成语义、备份/清理后台任务 |
 | 客户端 | memory/SSD cache 上限、admission/eviction、SingleFlight、readahead、attr/entry TTL、direct I/O、kernel writeback、write budget |
@@ -78,7 +82,7 @@
 | B3 | Linux OverlayFS | 最直接的共享 lower/writable upper 强基线 | lower 预置与 cold-stage 两组；统一 upper 持久化边界、copy-up 和 kernel options |
 | B4 | BranchFS | 近期 agent COW 工作区 | 固定 revision；ephemeral fsync 是 no-op，持久性比较包含实际 commit/flush。本地 commit 不自动等同远端 EC 完成；不匹配时分场景报告 |
 | B5 | JuiceFS Community + 同一 RustFS | 同类对象存储+元数据服务架构 | 同资源、缓存、压缩、logical block、KV 持久化配置；无法完全一致的设置逐项报告 |
-| B6 | 不可变 sorted-KV/SSTable lower 参考实现 | 检验 Packed 具体布局，相对于 DeltaFS 等已有组织方式 | 同一 overlay、相同记录内容/缓存/对象 backend；明确是机制参考实现，不能标作“DeltaFS”实测 |
+| B6 | 不可变 sorted-KV/SSTable lower 参考实现 | 检验打包式元数据的具体布局，相对于 DeltaFS 等已有组织方式 | 同一 overlay、相同记录内容/缓存/对象 backend；明确是机制参考实现，不能标作“DeltaFS”实测 |
 | B7 | 真实 DeltaFS（可行性门槛） | 最接近的 namespace/snapshot 概念 | 先核验操作和工作流可比性；若不兼容，提供定性分析和 B6，不虚构基准数值 |
 | B8 | Nydus 或 CernVM-FS immutable lower + 合适 upper（至少一个必需） | 镜像/快照按需分发近邻 | 核心 E03/E05/E07 及一组 E13 包含至少一个可行实现；限定共同契约，计入构建和必要远端 checkpoint |
 
@@ -86,22 +90,23 @@ CephFS、云共享文件服务可作外部有效性补充，但不能用不同�
 
 ### 4.2 机制消融，避免改变整条实现路径
 
-- **D0/D1**：同一 namespace/data API 上，完整物化元数据下层与共享下层+私有变化。D0 需要实验适配器；不是直接用 flat 代替 Entity。
-- **P0/P1/P2**：相同逻辑 lower 内容，分别为逐文件 KV、immutable sorted-KV、directory-oriented Packed；可附 P3（packed 去掉 hot-attribute/data-locator 共置）以验证具体布局，P3 是待实现控制。
-- **G0/G1/G2**：固定 B + legacy q、按对象策略 B + legacy q、按对象策略 B + q selector。所有记录使用有效布局；auto 与 G0 完全相同时是零处理差异的对照，不能证明 B 政策有效。显式固定 B sweep 只证明粒度敏感性；若提出新 selector，先在独立调优集冻结规则，再以 holdout 对比默认和各固定 B。
+- **D0/D1**：同一 namespace/data API 上，完整物化元数据下层与共享下层+私有增量状态。D0 需要实验适配器；不是直接用 flat 代替 Entity。
+- **P0/P1/P2**：相同逻辑下层内容，分别为逐文件 KV、immutable sorted-KV、按目录组织的打包式元数据；可附 P3（打包式元数据去掉 hot-attribute/data-locator 共置）以验证具体布局，P3 是待实现控制。
+- **客户端 g 因子**：在普通数据路径上，以独立数据集比较固定 1/4/8/16 MiB 档位；先固定 B/q、压缩与取数策略，确认相同逻辑内容和持久化契约。不得在旧对象集上直接改几何，也不得将固定档位 sweep 称为在线动态策略。
+- **G0/G1/G2**：保留原编号，专指后端子因子：固定 B + legacy q、按对象策略 B + legacy q、按对象策略 B + q selector。所有记录使用有效布局；自动提示策略与 G0 完全相同时是零处理差异的对照，不能证明 B 策略有效。显式固定 B sweep 只证明粒度敏感性；若提出新 selector，先在独立调优集冻结规则，再以 holdout 对比默认和各固定 B。
 - **C0/C1**：Range-oriented 与 full-object+SingleFlight 客户端策略；cache eviction/admission 另作控制或在两组一致。
 - **W0/W1**：remote-complete 后写预算释放，作为单独优化控制；不得混入 B 因子。
 - **R0/R1**：shared-bytes reply 作为单独控制，区分内存复制减少与后端 I/O 减少。
 
-D0、P0/P1/P3 及 C 策略隔离可能需要新增研究适配器，不能视为现成 CLI flag。先建立可测、合法的组合，再选择小规模的全因子子集。若 P1/P2 在当前实现中必须依赖 D1，不能补造 D0P1/D0P2 数据；使用嵌套设计，只声称可识别的条件效应。
+D0、P0/P1/P3 及 C 策略隔离可能需要新增研究适配器，不能视为现成 CLI flag。普通 flat 上的 g/B/q 实验与独立 Packed 读取可分别开展，不要求先建立 D1。组合实验再选择小规模、合法的全因子子集；若所选适配器仅支持 P1/P2 与 D1 搭配，使用嵌套设计，不补造 D0P1/D0P2 数据。该接线限制不应被写成机制本身的必然依赖。
 
 ## 5. 工作负载与抽样
 
 ### 5.1 历史 pilot 的使用边界
 
-此前记录使用 DSH `0.1.5-rc.1` 和实际配置 `deepseek-v4-flash`，在 WSL 的 passthrough FUSE 上运行若干 SWE-bench Verified 任务。这有助于确定采集字段和读写大小范围。原始日志、环境及计时解释尚未在本包中重新核验，故不把历史计数、吞吐或时间作为本文结果。
+已有记录使用 DSH `0.1.5-rc.1` 和实际配置 `deepseek-v4-flash`，在 WSL 的 passthrough FUSE 上运行 SWE-bench Verified 任务。本包已对 8 个任务、1,138,884 条 FUSE 请求完成重分析，Core 与 Exploratory 分开报告，见 [工作负载分析说明](../experiments/agent-fuse-observations/README.md)。这些观察描述请求结构、大小与时间变化，不是 BrewFS/RustFS 吞吐或延迟结果，也未完成 E01 的共享性、局部性及正式分阶段采集。
 
-若重用该 pilot，必须取回 `events.jsonl`、`runs.json`、`tasks.json` 和可用性报告；检查事件丢失、PID/路径/数据字段、脚本版本、时间戳单位、任务实际退出条件和质量评估。累计 handler time 与 wall-clock 不得混用。
+若扩展或回放该 pilot，必须继续核验 `events.jsonl`、`runs.json`、`tasks.json` 和可用性报告中所需字段；现有聚合计数不能替代路径、写入内容、句柄生命周期与操作顺序。检查事件丢失、脚本版本、时间戳单位、任务退出条件和质量评估；累计 handler time 与 wall-clock 不得混用。
 
 ### 5.2 正式样本设计
 
@@ -119,7 +124,7 @@ D0、P0/P1/P3 及 C 策略隔离可能需要新增研究适配器，不能视为
 - 同一批仓库增加传统 build/test/grep/包安装脚本与受控修改，用作 agent 专属性的反例。
 - 为相同基线、不同分支探索/重试构建 4/16/64/128 个工作区的 workload waves；128 以内的主设计也避免超过当前 Entity owner 256 上限，仍需预留 owner 余量并核验实际计数。
 
-这是扩展研究用的 60-task panel。必需闭环核心先冻结 20 个分层任务，选 B5、B8 和完整系统三条件，每条件三次，即 180 runs；扩展至 60 个任务为 540 runs，尚不含其他并发或模型。B3/B4 先用于机制实验，再选共同任务作外部验证。以暂定 30 分钟 run 上限计算，核心最多 90 个串行 run-hours，扩展最多 270；这是预算上界，不是预计完成时间，模型费用用 pilot 和执行日价格另算。并发 sweep 优先用 replay，闭环仅选代表点并重算预算。具体任务和正式样本在兼容性筛查后、看到处理效果前冻结。筛查只依据预先声明的能力与依赖条件，保留排除清单；不得删去慢任务。
+这是扩展研究用的 60-task panel。必需闭环核心先冻结 20 个分层任务，选 B5、B8 和预先声明的 BrewFS 组合三条件，每条件三次，即 180 runs；扩展至 60 个任务为 540 runs，尚不含其他并发或模型。B3/B4 先用于机制实验，再选共同任务作外部验证。以暂定 30 分钟 run 上限计算，核心最多 90 个串行 run-hours，扩展最多 270；这是预算上界，不是预计完成时间，模型费用用 pilot 和执行日价格另算。并发 sweep 优先用 replay，闭环仅选代表点并重算预算。具体任务和正式样本在兼容性筛查后、看到处理效果前冻结。筛查只依据预先声明的能力与依赖条件，保留排除清单；不得删去慢任务。
 
 SWE-bench Verified 的测试质量和污染风险已在 2026 年官方审计中被讨论。本研究把它作为可重现的文件系统负载来源，不据其分数宣称更强模型；增加 Pro、多语言和受控任务以扩大外部有效性。[W1–W4]
 
@@ -129,12 +134,13 @@ SWE-bench Verified 的测试质量和污染风险已在 2026 年官方审计中�
 |---|---|---|
 | lower 文件数 N | 10^4、10^5、10^6；10^7 仅资源允许时扩展 | 区分 namespace 规模与工作区数 |
 | 工作区数 K | 1、4、16、64、128 | 独立视图并发及创建风暴 |
-| 修改比例 μ | 0、0.1%、1%、10%、50% | 稀疏变化与 delta 优势消失区域 |
+| 修改比例 μ | 0、0.1%、1%、10%、50% | 稀疏变化与增量状态优势消失区域 |
 | 文件尺寸 | 4/16/64/256 KiB、1/4/16 MiB，以及经验分布 | 小文件密度及长尾 |
 | 请求长度 r | 4/16/64/128/256 KiB、1 MiB | FUSE 与 Range 大小分开记录 |
-| 目录形状 | 深度 1/4/8；Entity fanout 100/1,000/4,096；standalone Packed 可扩展至 100,000 | Entity 完整枚举另受 4 MiB retained-directory bytes 限制；更大目录需分页适配后才进入系统实验 |
+| 目录形状 | 深度 1/4/8；Entity fanout 100/1,000/4,096；打包式不可变快照的独立只读挂载可扩展至 100,000 | Entity 完整枚举另受 4 MiB retained-directory bytes 限制；更大目录需分页适配后才进入系统实验 |
 | 访问分布 | uniform、Zipf α=1.1、热点迁移、顺序遍历 | cache 与 locality 影响 |
-| 内容 | 不可压缩、可压缩、真实仓库；各自固定 seed | finalized length 与逻辑尺寸的区别 |
+| 客户端块 g | 普通路径固定 1/4/8/16 MiB，默认档为 4 MiB | 对象数、实际 L_o、请求数与搬运字节；不代表已实现动态选择 |
+| 内容 | 不可压缩、可压缩、真实仓库；各自固定 seed | 最终上传对象长度与逻辑尺寸的区别 |
 | RTT（可选受控仿真） | 实测局域网、1/5/20 ms | 对象请求数和 round-trip 敏感性 |
 
 不跑所有维度的笛卡尔积。先以 N=10^5、K=16、μ=1% 固定点做机制对照，再按预先指定的单因素/二维 sweep 分解。保留 N/K/μ/RTT 边界组合用于负面结果。
@@ -145,11 +151,11 @@ SWE-bench Verified 的测试质量和污染风险已在 2026 年官方审计中�
 
 **目的。** 证明实验比较的每个标签对应真实可运行路径。
 
-**步骤。** 固定 code SHA 和 clean diff；分别列出普通卷、legacy、Entity、Packed readonly 入口。验证选定主路径的 lower lookup、upper write、hint、持久化布局和 read/repair。为 Entity mount 和 Packed producer 的 S3Config 增补显式传参，并修正 EntityData 使用的 strict durable create-only PUT 缺少 hint metadata 的路径，保留 If-None-Match 与 412 校验语义及完整 diff。按路径检查：普通上传/Packed 构建路径生成 finalized size 跨过 1 MiB 的对象；在支持压缩的路径改变压缩率而保持逻辑长度相同。EntityFuse MAX_WRITE=1 MiB，直接分片 PUT，当前 mounted upper 不能触发 auto 的 >1 MiB 分支；应验证其对象分布和无效处理，可另测试固定 B。更大对象的聚合方案属于新实现。
+**步骤。** 固定 code SHA 和 clean diff；分别列出普通卷、legacy、Entity、打包式不可变快照的只读挂载入口，以及每项处理选择的机制。先验证省略可选机制的默认路径及拟测单机制路径，再验证相应组合的下层查询、上层写入、布局提示、持久化布局和 read/repair。只有实验选择 Entity/快照构建与 hint 的组合时，才需增补相应 S3Config 传参及 strict durable create-only PUT 的提示元数据，并保留 If-None-Match、412 校验语义和完整 diff。按路径检查：普通上传／打包式不可变快照构建路径生成最终上传对象长度跨过 1 MiB 的对象；在支持压缩的路径改变压缩率而保持逻辑长度相同。EntityFuse MAX_WRITE=1 MiB，直接分片 PUT，当前挂载的上层不能触发自动提示策略的 >1 MiB 分支；应验证其对象分布和无效处理，可另测试固定 B。更大对象的聚合方案属于新实现。
 
-**检查。** 记录请求 header、服务端 effective B、q/marker、inline/multipart/protected 状态；验证旧对象在开关更改后按原布局解释。对 upper 和 lower 的一次 4 KiB read，记录实际 Range 或整对象长度。证明 metadata counter 能区分 upper、control 和 lower。
+**检查。** 记录客户端 g、实际 Slice/Object 长度分布、请求 header、服务端 effective B、q/marker、inline/multipart/protected 状态；验证旧对象在开关更改后按原布局解释。对 upper 和 lower 的一次 4 KiB read，记录实际 Range 或整对象长度。证明 metadata counter 能区分 upper、control 和 lower。
 
-**停止条件。** 若同一工作区未接通或某计数器无法确定性验证，后续只能报告独立组件测试，不发布三机制总系统结果。该检查通过不意味着完整正确性通过。
+**停止条件。** 若所选组合未接通或其关键计数器无法确定性验证，不发布该组合的系统结果；其他通过资格检查的默认配置、独立组件或组合仍可按各自范围执行。该检查通过不意味着完整正确性通过。
 
 ### E01：真实 agent 文件系统负载画像（RQ1）
 
@@ -165,7 +171,7 @@ SWE-bench Verified 的测试质量和污染风险已在 2026 年官方审计中�
 
 **设计。** 对同仓库不同任务、同任务重试、多仓库三类 pair 分别计算基线内容重合、访问集合交集/并集以及 reuse distance。测量同目录名称区间被连续访问的概率，与“随机相邻”及按 inode 排序对照。避免把名称字典序局部性当作未经验证的事实。
 
-**指标。** Jaccard/read-byte weighted overlap、相同 index/GroupMeta 页复用、跨工作区 cache reuse、delta 内容分布、跨任务时间间隔。结果若显示随机点查为主，应在 E05 加重点查和 overfetch 反例，重新选择布局参数。
+**指标。** Jaccard/read-byte weighted overlap、相同索引页／组元数据页（GroupMeta page）复用、跨工作区 cache reuse、增量状态内容分布、跨任务时间间隔。结果若显示随机点查为主，应在 E05 加重点查和 overfetch 反例，重新选择布局参数。
 
 ### E03：工作区创建与首次可用（RQ2）
 
@@ -183,19 +189,19 @@ SWE-bench Verified 的测试质量和污染风险已在 2026 年官方审计中�
 
 **设计。** 固定初始内容，扫 μ；混合 create/update/delete/rename/truncate 与整目录删除。持续创建—修改—退出—回收，至少 100 个生命周期或达到预注册时长。区分工作区内部多进程与跨工作区隔离。
 
-**指标。** 私有 dentry/inode/mapping 字节、actual object bytes、tombstone 数、持久化延迟、回收 backlog、live bytes 与 retained bytes；报告峰值和稳态。删除操作需验证基线对象仍被其他工作区引用时没有误删。
+**指标。** 私有 dentry/inode/mapping 字节、actual object bytes、删除标记数、持久化延迟、回收 backlog、live bytes 与 retained bytes；报告峰值和稳态。删除操作需验证基线对象仍被其他工作区引用时没有误删。
 
 **反例。** μ=50%、频繁 rename 大目录、反复覆盖同文件和小批多次发布。若优化只适用于稀疏修改，明示其条件。
 
-### E05：Packed lower 查询路径与布局效果（RQ3）
+### E05：打包式不可变快照下层查询路径与布局效果（RQ3）
 
-**处理。** P0/P1/P2，必要时 P3；另对 B8 做共同操作契约的外部验证。保持同 namespace 内容、同返回属性和相同 data locator、相同总内存上限。使用同一个 lower API adapter，避免比较不同 FUSE 参数。
+**处理。** P0/P1/P2，必要时 P3；先在独立只读查询接口上比较，再以可运行适配器验证工作区下层组合，两者分别标记。另对 B8 做共同操作契约的外部验证。保持同 namespace 内容、同返回属性和相同 data locator、相同总内存上限。使用同一个 lower API adapter，避免比较不同 FUSE 参数。
 
 **工作负载。** 正/负 lookup、lookup+getattr、readdir/readdirplus、完整目录遍历、lookup+小 Range read；宽目录、深路径、long name、热点目录和跨页边界。扫描与随机点查分别报告。
 
 **计数。** 逐请求区分 control/upper/lower KV；index/GroupMeta/data 对象 GET、HEAD、range byte、有效负载、重复 locator 查询；CPU 与峰值 resident memory。
 
-**验证 lower-KV 消除。** 在确认 mount/control 已就绪后，对 lower 查询注入计数或访问拒绝，执行查找与数据定位；仍允许必要 upper/control 操作。查询不得因缓存碰巧命中才通过；从独立新进程或清除对应页缓存重复。报告 cold root/bootstrap 对象请求，不声称整个文件系统为零数据库。
+**验证下层查询独立性。** 在确认 mount/control 已就绪后，对下层查询注入计数或访问拒绝，执行查找与数据定位；仍允许必要 upper/control 操作。查询不得因缓存碰巧命中才通过；从独立新进程或清除对应页缓存重复。报告 cold root/bootstrap 对象请求，不声称整个文件系统为零数据库。
 
 **指标。** 各操作延迟分位数、查询放大、bytes per useful entry、cache hit rate、吞吐/核时。页面预算 sweep 仅使用已实现可配置范围；尚无控制参数的方案列为研究分支而非现成 flag。
 
@@ -203,7 +209,7 @@ SWE-bench Verified 的测试质量和污染风险已在 2026 年官方审计中�
 
 设置四种明确状态：COLD=新客户端+空应用 cache+经验证冷对象层；INDEX-WARM=仅 manifest/index 缓存；META-WARM=metadata 页热、文件内容冷；DATA-WARM=重复访问后内容热。服务端 page cache 状态独立成轴，无法清除时准确标为“client-cold/server-warm”。
 
-缓存按路径分别控制：先扫已支持的 metadata/index cache。当前 standalone Packed CLI 拒绝非零 payload-cache/prefetch，payload 的 0/256 MiB/1 GiB/4 GiB sweep 只能用于支持该参数的普通 VFS，或在研究分支新增并验证缓存后执行。Entity 不使用普通 VFS cache，不能套用其 flags。所有组固定总 RAM，压缩、prefetch、TTL、kernel/server page cache 分别固定或分层。不把共享主机 drop_caches 当作可靠清缓存方案；优先新进程、测试对象 namespace、工作集大于 cache，或在独占台架记录实际操作。
+缓存按路径分别控制：先扫已支持的 metadata/index cache。当前打包式不可变快照的独立只读挂载 CLI 拒绝非零 payload-cache/prefetch，payload 的 0/256 MiB/1 GiB/4 GiB sweep 只能用于支持该参数的普通 VFS，或在研究分支新增并验证缓存后执行。Entity 不使用普通 VFS cache，不能套用其 flags。所有组固定总 RAM，压缩、prefetch、TTL、kernel/server page cache 分别固定或分层。不把共享主机 drop_caches 当作可靠清缓存方案；优先新进程、测试对象 namespace、工作集大于 cache，或在独占台架记录实际操作。
 
 报告 cache 命中与字节变化，并检查 P0 在同样缓存预算下是否已消除大部分远程查询。若是，则贡献应表述为冷启动/受限缓存改善。
 
@@ -217,11 +223,11 @@ SWE-bench Verified 的测试质量和污染风险已在 2026 年官方审计中�
 
 ### E08：后端 (B,q) 布局微基准（RQ4）
 
-先直接用同一个 S3 驱动调用 RustFS，再接 BrewFS 路径。这样能判断后端能力是否存在，再判断客户端是否利用。
+先直接用同一个 S3 驱动调用研究 RustFS fork，再接普通 flat 等选定 BrewFS 路径，不要求增量工作区或 Packed。保持 S3 对象和请求流固定以隔离 B/q；客户端 g 的对象形成效应在 E09/E10 分开比较。
 
 **对象。** 尺寸跨过 inline、1 MiB、B 边界及 multipart threshold；建议 4/16/64/256 KiB、1 MiB±1 byte、4 MiB±1 byte、16/64 MiB，分别用可压缩和不可压缩内容。大对象和小对象分层，inline 单列。
 
-**B。** 默认无 hint，固定 64 KiB、256 KiB、1 MiB、4 MiB，当前 auto。hint 只是请求，按 effective B 分组。尤其检查 auto 与 default 实际 B 相同的组。
+**B。** 默认无布局提示，固定 64 KiB、256 KiB、1 MiB、4 MiB，当前自动提示策略。布局提示只是请求，按有效 B 分组。尤其检查自动提示策略与默认模式实际 B 相同的组。
 
 **q。** legacy 与现有 q-selector gate；不将 q 当作任意连续旋钮。四盘 d=2 下，当前 selector 的例子为：B=64 KiB→q=16 KiB；256 KiB→64 KiB；1 MiB→q 等于 shard=512 KiB；4 MiB→q=1 MiB。最后是否写 marker 还取决于 inline、protected mode 等条件。每组读取实际持久化 marker/frame 后才纳入处理组。其他 d/p 几何重新核验。
 
@@ -231,15 +237,17 @@ SWE-bench Verified 的测试质量和污染风险已在 2026 年官方审计中�
 
 ### E09：客户端策略和对象布局的因子拆分（RQ4）
 
+首先固定后端 B/q 和客户端取数/缓存策略，比较普通路径的固定 g 档位；每档创建独立对象集，保持同一逻辑文件内容和应用操作流，测对象数、L_o、GET/PUT 数、网络字节及解码/校验成本。当前 range 阈值按 g 的比例计算，因而 g 变化还可能改变取数决策；若隔离对象划分效应，应匹配绝对阈值，所需研究适配器先通过 E00，不能假称已有 CLI 开关。随后固定 g 进入后端因子比较，避免把对象划分变化当作 B/q 的效果。
+
 legacy-q 与 selector-q 影响新对象写入：先分别创建内容一致、key/manifest 明确隔离的对象集并核验布局。在每个固定对象集内用相同 read trace 比较 Range/full-object 策略，构成 q×客户端策略比较；再固定 B 或在少量合法 B 下重复。LRU/TinyLFU 和 SingleFlight 必须一致或作为额外因素；W/R 优化先冻结。
 
-现有 Entity upper 可能为了整体 SHA-256 获取全对象，它不等于可以直接变成短 Range 的数据路径。对 upper 与 Packed lower 分别做图；如果上层仍取全对象，后端小 q 不产生预期收益是有效结果。若需要修改完整性粒度才能利用 Range，应作为新的设计变化和正确性成本说明，不能默默跳过校验。
+现有 Entity 上层可能为了整体 SHA-256 获取全对象，它不等于可以直接变成短 Range 的数据路径。对私有上层与打包式不可变快照下层分别做图；如果上层仍取全对象，后端小 q 不产生预期收益是有效结果。若需要修改完整性粒度才能利用 Range，应作为新的设计变化和正确性成本说明，不能默默跳过校验。
 
 用输出 SHA-256 和逐次读结果检查语义相等；记录 GET 去重率、overfetch、cache churn。不要将改用整对象缓存的收益写成“EC 小块减少物理读取”。
 
 ### E10：写入、校验和修复代价（RQ4）
 
-采用 append、覆盖、truncate、频繁 fsync、完整文件写入、small-tail objects、multipart+重试。记录 syscall accepted、local staged、remote upload complete、metadata committed、所有后台债务清空五个时间；统一主要完成条件。
+采用 append、覆盖、truncate、频繁 fsync、完整文件写入、small-tail objects、multipart+重试。固定 g 对照与 B/q 对照分开：新 Slice 覆盖不自动意味着重写旧完整对象，实际上传量须计入 flush、compaction 和重试。记录 syscall accepted、local staged、remote upload complete、metadata committed、所有后台债务清空五个时间；统一主要完成条件。
 
 将 write amplification 分为：上传字节/用户提交字节、后端持久写字节/上传字节、包含 parity 的物理占用/有效存活对象字节。重复覆盖可导致用户提交字节与最终文件长度不同，分母都保留。压缩后比率小于 1 不意味着没有冗余。
 
@@ -247,7 +255,7 @@ legacy-q 与 selector-q 影响新对象写入：先分别创建内容一致、ke
 
 ### E11：整体机制与组合效应（RQ5）
 
-在 E00 已通过的统一实现上，以少量代表性 workload 执行 D×P×G 的合法配置，固定硬件、cache、持久化及客户端策略。优先比较 D0P0G0、D1P0G0、D1P1G0、D1P2G0、D1P2G1、D1P2G2；实现允许时才补齐其他格子。所有 label 映射到 manifest 中明确的 adapter/flags，不接受含糊的“BrewFS without optimization”。
+在 E00 已通过的统一实现上，以少量代表性 workload 执行 D×P×G 的合法配置，固定硬件、客户端 g、cache、持久化及取数策略；G0/G1/G2 继续表示后端子因子。原候选 D0P0G0、D1P0G0、D1P1G0、D1P2G0、D1P2G1、D1P2G2 仅是比较点清单，不表示必须逐项开启；根据入口能力选择并报告独立使用与组合点，实现允许时再补齐其他格子。所有 label 映射到 manifest 中明确的 adapter/flags，不接受含糊的“BrewFS without optimization”。
 
 对可完整交叉的因素，在每个任务上分析 log latency 的 difference-in-differences；对受结构限制的因素只报告 conditional effect，不称为正交全因子。既报告机制增量，也报告全系统相对于 B3/B5 的净收益。若组合没有额外正交效应，可解释互补瓶颈；不能创造“协同倍增”结论。
 
@@ -275,7 +283,7 @@ legacy-q 与 selector-q 影响新对象写入：先分别创建内容一致、ke
 
 先定义受支持操作集合与持久化保证，逐项检查 lookup/getattr/readdir/read/write、create/unlink/mkdir/rmdir、rename/rename-overwrite、truncate、symlink、hardlink、open-unlink-read、permission/xattr、跨目录边界和 sparse holes。未支持操作应给稳定且明确的错误，不借测试跳过暗示完整 POSIX。
 
-以同操作序列对照 ext4/OverlayFS 可比语义，做已知答案用例、随机有状态序列及多进程历史。特意测试 lower-only 文件修改、whiteout 后同名重建、opaque directory、目录合并重复名、EOF、rename 后 inode/data identity、工作区 A 修改而 B 仍读基线。
+以同操作序列对照 ext4/OverlayFS 可比语义，做已知答案用例、随机有状态序列及多进程历史。特意测试仅存在于下层的文件修改、添加删除标记（whiteout）后同名重建、opaque directory、目录合并重复名、EOF、rename 后 inode/data identity、工作区 A 修改而 B 仍读基线。
 
 只在声明 linearizable 的操作范围检查历史；不无依据对整个系统宣称线性一致或跨工作区事务。记录 timeout/deadlock、invariant failure、误读/漏读/多读、error mismatch。
 
@@ -318,11 +326,11 @@ GC 与 lease/fence 的 crash 分析只适用于真实选定实现；Entity 与 l
 
 ### 8.1 工作区容量
 
-活跃逻辑元数据的计量恒等式为 M_live-meta = M_base + ΣM_delta_i + M_control。M_base 对共享 lower 的活跃元数据只计一次；M_delta_i 统计工作区 i 的私有名称、属性、删除记录和数据映射；M_control 统计前两项未包含的 binding、ownership 等控制记录，三类不重计。完整复制会重复实例化基线元数据，但 reflink/OverlayFS 的实际元数据成本必须测量。delta 存储实体当前状态时，M_delta 不等于“发生变化字段的字节数”。此式不包含 upper payload、EC/校验和、构建中间对象、尚未回收对象或缓存；这些按物理空间和资源指标单独计量，不能将本式当作全部后端占用模型。
+活跃逻辑元数据的计量恒等式为 M_live-meta = M_base + ΣM_delta_i + M_control。M_base 对共享下层的活跃元数据只计一次；M_delta_i 统计工作区 i 的私有名称、属性、删除记录和数据映射；M_control 统计前两项未包含的 binding、ownership 等控制记录，三类不重计。完整复制会重复实例化基线元数据，但 reflink/OverlayFS 的实际元数据成本必须测量。增量状态存储实体当前状态时，M_delta 不等于“发生变化字段的字节数”。此式不包含上层数据负载、EC/校验和、构建中间对象、尚未回收对象或缓存；这些按物理空间和资源指标单独计量，不能将本式当作全部后端占用模型。
 
 ### 8.2 一次理想物理窗口读取
 
-对某 shard 上偏移 a、所需区间长度 l、校验帧 q，理想帧数为 n=ceil((a+l)/q)-floor(a/q)。该 shard 的数据帧覆盖约为 n×q；若每帧校验和为 c，还需约 n×c。实际总读取为各被读 data/parity shards 的和，可能受尾部、批读上限、压缩、fallback、repair 和 cache 影响。不要直接以应用 r 套入一个 shard 的 l，也不要将这个理想模型画成实测结果。
+对某 shard 上偏移 a、所需区间长度 l、物理校验／读取粒度 q，理想帧数为 n=ceil((a+l)/q)-floor(a/q)。该 shard 的数据帧覆盖约为 n×q；若每帧校验和为 c，还需约 n×c。实际总读取为各被读 data/parity shards 的和，可能受尾部、批读上限、压缩、fallback、repair 和 cache 影响。不要直接以应用 r 套入一个 shard 的 l，也不要将这个理想模型画成实测结果。
 
 ### 8.3 构建摊销与端到端上限
 
@@ -349,15 +357,15 @@ GC 与 lease/fence 的 crash 分析只适用于真实选定实现；Entity 与 l
 
 ### 最小可发表证据门槛
 
-- 同一路径的三机制集成证据及能力边界；如未完成，不能称完整实现。
+- 每项被主张机制的独立证据及能力边界；凡主张组合效果，提供该组合在同一路径中的集成证据。未接通的组合不能称为完整实现，但不否定其他合法配置。
 - 与 OverlayFS/reflink、同后端对象文件系统及至少一种成熟 lazy immutable lower 的公平比较。
-- Packed 与不可变 sorted-KV/同缓存对照；正面回应 DeltaFS。
-- (B,q) 的有效布局和物理字节测量；因子拆开缓存、全对象读、写预算与共享回复。
+- 打包式元数据与不可变 sorted-KV/同缓存对照；正面回应 DeltaFS。
+- 客户端 g 的对象形成与传输量证据，以及 (B,q) 的有效布局和物理字节测量；因子拆开缓存、全对象读、写预算与共享回复。
 - 至少一类可复现闭环多 agent 场景，以及对应的确定性回放。
 - 对只读 lower、私有修改、发布/恢复和 checksum/repair 的关键正确性结果。
 - 包含构建/重建摊销、高修改比例、无局部性、大顺序读等负面区域。
 
-若尚无“写放大降低”的证据，保留当前标题但在贡献表述中收缩为读取路径的目标与结果；若第三项对完整系统没有独立贡献，作者应重新评估论文主线和标题，而不是只选择有利 workload。
+若尚无“写放大降低”的证据，保留当前标题但在贡献表述中收缩为已有证据支持的请求与读取代价；若第三项在其适用配置和目标负载中仍没有独立证据，作者应重新评估论文主线和标题，而不是只选择有利 workload。独立有效不要求必须在三项全开的配置中进一步加速，组合成本与负面结果分别报告。
 
 ## 参考与协议依据
 
@@ -365,8 +373,9 @@ GC 与 lease/fence 的 crash 分析只适用于真实选定实现；Entity 与 l
 - [W2] [OpenAI 对 SWE-bench Verified 的审计说明，2026-02-23](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/)
 - [W3] [SWE-bench Pro 官方数据集](https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro)；[官方 harness](https://github.com/scaleapi/SWE-bench_Pro-os)
 - [W4] [Multi-SWE-bench，NeurIPS 2025](https://proceedings.neurips.cc/paper_files/paper/2025/hash/5afa9cb1e917b898ad418216dc726fbd-Abstract-Datasets_and_Benchmarks_Track.html)
-- [S1] [BrewFS cooperative I/O design](https://github.com/brewfs/brewfs/blob/518e7cc39b2ff0b421ecf0f656de6d468cacb9b8/innovations/brewfs-rustfs/design.md)
-- [S2] [BrewFS Entity mount](https://github.com/brewfs/brewfs/blob/518e7cc39b2ff0b421ecf0f656de6d468cacb9b8/src/cli/entity_mount.rs)
+- 当前原理依据：[机制关系框架](03-mechanism-relationships.zh.md)、[PPT 正文与讲稿](../evidence/ppt-principles/slides.json)、[工作区审计](../evidence/principles-code/workspaces.md)、[Packed 审计](../evidence/principles-code/packed.md)、[对象粒度审计](../evidence/principles-code/objects.md)。
+- [S1] [BrewFS cooperative I/O design，历史检查点](https://github.com/brewfs/brewfs/blob/518e7cc39b2ff0b421ecf0f656de6d468cacb9b8/innovations/brewfs-rustfs/design.md)
+- [S2] [BrewFS Entity mount，历史检查点](https://github.com/brewfs/brewfs/blob/518e7cc39b2ff0b421ecf0f656de6d468cacb9b8/src/cli/entity_mount.rs)
 - [S3] [RustFS EC block layout](https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/object_api/ec_block_layout.rs)
 - [B1] [JuiceFS 官方架构](https://juicefs.com/docs/community/architecture/)
 - 近邻论文的完整 metadata、出版状态和 DOI 见 `paper/references.bib` 与 `references/source_registry.csv`。

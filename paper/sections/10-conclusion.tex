@@ -1,12 +1,14 @@
 \section{Conclusion}
 
-\sys investigates how private workspace changes, shared immutable metadata,
-and finalized object layouts can be organized under one file-system design.
-Delta-based views preserve independent changes, packed snapshots provide
-directory-oriented lower access, and the backend interface makes encoding
-and physical verification geometry explicit. The source audit establishes
-concrete components and identifies the connections and lifecycle support
-that still require work. The planned evaluation will determine when the
-design reduces total workspace and storage cost, how much of that effect
-survives complete agent execution, and where existing approaches remain
-preferable. No quantitative performance conclusion is drawn in this draft.
+\sys organizes three optional capabilities over a common file-system and
+object-storage path. Delta-based workspaces compose a shared baseline with
+private changes. Packed metadata provides indexed access to frozen records
+for standalone read-only views or workspace lowers. Variable-granularity
+object storage separates client object formation at $g$ from backend
+encoding and physical verification at $(B,q)$. Each capability can be enabled
+for its own purpose; none requires the other two as an architectural
+prerequisite. The planned evaluation will compare supported configurations
+under matched contracts to determine their individual and combined costs,
+their effects on complete agent execution, and where existing approaches
+remain preferable. Composition does not imply an additional gain, and no
+quantitative performance conclusion is drawn in this draft.

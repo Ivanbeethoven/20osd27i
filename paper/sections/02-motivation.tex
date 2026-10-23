@@ -1,82 +1,74 @@
 \section{Background and Motivation}
 \label{sec:motivation}
 
-\subsection{Workspaces as shared state and private changes}
+\subsection{The ordinary file-system path}
 
-A workspace contains more than a version-controlled source tree. Tools may
-also inspect dependency directories, generated artifacts, build trees, and
-temporary files. The intended deployment chooses which directory subtrees
-are stable enough to publish as immutable baselines; other state remains
-mutable. Multiple tasks can reference the same published subtree without
-requiring their subsequent writes to become mutually visible.
+Tools issue file operations through FUSE. The file system resolves names and
+attributes through its metadata path, translates file offsets through data
+mappings, and obtains payload bytes from local caches or object storage.
+Writes introduce new data and update those mappings under the selected
+visibility and durability protocol. This ordinary path is useful without
+shared workspaces, packed snapshots, or backend layout hints.
 
-The useful workload properties must be established empirically. We will
-measure the overlap of files and metadata read across tasks, the fraction of
-the initial namespace that each task modifies, and the lifetime of a shared
-baseline. These quantities distinguish a favorable workload from one in which
-tasks rewrite most files or repeatedly invalidate their dependencies. Agent
-framework papers establish that repository navigation and editing occur;
-they do not establish the frequency of \sysname's storage bottlenecks.
-We therefore treat high sharing and sparse mutation as hypotheses rather
-than facts about all coding agents.
+A workspace can contain source files, dependency directories, generated
+artifacts, build trees, and temporary files. Some subtrees remain stable across
+tasks; others are frequently rewritten. A deployment can choose stable state
+as a shared baseline while retaining private changes for each task. The
+usefulness of doing so depends on cross-task overlap, mutation footprint,
+and baseline lifetime. Agent framework papers establish that repository
+navigation and editing occur; they do not establish that every task shares
+most of its state or benefits from a layered view.
 
-An earlier project pilot used DSH 0.1.5-rc.1 with the configured model
-\code{deepseek-v4-flash} over a WSL passthrough FUSE file system. It is a
-workload lead, not a \sysname/RustFS performance measurement. This draft does
-not reuse its numerical results because the raw event records and timing
-definitions have not been revalidated here. The formal study will recover or
-recapture the traces and distinguish handler service time, overlapping I/O,
-tool time, and task wall-clock time.
+\input{sections/02-agent-observations}
 
-\subsection{Metadata sharing does not determine metadata access}
+\subsection{View sharing and metadata access are separate choices}
 
-Namespace organization and caching have long been central to file-system
-performance. TableFS organizes local metadata in a table;
-IndexFS combines partitioning, caching, and bulk insertion; LocoFS and
-InfiniFS revisit the organization of distributed metadata
-services~\cite{tablefs2013,indexfs2014,locofs2017,infinifs2022}.
-These systems caution against assuming that every metadata operation always
-requires a distinct network round trip. A fair comparison must include their
-relevant techniques and an equal cache budget.
+A shared view needs a stable identity and rules for resolving private changes.
+It does not prescribe how baseline records are stored. A native catalog or
+KV namespace can supply the same immutable names and attributes as an
+object-resident packed representation, provided each satisfies the view's
+lookup contract. Conversely, a read-only consumer can use packed metadata
+without allocating a writable workspace.
 
-\sys studies a restricted opportunity: selected lower subtrees cannot change
-after publication. Their lookup records need not participate in the same
-update protocol as the private upper. An immutable representation can carry
-directory entries, frequently used attributes, and data locators together,
-allowing a client to fetch enough information for several related operations.
-The benefit depends on access locality and cache state. For random point
-lookups, a group may fetch more bytes than an individual record. For a cold
-deep path, several index pages may be required. Both cases belong in the
-motivation study and the evaluation.
+Metadata organization and caching already reduce service costs in TableFS,
+IndexFS, LocoFS, and InfiniFS~\cite{tablefs2013,indexfs2014,locofs2017,infinifs2022}.
+It would be misleading to assume that every operation on native metadata
+requires a separate network round trip. Packing exploits a more specific
+property: records that cannot change after publication can be indexed and
+fetched together without joining the mutable update protocol. A directory
+scan may reuse names, attributes, and data locators from one fetched page;
+a random point lookup may consume only a small part of that page.
 
-The property being tested is \emph{lower-query independence}, not the
-elimination of a metadata service. Upper lookups, workspace control, reader
-pins, publication, and reclamation may still require mutable records.
-This distinction is also essential when comparing \sys with DeltaFS, whose
-private logs and selectively assembled namespaces already challenge a
-single global metadata ground truth~\cite{deltafs2021}.
+The relevant property is \emph{lower-query independence}: supported baseline
+queries can obtain their records from the snapshot objects. Mutable upper
+records, reader pins, publication, and reclamation may still use a metadata
+service. DeltaFS's private logs and selectively assembled namespaces likewise
+show why namespace sharing must be compared with more than one global mutable
+metadata design~\cite{deltafs2021}. Equal cache budgets and appropriate batch
+access belong in these comparisons.
 
-\subsection{Logical request size differs from physical work}
+\subsection{Object formation and physical work have different boundaries}
 
-There are at least five relevant sizes: an application's request, a
-file-system logical chunk, the finalized uploaded object, an erasure-coding
-block, and a per-shard verification/read frame. Compression, framing, and
-partial tail objects make the uploaded length differ from file length.
-Erasure coding then distributes each coding block across data and parity
-shards. A range request can require a larger verified interval on each shard
-that serves it.
+An application's request size, a logical chunk, the client block size $g$,
+and the finalized object length $L_o$ describe different stages. A chunk
+provides an addressing range; slice mappings describe visible file data;
+blocks determine how a slice becomes objects. Tail blocks, compression,
+and framing can make $L_o$ differ from $g$. An object format and the client's
+cache and verification policy then determine whether a read fetches a range
+or an entire object.
 
-Storage systems already make different decisions about striping, coding,
-and redundancy transitions~\cite{azureec2012,morph2024,okapi2025}.
-\sysname's proposed connection is specifically between finalized object
-length and the backend's coding and verification geometry. It leaves the
-data/parity ratio fixed during a causal comparison. Smaller blocks do not
-by themselves reduce that ratio, and smaller verification frames add
-checksums and processing overhead.
+Backend coding adds further boundaries. An erasure-coding block of size $B$
+is distributed across data and parity shards. The physical verification/read
+quantum $q$ determines the verified units required within the serving shards.
+Storage systems already make different choices about striping, coding, and
+redundancy transitions~\cite{azureec2012,morph2024,okapi2025}. A compatible
+backend can expose an additional layout choice without changing the file
+system's view semantics or the client's object boundaries.
 
-Moreover, the client may fetch a full object even for a short application
-read. In that case, a smaller backend quantum may not reduce the bytes
-requested. We will trace the complete path, including the lower reader,
-upper integrity check, client cache, HTTP request, shard reads, and repair.
-This is necessary to determine whether a physical-layout optimization
-benefits the intended workspace workload.
+These distinctions motivate separate measurements of requests, network
+bytes, physical bytes, CPU work, and durable write completion. A smaller $g$
+can increase request count; a smaller $q$ adds checksums and processing;
+a fixed data/parity ratio retains its nominal redundancy. Caches and
+whole-object verification can hide a physical-layout benefit. The evaluation
+must trace actual object formation and reads rather than infer storage work
+directly from a FUSE request histogram.

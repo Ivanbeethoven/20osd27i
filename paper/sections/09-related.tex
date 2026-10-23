@@ -10,8 +10,9 @@ distinguished~\cite{branchfs2026}. YoloFS studies staging, snapshots, and
 permissions to improve visibility and control over agent
 effects~\cite{yolofs2026}. AgentFS also documents a file-system and tool-state
 abstraction for agents~\cite{agentfs2025}. These efforts make an
-``agent filesystem'' label insufficient as a novelty claim. \sys instead
-targets the costs of shared remote lower metadata and object access. It does
+``agent filesystem'' label insufficient as a novelty claim. \sys studies
+private workspace views, frozen metadata access, and object formation and
+layout as optional capabilities over an object-backed file system. It does
 not replace process isolation or provide all of these systems' user-control
 and commit semantics.
 
@@ -30,13 +31,13 @@ OverlayFS & local lower tree & kernel upper/copy-up & none by itself & remote im
 DeltaFS & immutable logs and manifests & per-job namespace & object store plus registry & current-value upper, directory-oriented pages, and online POSIX lookup\\
 BranchFS & local COW branch context & branch commit/abort & prototype-local & remote persistence and multi-client lower sharing\\
 CVMFS/Nydus & lazy immutable catalog/image & requires an external upper & cached objects/blobs & writable workspace semantics and metadata/data locator co-location\\
-JuiceFS & chunk/slice/block volume & shared mutable POSIX view & object store plus KV & lower-query independence and an explicit persisted $(B,q)$ layout\\
-\sys & selected packed lower & tombstone-aware private upper & packed objects plus control KV & sparse mutation, cold lower access, and layout effects in one measured contract\\
+JuiceFS & chunk/slice/block volume & shared mutable POSIX view & object store plus KV & frozen metadata access, object formation at $g$, and persisted $(B,q)$ layout\\
+\sys & native or packed baseline & optional private delta & objects plus metadata/control KV & separate and combined effects of view composition, packing, and object layout\\
 \bottomrule
 \end{tabularx}
 \caption{Comparison axes used to choose baselines. Existing systems already
-provide individual mechanisms; the claimed opportunity is their scoped
-composition for remote agent workspaces.}
+provide individual mechanisms; the opportunity examined here is their
+independent use and optional composition for remote agent workloads.}
 \label{tab:comparison}
 \end{table*}
 
@@ -52,11 +53,13 @@ performs a remote per-file lookup.
 DeltaFS is a particularly close conceptual predecessor. It uses private
 namespaces and immutable mutation logs over shared storage, with selective
 composition of prior state~\cite{deltafs2021}. \sys cannot claim private
-deltas or object-resident snapshots as inventions. Its proposed distinction
-is a directory-oriented lower layout that combines common attributes and
-data locators in paged access units, composed with an online private upper
-and a backend layout interface. Whether this particular combination is
-worth its complexity is an evaluation question.
+deltas or object-resident snapshots as inventions. Its packed representation
+places common attributes and data locators in bounded access units reached
+through indexes. This representation supports a read-only view independently
+and can also supply the immutable lower of an online private workspace.
+Conversely, a delta-based workspace can use a native metadata lower. The
+relevant comparisons therefore separate view composition from metadata
+representation before testing their combined cost.
 
 \paragraph{Immutable distribution and storage backends.}
 CernVM-FS provides demand-driven software distribution with indexed
@@ -66,7 +69,8 @@ image distribution and startup costs~\cite{slacker2016,dadi2020}.
 These are stronger points of comparison for immutable baselines than a
 model that downloads every file before use. The experiment plan therefore
 requires a mature lazy-lower baseline and counts image construction and
-staging separately.
+staging separately. Packing must justify its access and construction costs
+in standalone read-only use as well as reuse across writable workspaces.
 
 Distributed systems such as Ceph and Tectonic separate aspects of metadata
 and data services~\cite{ceph2006,tectonic2021}; this separation itself is not
@@ -75,16 +79,23 @@ repair cost, changing redundancy over a file's lifetime, and the relation
 between data placement and redundancy~\cite{azureec2012,morph2024,okapi2025}.
 Okapi's separation of striping and redundancy grouping is different from
 our $(B,q)$ distinction, although both motivate making coupled decisions
-explicit. We keep code rate fixed and measure checksum, tail, and repair
-cost rather than inferring a lower redundancy ratio from smaller blocks.
+explicit. Client block granularity $g$ additionally determines how file
+data forms objects; it is distinct from backend coding and physical
+verification granularity. Neither forming data blocks nor choosing coding
+layouts is itself a new principle. We keep code rate fixed and measure
+object counts, checksum, tail, and repair cost rather than inferring a lower
+redundancy ratio from smaller blocks. These storage choices apply to ordinary
+volumes as well as workspace data and packed snapshots where the selected
+object path supports them.
 
 \paragraph{Scope and unresolved evidence.}
-The design is most plausible for stable shared baselines and sparse private
-changes. A workload with poor name locality, high mutation, or rapid
+Each capability has its own useful region. Sparse private changes favor
+sharing a baseline; repeated access to frozen records can amortize packing;
+object formation and backend layout depend on the read/write mix and
+physical processing cost. Poor name locality, high mutation, or rapid
 snapshot churn may favor existing mutable metadata services or local
-overlays. The current Entity mount limits scale and lifecycle guarantees;
-the current automatic B policy can be identical to the default, and its
-upper objects do not exercise the above-1-MiB branch through ordinary
-FUSE writes. These are material limits, not editorial details. Results
-must determine whether all three title mechanisms deserve equally strong
-performance claims.
+overlays without ruling out a useful storage-layout choice. The current
+entry points and lifecycle support constrain which combinations can be
+tested, as described in Section~\ref{sec:implementation}. Results must
+establish the benefit of each enabled mechanism and any additional benefit
+of composition; enabling all three is not itself evidence of a gain.

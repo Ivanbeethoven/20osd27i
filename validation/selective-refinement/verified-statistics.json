@@ -1,0 +1,22 @@
+{
+  "Core": {
+    "events": 217129,
+    "reads": 22142,
+    "writes": 1112,
+    "write_median_summary_bytes": 4084.0,
+    "write_median_histogram_bytes": 4084.0,
+    "write_median_KiB": 3.98828125,
+    "metadata_all_pct": 61.539914060305165,
+    "metadata_ok_pct": 51.994408522975675
+  },
+  "Exploratory": {
+    "events": 921755,
+    "reads": 98292,
+    "writes": 23600,
+    "write_median_summary_bytes": 4117.0,
+    "write_median_histogram_bytes": 4117.0,
+    "write_median_KiB": 4.0205078125,
+    "metadata_all_pct": 56.35022321549653,
+    "metadata_ok_pct": 44.22492031436288
+  }
+}

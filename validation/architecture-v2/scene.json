@@ -1,0 +1,892 @@
+{
+  "width_pt": 504,
+  "height_pt": 422,
+  "nodes": {
+    "c:workspace-1": [
+      8,
+      53,
+      148,
+      97
+    ],
+    "c:workspace-2": [
+      178,
+      53,
+      148,
+      97
+    ],
+    "c:workspace-N": [
+      348,
+      53,
+      148,
+      97
+    ],
+    "c:object-store": [
+      140,
+      223,
+      356,
+      177
+    ],
+    "n:shared-snapshot": [
+      154,
+      245,
+      208,
+      91
+    ],
+    "n:private-objects": [
+      393,
+      278,
+      82,
+      49
+    ],
+    "n:metadata-service": [
+      8,
+      222,
+      106,
+      76
+    ],
+    "n:snapshot-producer": [
+      8,
+      327,
+      106,
+      54
+    ],
+    "n:persisted-layout": [
+      156,
+      346,
+      328,
+      50
+    ]
+  },
+  "text": [
+    {
+      "text": "1",
+      "size_pt": 9.2,
+      "bbox": [
+        12.44169921875,
+        5.800000000000001,
+        5.1166015625,
+        11.2
+      ]
+    },
+    {
+      "text": "Private workspaces",
+      "size_pt": 11,
+      "bbox": [
+        28,
+        4,
+        102.7275390625,
+        13
+      ]
+    },
+    {
+      "text": "W\u1d62 = Resolve(S, \u0394\u1d62)",
+      "size_pt": 9.2,
+      "bbox": [
+        417.180078125,
+        5.800000000000001,
+        78.819921875,
+        11.2
+      ]
+    },
+    {
+      "text": "Agent tools",
+      "size_pt": 9.2,
+      "bbox": [
+        59,
+        26.8,
+        46.0314453125,
+        11.2
+      ]
+    },
+    {
+      "text": "FUSE",
+      "size_pt": 8.2,
+      "bbox": [
+        91,
+        40.8,
+        21.869335937499997,
+        10.2
+      ]
+    },
+    {
+      "text": "Workspace 1",
+      "size_pt": 9.2,
+      "bbox": [
+        53.62060546875,
+        69.8,
+        56.7587890625,
+        11.2
+      ]
+    },
+    {
+      "text": "Private upper",
+      "size_pt": 8.2,
+      "bbox": [
+        16.614208984375004,
+        125.8,
+        48.77158203124999,
+        10.2
+      ]
+    },
+    {
+      "text": "Packed reader",
+      "size_pt": 8.2,
+      "bbox": [
+        95.333984375,
+        125.8,
+        53.33203124999999,
+        10.2
+      ]
+    },
+    {
+      "text": "Upper first",
+      "size_pt": 8.2,
+      "bbox": [
+        63.08955078125,
+        137.8,
+        37.8208984375,
+        10.2
+      ]
+    },
+    {
+      "text": "if visible",
+      "size_pt": 8.2,
+      "bbox": [
+        65.9177734375,
+        90.8,
+        29.164453124999998,
+        10.2
+      ]
+    },
+    {
+      "text": "Agent tools",
+      "size_pt": 9.2,
+      "bbox": [
+        229,
+        26.8,
+        46.0314453125,
+        11.2
+      ]
+    },
+    {
+      "text": "FUSE",
+      "size_pt": 8.2,
+      "bbox": [
+        261,
+        40.8,
+        21.869335937499997,
+        10.2
+      ]
+    },
+    {
+      "text": "Workspace 2",
+      "size_pt": 9.2,
+      "bbox": [
+        223.62060546875,
+        69.8,
+        56.7587890625,
+        11.2
+      ]
+    },
+    {
+      "text": "Private upper",
+      "size_pt": 8.2,
+      "bbox": [
+        186.614208984375,
+        125.8,
+        48.77158203124999,
+        10.2
+      ]
+    },
+    {
+      "text": "Packed reader",
+      "size_pt": 8.2,
+      "bbox": [
+        265.333984375,
+        125.8,
+        53.33203124999999,
+        10.2
+      ]
+    },
+    {
+      "text": "Upper first",
+      "size_pt": 8.2,
+      "bbox": [
+        233.08955078125,
+        137.8,
+        37.8208984375,
+        10.2
+      ]
+    },
+    {
+      "text": "if visible",
+      "size_pt": 8.2,
+      "bbox": [
+        235.9177734375,
+        90.8,
+        29.164453124999998,
+        10.2
+      ]
+    },
+    {
+      "text": "Agent tools",
+      "size_pt": 9.2,
+      "bbox": [
+        399,
+        26.8,
+        46.0314453125,
+        11.2
+      ]
+    },
+    {
+      "text": "FUSE",
+      "size_pt": 8.2,
+      "bbox": [
+        431,
+        40.8,
+        21.869335937499997,
+        10.2
+      ]
+    },
+    {
+      "text": "Workspace N",
+      "size_pt": 9.2,
+      "bbox": [
+        392.85693359375,
+        69.8,
+        58.2861328125,
+        11.2
+      ]
+    },
+    {
+      "text": "Private upper",
+      "size_pt": 8.2,
+      "bbox": [
+        356.614208984375,
+        125.8,
+        48.77158203124999,
+        10.2
+      ]
+    },
+    {
+      "text": "Packed reader",
+      "size_pt": 8.2,
+      "bbox": [
+        435.333984375,
+        125.8,
+        53.33203124999999,
+        10.2
+      ]
+    },
+    {
+      "text": "Upper first",
+      "size_pt": 8.2,
+      "bbox": [
+        403.08955078125,
+        137.8,
+        37.8208984375,
+        10.2
+      ]
+    },
+    {
+      "text": "if visible",
+      "size_pt": 8.2,
+      "bbox": [
+        405.9177734375,
+        90.8,
+        29.164453124999998,
+        10.2
+      ]
+    },
+    {
+      "text": "RustFS object store",
+      "size_pt": 11,
+      "bbox": [
+        381.09619140625,
+        227,
+        103.90380859375,
+        13
+      ]
+    },
+    {
+      "text": "2",
+      "size_pt": 9.2,
+      "bbox": [
+        162.44169921875,
+        250.8,
+        5.1166015625,
+        11.2
+      ]
+    },
+    {
+      "text": "Shared immutable snapshot S",
+      "size_pt": 9.2,
+      "bbox": [
+        179,
+        250.8,
+        131.8951171875,
+        11.2
+      ]
+    },
+    {
+      "text": "Manifest + indexes",
+      "size_pt": 8.2,
+      "bbox": [
+        164,
+        278.8,
+        68.59892578124999,
+        10.2
+      ]
+    },
+    {
+      "text": "\u00b7\u00b7\u00b7",
+      "size_pt": 8.2,
+      "bbox": [
+        339.90400390625,
+        278.8,
+        8.191992187499999,
+        10.2
+      ]
+    },
+    {
+      "text": "Metadata pages",
+      "size_pt": 8.2,
+      "bbox": [
+        164,
+        299.8,
+        58.809374999999996,
+        10.2
+      ]
+    },
+    {
+      "text": "\u00b7\u00b7\u00b7",
+      "size_pt": 8.2,
+      "bbox": [
+        339.90400390625,
+        299.8,
+        8.191992187499999,
+        10.2
+      ]
+    },
+    {
+      "text": "Data frames",
+      "size_pt": 8.2,
+      "bbox": [
+        164,
+        320.8,
+        44.659570312499994,
+        10.2
+      ]
+    },
+    {
+      "text": "\u00b7\u00b7\u00b7",
+      "size_pt": 8.2,
+      "bbox": [
+        339.90400390625,
+        320.8,
+        8.191992187499999,
+        10.2
+      ]
+    },
+    {
+      "text": "Private payload",
+      "size_pt": 9.2,
+      "bbox": [
+        400.99638671875,
+        249.8,
+        68.0072265625,
+        11.2
+      ]
+    },
+    {
+      "text": "objects",
+      "size_pt": 9.2,
+      "bbox": [
+        420.42509765625,
+        261.8,
+        29.149804687499998,
+        11.2
+      ]
+    },
+    {
+      "text": "Mutable metadata",
+      "size_pt": 9.2,
+      "bbox": [
+        21.1470703125,
+        222.8,
+        77.705859375,
+        11.2
+      ]
+    },
+    {
+      "text": "Upper state / control",
+      "size_pt": 8.2,
+      "bbox": [
+        23.081982421875004,
+        274.8,
+        73.83603515624999,
+        10.2
+      ]
+    },
+    {
+      "text": "Bindings \u00b7 pins \u00b7 leases",
+      "size_pt": 8.2,
+      "bbox": [
+        17.612646484375006,
+        286.8,
+        84.77470703124999,
+        10.2
+      ]
+    },
+    {
+      "text": "Snapshot",
+      "size_pt": 9.2,
+      "bbox": [
+        46,
+        333.8,
+        38.875390625,
+        11.2
+      ]
+    },
+    {
+      "text": "producer",
+      "size_pt": 9.2,
+      "bbox": [
+        46,
+        345.8,
+        36.3103515625,
+        11.2
+      ]
+    },
+    {
+      "text": "Finalized objects (L\u2092)",
+      "size_pt": 8.2,
+      "bbox": [
+        21.764697265625003,
+        370.8,
+        76.47060546875,
+        10.2
+      ]
+    },
+    {
+      "text": "Upper / control",
+      "size_pt": 8.2,
+      "bbox": [
+        48,
+        202.8,
+        53.78046874999999,
+        10.2
+      ]
+    },
+    {
+      "text": "Payload PUT / GET",
+      "size_pt": 8.2,
+      "bbox": [
+        398.998876953125,
+        207.8,
+        72.00224609374999,
+        10.2
+      ]
+    },
+    {
+      "text": "PUT",
+      "size_pt": 8.2,
+      "bbox": [
+        104.6,
+        311.8,
+        16.4,
+        10.2
+      ]
+    },
+    {
+      "text": "3",
+      "size_pt": 9.2,
+      "bbox": [
+        164.44169921875,
+        350.8,
+        5.1166015625,
+        11.2
+      ]
+    },
+    {
+      "text": "Stored layout",
+      "size_pt": 9.2,
+      "bbox": [
+        179,
+        350.8,
+        58.784765625,
+        11.2
+      ]
+    },
+    {
+      "text": "Effective (B, q)",
+      "size_pt": 8.2,
+      "bbox": [
+        179,
+        365.8,
+        53.77246093749999,
+        10.2
+      ]
+    },
+    {
+      "text": "Read \u00b7 verify \u00b7 repair",
+      "size_pt": 8.2,
+      "bbox": [
+        179,
+        379.8,
+        74.73291015624999,
+        10.2
+      ]
+    },
+    {
+      "text": "\u00b7\u00b7\u00b7",
+      "size_pt": 8.2,
+      "bbox": [
+        364.90400390625,
+        365.8,
+        8.191992187499999,
+        10.2
+      ]
+    },
+    {
+      "text": "\u00b7\u00b7\u00b7",
+      "size_pt": 8.2,
+      "bbox": [
+        456.90400390625,
+        365.8,
+        8.191992187499999,
+        10.2
+      ]
+    },
+    {
+      "text": "Encoding block B",
+      "size_pt": 8.2,
+      "bbox": [
+        310.319091796875,
+        345.8,
+        63.36181640624999,
+        10.2
+      ]
+    },
+    {
+      "text": "q: verification/read quantum",
+      "size_pt": 8.2,
+      "bbox": [
+        302,
+        385.8,
+        101.19072265624999,
+        10.2
+      ]
+    },
+    {
+      "text": "h(L\u2092)",
+      "size_pt": 8.2,
+      "bbox": [
+        117.161376953125,
+        353.8,
+        17.677246093749996,
+        10.2
+      ]
+    },
+    {
+      "text": "h(L\u2092)",
+      "size_pt": 8.2,
+      "bbox": [
+        444,
+        331.8,
+        17.677246093749996,
+        10.2
+      ]
+    },
+    {
+      "text": "Solid: logical requests. Upper/control and payload paths shown once; each client has both.",
+      "size_pt": 8.2,
+      "bbox": [
+        8,
+        400.8,
+        328.66064453124994,
+        10.2
+      ]
+    },
+    {
+      "text": "Hint wiring pending; object geometry is schematic.",
+      "size_pt": 8.2,
+      "bbox": [
+        36,
+        411.8,
+        182.30585937499998,
+        10.2
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "e:fuse-1",
+      "source": "n:agent-tools-1",
+      "target": "c:workspace-1",
+      "points": [
+        [
+          82,
+          40
+        ],
+        [
+          82,
+          58
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:inherit-1",
+      "source": "upper-1",
+      "target": "reader-1",
+      "points": [
+        [
+          58,
+          105
+        ],
+        [
+          103,
+          105
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:fuse-2",
+      "source": "n:agent-tools-2",
+      "target": "c:workspace-2",
+      "points": [
+        [
+          252,
+          40
+        ],
+        [
+          252,
+          58
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:inherit-2",
+      "source": "upper-2",
+      "target": "reader-2",
+      "points": [
+        [
+          228,
+          105
+        ],
+        [
+          273,
+          105
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:fuse-N",
+      "source": "n:agent-tools-N",
+      "target": "c:workspace-N",
+      "points": [
+        [
+          422,
+          40
+        ],
+        [
+          422,
+          58
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:inherit-N",
+      "source": "upper-N",
+      "target": "reader-N",
+      "points": [
+        [
+          398,
+          105
+        ],
+        [
+          443,
+          105
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:lower-1",
+      "source": "reader-1",
+      "target": "n:shared-snapshot",
+      "points": [
+        [
+          122,
+          150
+        ],
+        [
+          122,
+          187
+        ],
+        [
+          215,
+          187
+        ],
+        [
+          215,
+          245
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:lower-2",
+      "source": "reader-2",
+      "target": "n:shared-snapshot",
+      "points": [
+        [
+          292,
+          150
+        ],
+        [
+          292,
+          173
+        ],
+        [
+          280,
+          173
+        ],
+        [
+          280,
+          245
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:lower-N",
+      "source": "reader-N",
+      "target": "n:shared-snapshot",
+      "points": [
+        [
+          462,
+          150
+        ],
+        [
+          462,
+          199
+        ],
+        [
+          340,
+          199
+        ],
+        [
+          340,
+          245
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:upper-control",
+      "source": "upper-1",
+      "target": "n:metadata-service",
+      "points": [
+        [
+          41,
+          150
+        ],
+        [
+          41,
+          221
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:private-payload",
+      "source": "upper-N",
+      "target": "n:private-objects",
+      "points": [
+        [
+          381,
+          150
+        ],
+        [
+          381,
+          184
+        ],
+        [
+          485,
+          184
+        ],
+        [
+          485,
+          304
+        ],
+        [
+          475,
+          304
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:producer-put",
+      "source": "n:snapshot-producer",
+      "target": "n:shared-snapshot",
+      "points": [
+        [
+          114,
+          345
+        ],
+        [
+          130,
+          345
+        ],
+        [
+          130,
+          267
+        ],
+        [
+          154,
+          267
+        ]
+      ],
+      "meaning": "logical request / dependency"
+    },
+    {
+      "id": "e:producer-hint",
+      "source": "n:snapshot-producer",
+      "target": "n:persisted-layout",
+      "points": [
+        [
+          114,
+          369
+        ],
+        [
+          156,
+          369
+        ]
+      ],
+      "meaning": "hint wiring pending"
+    },
+    {
+      "id": "e:private-hint",
+      "source": "n:private-objects",
+      "target": "n:persisted-layout",
+      "points": [
+        [
+          435,
+          330
+        ],
+        [
+          435,
+          346
+        ]
+      ],
+      "meaning": "hint wiring pending"
+    }
+  ]
+}

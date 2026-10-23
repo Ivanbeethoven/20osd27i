@@ -1,76 +1,132 @@
 \section{Implementation and Integration Status}
 \label{sec:implementation}
 
-The audit fixes the file-system and backend revisions rather than assuming
-the current default branches have the same behavior. The upstream checkout
-used to prepare this revision is BrewFS
-\code{f80e7148c82e9f1ef235ab19318b89cb41a093a2}; the line-stable source
-inventory below pins the earlier research checkpoint
-\code{518e7cc39b2f} and records the delta separately. This distinction keeps
-deployment changes in the current tree from silently changing an experiment
-arm.
 \ifanonymouspreview
-The internal evidence ledger records the exact repositories, revisions,
-source locations, and configuration gates. These identifiers are withheld
-from this name-switching preview.
+The source audit fixes separate file-system and object-backend research
+revisions; the internal evidence ledger retains their identities and source
+locations.
 \else
-The inspected research revisions are BrewFS
-\code{518e7cc39b2f} and the RustFS research fork
-\code{cc4926fac110}.\footnote{Fixed sources:
-\url{https://github.com/brewfs/brewfs/tree/518e7cc39b2ff0b421ecf0f656de6d468cacb9b8} and
+The source audit fixes \sysname{} at \code{242af5f7e9bb} and the RustFS
+research fork at \code{cc4926fac110}.\footnote{Fixed sources:
+\url{https://github.com/brewfs/brewfs/tree/242af5f7e9bba7afc0c61778f1084fcb20e083a0} and
 \url{https://github.com/Ivanbeethoven/rustfs/tree/cc4926fac1107aee76540f28bf22dbd47fcbca24}.}
 \fi
-The accompanying evidence ledger distinguishes specification, code presence,
-runtime connection, and measured behavior. This preparation did not execute
-new mounts, fault tests, or performance runs.
+These revisions define the implementation scope below. Source inspection
+establishes which components and connections exist; it does not establish
+successful deployment or measured system behavior. This revision adds no
+mount, fault-injection, or performance experiments.
 
-\paragraph{Workspace paths.}
-The ordinary volume and legacy workspace paths use the VFS infrastructure.
-The Entity workspace instead uses a dedicated FUSE adapter, direct I/O,
-zero metadata TTL, and no ordinary VFS slice-cache/writeback path. It is
-explicitly experimental and fresh-only. Its current API bounds include a
-16 MiB I/O/chunk limit, a 1 MiB FUSE maximum write, a 4,096-entry complete
-directory interface, and a packed-owner census bounded at 256 active owners
-per store. These limits constrain the first evaluation; exceeding them is
-a separate implementation task.
+\paragraph{Mount entry points.}
+Table~\ref{tab:implementation-entrypoints} separates the current paths.
+Their separation realizes optional mechanisms without implying that every
+combination is available through every entry point.
 
-\paragraph{Snapshot components.}
-The packed reader, producer, authenticated indexes, and supporting
-publication components are present. A standalone read-only mount is
-available, but its current CLI rejects nonzero payload-cache and prefetch
-budgets. A cache sweep must therefore distinguish supported metadata caches
-from a new payload-cache implementation. Native Base supplies another data
-path and is not interchangeable with the Entity workspace in an ablation.
+\begin{table*}[t]
+\centering
+\small
+\caption{Current mount entry points and their construction. Compile-time
+features and backend capabilities further restrict admission.}
+\label{tab:implementation-entrypoints}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth}Y@{}}
+\toprule
+Entry point & Constructed file-system view \\
+\midrule
+Ordinary \code{flat-v1} &
+Ordinary metadata store and VFS with an object-data path; no workspace
+upper/lower construction. \\
+\code{workspace-v1} &
+One sealed catalog base and one private writable upper; an optional
+persisted binding selects a Packed v3 lower adapter. \\
+Standalone Packed v3 &
+Authenticated packed snapshot and read-only VFS; no private writable
+upper is required. \\
+Native P1 (\code{workspace-native-v2}) &
+Workspace-v1 KV namespace and base-data source, with Native data runtime
+and ordinary VFS. \\
+Experimental Entity (\code{workspace-entity-v1}) &
+Fresh Redis-backed current-entity namespace over a packed manifest,
+S3 data, and a dedicated FUSE adapter. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
 
-\paragraph{Layout integration gates.}
-Three inspected connections prevent us from claiming a complete combined
-runtime. The Entity mount's S3 configuration does not propagate the ordinary
-CLI's EC hint; the packed fixture producer also uses a default hint setting;
-and the strict durable create-only upload used by EntityData does not attach
-the hint metadata. The last path must retain its conditional-create and
-precondition-failure semantics when instrumented or extended.
+The \code{workspace-v1} catalog entry accepts SQLite, Redis, and TiKV, but
+rejects etcd. Attaching a Packed lower additionally requires the catalog's
+permission, identifier, and lifecycle capabilities. The default
+\code{WorkspaceLower::Native} means native catalog layers; it is distinct
+from the \code{native\_base} subsystem. Native P1 requires a workspace-v1
+schema-1 base and a KV namespace. Its CLI explicitly rejects a frozen
+metadata volume rather than treating the mutable KV path as a fallback.
+Library support for frozen Native metadata therefore does not establish
+that this mount entry supports it.
 
-Even after these connections are supplied, the Entity FUSE maximum write
-and direct upload formation produce upper objects no larger than 1 MiB in
-that path. The current automatic rule only emits a hint above 1 MiB.
-Consequently, a large logical file is not sufficient to exercise automatic
-upper-object B selection. Initial policy experiments must use packed
-containers or the ordinary finalized upload path; Entity upper experiments
-can test supported fixed hints, actual small-object behavior, or an explicitly
-new aggregation design. We will not imply that this extra design already
-exists.
+\paragraph{Reader and Entity bounds.}
+The standalone Packed entry accepts the current wire005 format through a
+content-addressed manifest; the CLI rejects earlier Packed v1/v2 entries.
+It also rejects nonzero payload memory-cache, payload SSD-cache, and
+prefetch budgets. Supported metadata caches must be distinguished from
+these unavailable payload-cache configurations.
 
-\paragraph{Backend gates and measurement.}
-RustFS contains B parsing/persistence and q-aware write, read, and healing
-code. New q writes are disabled by default and were disabled in the historical
-configuration inspected by this audit. A valid experiment will record actual
-object $(B,q)$, eligibility, and physical read counters rather than only flags.
-Ordinary-VFS write-budget release and shared-buffer replies are additional
-retained optimizations, not consequences of changing B. They must remain
-constant when isolating layout effects.
+Entity is an experimental, fresh-only path with process-crash takeover
+disabled. Its adapter uses direct I/O, zero metadata TTL, and no ordinary
+VFS slice-cache or writeback path. The Entity data API bounds an individual
+read, write, and logical chunk size at 16 MiB; the FUSE adapter separately
+limits writes to 1 MiB. Its complete-directory resolver bounds enumeration
+at 4,096 entries. Durable Entity lower ownership is limited to 256 active
+owner records per catalog store, with admission and census checks. This is
+distinct from the separate bounded set of Packed reader leases. These are
+path-specific constraints, not global file-size, directory-size, or workspace
+limits for all mounts. Entity upper reads currently fetch and authenticate
+the complete stored object before returning the requested subrange.
 
-The AX directory provides deployment and mount contracts; its smoke path can
-use a durable directory without a \sysname{} mount. Formal end-to-end experiments
-will verify mount identity and correlate agent tool operations with the
-file-system and object counters. Starting an AX task alone is insufficient
-integration evidence.
+\paragraph{Publication and recovery.}
+The code includes authenticated snapshot production, persisted lower
+bindings, reader pins, and guarded publication. It also wires a restricted
+Packed recovery command for reusing the same persistent volume claim
+(PVC). That path checks recovery generation, lease and pod identities, and
+scoped metadata/PVC authority. It does not provide Entity takeover or
+automatic migration to an arbitrary worker.
+
+Native seal, publish, and fork functions encode quiescence, object
+verification, retention, and atomic revision transitions. The inspected
+tree contains these lifecycle definitions and unit-test callers, but no
+ordinary CLI handoff driver. Consequently, their protocol structure
+does not demonstrate an integrated worker transfer. Recovering a published
+file state also does not recover process memory or open application
+sessions; applications must establish suitable checkpoints and reopen
+their tools.
+
+\paragraph{Object formation and layout gates.}
+The ordinary object path fixes client block size $g$ in configuration,
+with a default of 4 MiB inside 64 MiB logical chunks. Readers use the
+declared geometry, and incompatible volume configuration is rejected.
+There is no implemented access-driven controller selecting the proposed
+1/4/8/16 MiB client sizes. Changing $g$ on existing data requires preserving
+its interpretation, not simply changing a mount option.
+
+The encoding-block-size hint requires an explicit compile-time feature,
+is off by default, and requires a compatible S3 backend. It does not change
+$g$ or multipart part size. The inspected backend independently gates
+acceptance of $B$ hints and creation of new $q$ framing, each with enable
+and fleet-confirmation gates that default to off. Eligibility and geometry
+checks still apply. Reads and repair use the object's persisted layout;
+enabling a client hint does not re-encode existing objects.
+
+\paragraph{Remaining connections and experimental controls.}
+The ordinary uploader propagates configured hints, but the Entity mount
+constructs its S3 client with the default hint setting, and its strict
+durable create-only upload does not attach hint metadata. The Packed
+fixture producer also uses the default setting. Extending these paths must
+preserve conditional creation and precondition-failure behavior. Moreover,
+Entity directly uploads segments of each FUSE write rather than aggregating
+ordinary client blocks. Its upper objects therefore remain at most 1 MiB
+on this path and do not trigger the automatic hint policy.
+
+That automatic hint policy omits a hint for $L_o\leq1\MiB$ and requests
+$B=1\MiB$ otherwise. The inspected research backend already defaults to
+$B=1\MiB$, so enabling the policy can leave effective $B$ unchanged.
+Hint configuration also changes the ordinary client's fetch and cache
+policy, even for objects receiving no hint. Experiments must therefore
+record actual $(g,L_o,B,q)$, eligibility, cache behavior, and physical
+read bytes, and isolate these factors. A configuration named \emph{all-on}
+alone proves neither a complete combined runtime nor a layout treatment.

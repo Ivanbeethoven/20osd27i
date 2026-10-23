@@ -1,0 +1,16 @@
+{
+  "packages": {
+    "reportlab": "4.4.9",
+    "svglib": "2.3.1",
+    "cssselect2": "0.10.1",
+    "tinycss2": "1.5.1",
+    "pymupdf": "2.0"
+  },
+  "font": "Arial / Arial-Bold (system TrueType)",
+  "physical_width_pt": 504,
+  "font_sizes_pt": [
+    8.2,
+    9,
+    10.5
+  ]
+}

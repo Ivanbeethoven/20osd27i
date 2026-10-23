@@ -1,0 +1,37 @@
+[
+  {
+    "name": "oxbow",
+    "url": "https://www.usenix.org/system/files/osdi26-kim-jongyul.pdf",
+    "figures_inspected": [
+      "3",
+      "5",
+      "6"
+    ],
+    "sha256": "95111dceef56315706906a714fd54648b99395edb40a2537ca879fd3936e1392"
+  },
+  {
+    "name": "delfs",
+    "url": "https://www.usenix.org/system/files/osdi26-ahn.pdf",
+    "figures_inspected": [
+      "3"
+    ],
+    "sha256": "fbb1d86a1c8dc52aaa3a822e8ddc1020b4bca80fd6ec729c8fc378ea16ec64cd"
+  },
+  {
+    "name": "wolves",
+    "url": "https://www.usenix.org/system/files/osdi25-pan.pdf",
+    "figures_inspected": [
+      "3",
+      "5"
+    ],
+    "sha256": "e634c69a2dea6c8fb541e00807cf871201985f2e73b98080d485cc22af8cceab"
+  },
+  {
+    "name": "squirrelfs",
+    "url": "https://www.usenix.org/system/files/osdi24-leblanc.pdf",
+    "figures_inspected": [
+      "2"
+    ],
+    "sha256": "c12262c192f678e4d8ce9550e0aac46dd155f414f3d035e758c5ad49dcaff085"
+  }
+]

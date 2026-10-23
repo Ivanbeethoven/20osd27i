@@ -5,6 +5,9 @@ This section is a protocol for future experiments. It contains no generated
 measurements or assumed speedups. The companion experiment matrix defines
 E00--E16, including instruments, negative cases, and execution gates.
 Table~\ref{tab:rqs} connects the principal questions to those experiments.
+The existing passthrough observations in Section~\ref{sec:agent-observations}
+supply a measured request-structure pilot for RQ1; they do not complete
+E01's locality/sharing study or any system-performance comparison.
 
 \begin{table*}[t]
 \centering
@@ -13,16 +16,18 @@ Table~\ref{tab:rqs} connects the principal questions to those experiments.
 \toprule
 RQ & Question & Primary evidence & Plan\\
 \midrule
-1 & Is the workload favorable to shared immutable state? & Cross-task overlap, mutation footprint, stage-specific metadata and I/O distributions & E01--E02\\
-2 & When does the delta representation reduce workspace cost? & Time to usable workspace, private metadata, modification and lifecycle costs & E03--E04\\
-3 & What does the packed lower save, and at what cost? & Lower-KV calls, object requests/bytes, latency, cache effects, construction amortization & E05--E07\\
-4 & What changes when $(B,q)$ and client policy change? & Persisted geometry, physical bytes, verification/EC CPU, durable writes and repair & E08--E10\\
+1 & Which workload properties favor shared immutable state? & Observed: per-task FUSE request mix, read/write sizes, and time variation. To measure: cross-task read-set overlap, mutation footprint, locality, and tool-phase-labelled access. & E01--E02\\
+2 & When do delta-based workspaces reduce workspace cost? & Time to usable workspace, private metadata, modification and lifecycle costs & E03--E04\\
+3 & What does packed metadata save, and at what cost? & Metadata-KV calls, object requests/bytes, latency, cache effects, construction amortization & E05--E07\\
+4 & What changes with $g$, $(B,q)$, and client read policy? & Object formation, persisted geometry, physical bytes, verification/EC CPU, durable writes and repair & E08--E10\\
 5 & Do the mechanisms provide additional combined value? & Legal factorial or nested comparisons under one runtime contract & E11\\
 6 & Do the effects matter for complete multi-agent tasks? & Deterministic replay, live-task makespan, resource use, output-quality controls & E12--E13\\
 7 & Which semantics and failure boundaries hold? & Differential operations, fault injection, integrity, reclamation and long-run resource bounds & E14--E16\\
 \bottomrule
 \end{tabularx}
-\caption{Research questions and planned evidence. E00 first checks that each
+\caption{Research questions and evidence status. RQ1 separates the observed
+request-structure pilot from further measurements; the remaining rows are
+planned. E00 first checks that each
 configuration is connected and produces the claimed effective treatment.}
 \label{tab:rqs}
 \end{table*}
@@ -40,11 +45,12 @@ of machine failure domains.
 
 We will record processor, memory, disks, network, OS/kernel, FUSE settings,
 toolchain, complete configuration, build features, immutable image digests,
-and source revisions. Durability, compression, cache budget, readahead,
+and source revisions. Client object-block granularity $g$, durability,
+compression, cache budget, readahead,
 direct I/O, metadata TTL, inline thresholds, and backend gates are part of
 the treatment definition. Larger coding geometries will be separate
-experiments because they can change whether q selection actually reduces
-a frame.
+experiments because they can change whether the selected $q$ is smaller than
+the logical shard size.
 
 External baselines include full copying, reflinks where supported, OverlayFS,
 BranchFS, and an object-backed file system such as JuiceFS~\cite{juicefs_architecture} sharing the same
@@ -70,6 +76,15 @@ model configuration. It will measure read-set overlap, directory locality,
 reuse distance, mutation footprint, and per-task operation distributions.
 Expected lookup and attribute probes are distinguished from I/O failures.
 An instrumentation-on/off control will quantify trace overhead and loss.
+The pilot motivates retaining Core and Exploratory task strata, both
+successful and negative metadata requests, mixed request sizes, and temporal
+bursts. Its aggregate method counts and size histograms are insufficient for
+semantics-preserving replay: the next capture must retain paths, payloads,
+handle dependencies, synchronization relations, and tool-phase boundaries.
+It must also connect FUSE request sizes to client object-block granularity
+$g$, final uploaded object lengths $L_o$, and actual client fetches before
+testing $(B,q)$ policies. These observations distinguish object formation
+from request selection and backend processing.
 
 The proposed expanded panel contains 20 compatible tasks each from
 SWE-bench Verified, a fixed public SWE-bench Pro version~\cite{swebench_pro_v2}, and a multilingual
@@ -121,7 +136,7 @@ same dependency image and local build cache; sequential/random mix &
 critical path, read bytes, CPU, task makespan\\
 E/F & install, rename/unlink storms, retry, diff/discard &
 same lifecycle and durability boundary; retain failed and timed-out runs &
-tombstones, retained objects, cleanup lag, success\\
+whiteouts, retained objects, cleanup lag, success\\
 \bottomrule
 \end{tabularx}
 \caption{Agent file-system load panel. The table defines the workload
@@ -137,9 +152,12 @@ Prepositioned and cold-staged baselines are separate cases. Churn experiments
 add deletion, rename, truncation, and repeated lifecycles, subject to the
 selected implementation's ownership and cleanup support.
 
-\researchq{3} Lower lookup experiments compare mutable per-file KV, immutable
-sorted-KV, and the packed layout using equivalent values and cache budgets.
-They include positive and negative lookup, direct getattr, enumeration,
+\researchq{3} Metadata lookup experiments compare mutable per-file KV,
+immutable sorted-KV, and the packed layout using equivalent values and
+cache budgets. Standalone read-only access tests the packed representation
+independently of delta-based workspaces; workspace experiments then compare
+the same representations as alternative lowers. Both include positive and
+negative lookup, direct getattr, enumeration,
 lookup-plus-read, deep paths, and wide directories. The snapshot reader's
 large-directory study is separated from the Entity bridge's 4,096-entry
 limit. We count upper/control/lower KV requests independently, as well as
@@ -150,20 +168,32 @@ defined; backend page-cache state is another variable. Unsupported
 payload-cache controls are not treated as available flags. Snapshot
 construction, publication, rebuilding, and reclamation enter each resource
 accounting metric. We report a break-even reuse count only if the measured
-net per-workspace benefit is positive.
+net benefit per reuse is positive, with the reuse unit fixed for each
+standalone or workspace experiment.
 
 \researchq{4} A backend-only study uses a fixed S3 request stream before adding
-the file-system path. Object sizes cross inline, 1 MiB, coding-block, and
-multipart boundaries. B settings include default, current automatic, and
-the four supported fixed values. q settings are legacy or the implemented
+the file-system path. Object sizes cross inline, 1 MiB, encoding-block, and
+multipart boundaries. $B$ settings include default, the current automatic hint
+policy, and the four supported fixed values. $q$ settings are legacy or the implemented
 selector, grouped by \emph{persisted} geometry. If automatic and default
-produce the same $(B,q)$, they are a no-treatment control, not evidence for an
-adaptive layout benefit.
+produce the same $(B,q)$, they are a no-treatment control, not evidence for a
+benefit from the automatic hint policy.
 
-Reads vary length, alignment, coding/frame-boundary crossing, and healthy
-versus degraded state. The primary measurements are physical data/parity
+The file-system study adds $g$ as a separate object-formation factor. A
+controlled sweep holds the logical write stream constant and records final
+object lengths $L_o$, object counts, and uploaded bytes, including compression,
+headers, and tails. It first holds backend geometry fixed, so changes caused
+by forming different objects are not attributed to $B$ or $q$. Subsequent
+comparisons cross these factors only where the selected upload path supports
+them; a fixed configuration does not establish an automatic selection policy.
+The ordinary client's range-read threshold scales with $g$. A causal sweep
+must hold the absolute threshold constant where supported, or expose its
+change as a coupled client-policy factor.
+
+Reads vary length, alignment, crossing of encoding-block and $q$-interval
+boundaries, and healthy versus degraded state. The primary measurements are physical data/parity
 read bytes, checksum work, EC CPU, HTTP payload, request counts, and latency.
-Client Range and full-object policies are then separated while keeping
+Client range-read and whole-object fetch policies are then separated while keeping
 cache admission and coalescing constant or exposing them as additional
 factors. Upper and lower results are separate because their integrity
 and upload paths differ.
@@ -177,13 +207,19 @@ it; a read benefit can coexist with increased checksum or write cost.
 
 \subsection{Composition and complete agent execution}
 
-\researchq{5} Mechanism comparisons must retain one runtime contract. Switching
+\researchq{5} The mechanisms address separate choices: workspace view
+composition, frozen metadata representation, and object formation and layout.
+Their comparisons must retain one runtime contract. Switching
 from a buffered ordinary volume to a direct-I/O Entity mount is not a pure
-delta ablation. We will implement or validate matched controls for complete
-metadata materialization versus shared lower state, lower layout, and
-backend geometry. Only configurations that can actually be constructed
-enter a factorial comparison. If a packed lower structurally requires the
-shared-workspace path, its effect is conditional and the design is nested.
+delta-based workspace ablation. We will implement or validate matched controls for complete
+metadata materialization versus shared lower state, metadata representation,
+$g$, and backend geometry, with client read policy held constant or varied
+explicitly. Packed metadata supports standalone read-only use and can also
+serve as an optional workspace lower; neither role makes delta-based
+workspaces a prerequisite for packing. Only configurations that can actually
+be constructed enter a factorial comparison. If a selected entry point wires
+a treatment only within a particular workspace path, its comparison is
+nested within that runtime because of the implementation connection.
 Where full crossing is possible, task-level log-latency interactions will
 test whether combined effects differ from independent component effects.
 

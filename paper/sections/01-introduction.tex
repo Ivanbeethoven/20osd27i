@@ -1,74 +1,67 @@
 \section{Introduction}
 \label{sec:intro}
 
-Coding agents interact with repositories by navigating directories, reading
-files, editing code, and invoking builds and tests. Systems such as SWE-agent
-and OpenHands make these interactions part of a repeated tool-use
-loop~\cite{sweagent2024,openhands2025}. Running several such tasks from the same
-repository version creates an opportunity to share their initial state.
-Each task nevertheless needs an independent view: an edit, deletion, or
-generated file in one workspace must not silently change another task's input.
-The opportunity is particularly relevant when workspaces are provisioned on
-different clients and their durable state resides in object storage.
+Coding agents navigate repositories, read and edit files, and invoke builds
+and tests through repeated tool-use loops~\cite{sweagent2024,openhands2025}.
+Several tasks may begin with the same repository and dependencies while
+requiring independent subsequent changes. Other tasks need only an ordinary
+writable volume, or read-only access to a published environment. A file system
+serving these uses must distinguish the semantics of a task's view from the
+representation of its metadata and the geometry of its stored data.
 
-Sharing file contents addresses only part of the cost. A workspace also needs
-a namespace, file attributes, and mappings from file offsets to stored data.
-Materializing these records for every task can repeat work even when most of
-the baseline is unchanged. Keeping a shared baseline in a conventional mutable
-metadata service can instead make its read path depend on per-file queries.
-Moving metadata to objects introduces another trade-off: fetching an index or
-a group of entries saves some lookups but may transfer unused metadata or
-file data. Finally, a short request at the file-system interface need not
-become a short physical read in an erasure-coded object store.
+These choices address different costs. Copying a baseline for every task
+duplicates provisioning work and private state. Sharing that baseline leaves
+open how clients obtain its directory entries, attributes, and data locations.
+Storing those records in objects introduces a request-versus-transfer tradeoff.
+The data path has a related but separate tradeoff: larger objects can amortize
+requests, while smaller independently readable units can avoid fetching
+unused bytes. A short application read may still cause a much larger object
+transfer or physical storage read.
 
-These issues do not make copy-on-write workspaces or object-resident metadata
-new abstractions. OverlayFS already provides layered namespace
-semantics~\cite{overlayfs}; BranchFS applies copy-on-write branches to agentic
-exploration~\cite{branchfs2026}. DeltaFS places private namespace changes and
-immutable logs over shared storage~\cite{deltafs2021}. Immutable distribution
-systems also provide indexed, demand-loaded baselines~\cite{cvmfs2011,nydus_rafs}.
-The research question for \sys is therefore narrower: \emph{which representation
-and access boundaries make shared agent workspaces inexpensive when their
-metadata and data must be fetched from remote objects?} Answering it requires
-comparisons with these approaches, rather than treating full directory copying
-as the only alternative.
+\sys is an object-backed file system that exposes three optional mechanisms
+at these boundaries. \emph{Delta-based multi-agent workspaces} compose a
+shared immutable baseline with private namespace and data-mapping state.
+\emph{Packed Metadata} organizes immutable records into indexed, bounded
+groups on object storage. \emph{Variable-Granularity Object Storage} controls
+client object formation and, on a compatible backend, permits optional
+encoding and verification layouts. Each mechanism has a useful role without
+the other two: a workspace can inherit a native metadata layer, a packed
+snapshot can be mounted read-only, and an ordinary volume can choose its
+object block size while using the backend's default layout.
 
-Our design separates three decisions that become possible at different
-times. When a workspace is created, it can pin a shared immutable lower and
-allocate only its private state. When a read-only subtree is published, its
-directory entries, common attributes, and data locators can be organized
-together for subsequent access. When an object is finalized for upload, its
-actual wire length is known and can inform the backend's layout. Keeping
-these boundaries explicit also identifies the state that still requires
-coordination: mutable upper records, snapshot publication, and reader
-ownership remain separate from immutable lower lookup.
+The mechanisms also compose. Many workspaces can reference one packed
+baseline, amortizing its construction and reusing fetched pages. Their private
+changes leave immutable baseline objects available to other readers. A packed
+container or a newly uploaded data object may additionally use a compatible
+backend layout. These interactions do not imply additive or multiplicative
+gains. Frequent publication can erase packing's amortization, unrelated point
+lookups can waste page bytes, and whole-object verification can prevent a
+small file read from becoming a small backend range. Selection should follow
+the workload and persistence contract.
 
-\sys implements components of this design in three parts. First,
-\emph{delta-based workspaces} resolve a pinned baseline and private current
-state into an independent view. The private state includes deletion markers
-and data mappings; it is not a byte-delta compression format. Second,
-\emph{packed metadata} represents selected read-only subtrees as immutable
-snapshots indexed by directory-name ranges. The reader can resolve supported
-lower namespace, attribute, and data-location queries from those objects.
-Third, \emph{variable-granularity object storage} uses a
-\sysname--RustFS interface to request an encoding block for a finalized object.
-RustFS validates the request and persists the effective encoding and
-verification geometry for subsequent reads and repair.
+The individual ideas have substantial precedents. OverlayFS provides layered
+namespace semantics~\cite{overlayfs}, BranchFS uses copy-on-write branches for
+agentic exploration~\cite{branchfs2026}, and DeltaFS separates private namespace
+changes over shared storage~\cite{deltafs2021}. Immutable distribution systems
+already support indexed, demand-loaded baselines~\cite{cvmfs2011,nydus_rafs}.
+Our research question is therefore: \emph{where should view composition,
+immutable metadata access, and object granularity be selected, and under
+which workloads do their individual or combined costs justify those choices?}
+Full directory copying is one control, not the only relevant baseline.
 
-The combination is a testable hypothesis, not an assumed multiplicative
-speedup. A sparse private upper can preserve reuse of packed lower pages;
-packing can in turn create objects whose partial access benefits from finer
-physical verification. Conversely, frequent subtree rebuilding can defeat
-amortization, an upper read may still fetch a complete object for integrity,
-and whole-object caching can hide or reverse a backend layout benefit.
-The evaluation must expose these cases.
+This paper develops the state and access rules behind these choices. It
+separates a workspace's durable private state from transient dirty buffers,
+and a baseline's logical identity from its metadata format. It also separates
+the client object block size $g$, finalized object length $L_o$, backend
+erasure-coding block size $B$, and physical verification/read quantum $q$.
+The current implementation supports concrete subsets through different mount
+paths; architectural optionality does not mean that every combination is
+available as interchangeable runtime flags.
 
-This working draft makes three contributions at the level of design and
-research preparation. It defines the state and lookup contracts that connect
-private workspaces to shared packed snapshots; it describes a per-object layout
-interface while separating file, object, encoding, and verification sizes; and
-it provides an evidence-driven evaluation protocol covering provisioning,
-metadata, physical I/O, and agent execution. Our source audit also identifies
-integration gaps that must be closed before claiming an evaluated end-to-end
-system. We do not report an acceleration factor or claim reduced write
-amplification without measurements.
+The evidence consists of an implementation audit and a reanalysis of
+1,138,884 FUSE requests from eight coding-agent task runs. These observations
+characterize request structure, rather than \sysname's performance. We specify
+controlled experiments for each mechanism, legal combinations, lifecycle
+costs, and complete tasks. The resulting contribution is a design and research
+protocol whose hypotheses can be tested without confusing a change of runtime,
+cache policy, or durability boundary with a mechanism's effect.

@@ -1,0 +1,412 @@
+{
+  "main": {
+    "pages": 17,
+    "page_sizes": [
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ]
+    ],
+    "out_of_page_text": [],
+    "replacement_characters": 0,
+    "sections": {
+      "Three optional": [
+        4
+      ],
+      "Shared baseline, private": [
+        5
+      ],
+      "Packed Metadata": [
+        1,
+        5,
+        7,
+        8,
+        9
+      ],
+      "An independent choice": [
+        8
+      ],
+      "Mount entry": [
+        10
+      ],
+      "Conclusion": [
+        15
+      ]
+    },
+    "fonts": [
+      {
+        "name": "DWNTRA+NimbusRomNo9L-Medi",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "VGPCXC+NimbusRomNo9L-ReguItal",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "UACRXE+NimbusRomNo9L-Regu",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "HKRIDO+NimbusMonL-Regu",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "ULGDNB+CMR10",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "NAHCEU+CMMI10",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "EMVRFT+ArialMT",
+        "type": "Type0",
+        "format": "ttf",
+        "embedded": true
+      },
+      {
+        "name": "BPTTPD+ArialMT",
+        "type": "Type0",
+        "format": "ttf",
+        "embedded": true
+      },
+      {
+        "name": "OJFNKL+StandardSymL",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "JLSYEZ+CMEX10",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "SNZKIN+CMSY10",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "AAAAAA+ArialMT",
+        "type": "TrueType",
+        "format": "ttf",
+        "embedded": true
+      }
+    ],
+    "metadata": {
+      "format": "PDF 1.7",
+      "title": "BrewFS: Delta-Based Multi-Agent Workspaces with Packed Metadata and Variable-Granularity Object Storage",
+      "author": "",
+      "subject": "",
+      "keywords": "",
+      "creator": "LaTeX with hyperref",
+      "producer": "xdvipdfmx (20260317)",
+      "creationDate": "D:20261023201620+08'00'",
+      "modDate": "",
+      "trapped": "",
+      "encryption": null
+    },
+    "overfull": 0,
+    "missing_glyphs": 0,
+    "undefined_citations_or_references": 0,
+    "underfull": 53,
+    "body_last_page": 15,
+    "pdf_sha256": "e955a61625e524d95a6b067e492b62293ef72146f3fb9a1134285a0504ba0680"
+  },
+  "anonymous-preview": {
+    "pages": 17,
+    "page_sizes": [
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ]
+    ],
+    "out_of_page_text": [],
+    "replacement_characters": 0,
+    "sections": {
+      "Three optional": [
+        4
+      ],
+      "Shared baseline, private": [
+        5
+      ],
+      "Packed Metadata": [
+        1,
+        5,
+        7,
+        8,
+        9
+      ],
+      "An independent choice": [
+        8
+      ],
+      "Mount entry": [
+        10
+      ],
+      "Conclusion": [
+        15
+      ]
+    },
+    "identity_residuals": {
+      "BrewFS": 0,
+      "brewfs": 0,
+      "242af5f": 0,
+      "cc4926": 0,
+      "Ivanbeethoven": 0
+    },
+    "fonts": [
+      {
+        "name": "PQKDGY+NimbusRomNo9L-Medi",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "HSLGEA+NimbusRomNo9L-ReguItal",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "PCEZTS+NimbusRomNo9L-Regu",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "UZJLYX+NimbusMonL-Regu",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "QNUKFQ+CMR10",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "ANDZWL+CMMI10",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "EMVRFT+ArialMT",
+        "type": "Type0",
+        "format": "ttf",
+        "embedded": true
+      },
+      {
+        "name": "BPTTPD+ArialMT",
+        "type": "Type0",
+        "format": "ttf",
+        "embedded": true
+      },
+      {
+        "name": "ORGXKA+StandardSymL",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "BNGTLT+CMEX10",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "AVWUFZ+CMSY10",
+        "type": "Type1",
+        "format": "cff",
+        "embedded": true
+      },
+      {
+        "name": "AAAAAA+ArialMT",
+        "type": "TrueType",
+        "format": "ttf",
+        "embedded": true
+      }
+    ],
+    "metadata": {
+      "format": "PDF 1.7",
+      "title": "System X: Internal Research Draft",
+      "author": "",
+      "subject": "",
+      "keywords": "",
+      "creator": "LaTeX with hyperref",
+      "producer": "xdvipdfmx (20260317)",
+      "creationDate": "D:20261023201620+08'00'",
+      "modDate": "",
+      "trapped": "",
+      "encryption": null
+    },
+    "overfull": 0,
+    "missing_glyphs": 0,
+    "undefined_citations_or_references": 0,
+    "underfull": 57,
+    "body_last_page": 15,
+    "pdf_sha256": "b302cbe705a76e8b114caf65a8ab534888dc5d8cef1ec822ac85809cdf90d48b"
+  },
+  "preserved": {
+    "paper/sections/02-agent-observations.tex": true,
+    "paper/references.bib": true,
+    "paper/usenix2019_v3.sty": true,
+    "paper/template/usenix2019_v3.sty": true
+  },
+  "evaluation_numeric_tokens_unchanged": true,
+  "changed_chapters": [
+    "01-introduction.tex",
+    "02-motivation.tex",
+    "03-overview.tex",
+    "04-delta.tex",
+    "05-packed.tex",
+    "06-layout.tex",
+    "07-implementation.tex",
+    "08-evaluation.tex",
+    "09-related.tex",
+    "10-conclusion.tex"
+  ]
+}

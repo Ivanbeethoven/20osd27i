@@ -1,0 +1,36 @@
+{
+  "main": {
+    "pages": 16,
+    "figure_page": 6,
+    "build_warnings": [],
+    "unembedded_fonts": [],
+    "sha256": "2b6277cd4f78d1efcf44de8e9f3e30ebbfaf007c088313467da238b78edb99a9"
+  },
+  "anonymous-preview": {
+    "pages": 16,
+    "figure_page": 6,
+    "build_warnings": [],
+    "unembedded_fonts": [],
+    "sha256": "0cf234b34226adadbe65d2b8c22aa2d7d4004e87dfc9aa686316097fd1102e18"
+  },
+  "figure": {
+    "embedded_fonts": [
+      {
+        "name": "AAAAAA+Arial-BoldMT",
+        "embedded": true
+      },
+      {
+        "name": "AAAAAA+ArialMT",
+        "embedded": true
+      }
+    ],
+    "raster_images": 0,
+    "text_glyphs": 820,
+    "size_pt": [
+      0.0,
+      0.0,
+      504.0,
+      422.0
+    ]
+  }
+}

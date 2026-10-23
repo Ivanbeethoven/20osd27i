@@ -1,43 +1,39 @@
 # Final quality report
 
-Date: 2026-10-23. Scope: research planning, writing, bibliographic verification and artifact quality. No new BrewFS performance, mount, correctness or fault experiments were run.
+Date: 2026-10-23. Scope: principles rewrite from the author's PPT and a fixed current BrewFS source audit. The three optional mechanisms are view composition, immutable metadata representation/access, and client object formation with optional backend layout. No BrewFS mount, fault-injection, or performance experiments were executed in this revision.
 
-## PDF and LaTeX
+## Manuscript and evidence
+
+- Rewrote the abstract and principles in all ten numbered chapters. The experimental protocol, related work, and conclusion now use the same optional-composition model.
+- Preserved `paper/sections/02-agent-observations.tex` byte for byte, including the eight tasks and 1,138,884 FUSE requests. The bibliography and both official style files are unchanged. Every numeric token in the evaluation chapter remains unchanged from the immediately preceding draft.
+- BrewFS source is fixed at `242af5f7e9bba7afc0c61778f1084fcb20e083a0`; the backend evidence remains the separate RustFS research fork `cc4926fac1107aee76540f28bf22dbd47fcbca24`. Earlier evidence inventories remain historical, rather than being relabelled as current.
+- The PPT was read in presentation order, with explicit slide-to-notes relationships, and its rendered slides were inspected. Current Packed v3 is distinguished from the PPT's earlier tree-and-batch format. Client granularity g is distinguished from backend B/q and from finalized object length.
+- Three delegated audits and chapter rewrites were integrated, followed by independent cross-review of mechanism dependencies and object/recovery boundaries. Detailed source evidence is in `evidence/principles-code/`; the Chinese synthesis is `planning/03-mechanism-relationships.zh.md`.
+
+## Artifact verification
 
 | Check | Named draft | Neutral-name preview |
 |---|---:|---:|
 | Successful XeLaTeX/latexmk build | Yes | Yes |
-| Total PDF pages | 13 | 13 |
-| Last body page | 11 | 11 |
-| Paper size on every page | US Letter, 612 × 792 pt | US Letter, 612 × 792 pt |
-| Unresolved citations or references in final log | 0 | 0 |
-| Overfull boxes in final log | 0 | 0 |
-| Missing glyph reports | 0 | 0 |
-| All fonts embedded | Yes | Yes |
+| Total pages | 17 | 17 |
+| Last body page | 15 | 15 |
+| Page size | US Letter | US Letter |
+| Undefined citations/references | 0 | 0 |
+| Overfull boxes / missing glyphs | 0 / 0 | 0 / 0 |
+| Embedded fonts | All | All |
 | Type 3 fonts | 0 | 0 |
-| Explicit PDF author metadata | Empty | Empty |
-| BrewFS occurrences in extracted preview text | Not an anonymity target | 0 |
+| Text outside page bounds | 0 | 0 |
+| Explicit author metadata | Empty | Empty |
+| BrewFS/source-revision identity matches in preview text | N/A | 0 |
 
-Both PDFs were rendered in full. Every page was inspected in contact sheets, with additional full-page inspection of the title, architecture figure, geometry table/equations, RQ table and references. The final RQ table's column widths were corrected to remove header overflow. Figures use vector text/lines, remain legible in grayscale, and distinguish current logical paths from planned integration with solid/dashed arrows.
+Both final PDFs were rendered completely with Poppler and visually inspected in contact sheets. Full-page checks covered the mechanism-selection table, architecture composition, granularity example, and mount-entry table. The mount table was adjusted to avoid stretched labels and rechecked after rebuilding. No clipped text, overlapping figures, or broken formulas were found. Underfull justification diagnostics remain (53 named, 57 preview); they were visually reviewed and do not represent overflow.
 
-Build tools: XeTeX 3.141592653-2.6-0.999998 (TeX Live 2026), latexmk 4.83. The official style is unmodified: SHA-256 `4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45ff6`. XeLaTeX uses the repository's `paper/usenix2019_v3_xetex.sty` compatibility copy; the official style remains unchanged. No margin, column, line-spacing or font-size reduction was used to evade the venue limit. Underfull justification diagnostics and XeTeX's ignored-`inputenc` notice do not indicate clipped content; final visual inspection found none.
+The architecture artwork is unchanged. Its caption now explicitly scopes it to an illustrative combination, with alternatives and the preceding client g boundary explained in the text. The original packed-access figure remains one representative lookup, not a fixed request-count claim.
 
-The PDF anonymity checks only confirm the documented name switch and removal of obvious fixed-source identifiers. They do not certify a fully anonymous submission. The draft is an internal author working document, and no result claims were invented to fill the evaluation section.
+`validation/principles-rewrite/pdf-inspection.json` records PDF hashes, fonts, metadata, and preservation checks. The final package validator passed: 29 bibliography entries, 27 cited entries, all seven RQs, exactly 17 experiments E00–E16, and all experiment statuses still planned. `git diff --check` passed. Source edits did not change the official USENIX style, margins, or type sizes.
 
-## Evidence and planning consistency
+## Remaining scope
 
-- 29 unique BibTeX entries and 29 source-registry records; 27 entries cited in the current paper. The uncited items remain in the research library, not in the rendered reference list.
-- Source types: 23 research papers including one workshop paper, plus 6 official documents/dataset/announcement entries. The bibliography does not recast documents as conference papers.
-- Seven RQs and exactly E00–E16 (17 experiments), all marked `planned`; every experiment includes an intervention, primary metrics, implementation gate and an outcome that could weaken the claim.
-- 13 pending implementation/qualification gates and 39 implementation-evidence rows.
-- The example run manifest retains `status: planned`, unknown observed environment and null measurements. The metric CSV contains column headers and no fabricated observations.
-- The official template's original style and the working style have identical expected hashes.
-- Mandatory manuscript-review findings were resolved: parameter-pair notation `(B,q)`, a scoped logical-metadata accounting identity, and source citations for named Pro/JuiceFS resources. The earlier review reports are accompanied by `review-resolution.md`.
+Architectural optionality does not establish every factor combination as a runnable mode. Section 7 records concrete entry points, fixed g configuration, independent backend gates, missing hint connections, and supported recovery scopes. No online access-adaptive client block controller or end-to-end worker migration is claimed. Both PDFs remain internal working drafts; the body has 15 pages and has not been reduced to the recorded submission budget. The neutral-name PDF is a preview, not certification of full submission anonymity.
 
-`package-validation.json` captures the final validator result while the successful build logs were present. Clean delivery omits transient LaTeX build files; running `make -C paper` recreates logs for the same checks. `pdf-inspection.json` preserves page, font and metadata observations. The package-level manifest covers the actual delivered files.
-
-## Material limits that remain visible
-
-Code presence is not runtime qualification. Three hint-wiring gates, actual persisted geometry, Entity upper upload size, full-object integrity, cache/fetch controls, supported lifecycle operations and semantic equivalence remain prerequisites to their respective experiments. The requested distributed environment is proposed, not installed. A pilot is required before freezing formal sample sizes and budgets.
-
-MesaFS metadata is verified but its full text was not available in this run; HMFS is listed for further near-neighbor reading. The skill is validated and portable, but protected-directory auto-review rejected its online installation. The manuscript requires author-led substantive rewriting, real results, and a final OSDI policy/anonymity check before any submission.
+The prior quality report is retained in `validation/principles-rewrite/quality-before.md`; earlier figure and workload reviews remain in their original validation directories.

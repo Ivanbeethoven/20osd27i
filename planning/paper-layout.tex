@@ -1,0 +1,95 @@
+\documentclass[UTF8,fontset=fandol,11pt]{ctexart}
+\usepackage[letterpaper,margin=22mm]{geometry}
+\usepackage{booktabs,tabularx,array,xcolor}
+\usepackage[hidelinks]{hyperref}
+\definecolor{accent}{HTML}{174B66}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\newcommand{\head}[2]{\textcolor{accent}{\Large\bfseries #1}\par\textcolor{accent}{#2}\par\medskip}
+\newcommand{\slot}[2]{\fbox{\parbox[t][23mm][c]{0.94\linewidth}{\textbf{#1}\par #2}}\par\smallskip}
+\begin{document}
+\head{BrewFS：论文规划布局}{01 / 论证与篇幅 · 2026-10-23 · 作者讨论版}
+\textbf{Working argument.} BrewFS investigates whether a shared immutable lower and private workspace deltas can reduce provisioning and lower-namespace access costs for coding agents; object-layout benefits remain conditional on effective persisted geometry and the actual read path.
+
+\textbf{中心问题：}许多 agent 共享仓库与依赖，但独立修改。哪些状态可共享、哪些需要私有更新，以及共享状态如何被低成本读取，应形成同一条论证链。当前只有设计、源码和历史 smoke 证据，所有性能主张待测。
+
+\textbf{标题候选：}BrewFS: Shared Immutable Baselines for Remote Agent Workspaces。仅作为短标题候选；若 $(B,q)$ 在同一路径中产生独立收益，再决定是否保留原标题中的布局贡献。
+
+\begin{tabularx}{\linewidth}{@{}p{0.8cm}p{4.2cm}p{1cm}Y@{}}
+\toprule 章节 & 建议标题 & 页数 & 读者在此得到的答案\\\midrule
+1 & Introduction & 1.0 & 工作区复用为何仍昂贵；精确缺口和贡献。\\
+2 & Workload and Design Goals & 1.0 & 共享比例、稀疏修改和阶段负载是否支持设计。\\
+3 & System Contract and Overview & 1.0 & 视图、持久化完成点、故障边界与共享路径。\\
+4 & Workspace and Lower Design & 2.0 & Delta 与 Packed 如何协同；关键不变量与读取路径。\\
+5 & Object Layout Interface & 0.75 & 有效 $(B,q)$、完整性和局部访问的条件性关系。\\
+6 & Implementation & 0.5 & 实际运行路径、资格门槛和可复现版本。\\
+7 & Evaluation & 4.0 & 任务收益、因果机制、成本、正确性与失败边界。\\
+8 & Related Work and Discussion & 0.75 & 与近邻的具体差别及可迁移的系统认识。\\
+9 & Conclusion & 0.25 & 用已经获得的证据回答中心问题。\\\midrule
+ & 正文合计 / 浮动余量 & 11.25 & 另留 0.75 页给图表浮动与最终修订。\\\bottomrule
+\end{tabularx}
+
+\textbf{布局规则：}以上预算含摘要和图表，参考文献另计；沿用仓库已有 OSDI 12 页规划，投稿前重核当届要求。保留 USENIX 双栏与字号，不以缩字填满篇幅。Nature 技能用于论证组织，未将论文改成 Nature 格式。
+
+\textbf{阅读顺序：}需求成立 → 契约可信 → 机制可解释 → 任务有效 → 条件和代价可见。\textbf{写作顺序：}先固定实验图位与证据要求，再修改设计，最后依据真实结果重写引言和摘要。
+
+\newpage
+\head{从主张到证据}{02 / 最短证据链与对照策略}
+\small
+\begin{tabularx}{\linewidth}{@{}p{2.5cm}Yp{3.6cm}@{}}
+\toprule 主张与状态 & 决定性证据与反例 & 对应实验 / 去向\\\midrule
+H1：共享且稀疏；待测 & 跨任务读取重叠、修改字节占比、阶段分布。低重叠或高修改将削弱问题前提。 & E01--E02；主文图 1。\\
+H2：视图成本降低；待测 & 首次工具可用时间、私有元数据/字节、变更比例敏感性。计入 lower 构建与预置成本。 & E03--E04、E07；图 4，成本表。\\
+H3：lower 查询成本降低；待测 & 相同记录和内存预算下，分开统计 lower、upper、control KV；测对象 GET、字节和 P99。 & E05--E06；图 5。\\
+H4：物理读取成本降低；待测 & 内容相同的新对象有不同有效 $(B,q)$；匹配 EC 冗余、完整性和缓存。整对象读取或同布局是反例。 & E08--E10；图 6。\\
+H5：真实任务获益；待测 & 同模型、预算、任务、依赖和持久化语义下，所有分配任务的完成率、吞吐和 makespan。 & E11--E13；评估首图 3。\\
+H6：隔离与完整性；待验证 & 操作 oracle、故障点、旧 writer fencing、跨视图可见性和资源上界。 & E14--E16；主文正确性表。\\\bottomrule
+\end{tabularx}
+\normalsize
+
+\textbf{主文的对比逻辑}
+\begin{itemize}
+\item OverlayFS / BranchFS：承认已有分层与分支思想，具体比较远端基线、相同支持操作和完成语义；本地最佳情形单列。
+\item DeltaFS：比较私有命名空间与不可变元数据组织；机制替身必须标明 immutable sorted-KV，不能称为 DeltaFS 复现。
+\item CernVM-FS / Nydus：用成熟 lazy lower 加 writable upper 检验按需复用的强基线；计入构建、缓存和远端获取。
+\item JuiceFS：用同对象后端及匹配缓存/持久化契约比较共享可变卷；lower 查询独立性须靠分层计数证明。
+\end{itemize}
+
+\textbf{正文保留：}端到端结果、决定性消融、构建摊销、整体对象读取反例、支持语义和错误。\textbf{工件保存：}逐行源码证据、完整参数网格、runner 日志、环境 SHA、额外敏感性。任何改变结论的负结果均回到正文；不假定补充材料可替代 OSDI 主文证据。
+
+\textbf{术语锁定：}Delta 是私有当前状态与映射，不承诺字节差分；Packed 是不可变 lower 的分页结构；$B$ 是编码块，$q$ 是受几何约束的校验/读取量子；ready、accepted write、remote durable completion 分别计时。
+
+\newpage
+\head{图表先行的页面骨架}{03 / 图位、坐标与阅读用途；没有模拟结果}
+\small
+\slot{图 1 · 第 2 页 · agent 工作负载画像}{双栏：读取重叠分布、修改比例分布、A--F 阶段操作构成。按任务/仓库分层；来自 E01--E02，当前无数据。}
+\slot{图 2 · 第 3--4 页 · 系统与请求路径}{复用 architecture 和 packed-path 图，统一 lower / upper / control 标记；展示 lookup 到对象读取以及提交边界。实线为已审计路径，待接线部分明确标注。}
+\slot{图 3 · 评估首页 · 端到端收益}{按系统比较所有分配任务的完成率、吞吐和 makespan；配对任务差异与区间。单列回放与 live agent，失败/超时进入分母；E12--E13。}
+\slot{图 4--5 · 评估中段 · 分解因果}{工作区数 K 对 ready 时间和私有字节；冷/暖状态下的 lower-KV、GET、传输字节和 P99。等缓存、等数据、同路径消融；E03--E07、E11。}
+\slot{图 6 · 评估后段 · 条件与代价}{固定冗余下请求长度/对齐对 shard 读取量、CPU、写入与修复成本；分开 Range 与整对象读取。标记实际有效 $(B,q)$；E08--E10。}
+
+\textbf{三张紧凑表：}T1 契约与基线适用性（设计/设置）；T2 构建、发布与摊销成本（评估）；T3 语义、故障和长期边界（评估）。现有 17 项实验清单留在规划工件，最终主文按问题组织。
+
+\textbf{图注模板：}“比较什么；横纵轴与单位；缓存及持久化边界；样本/重复单位与区间算法；适用范围”。数值与置信区间只能来自冻结分析脚本，主文不重复整套数字。没有数据前只保留此图位说明，不画趋势线。
+
+\newpage
+\head{落地顺序与停止条件}{04 / 本轮交付及下一阶段}
+\textbf{阶段 1：资格与观测。}固定二进制、后端和任务 revision；E00 证明 mountinfo、canary、子进程/依赖路径与对象请求对应。当前 HEAD 删除了 Entity diagnostics，G06 分层计数需补入或外部采集，旧 SIGUSR1 runner 不能直接复用。
+
+\textbf{阶段 2：工作负载与 pilot。}以现有 A--F 协议采集创建/发现、导航、编辑、构建/测试、安装/清理、diff/销毁。筛查 4096 项目录、owner 上限、1 MiB FUSE 写入及 fresh-only 生命周期。对 trace 开关测扰动；成功与失败任务均保留。
+
+\textbf{阶段 3：主要比较。}先跑冻结回放，再做 live agent。现有最低计划为 20 个分层任务、3 个系统条件、3 次重复，共 180 runs；这是 pilot 后待冻结的预算，不是已经执行的样本。按任务配对、报告仓库分层结果；不把重复 run 当成独立任务。
+
+\textbf{阶段 4：因果与边界。}合法同路径消融区分 Delta、Packed 与布局；分别控制缓存、合并和持久化。先确认实际布局变化，再测物理 I/O。若 $(B,q)$ 没有独立效果，将它收缩为后端接口与负结果，释放约 0.5 页给端到端证据。
+
+\textbf{阶段 5：按证据改稿。}合并原第 4--5 节形成 workspace/lower 设计主线；压缩第 7 节的版本说明；将第 8 节从实验清单重构为任务结果、机制、成本、正确性。原文当前仍作为内部研究稿；此方案未声称已得到结果。
+
+\textbf{每节段落契约：}开头提出一个问题；中段给机制或证据；结尾限定结论并接到下一问题。引言只引入主张，评估证明，讨论解释适用范围。对相同主张的第四次复述优先删除。
+
+\textbf{尚缺输入：}Linux 实验资源、可运行基线及支持矩阵、冻结任务清单、完整观测路径、真实结果。任何一个缺失都不阻塞规划，但会阻塞对应结果主张。
+
+\textbf{本轮改动范围：}新增布局方案与可编译规划 PDF；论文正文结构先保持可比较。没有增删参考文献，没有填入性能数值。结构调整前后主文词数无变化，后续按替换而非追加执行。
+
+\textbf{依据：}仓库 research outline、experiment matrix、current-head audit、literature matrix；写作组织采用已安装的 nature-writing 与 nature-shared。未重新核验全部文献全文或会议政策。
+\end{document}

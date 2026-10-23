@@ -33,30 +33,33 @@
 \begin{document}
 \title{\sysname: Delta-Based Multi-Agent Workspaces with Packed Metadata\\
 and Variable-Granularity Object Storage}
-\author{Internal research draft\\22 October 2026}
+\author{Internal research draft\\23 October 2026}
 \date{}
 \maketitle
 \begin{abstract}
-Parallel coding agents can start from a common repository and dependency
-environment while requiring independent file-system views. Reusing that
-baseline raises three connected questions: how to represent private changes,
-how to access shared metadata without repeated per-file database lookups, and
-how to map partial object access to physical storage I/O. We present the design
-of \sysname, which combines delta-based workspaces, packed immutable metadata,
-and an interface for per-object storage layouts. A private writable upper
-records namespace and data-mapping changes over a pinned snapshot. The shared
-lower places directory entries, common attributes, and data locators in paged,
-directory-oriented structures on object storage. Once an upload's final length
-is known, a layout hint allows the backend to select and persist an encoding
-block and a compatible verification/read quantum. We describe inspected
-prototype components and identify the remaining integration gates. We also
-specify an evaluation that separates layout effects from caching and request
-coalescing, accounts for construction and recovery costs, and tests complete
-agent tasks. The present draft reports no new performance results.
+Coding agents need ordinary writable volumes, isolated views of shared
+environments, and read-only access to published state. We present the design
+of \sysname, an object-backed file system with three optional, composable
+mechanisms. Delta-based workspaces resolve a shared immutable baseline and
+private changes into a task's file-system view. Packed Metadata organizes
+immutable directory entries, attributes, and data locators into indexed pages
+on object storage; it can serve a workspace lower or a standalone read-only
+mount. Variable-Granularity Object Storage separates client object formation
+from optional backend encoding and verification layouts. A workspace can use
+native metadata, a packed snapshot can operate without private changes, and
+an ordinary volume can choose object granularity independently of both.
+We explain their state, access, and publication rules, then distinguish
+architectural composition from combinations supported by current mount paths.
+A reanalysis of 1,138,884 FUSE requests from eight coding-agent task runs
+characterizes metadata traffic, read/write sizes, and temporal heterogeneity.
+The evaluation plan tests each mechanism and their legal combinations while
+controlling caching, request coalescing, durability, and construction costs.
+The workload observations do not establish system speedups.
 \end{abstract}
 
-\noindent\textbf{Status.} This is an author working document: design and
-source audit are distinguished from planned experiments. Integration,
+\noindent\textbf{Status.} This is an author working document: design, source
+audit, and measured passthrough workload observations are distinguished from
+planned system experiments. Integration,
 correctness, and performance claims require the evidence described below.
 
 \input{sections/01-introduction}

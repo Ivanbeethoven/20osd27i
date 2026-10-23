@@ -4,15 +4,20 @@
 
 **BrewFS: Delta-Based Multi-Agent Workspaces with Packed Metadata and Variable-Granularity Object Storage**
 
-本包提供英文内部初稿、中文研究大纲、完整实验协议、文献核验记录、实现证据及可移植写作 skill。**实验全部处于规划阶段；没有本轮新测得的性能、正确性或故障恢复结果。** 提议的机器、样本规模和参数也不是已部署环境。
+本包提供英文内部初稿、中文研究大纲、完整实验协议、文献核验记录、实现证据及可移植写作 skill。现已纳入 **8 个真实 Agent 任务、1,138,884 条 FUSE 请求的原始数据重分析**，位于论文 §2.2；Core 与 Exploratory 分开呈现。**E00–E16 系统实验仍处于规划阶段；没有据此宣称 BrewFS/RustFS 的性能、正确性或故障恢复收益。** 提议的机器、样本规模和参数也不是已部署环境。
+
+本轮观测的统计口径、证据对应关系及复现命令见 [工作负载分析说明](experiments/agent-fuse-observations/README.md)。三张论文图由 `analyze.py` 流式统计和 `plot.py` 生成；保留实际模型名 `deepseek-v4-flash`，并区分 FUSE 错误、进程退出码与基准任务评分。
+
+论文与中文研究文档统一沿用[已确认术语表](planning/terminology.zh.md)：三项机制为基于增量状态的多智能体工作区、打包式元数据和可变粒度对象存储。**三者均为可选、可组合能力，不是必须依次开启的流程。** 普通卷提供公共文件与对象路径；增量工作区选择视图构成，打包式元数据选择不可变记录的组织与获取方式，对象粒度选择数据对象的形成及可选后端布局。
 
 ## 建议阅读顺序
 
-1. `paper/main.pdf`：可直接阅读的英文初稿。正文依次为问题与动机、系统契约、Delta、Packed、对象布局、实现状态、评估计划和相关工作。
+1. `paper/main.pdf`：可直接阅读的英文初稿。正文依次为问题与动机、系统契约、增量工作区、打包式元数据、对象布局、实现状态、评估计划和相关工作。
 2. `planning/01-research-outline.zh.md`：研究论点、贡献边界、章节及图表规划、评审风险与推进顺序。
 3. `planning/02-experiment-plan.zh.md`：7 个 RQ、E00–E16 共 17 项实验、环境、基线、因果对照、指标、统计和失败处理。
-4. `evidence/implementation_inventory.csv`、`evidence/source_evidence.md` 和 `evidence/current-head-audit.md`：固定提交与当前上游 HEAD 的实现事实和边界；区分设计、代码存在、运行时接通与实测。
-5. `references/literature_matrix.md`：逐项核验真实相关工作及与本研究的重叠，不把概念相似误写成首创。
+4. [三项机制关系框架](planning/03-mechanism-relationships.zh.md)：依据作者 PPT 与当前代码说明各机制启用、省略和组合时的行为。
+5. 当前原理审计：[工作区](evidence/principles-code/workspaces.md)、[打包式元数据](evidence/principles-code/packed.md)、[对象粒度](evidence/principles-code/objects.md)，对应 BrewFS `242af5f`；[PPT 正文与讲稿](evidence/ppt-principles/slides.json)保留设计意图来源。`evidence/implementation_inventory.csv`、`evidence/source_evidence.md` 和 `evidence/current-head-audit.md` 保留历史检查点的证据，不替代当前审计。
+6. `references/literature_matrix.md`：逐项核验真实相关工作及与本研究的重叠，不把概念相似误写成首创。
 
 ## 文件地图
 
@@ -20,10 +25,10 @@
 |---|---|
 | `paper/` | LaTeX 源码、两份 PDF、BibTeX、Makefile、TikZ 架构图与访问路径图。 |
 | `paper/template/` | 原样保留的官方 USENIX 示例及样式；论文自身使用独立标题和真实参考文献。 |
-| `planning/` | 中文大纲、实验协议、OSDI 风格研究、英文学术写作 skill 调查和模板来源。 |
+| `planning/` | 中文大纲、实验协议、三项可选机制关系框架、统一术语表、OSDI 风格研究和模板来源。 |
 | `experiments/` | 17 项实验矩阵、agent 负载协议、13 项待完成实现门槛、未执行 manifest 示例、未来观测记录 schema、只有表头的度量模板。 |
 | `references/` | 29 条书目的来源登记与比较矩阵。23 篇研究论文（含工作坊），6 项官方资料。 |
-| `evidence/` | 固定版本代码审计、实现清单、远端来源记录、skill 热度和验证/安装状态记录。 |
+| `evidence/` | 当前 `principles-code/` 三项原理审计与 `ppt-principles/` 正文/讲稿，历史代码审计、实现清单、远端来源和验证记录。 |
 | `skills/osdi-systems-paper/` | 独立撰写的可移植 OSDI 系统论文写作 skill；带英文改写、证据及实验、BrewFS 专用约束和来源说明。 |
 | `validation/` | 分工审阅记录、处理结果、最终格式与文件验证记录。早期审阅意见反映审阅当时状态，以 `review-resolution.md` 为准。 |
 | `tools/validate_plan.py` | 只核验本准备包的一致性，不运行 BrewFS 或产生实验数据。 |
@@ -33,21 +38,21 @@
 
 ## 当前最重要的研究判断
 
-三项机制应围绕一个问题组织：共享不可变工作区基线、私有变化与局部对象访问如何共同降低维护和服务成本。需要证明这一组合在同一实际路径中成立，同时解释条件与代价。
+三项机制分别解决工作区视图维护、不可变元数据访问、对象请求与字节搬运成本。增量工作区可使用原生下层，Packed 可独立只读使用，普通 flat 卷可独立配置对象路径。组合研究需要核验所选入口、接口和代价；架构上可选不意味着当前所有入口都已支持全部组合，也不预设组合收益相乘。
 
 - OverlayFS、DeltaFS、BranchFS 和不可变按需加载系统已经覆盖大量相邻思想。“agent + COW”或“元数据放在对象存储”不足以构成新颖性。
-- Packed 的数据库绕行主张限定于共享只读 lower 的查询路径；私有 upper 和控制状态仍可访问元数据库。应与等记录内容、等缓存预算的 immutable sorted-KV，以及至少一种成熟 lazy lower 比较。
-- 对象布局参数写作 `(B,q)`：`B` 是持久化的纠删编码块，`q` 是受编码几何约束的校验/读取量子。二者不能混同于应用请求、文件长度、压缩帧或 S3 Range。固定 data/parity 数时，名义冗余比不因改变 B 自动降低。
-- 自动布局策略目前不等于自适应优化器。应先证明处理组对象实际具有不同的持久化布局，再讨论物理 I/O 和端到端收益。
+- 打包式元数据的下层查询独立性主张限定于共享只读下层的查询路径；私有上层和控制状态仍可访问元数据库。应与等记录内容、等缓存预算的 immutable sorted-KV，以及至少一种成熟 lazy lower 比较。
+- 对象粒度分层写作 `g → L_o → 请求范围 → (B,q)`：`g` 是客户端 Block 大小，控制普通路径的对象形成；`L_o` 是含适用压缩和成帧的最终上传对象长度；`B` 是持久化的纠删码编码块大小，`q` 是受编码几何约束的物理校验／读取粒度。它们不等同于文件长度、应用请求、Packed 数据帧或 S3 Range。固定 data/parity 数时，名义冗余比不因改变 B 自动降低。
+- 普通路径当前默认 `g=4 MiB`、Chunk 为 64 MiB，并提供固定配置；PPT 的 1/4/8/16 MiB 是客户端粒度研究档位，不是已实现的在线动态选档。自动提示策略只按 `L_o` 请求 B，可能与后端默认 B 相同。先证明实际对象形成、请求流及持久化布局的差异，再讨论收益。
 
 ## 正式实验前的优先门槛
 
-当前克隆的上游 HEAD 是 BrewFS `f80e7148c82e9f1ef235ab19318b89cb41a093a2`；为了保持行级证据稳定，现有 source inventory 仍固定 research checkpoint `518e7cc39b2ff0b421ecf0f656de6d468cacb9b8`，RustFS research fork 为 `cc4926fac1107aee76540f28bf22dbd47fcbca24`。二者的差异记录在 `evidence/current-head-audit.md`，正式实验必须重新生成 manifest。
+当前原理审计固定 BrewFS `242af5f7e9bba7afc0c61778f1084fcb20e083a0`，源码只读快照为相邻目录 `../brewfs-principles-242af5f`。旧 `source_evidence.md` / `implementation_inventory.csv` 固定研究检查点 `518e7cc39b2ff0b421ecf0f656de6d468cacb9b8`；`current-head-audit.md` 记录先前上游 `f80e7148c82e9f1ef235ab19318b89cb41a093a2` 的审计，文件名不表示它仍是当前 HEAD。RustFS 后端扩展依据独立研究 fork `cc4926fac1107aee76540f28bf22dbd47fcbca24`，不推定当前上游或任意 S3 服务支持同一扩展。正式实验必须重新生成 manifest。
 
-1. 核验所选挂载入口，分别接通 Entity S3 配置、Packed producer 和 strict durable create-only PUT 的 hint；保留 conditional-create/412 语义。
-2. 记录实际最终对象大小。Entity 挂载的 MAX_WRITE 为 1 MiB，当前直接上传形成的 upper 对象不能触发 auto 的“大于 1 MiB”分支。不能用大逻辑文件冒充大上传对象；聚合是尚未实现的新设计。
-3. 为 q 的不同写入处理创建内容一致、标识隔离的新对象集，验证实际 `(B,q)`、eligibility 与 framing。改变开关不会重写已有对象。当前 auto 与默认 B 还可能完全相同。
-4. 分离 Range/完整对象读取、缓存、SingleFlight、write-budget release 和 shared-bytes reply。Entity upper 的完整对象校验也必须计入实际读取代价。
+1. 核验每项实验选用的挂载入口与开启的机制。普通 flat、默认后端布局和独立 Packed 读取均是有效研究配置；只有在测试相应组合时，才要求补通 Entity S3 配置、快照构建器及 strict durable create-only PUT 的布局提示，并保留 conditional-create/412 语义。
+2. 记录实际最终上传对象长度。Entity 挂载的 MAX_WRITE 为 1 MiB，当前直接上传形成的上层对象不能触发自动提示策略的“大于 1 MiB”分支。不能用大逻辑文件冒充大上传对象；聚合是尚未实现的新设计。
+3. 为 q 的不同写入处理创建内容一致、标识隔离的新对象集，验证实际 `(B,q)`、eligibility 与 framing。改变开关不会重写已有对象。当前自动提示策略与默认 B 还可能完全相同。
+4. 将固定客户端 `g`、范围读取／整对象获取、缓存、SingleFlight、后端 B/q、write-budget release 和 shared-bytes reply 分开控制。`g` 对比创建独立数据集，不能直接更改已有数据的解释几何；Entity 上层的完整对象校验也必须计入实际读取代价。
 5. 在同一路径中完成合法消融适配器，再运行 E11。不要把 ordinary VFS 与 Entity 的差异视为单一机制开关。
 6. 对 fresh-only Entity 的生命周期、恢复和回收实验遵守实现门槛；完整目录接口 4,096 entries、owner census 256/store 等当前限制必须进入 workload 筛查。
 

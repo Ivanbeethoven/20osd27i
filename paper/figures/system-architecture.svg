@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="504pt" height="420pt" viewBox="0 0 504 420" version="1.1" font-family="Arial" font-size="9">
+  <title>Private workspace views, packed immutable lower, and persisted object layouts</title>
+  <desc>Logical architecture of the Entity workspace design. Solid arrows are requests/dependencies; dashed arrows are layout-hint connections requiring integration and validation.</desc>
+  <rect x="0" y="0" width="504" height="420" fill="white" />
+  <g id="c:workspace-client">
+    <rect x="8" y="62" width="488" height="146" rx="4" fill="white" stroke="#8D9BA5" stroke-width="0.8" />
+    <text x="272" y="77" font-size="10.5" font-family="Arial" font-weight="bold" text-anchor="middle" fill="#18232D">Workspace client i  (×N independent views)</text>
+  </g>
+  <g id="c:object-store">
+    <rect x="196" y="244" width="300" height="145" rx="4" fill="#FBFCFD" stroke="#8D9BA5" stroke-width="0.8" />
+    <text x="342" y="258" font-size="10.5" font-family="Arial" font-weight="bold" text-anchor="middle" fill="#18232D">RustFS object storage</text>
+    <text x="346" y="384" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Reads and repair interpret the stored (B, q)</text>
+    <text x="346" y="328" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Effective layout stored with each object</text>
+  </g>
+  <g id="n:agent-tools">
+    <rect x="8" y="8" width="488" height="29" rx="3" fill="#F4F5F6" stroke="#78848E" stroke-width="0.8" />
+    <text x="252" y="26" font-size="10.5" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Agent tasks: repository tools · editing · build / test</text>
+  </g>
+  <g id="n:delta-resolver">
+    <rect x="22" y="96" width="198" height="38" rx="3" fill="#EDF5FA" stroke="#17689A" stroke-width="0.8" />
+    <circle cx="35" cy="108" r="7.5" fill="#17689A" />
+    <text x="35" y="111.4" font-size="10.5" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">1</text>
+    <text x="129" y="111" font-size="10.5" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Delta-based workspace</text>
+    <text x="121" y="126" font-size="9" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Wᵢ = Resolve(S, Δᵢ)</text>
+  </g>
+  <g id="n:private-upper">
+    <rect x="22" y="158" width="198" height="36" rx="3" fill="#EDF5FA" stroke="#17689A" stroke-width="0.8" />
+    <text x="121" y="171" font-size="9" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Private Δᵢ: names / attrs / tombstones</text>
+    <text x="121" y="185" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Span maps: Data | LowerRange | Hole</text>
+  </g>
+  <g id="n:packed-reader">
+    <rect x="280" y="96" width="200" height="89" rx="3" fill="#EDF5FA" stroke="#17689A" stroke-width="0.8" />
+    <circle cx="293" cy="108" r="7.5" fill="#17689A" />
+    <text x="293" y="111.4" font-size="10.5" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">2</text>
+    <text x="389" y="111" font-size="10.5" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Packed lower reader</text>
+    <text x="380" y="129" font-size="9" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Pinned immutable snapshot S</text>
+    <text x="380" y="146" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Paged indexes · attributes + locators</text>
+    <text x="380" y="163" font-size="9" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Authenticated frame reads</text>
+    <text x="380" y="177" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Per-client reader; shared lower objects</text>
+  </g>
+  <g id="n:metadata-service">
+    <rect x="8" y="256" width="154" height="56" rx="3" fill="#F4F5F6" stroke="#78848E" stroke-width="0.8" />
+    <text x="85" y="272" font-size="9" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Mutable metadata service</text>
+    <text x="85" y="288" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Private upper + control state</text>
+    <text x="85" y="302" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Bindings · pins · leases</text>
+  </g>
+  <g id="n:private-objects">
+    <rect x="208" y="269" width="124" height="43" rx="3" fill="white" stroke="#78848E" stroke-width="0.8" />
+    <text x="270" y="283" font-size="9" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Private payload objects</text>
+    <text x="270" y="298" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">New upper bytes</text>
+  </g>
+  <g id="n:shared-snapshot">
+    <rect x="356" y="269" width="128" height="43" rx="3" fill="white" stroke="#78848E" stroke-width="0.8" />
+    <text x="420" y="282" font-size="9" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Shared snapshot S</text>
+    <text x="420" y="296" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Manifest / indexes / pages</text>
+    <text x="420" y="307" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Data frames + descriptors</text>
+  </g>
+  <g id="n:snapshot-producer">
+    <rect x="8" y="338" width="154" height="51" rx="3" fill="#F4F5F6" stroke="#78848E" stroke-width="0.8" />
+    <text x="85" y="352" font-size="10.5" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Snapshot producer</text>
+    <text x="85" y="367" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Selected fixed source view</text>
+    <text x="85" y="381" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Finalized objects (length Lₒ)</text>
+  </g>
+  <g id="n:persisted-layout">
+    <rect x="208" y="338" width="276" height="37" rx="3" fill="#EDF5FA" stroke="#17689A" stroke-width="0.8" />
+    <circle cx="221" cy="350" r="7.5" fill="#17689A" />
+    <text x="221" y="353.4" font-size="10.5" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">3</text>
+    <text x="354" y="353" font-size="10.5" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Persisted per-object layout</text>
+    <text x="346" y="367" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">B: encoding block · q: verification/read frame</text>
+  </g>
+  <g id="e:tool-fuse">
+    <polyline points="121,37 121,96" fill="none" stroke="#18232D" stroke-width="1.4" stroke-linejoin="round" />
+    <polygon points="121.000,96.000 123.300,91.000 118.700,91.000" fill="#18232D" />
+    <text x="132" y="53" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="start" fill="#18232D">FUSE requests</text>
+  </g>
+  <g id="e:upper-first">
+    <polyline points="85,134 85,158" fill="none" stroke="#18232D" stroke-width="1.2" stroke-linejoin="round" />
+    <polygon points="85.000,158.000 87.300,153.000 82.700,153.000" fill="#18232D" />
+    <text x="95" y="149" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="start" fill="#18232D">Check / mutate</text>
+  </g>
+  <g id="e:inherit-lower">
+    <polyline points="220,117 280,117" fill="none" stroke="#18232D" stroke-width="1.2" stroke-linejoin="round" />
+    <polygon points="280.000,117.000 275.000,114.700 275.000,119.300" fill="#18232D" />
+    <text x="250" y="109" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">Visible lower</text>
+  </g>
+  <g id="e:mutable-records">
+    <polyline points="85,194 85,256" fill="none" stroke="#18232D" stroke-width="1.2" stroke-linejoin="round" />
+    <polygon points="85.000,256.000 87.300,251.000 82.700,251.000" fill="#18232D" />
+    <text x="75" y="235" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="end" fill="#18232D">Upper / control</text>
+  </g>
+  <g id="e:private-payload">
+    <polyline points="220,176 258,176 258,269" fill="none" stroke="#18232D" stroke-width="1.2" stroke-linejoin="round" />
+    <polygon points="258.000,269.000 260.300,264.000 255.700,264.000" fill="#18232D" />
+    <text x="266" y="220" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="start" fill="#18232D">PUT / GET</text>
+  </g>
+  <g id="e:lower-object-requests">
+    <polyline points="432,185 432,269" fill="none" stroke="#18232D" stroke-width="1.2" stroke-linejoin="round" />
+    <polygon points="432.000,269.000 434.300,264.000 429.700,264.000" fill="#18232D" />
+    <text x="442" y="220" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="start" fill="#18232D">GET / Range</text>
+  </g>
+  <g id="e:private-layout">
+    <polyline points="270,312 270,338" fill="none" stroke="#18232D" stroke-width="1.2" stroke-linejoin="round" />
+    <polygon points="270.000,338.000 272.300,333.000 267.700,333.000" fill="#18232D" />
+  </g>
+  <g id="e:shared-layout">
+    <polyline points="420,312 420,338" fill="none" stroke="#18232D" stroke-width="1.2" stroke-linejoin="round" />
+    <polygon points="420.000,338.000 422.300,333.000 417.700,333.000" fill="#18232D" />
+  </g>
+  <g id="e:producer-put">
+    <polyline points="162,350 196,350" fill="none" stroke="#18232D" stroke-width="1.2" stroke-linejoin="round" />
+    <polygon points="196.000,350.000 191.000,347.700 191.000,352.300" fill="#18232D" />
+    <text x="179" y="343" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">PUT</text>
+  </g>
+  <g id="e:private-hint-gate">
+    <polyline points="258,226 202,226 202,356 208,356" fill="none" stroke="#17689A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="4 3" />
+    <polygon points="208.000,356.000 203.000,353.700 203.000,358.300" fill="#17689A" />
+    <circle cx="258" cy="226" r="2" fill="#17689A" />
+    <text x="228" y="217" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">h(Lₒ)*</text>
+    <text x="228" y="238" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">PUT only</text>
+  </g>
+  <g id="e:producer-hint-gate">
+    <polyline points="162,366 208,366" fill="none" stroke="#17689A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="4 3" />
+    <polygon points="208.000,366.000 203.000,363.700 203.000,368.300" fill="#17689A" />
+    <text x="183" y="380" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="middle" fill="#18232D">h(Lₒ)*</text>
+  </g>
+  <g id="n:edge-key">
+    <text x="8" y="407" font-size="8.2" font-family="Arial" font-weight="normal" text-anchor="start" fill="#18232D">Solid: request / dependency paths.  Dashed*: hint wiring to complete and verify.</text>
+  </g>
+</svg>

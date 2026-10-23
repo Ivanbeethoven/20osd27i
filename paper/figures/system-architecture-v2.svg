@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="504pt" height="422pt" viewBox="0 0 504 422" version="1.1">
+  <title>Private workspaces over a shared immutable snapshot</title>
+  <desc>Editable reconstruction of an AI visual concept. Three independent clients have private upper state and local Packed readers. Mutable metadata and the producer are outside object storage. Dashed paths show pending finalized-upload hint wiring only.</desc>
+  <rect x="0" y="0" width="504" height="422" fill="white" />
+  <g id="n:workspace-heading">
+    <circle cx="15" cy="12" r="7" fill="#176CAC" />
+    <text x="15" y="15" font-family="Arial-Bold" font-size="9.2" text-anchor="middle" fill="white">1</text>
+    <text x="28" y="15" font-family="Arial-Bold" font-size="11" text-anchor="start" fill="#182B40">Private workspaces</text>
+    <text x="496" y="15" font-family="Arial" font-size="9.2" text-anchor="end" fill="#182B40">Wᵢ = Resolve(S, Δᵢ)</text>
+  </g>
+  <g id="n:agent-tools-1">
+    <rect x="39" y="27" width="14" height="11" rx="1" fill="#182B40" stroke="#182B40" stroke-width="0.8" />
+    <polyline points="42,30 45,32.5 42,35" fill="none" stroke="white" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="47,35 50,35" fill="none" stroke="white" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <text x="59" y="36" font-family="Arial" font-size="9.2" text-anchor="start" fill="#182B40">Agent tools</text>
+    <text x="91" y="49" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">FUSE</text>
+  </g>
+  <g id="e:fuse-1">
+    <polyline points="82,40 82,58" fill="none" stroke="#182B40" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="82.000,58.000 83.900,53.600 80.100,53.600" fill="#182B40" />
+  </g>
+  <g id="c:workspace-1">
+    <path d="M11,65 V57 Q11,53 16,53 H47 L56,61 H147 Q153,61 153,66 H11 Z" fill="#FFE5AD" stroke="#AB6814" stroke-width="0.9" />
+    <rect x="8" y="64" width="148" height="86" rx="5" fill="#FFF5E1" stroke="#AB6814" stroke-width="1.1" />
+    <text x="82" y="79" font-family="Arial-Bold" font-size="9.2" text-anchor="middle" fill="#182B40">Workspace 1</text>
+    <path d="M27,88 H47.52 L54,94.48 V120 H27 Z" fill="#FFFDF6" stroke="#AB6814" stroke-width="0.9" stroke-linejoin="round" />
+    <polyline points="47.52,88 47.52,94.48 54,94.48" fill="none" stroke="#AB6814" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="31,97 49,97" fill="none" stroke="#AB6814" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="31,102 45,102" fill="none" stroke="#AB6814" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="31,107 49,107" fill="none" stroke="#AB6814" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="43,105 49,111" fill="none" stroke="#AB6814" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="49,105 43,111" fill="none" stroke="#AB6814" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M108,88 H128.52 L135,94.48 V120 H108 Z" fill="#EAF4FC" stroke="#176CAC" stroke-width="0.9" stroke-linejoin="round" />
+    <polyline points="128.52,88 128.52,94.48 135,94.48" fill="none" stroke="#176CAC" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="112,97 130,97" fill="none" stroke="#176CAC" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="112,102 126,102" fill="none" stroke="#176CAC" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="112,107 130,107" fill="none" stroke="#176CAC" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="112" y="113" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <rect x="118" y="113" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <rect x="124" y="113" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <text x="41" y="134" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Private upper</text>
+    <text x="122" y="134" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Packed reader</text>
+    <text x="82" y="146" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Upper first</text>
+  </g>
+  <g id="e:inherit-1">
+    <polyline points="58,105 103,105" fill="none" stroke="#176CAC" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="103.000,105.000 98.600,103.100 98.600,106.900" fill="#176CAC" />
+    <text x="80.5" y="99" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">if visible</text>
+  </g>
+  <g id="n:agent-tools-2">
+    <rect x="209" y="27" width="14" height="11" rx="1" fill="#182B40" stroke="#182B40" stroke-width="0.8" />
+    <polyline points="212,30 215,32.5 212,35" fill="none" stroke="white" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="217,35 220,35" fill="none" stroke="white" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <text x="229" y="36" font-family="Arial" font-size="9.2" text-anchor="start" fill="#182B40">Agent tools</text>
+    <text x="261" y="49" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">FUSE</text>
+  </g>
+  <g id="e:fuse-2">
+    <polyline points="252,40 252,58" fill="none" stroke="#182B40" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="252.000,58.000 253.900,53.600 250.100,53.600" fill="#182B40" />
+  </g>
+  <g id="c:workspace-2">
+    <path d="M181,65 V57 Q181,53 186,53 H217 L226,61 H317 Q323,61 323,66 H181 Z" fill="#FFE5AD" stroke="#AB6814" stroke-width="0.9" />
+    <rect x="178" y="64" width="148" height="86" rx="5" fill="#FFF5E1" stroke="#AB6814" stroke-width="1.1" />
+    <text x="252" y="79" font-family="Arial-Bold" font-size="9.2" text-anchor="middle" fill="#182B40">Workspace 2</text>
+    <path d="M197,88 H217.52 L224,94.48 V120 H197 Z" fill="#FFFDF6" stroke="#AB6814" stroke-width="0.9" stroke-linejoin="round" />
+    <polyline points="217.52,88 217.52,94.48 224,94.48" fill="none" stroke="#AB6814" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="201,97 219,97" fill="none" stroke="#AB6814" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="201,102 215,102" fill="none" stroke="#AB6814" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="201,107 219,107" fill="none" stroke="#AB6814" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="213,105 219,111" fill="none" stroke="#AB6814" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="219,105 213,111" fill="none" stroke="#AB6814" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M278,88 H298.52 L305,94.48 V120 H278 Z" fill="#EAF4FC" stroke="#176CAC" stroke-width="0.9" stroke-linejoin="round" />
+    <polyline points="298.52,88 298.52,94.48 305,94.48" fill="none" stroke="#176CAC" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="282,97 300,97" fill="none" stroke="#176CAC" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="282,102 296,102" fill="none" stroke="#176CAC" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="282,107 300,107" fill="none" stroke="#176CAC" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="282" y="113" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <rect x="288" y="113" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <rect x="294" y="113" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <text x="211" y="134" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Private upper</text>
+    <text x="292" y="134" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Packed reader</text>
+    <text x="252" y="146" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Upper first</text>
+  </g>
+  <g id="e:inherit-2">
+    <polyline points="228,105 273,105" fill="none" stroke="#176CAC" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="273.000,105.000 268.600,103.100 268.600,106.900" fill="#176CAC" />
+    <text x="250.5" y="99" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">if visible</text>
+  </g>
+  <g id="n:agent-tools-N">
+    <rect x="379" y="27" width="14" height="11" rx="1" fill="#182B40" stroke="#182B40" stroke-width="0.8" />
+    <polyline points="382,30 385,32.5 382,35" fill="none" stroke="white" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="387,35 390,35" fill="none" stroke="white" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <text x="399" y="36" font-family="Arial" font-size="9.2" text-anchor="start" fill="#182B40">Agent tools</text>
+    <text x="431" y="49" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">FUSE</text>
+  </g>
+  <g id="e:fuse-N">
+    <polyline points="422,40 422,58" fill="none" stroke="#182B40" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="422.000,58.000 423.900,53.600 420.100,53.600" fill="#182B40" />
+  </g>
+  <g id="c:workspace-N">
+    <path d="M351,65 V57 Q351,53 356,53 H387 L396,61 H487 Q493,61 493,66 H351 Z" fill="#FFE5AD" stroke="#AB6814" stroke-width="0.9" />
+    <rect x="348" y="64" width="148" height="86" rx="5" fill="#FFF5E1" stroke="#AB6814" stroke-width="1.1" />
+    <text x="422" y="79" font-family="Arial-Bold" font-size="9.2" text-anchor="middle" fill="#182B40">Workspace N</text>
+    <path d="M367,88 H387.52 L394,94.48 V120 H367 Z" fill="#FFFDF6" stroke="#AB6814" stroke-width="0.9" stroke-linejoin="round" />
+    <polyline points="387.52,88 387.52,94.48 394,94.48" fill="none" stroke="#AB6814" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="371,97 389,97" fill="none" stroke="#AB6814" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="371,102 385,102" fill="none" stroke="#AB6814" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="371,107 389,107" fill="none" stroke="#AB6814" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="383,105 389,111" fill="none" stroke="#AB6814" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="389,105 383,111" fill="none" stroke="#AB6814" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M448,88 H468.52 L475,94.48 V120 H448 Z" fill="#EAF4FC" stroke="#176CAC" stroke-width="0.9" stroke-linejoin="round" />
+    <polyline points="468.52,88 468.52,94.48 475,94.48" fill="none" stroke="#176CAC" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="452,97 470,97" fill="none" stroke="#176CAC" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="452,102 466,102" fill="none" stroke="#176CAC" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="452,107 470,107" fill="none" stroke="#176CAC" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="452" y="113" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <rect x="458" y="113" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <rect x="464" y="113" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <text x="381" y="134" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Private upper</text>
+    <text x="462" y="134" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Packed reader</text>
+    <text x="422" y="146" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Upper first</text>
+  </g>
+  <g id="e:inherit-N">
+    <polyline points="398,105 443,105" fill="none" stroke="#176CAC" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="443.000,105.000 438.600,103.100 438.600,106.900" fill="#176CAC" />
+    <text x="420.5" y="99" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">if visible</text>
+  </g>
+  <g id="c:object-store">
+    <rect x="140" y="223" width="356" height="177" rx="6" fill="#F8FBFE" stroke="#9CB6CC" stroke-width="0.8" />
+    <text x="485" y="238" font-family="Arial-Bold" font-size="11" text-anchor="end" fill="#182B40">RustFS object store</text>
+  </g>
+  <g id="n:shared-snapshot">
+    <circle cx="165" cy="257" r="7" fill="#176CAC" />
+    <text x="165" y="260" font-family="Arial-Bold" font-size="9.2" text-anchor="middle" fill="white">2</text>
+    <text x="179" y="260" font-family="Arial-Bold" font-size="9.2" text-anchor="start" fill="#182B40">Shared immutable snapshot S</text>
+    <polygon points="156,276 160,272 360,272 356,276" fill="#F5FAFE" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="356,276 360,272 360,289 356,293" fill="#F5FAFE" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="156" y="276" width="200" height="17" rx="1.5" fill="#F5FAFE" stroke="#176CAC" stroke-width="0.8" />
+    <text x="164" y="287" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">Manifest + indexes</text>
+    <rect x="260" y="279" width="12" height="10" rx="0" fill="white" stroke="#6CA5D2" stroke-width="0.55" />
+    <polyline points="262,282 269,282" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="262,285 268,285" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="279" y="279" width="12" height="10" rx="0" fill="white" stroke="#6CA5D2" stroke-width="0.55" />
+    <polyline points="281,282 288,282" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="281,285 287,285" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="298" y="279" width="12" height="10" rx="0" fill="white" stroke="#6CA5D2" stroke-width="0.55" />
+    <polyline points="300,282 307,282" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="300,285 306,285" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="317" y="279" width="12" height="10" rx="0" fill="white" stroke="#6CA5D2" stroke-width="0.55" />
+    <polyline points="319,282 326,282" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="319,285 325,285" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <text x="344" y="287" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">···</text>
+    <polygon points="156,297 160,293 360,293 356,297" fill="#E8F3FC" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="356,297 360,293 360,310 356,314" fill="#E8F3FC" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="156" y="297" width="200" height="17" rx="1.5" fill="#E8F3FC" stroke="#176CAC" stroke-width="0.8" />
+    <text x="164" y="308" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">Metadata pages</text>
+    <rect x="260" y="300" width="12" height="10" rx="0" fill="white" stroke="#6CA5D2" stroke-width="0.55" />
+    <polyline points="262,303 269,303" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="262,306 268,306" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="279" y="300" width="12" height="10" rx="0" fill="white" stroke="#6CA5D2" stroke-width="0.55" />
+    <polyline points="281,303 288,303" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="281,306 287,306" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="298" y="300" width="12" height="10" rx="0" fill="white" stroke="#6CA5D2" stroke-width="0.55" />
+    <polyline points="300,303 307,303" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="300,306 306,306" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="317" y="300" width="12" height="10" rx="0" fill="white" stroke="#6CA5D2" stroke-width="0.55" />
+    <polyline points="319,303 326,303" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="319,306 325,306" fill="none" stroke="#176CAC" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <text x="344" y="308" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">···</text>
+    <polygon points="156,318 160,314 360,314 356,318" fill="#D5EAF9" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="356,318 360,314 360,331 356,335" fill="#D5EAF9" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="156" y="318" width="200" height="17" rx="1.5" fill="#D5EAF9" stroke="#176CAC" stroke-width="0.8" />
+    <text x="164" y="329" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">Data frames</text>
+    <polygon points="260,323 262,321 273,321 271,323" fill="#94C4E8" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="271,323 273,321 273,330 271,332" fill="#94C4E8" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="260" y="323" width="11" height="9" rx="1.5" fill="#94C4E8" stroke="#176CAC" stroke-width="0.8" />
+    <polygon points="279,323 281,321 292,321 290,323" fill="#94C4E8" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="290,323 292,321 292,330 290,332" fill="#94C4E8" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="279" y="323" width="11" height="9" rx="1.5" fill="#94C4E8" stroke="#176CAC" stroke-width="0.8" />
+    <polygon points="298,323 300,321 311,321 309,323" fill="#94C4E8" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="309,323 311,321 311,330 309,332" fill="#94C4E8" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="298" y="323" width="11" height="9" rx="1.5" fill="#94C4E8" stroke="#176CAC" stroke-width="0.8" />
+    <polygon points="317,323 319,321 330,321 328,323" fill="#94C4E8" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="328,323 330,321 330,330 328,332" fill="#94C4E8" stroke="#176CAC" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="317" y="323" width="11" height="9" rx="1.5" fill="#94C4E8" stroke="#176CAC" stroke-width="0.8" />
+    <text x="344" y="329" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">···</text>
+  </g>
+  <g id="n:private-objects">
+    <text x="435" y="259" font-family="Arial-Bold" font-size="9.2" text-anchor="middle" fill="#182B40">Private payload</text>
+    <text x="435" y="271" font-family="Arial" font-size="9.2" text-anchor="middle" fill="#182B40">objects</text>
+    <polygon points="393,282 397,278 475,278 471,282" fill="#FFF4DE" stroke="#AB6814" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="471,282 475,278 475,289 471,293" fill="#FFF4DE" stroke="#AB6814" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="393" y="282" width="78" height="11" rx="1.5" fill="#FFF4DE" stroke="#AB6814" stroke-width="0.8" />
+    <polyline points="406,284 406,290" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="422,284 422,290" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="438,284 438,290" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="454,284 454,290" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="393,299 397,295 475,295 471,299" fill="#FFE4AF" stroke="#AB6814" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="471,299 475,295 475,306 471,310" fill="#FFE4AF" stroke="#AB6814" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="393" y="299" width="78" height="11" rx="1.5" fill="#FFE4AF" stroke="#AB6814" stroke-width="0.8" />
+    <polyline points="406,301 406,307" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="422,301 422,307" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="438,301 438,307" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="454,301 454,307" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="393,316 397,312 475,312 471,316" fill="#FFD78E" stroke="#AB6814" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="471,316 475,312 475,323 471,327" fill="#FFD78E" stroke="#AB6814" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="393" y="316" width="78" height="11" rx="1.5" fill="#FFD78E" stroke="#AB6814" stroke-width="0.8" />
+    <polyline points="406,318 406,324" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="422,318 422,324" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="438,318 438,324" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="454,318 454,324" fill="none" stroke="#AB6814" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
+  </g>
+  <g id="n:metadata-service">
+    <text x="60" y="232" font-family="Arial-Bold" font-size="9.2" text-anchor="middle" fill="#182B40">Mutable metadata</text>
+    <polygon points="30,247 35,242 90,242 85,247" fill="#E8EEF3" stroke="#647484" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="85,247 90,242 90,252 85,257" fill="#E8EEF3" stroke="#647484" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="30" y="247" width="55" height="10" rx="1.5" fill="#E8EEF3" stroke="#647484" stroke-width="0.8" />
+    <circle cx="36" cy="252" r="1.2" fill="#647484" />
+    <polyline points="43,252 77,252" fill="none" stroke="#647484" stroke-width="0.6" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="30,259 35,254 90,254 85,259" fill="#E8EEF3" stroke="#647484" stroke-width="0.7" stroke-linejoin="round" />
+    <polygon points="85,259 90,254 90,264 85,269" fill="#E8EEF3" stroke="#647484" stroke-width="0.7" stroke-linejoin="round" />
+    <rect x="30" y="259" width="55" height="10" rx="1.5" fill="#E8EEF3" stroke="#647484" stroke-width="0.8" />
+    <circle cx="36" cy="264" r="1.2" fill="#647484" />
+    <polyline points="43,264 77,264" fill="none" stroke="#647484" stroke-width="0.6" stroke-linejoin="round" stroke-linecap="round" />
+    <text x="60" y="283" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Upper state / control</text>
+    <text x="60" y="295" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Bindings · pins · leases</text>
+  </g>
+  <g id="n:snapshot-producer">
+    <path d="M17,333 H32.96 L38,338.04 V361 H17 Z" fill="#F4F7F9" stroke="#647484" stroke-width="0.9" stroke-linejoin="round" />
+    <polyline points="32.96,333 32.96,338.04 38,338.04" fill="none" stroke="#647484" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="21,342 33,342" fill="none" stroke="#647484" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="21,347 29,347" fill="none" stroke="#647484" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="21,352 33,352" fill="none" stroke="#647484" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="21" y="354" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <rect x="27" y="354" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <rect x="33" y="354" width="4" height="3" rx="0" fill="#8EC0E7" stroke="none" stroke-width="0.8" />
+    <text x="46" y="343" font-family="Arial" font-size="9.2" text-anchor="start" fill="#182B40">Snapshot</text>
+    <text x="46" y="355" font-family="Arial" font-size="9.2" text-anchor="start" fill="#182B40">producer</text>
+    <text x="60" y="379" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Finalized objects (Lₒ)</text>
+  </g>
+  <g id="e:lower-1">
+    <polyline points="122,150 122,187 215,187 215,245" fill="none" stroke="#176CAC" stroke-width="1.35" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="215.000,245.000 216.900,240.600 213.100,240.600" fill="#176CAC" />
+  </g>
+  <g id="e:lower-2">
+    <polyline points="292,150 292,173 280,173 280,245" fill="none" stroke="#176CAC" stroke-width="1.35" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="280.000,245.000 281.900,240.600 278.100,240.600" fill="#176CAC" />
+  </g>
+  <g id="e:lower-N">
+    <polyline points="462,150 462,199 340,199 340,245" fill="none" stroke="#176CAC" stroke-width="1.35" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="340.000,245.000 341.900,240.600 338.100,240.600" fill="#176CAC" />
+  </g>
+  <g id="e:upper-control">
+    <polyline points="41,150 41,221" fill="none" stroke="#647484" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="41.000,221.000 42.900,216.600 39.100,216.600" fill="#647484" />
+    <text x="48" y="211" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">Upper / control</text>
+  </g>
+  <g id="e:private-payload">
+    <polyline points="381,150 381,184 485,184 485,304 475,304" fill="none" stroke="#AB6814" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="475.000,304.000 479.400,305.900 479.400,302.100" fill="#AB6814" />
+    <text x="435" y="216" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Payload PUT / GET</text>
+  </g>
+  <g id="e:producer-put">
+    <polyline points="114,345 130,345 130,267 154,267" fill="none" stroke="#647484" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="154.000,267.000 149.600,265.100 149.600,268.900" fill="#647484" />
+    <text x="121" y="320" font-family="Arial" font-size="8.2" text-anchor="end" fill="#182B40">PUT</text>
+  </g>
+  <g id="n:persisted-layout">
+    <rect x="156" y="346" width="328" height="50" rx="3" fill="white" stroke="#9CB6CC" stroke-width="0.8" />
+    <circle cx="167" cy="357" r="7" fill="#176CAC" />
+    <text x="167" y="360" font-family="Arial-Bold" font-size="9.2" text-anchor="middle" fill="white">3</text>
+    <text x="179" y="360" font-family="Arial-Bold" font-size="9.2" text-anchor="start" fill="#182B40">Stored layout</text>
+    <text x="179" y="374" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">Effective (B, q)</text>
+    <text x="179" y="388" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">Read · verify · repair</text>
+    <rect x="302" y="363" width="80" height="14" rx="1" fill="#EAF0F5" stroke="#647484" stroke-width="0.8" />
+    <rect x="304" y="365" width="11" height="10" rx="0" fill="#BDD7EA" stroke="#7C9AB2" stroke-width="0.55" />
+    <rect x="317" y="365" width="11" height="10" rx="0" fill="#BDD7EA" stroke="#7C9AB2" stroke-width="0.55" />
+    <rect x="330" y="365" width="11" height="10" rx="0" fill="#BDD7EA" stroke="#7C9AB2" stroke-width="0.55" />
+    <rect x="343" y="365" width="11" height="10" rx="0" fill="#BDD7EA" stroke="#7C9AB2" stroke-width="0.55" />
+    <text x="369" y="374" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">···</text>
+    <rect x="394" y="363" width="80" height="14" rx="1" fill="#EAF0F5" stroke="#647484" stroke-width="0.8" />
+    <rect x="396" y="365" width="11" height="10" rx="0" fill="#BDD7EA" stroke="#7C9AB2" stroke-width="0.55" />
+    <rect x="409" y="365" width="11" height="10" rx="0" fill="#BDD7EA" stroke="#7C9AB2" stroke-width="0.55" />
+    <rect x="422" y="365" width="11" height="10" rx="0" fill="#BDD7EA" stroke="#7C9AB2" stroke-width="0.55" />
+    <rect x="435" y="365" width="11" height="10" rx="0" fill="#BDD7EA" stroke="#7C9AB2" stroke-width="0.55" />
+    <text x="461" y="374" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">···</text>
+    <polyline points="302,360 302,356 382,356 382,360" fill="none" stroke="#182B40" stroke-width="0.65" stroke-linejoin="round" stroke-linecap="round" />
+    <rect x="309" y="347" width="66" height="10" rx="0" fill="white" stroke="none" stroke-width="0.8" />
+    <text x="342" y="354" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">Encoding block B</text>
+    <polyline points="304,380 304,383 315,383 315,380" fill="none" stroke="#182B40" stroke-width="0.65" stroke-linejoin="round" stroke-linecap="round" />
+    <text x="302" y="394" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">q: verification/read quantum</text>
+  </g>
+  <g id="e:producer-hint">
+    <polyline points="114,369 156,369" fill="none" stroke="#AB6814" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3 2.5" />
+    <polygon points="156.000,369.000 151.600,367.100 151.600,370.900" fill="#AB6814" />
+    <text x="126" y="362" font-family="Arial" font-size="8.2" text-anchor="middle" fill="#182B40">h(Lₒ)</text>
+  </g>
+  <g id="e:private-hint">
+    <polyline points="435,330 435,346" fill="none" stroke="#AB6814" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3 2.5" />
+    <polygon points="435.000,346.000 436.900,341.600 433.100,341.600" fill="#AB6814" />
+    <text x="444" y="340" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">h(Lₒ)</text>
+  </g>
+  <g id="n:legend">
+    <text x="8" y="409" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">Solid: logical requests. Upper/control and payload paths shown once; each client has both.</text>
+    <polyline points="8,418 29,418" fill="none" stroke="#AB6814" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3 2.5" />
+    <text x="36" y="420" font-family="Arial" font-size="8.2" text-anchor="start" fill="#182B40">Hint wiring pending; object geometry is schematic.</text>
+  </g>
+</svg>

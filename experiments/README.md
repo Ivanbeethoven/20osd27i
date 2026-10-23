@@ -1,5 +1,12 @@
 # Experiment protocol assets
 
+The [AX multi-agent experiment package](ax-multi-agent/README.md) expands the
+existing E00–E16 plan into task-to-mechanism experiments for parallel agents,
+immutable data publication, and application checkpoint migration. It includes
+four research questions, six experiments, five concrete configurations, fixed task
+inputs, and cloud-volume migration controls. AX integration and multi-agent execution
+are user-confirmed; the new comparative experiments have not been executed.
+
 All files in this directory are **plans or empty collection templates**. No experiment has been executed by these files, and no performance result is supplied.
 
 - `matrix.csv`: E00--E16, mapped to RQ1--RQ7. E00 is an integration/measurement gate; E01--E16 are planned studies.
