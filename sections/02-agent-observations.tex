@@ -17,21 +17,27 @@ source-validation details are in the companion workload record.
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=\textwidth]{figures/agent-fuse/fuse-profile.pdf}
-\caption{FUSE requests from five Core and three Exploratory runs.
-(a,b) Shares of all calls, ordered by pooled count; both panels use the left
-method labels. White segments are errors within each total; fills include
-\code{ok} and \code{incomplete}. Stars identify the six metadata methods;
-file \code{open}, \code{flush}, and \code{release} are excluded.
-(c,d) Request-weighted size ECDFs; $n$ lists Core/Exploratory counts, all
-\code{ok}. Log axes use KiB ($1\,\mathrm{KiB}=1024$ bytes), except ticks
-labelled B. Lengths are requested FUSE bytes, not returned bytes or object sizes.}
-\label{fig:agent-fuse-profile}
+\includegraphics[width=\textwidth]{figures/agent-fuse/fuse-combined-compact.pdf}
+\caption{Request structure across eight single-run FUSE captures.
+Core bars precede Exploratory bars in each pair.
+(a) Shares of all calls; white segments are errors within each total.
+Metadata comprises \code{lookup}, \code{getattr}, \code{getxattr},
+\code{readdirplus}, \code{opendir}, and \code{releasedir}; Other contains
+every remaining method, including file open/flush/release.
+(b) Each bar includes all reads or writes in its group. Dark, light, and white
+segments denote $\leq4$, $(4,64]$, and $>64$ KiB, respectively
+($1\,\mathrm{KiB}=1024$ bytes). Read counts are 22,142/98,292 and write
+counts 1,112/23,600 (Core/Exploratory), all \code{ok}. Lengths are requested
+FUSE bytes, not object sizes.
+(c) Fraction of each task's calls in its busiest 10\% of one-second windows,
+rounding the window count up; zero-call and final partial windows are retained.
+All panels retain setup/teardown and every recorded status.}
+\label{fig:agent-fuse-combined}
 \end{figure*}
 
 \paragraph{Metadata traffic and read dominance.}
-The six starred metadata methods accounted for 61.5\% of Core and 56.4\%
-of Exploratory calls (Figure~\ref{fig:agent-fuse-profile}a,b).
+The six metadata methods accounted for 61.5\% of Core and 56.4\%
+of Exploratory calls (Figure~\ref{fig:agent-fuse-combined}a).
 Restricting the denominator and numerator to \code{ok} events reduces these
 shares to 52.0\% and 44.2\%: failed probes materially change the request mix.
 Across tasks, the all-status share ranged from 39.6\% in SymPy to 65.4\% in
@@ -43,34 +49,25 @@ paths alongside data I/O.
 
 \paragraph{A mixture of request sizes.}
 Reads ranged from 4 to 128 KiB, with Core and Exploratory medians of 8 and
-16 KiB (Figure~\ref{fig:agent-fuse-profile}c,d). Writes ranged from one byte
+16 KiB. Writes ranged from one byte
 to 128 KiB, with medians of 4,084 and 4,117 bytes, respectively.
 Requests of at most 4 KiB accounted for 47.7\% and 34.5\% of reads, and
 74.3\% and 49.9\% of writes. The interval $(4,64]$ KiB contained a further
-36.2\% and 36.4\% of reads and 21.3\% and 44.0\% of writes.
+36.2\% and 36.4\% of reads and 21.3\% and 44.0\% of writes
+(Figure~\ref{fig:agent-fuse-combined}b).
 This mixture motivates measuring how client fetching and uploads transform
 requests before testing backend layouts. FUSE observations occur below kernel
 caching and readahead; they do not identify application syscall sizes, unique
 bytes, finalized object lengths, or an optimal block size.
-
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=\textwidth]{figures/agent-fuse/fuse-time.pdf}
-\caption{Cumulative all-method, all-status calls for each complete capture.
-Counts accumulate at the ends of one-second windows from each task's first
-request, including zero-call windows and the final partial window. Panels
-use different time/count ranges; each curve is one task, not a concurrent
-aggregate. Elapsed time retains inter-request gaps and setup/teardown;
-Astropy's capture extends about 30 seconds beyond its recorded run finish.}
-\label{fig:fuse-time}
-\end{figure*}
 
 \paragraph{Task and temporal heterogeneity.}
 Tasks generated 8,542--634,726 calls. Astropy contributed 68.9\% of
 Exploratory calls, versus 6.0\% for Pytest. Capture spans, from first to last
 request start, were 42.7--71.3 seconds for Core and 119.9--556.1 seconds for
 Exploratory. The busiest 10\% of one-second windows, rounded up per task,
-contained 47.4--83.7\% of its calls (Figure~\ref{fig:fuse-time}). Replay
+contained 47.4--83.7\% of its calls (Figure~\ref{fig:agent-fuse-combined}c).
+The companion record retains the full method breakdowns, size ECDFs,
+and per-task cumulative time curves. Replay
 should retain these per-task mixes and bursts. Each task was observed once;
 different repositories, prompts, and budgets prevent a causal interpretation
 of the group contrast. Without tool-phase labels, bursts cannot be assigned

@@ -1,25 +1,282 @@
-@misc{usenix-paper-templates,
-  author       = {{USENIX Association}},
-  title        = {Templates for Conference Papers},
-  year         = {2025},
-  note         = {\url{https://www.usenix.org/conferences/author-resources/paper-templates}}
+% BrewFS verified literature set. Checked 2026-10-22.
+% Research publications and official technical documents are kept distinct.
+% MesaFS metadata is verified, but its technical design has NOT been read.
+% No performance value from these sources is a BrewFS result.
+
+@inproceedings{tablefs2013,
+  author = {Kai Ren and Garth Gibson},
+  title = {{TABLEFS}: Enhancing Metadata Efficiency in the Local File System},
+  booktitle = {2013 USENIX Annual Technical Conference (USENIX ATC 13)},
+  year = {2013},
+  pages = {145--156},
+  publisher = {USENIX Association},
+  url = {https://www.usenix.org/conference/atc13/technical-sessions/presentation/ren}
 }
 
-@book{arpaciDusseau18:osbook,
-  author       = {Arpaci-Dusseau, Remzi H. and Arpaci-Dusseau, Andrea C.},
-  title        = {Operating Systems: Three Easy Pieces},
-  publisher    = {Arpaci-Dusseau Books, LLC},
-  year         = {2015},
-  edition      = {1.00},
-  note         = {\url{http://pages.cs.wisc.edu/~remzi/OSTEP/}}
+@inproceedings{indexfs2014,
+  author = {Kai Ren and Qing Zheng and Swapnil Patil and Garth Gibson},
+  title = {{IndexFS}: Scaling File System Metadata Performance with Stateless Caching and Bulk Insertion},
+  booktitle = {Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis (SC '14)},
+  year = {2014},
+  doi = {10.1109/SC.2014.25},
+  url = {https://www.pdl.cmu.edu/PDL-FTP/FS/IndexFS-SC14.pdf}
 }
 
-@inproceedings{waldspurger02,
-  author       = {Waldspurger, Carl A.},
-  title        = {Memory resource management in {VMware ESX} server},
-  booktitle    = {USENIX Symposium on Operating System Design and
-                  Implementation (OSDI)},
-  year         = {2002},
-  pages        = {181--194},
-  note         = {\url{https://www.usenix.org/legacy/event/osdi02/tech/waldspurger/waldspurger.pdf}}
+@inproceedings{deltafs2021,
+  author = {Qing Zheng and Charles D. Cranor and Gregory R. Ganger and Garth A. Gibson and George Amvrosiadis and Bradley W. Settlemyer and Gary Grider},
+  title = {{DeltaFS}: A Scalable No-Ground-Truth Filesystem for Massively-Parallel Computing},
+  booktitle = {Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis (SC '21)},
+  year = {2021},
+  doi = {10.1145/3458817.3476148},
+  url = {https://www.pdl.cmu.edu/PDL-FTP/Storage/zheng-deltafs_sc21.pdf}
+}
+
+@inproceedings{locofs2017,
+  author = {Siyang Li and Youyou Lu and Jiwu Shu and Yang Hu and Tao Li},
+  title = {{LocoFS}: A Loosely-Coupled Metadata Service for Distributed File Systems},
+  booktitle = {Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis (SC '17)},
+  year = {2017},
+  doi = {10.1145/3126908.3126928},
+  url = {https://storage.cs.tsinghua.edu.cn/papers/sc17-locofs.pdf}
+}
+
+@inproceedings{infinifs2022,
+  author = {Wenhao Lv and Youyou Lu and Yiming Zhang and Peile Duan and Jiwu Shu},
+  title = {{InfiniFS}: An Efficient Metadata Service for Large-Scale Distributed Filesystems},
+  booktitle = {20th USENIX Conference on File and Storage Technologies (FAST 22)},
+  year = {2022},
+  pages = {313--328},
+  publisher = {USENIX Association},
+  url = {https://www.usenix.org/conference/fast22/presentation/lv}
+}
+
+@inproceedings{mantle2025,
+  author = {Jiahao Li and Biao Cao and Jielong Jian and Cheng Li and Sen Han and Yiduo Wang and Yufei Wu and Kang Chen and Zhihui Yin and Qiushi Chen and Jiwei Xiong and Jie Zhao and Fengyuan Liu and Yan Xing and Liguo Duan and Miao Yu and Ran Zheng and Feng Wu and Xianjun Meng},
+  title = {{Mantle}: Efficient Hierarchical Metadata Management for Cloud Object Storage Services},
+  booktitle = {Proceedings of the 31st ACM Symposium on Operating Systems Principles (SOSP '25)},
+  year = {2025},
+  pages = {928--943},
+  publisher = {Association for Computing Machinery},
+  doi = {10.1145/3731569.3764824},
+  url = {https://madsys.cs.tsinghua.edu.cn/publication/mantle-efficient-hierarchical-metadata-management-for-cloud-object-storage-services/SOSP25-Li.pdf}
+}
+
+@inproceedings{mesafs2026,
+  author = {Hao Guo and Jiwu Shu and Youyou Lu},
+  title = {{MesaFS}: An {I/O}-Efficient Metadata Service for Distributed File Systems},
+  booktitle = {Proceedings of the 21st European Conference on Computer Systems (EuroSys '26)},
+  year = {2026},
+  publisher = {Association for Computing Machinery},
+  doi = {10.1145/3767295.3803573},
+  url = {https://doi.org/10.1145/3767295.3803573}
+}
+
+@inproceedings{switchfs2026,
+  author = {Jingwei Xu and Mingkai Dong and Qiulin Tian and Ziyi Tian and Tong Xin and Haibo Chen},
+  title = {{SwitchFS}: Asynchronous Metadata Updates for Distributed Filesystems with In-Network Coordination},
+  booktitle = {Proceedings of the 21st European Conference on Computer Systems (EuroSys '26)},
+  year = {2026},
+  publisher = {Association for Computing Machinery},
+  doi = {10.1145/3767295.3769349},
+  url = {https://arxiv.org/html/2410.08618v3}
+}
+
+@article{cvmfs2011,
+  author = {Jakob Blomer and Carlos Aguado-S{\'a}nchez and Predrag Buncic and Artem Harutyunyan},
+  title = {Distributing {LHC} Application Software and Conditions Databases Using the {CernVM} File System},
+  journal = {Journal of Physics: Conference Series},
+  year = {2011},
+  volume = {331},
+  number = {4},
+  pages = {042003},
+  doi = {10.1088/1742-6596/331/4/042003},
+  url = {https://doi.org/10.1088/1742-6596/331/4/042003}
+}
+
+@inproceedings{slacker2016,
+  author = {Tyler Harter and Brandon Salmon and Rose Liu and Andrea C. Arpaci-Dusseau and Remzi H. Arpaci-Dusseau},
+  title = {{Slacker}: Fast Distribution with Lazy {Docker} Containers},
+  booktitle = {14th USENIX Conference on File and Storage Technologies (FAST 16)},
+  year = {2016},
+  pages = {181--195},
+  publisher = {USENIX Association},
+  url = {https://www.usenix.org/conference/fast16/technical-sessions/presentation/harter}
+}
+
+@inproceedings{dadi2020,
+  author = {Huiba Li and Yifan Yuan and Rui Du and Kai Ma and Lanzheng Liu and Windsor Hsu},
+  title = {{DADI}: Block-Level Image Service for Agile and Elastic Application Deployment},
+  booktitle = {2020 USENIX Annual Technical Conference (USENIX ATC 20)},
+  year = {2020},
+  pages = {727--740},
+  publisher = {USENIX Association},
+  url = {https://www.usenix.org/conference/atc20/presentation/li-huiba}
+}
+
+@inproceedings{tectonic2021,
+  author = {Satadru Pan and Theano Stavrinos and Yunqiao Zhang and Atul Sikaria and Pavel Zakharov and Abhinav Sharma and Shiva Shankar P and Mike Shuey and Richard Wareing and Monika Gangapuram and Guanglei Cao and Christian Preseau and Pratap Singh and Kestutis Patiejunas and JR Tipton and Ethan Katz-Bassett and Wyatt Lloyd},
+  title = {{Facebook}'s {Tectonic} Filesystem: Efficiency from Exascale},
+  booktitle = {19th USENIX Conference on File and Storage Technologies (FAST 21)},
+  year = {2021},
+  pages = {217--231},
+  publisher = {USENIX Association},
+  url = {https://www.usenix.org/conference/fast21/presentation/pan}
+}
+
+@inproceedings{ceph2006,
+  author = {Sage A. Weil and Scott A. Brandt and Ethan L. Miller and Darrell D. E. Long and Carlos Maltzahn},
+  title = {{Ceph}: A Scalable, High-Performance Distributed File System},
+  booktitle = {7th USENIX Symposium on Operating Systems Design and Implementation (OSDI 06)},
+  year = {2006},
+  pages = {307--320},
+  publisher = {USENIX Association},
+  url = {https://static.usenix.org/event/osdi06/tech/full_papers/weil/weil_html/index.html}
+}
+
+@inproceedings{azureec2012,
+  author = {Cheng Huang and Huseyin Simitci and Yikang Xu and Aaron Ogus and Brad Calder and Parikshit Gopalan and Jin Li and Sergey Yekhanin},
+  title = {Erasure Coding in {Windows Azure Storage}},
+  booktitle = {2012 USENIX Annual Technical Conference (USENIX ATC 12)},
+  year = {2012},
+  pages = {15--26},
+  publisher = {USENIX Association},
+  url = {https://www.usenix.org/conference/atc12/technical-sessions/presentation/huang}
+}
+
+@inproceedings{morph2024,
+  author = {Timothy Kim and Sanjith Athlur and Saurabh Kadekodi and Francisco Maturana and Dax Delvira and Arif Merchant and Gregory R. Ganger and K. V. Rashmi},
+  title = {{Morph}: Efficient File-Lifetime Redundancy Management for Cluster File Systems},
+  booktitle = {Proceedings of the 30th ACM Symposium on Operating Systems Principles (SOSP '24)},
+  year = {2024},
+  pages = {330--346},
+  publisher = {Association for Computing Machinery},
+  doi = {10.1145/3694715.3695981},
+  url = {https://www.pdl.cmu.edu/ftp/Storage/Morph_Final.pdf}
+}
+
+@inproceedings{okapi2025,
+  author = {Sanjith Athlur and Timothy Kim and Saurabh Kadekodi and Francisco Maturana and Xavier Ramos and Arif Merchant and K. V. Rashmi and Gregory R. Ganger},
+  title = {{Okapi}: Decoupling Data Striping and Redundancy Grouping in Cluster File Systems},
+  booktitle = {19th USENIX Symposium on Operating Systems Design and Implementation (OSDI 25)},
+  year = {2025},
+  pages = {897--914},
+  publisher = {USENIX Association},
+  url = {https://www.usenix.org/conference/osdi25/presentation/athlur}
+}
+
+@inproceedings{xethub2023,
+  author = {Yucheng Low and Rajat Arya and Ajit Banerjee and Ann Huang and Brian Ronan and Hoyt Koepke and Joseph Godlewski and Zach Nation},
+  title = {{Git} Is for Data},
+  booktitle = {13th Conference on Innovative Data Systems Research (CIDR 2023)},
+  year = {2023},
+  url = {https://www.cidrdb.org/cidr2023/papers/p43-low.pdf}
+}
+
+@inproceedings{swebench2024,
+  author = {Carlos E. Jimenez and John Yang and Alexander Wettig and Shunyu Yao and Kexin Pei and Ofir Press and Karthik Narasimhan},
+  title = {{SWE}-bench: Can Language Models Resolve Real-world {GitHub} Issues?},
+  booktitle = {The Twelfth International Conference on Learning Representations (ICLR 2024)},
+  year = {2024},
+  url = {https://proceedings.iclr.cc/paper_files/paper/2024/hash/edac78c3e300629acfe6cbe9ca88fb84-Abstract-Conference.html}
+}
+
+@inproceedings{sweagent2024,
+  author = {John Yang and Carlos E. Jimenez and Alexander Wettig and Kilian Lieret and Shunyu Yao and Karthik Narasimhan and Ofir Press},
+  title = {{SWE}-agent: Agent-Computer Interfaces Enable Automated Software Engineering},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume = {37},
+  year = {2024},
+  url = {https://proceedings.nips.cc/paper_files/paper/2024/hash/5a7c947568c1b1328ccc5230172e1e7c-Abstract-Conference.html}
+}
+
+@inproceedings{openhands2025,
+  author = {Xingyao Wang and Boxuan Li and Yufan Song and Frank F. Xu and Xiangru Tang and Mingchen Zhuge and Jiayi Pan and Yueqi Song and Bowen Li and Jaskirat Singh and Hoang Tran and Fuqiang Li and Ren Ma and Mingzhang Zheng and Bill Qian and Daniel Shao and Niklas Muennighoff and Yizhe Zhang and Binyuan Hui and Junyang Lin and Robert Brennan and Hao Peng and Heng Ji and Graham Neubig},
+  title = {{OpenHands}: An Open Platform for {AI} Software Developers as Generalist Agents},
+  booktitle = {The Thirteenth International Conference on Learning Representations (ICLR 2025)},
+  year = {2025},
+  url = {https://proceedings.iclr.cc/paper_files/paper/2025/hash/a4b6ad6b48850c0c331d1259fc66a69c-Abstract-Conference.html}
+}
+
+@inproceedings{multi_swebench2025,
+  author = {Daoguang Zan and Zhirong Huang and Wei Liu and Hanwu Chen and Shulin Xin and Linhao Zhang and Qi Liu and Aoyan Li and Lu Chen and Xiaojian Zhong and Siyao Liu and Yongsheng Xiao and Liangqiang Chen and Yuyu Zhang and Jing Su and Tianyu Liu and Rui Long and Ming Ding and Liang Xiang},
+  title = {{Multi-SWE-bench}: A Multilingual Benchmark for Issue Resolving},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume = {38},
+  year = {2025},
+  note = {Datasets and Benchmarks Track},
+  url = {https://proceedings.neurips.cc/paper_files/paper/2025/hash/5afa9cb1e917b898ad418216dc726fbd-Abstract-Datasets_and_Benchmarks_Track.html}
+}
+
+@inproceedings{branchfs2026,
+  author = {Cong Wang and Yusheng Zheng},
+  title = {Fork, Explore, Commit: {OS} Primitives for Agentic Exploration},
+  booktitle = {Agentic OS Workshop at ASPLOS 2026},
+  year = {2026},
+  month = mar,
+  url = {https://arxiv.org/html/2602.08199v2},
+  note = {Workshop paper; arXiv:2602.08199v2. The proposed branch() syscall is not implemented in the evaluated prototype}
+}
+
+@inproceedings{yolofs2026,
+  author = {Shawn Wanxiang Zhong and Junxuan Liao and Jing Liu and Mai Zheng and Andrea C. Arpaci-Dusseau and Remzi H. Arpaci-Dusseau},
+  title = {Don't Let {AI} Agents {YOLO} Your Files: Information and Control in Agent-Native Filesystems},
+  booktitle = {Proceedings of the 32nd ACM Symposium on Operating Systems Principles (SOSP '26)},
+  year = {2026},
+  publisher = {Association for Computing Machinery},
+  doi = {10.1145/3830418.3843858},
+  url = {https://arxiv.org/html/2604.13536v5}
+}
+
+@misc{overlayfs,
+  author = {{Linux Kernel Contributors}},
+  title = {Overlay Filesystem},
+  howpublished = {Linux kernel documentation},
+  url = {https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html},
+  note = {Official technical documentation, accessed 2026-10-22; pin the tested kernel and mount options in the evaluation}
+}
+
+@misc{nydus_rafs,
+  author = {{Nydus Authors}},
+  title = {Registry Accelerated File System},
+  howpublished = {Nydus official documentation},
+  url = {https://nydus.dev/docs/concepts/rafs/},
+  note = {Official technical documentation, accessed 2026-10-22; not a peer-reviewed paper}
+}
+
+@misc{agentfs2025,
+  author = {Pekka Enberg and Glauber Costa},
+  title = {The Missing Abstraction for {AI} Agents: The Agent Filesystem},
+  howpublished = {Turso engineering blog},
+  year = {2025},
+  month = nov,
+  url = {https://turso.tech/blog/agentfs},
+  note = {Published 2025-11-13; official software announcement, not a peer-reviewed paper}
+}
+
+@misc{swebench_audit2026,
+  author = {{OpenAI}},
+  title = {Why {SWE}-bench Verified No Longer Measures Frontier Coding Capabilities},
+  howpublished = {OpenAI research announcement},
+  year = {2026},
+  month = feb,
+  url = {https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/},
+  note = {Published 2026-02-23; official benchmark audit, not a peer-reviewed paper}
+}
+
+@misc{swebench_pro_v2,
+  author = {{Scale AI}},
+  title = {{SWE}-bench Pro V2},
+  howpublished = {Official dataset card on Hugging Face},
+  year = {2026},
+  month = sep,
+  url = {https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro},
+  note = {Version 2.0.0, released 2026-09-22; official dataset, accessed 2026-10-22}
+}
+
+@misc{juicefs_architecture,
+  author = {{Juicedata, Inc.}},
+  title = {{JuiceFS} Architecture},
+  howpublished = {JuiceFS Community Edition documentation},
+  url = {https://juicefs.com/docs/community/architecture/},
+  note = {Official technical documentation; page last updated 2025-11-06, accessed 2026-10-22}
 }

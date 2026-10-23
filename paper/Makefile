@@ -3,11 +3,10 @@
 all: named anonymous
 
 named:
-	latexmk -xelatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+	$(MAKE) -C .. named
 
 anonymous:
-	latexmk -xelatex -interaction=nonstopmode -halt-on-error -file-line-error anonymous-preview.tex
+	$(MAKE) -C .. anonymous
 
 clean:
-	latexmk -c main.tex
-	latexmk -c anonymous-preview.tex
+	$(MAKE) -C .. clean

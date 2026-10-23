@@ -6,13 +6,13 @@
 
 本包提供英文内部初稿、中文研究大纲、完整实验协议、文献核验记录、实现证据及可移植写作 skill。现已纳入 **8 个真实 Agent 任务、1,138,884 条 FUSE 请求的原始数据重分析**，位于论文 §2.2；Core 与 Exploratory 分开呈现。**E00–E16 系统实验仍处于规划阶段；没有据此宣称 BrewFS/RustFS 的性能、正确性或故障恢复收益。** 提议的机器、样本规模和参数也不是已部署环境。
 
-本轮观测的统计口径、证据对应关系及复现命令见 [工作负载分析说明](experiments/agent-fuse-observations/README.md)。三张论文图由 `analyze.py` 流式统计和 `plot.py` 生成；保留实际模型名 `deepseek-v4-flash`，并区分 FUSE 错误、进程退出码与基准任务评分。
+本轮观测的统计口径、证据对应关系及复现命令见 [工作负载分析说明](experiments/agent-fuse-observations/README.md)。当前论文使用一张三面板合并主图，由 `analyze.py` 流式统计、`plot_combined.py` 绘制；`plot.py` 保留生成历史诊断图的能力。保留实际模型名 `deepseek-v4-flash`，并区分 FUSE 错误、进程退出码与基准任务评分。
 
 论文与中文研究文档统一沿用[已确认术语表](planning/terminology.zh.md)：三项机制为基于增量状态的多智能体工作区、打包式元数据和可变粒度对象存储。**三者均为可选、可组合能力，不是必须依次开启的流程。** 普通卷提供公共文件与对象路径；增量工作区选择视图构成，打包式元数据选择不可变记录的组织与获取方式，对象粒度选择数据对象的形成及可选后端布局。
 
 ## 建议阅读顺序
 
-1. `paper/main.pdf`：可直接阅读的英文初稿。正文依次为问题与动机、系统契约、增量工作区、打包式元数据、对象布局、实现状态、评估计划和相关工作。
+1. [main.pdf](main.pdf)：可直接阅读的英文初稿；正式源码入口是仓库根目录的 [main.tex](main.tex)。正文依次为问题与动机、系统契约、增量工作区、打包式元数据、对象布局、实现状态、评估计划和相关工作。
 2. `planning/01-research-outline.zh.md`：研究论点、贡献边界、章节及图表规划、评审风险与推进顺序。
 3. `planning/02-experiment-plan.zh.md`：7 个 RQ、E00–E16 共 17 项实验、环境、基线、因果对照、指标、统计和失败处理。
 4. [三项机制关系框架](planning/03-mechanism-relationships.zh.md)：依据作者 PPT 与当前代码说明各机制启用、省略和组合时的行为。
@@ -23,8 +23,11 @@
 
 | 目录 | 内容与用途 |
 |---|---|
-| `paper/` | LaTeX 源码、两份 PDF、BibTeX、Makefile、TikZ 架构图与访问路径图。 |
-| `paper/template/` | 原样保留的官方 USENIX 示例及样式；论文自身使用独立标题和真实参考文献。 |
+| 仓库根目录 | 正式论文入口 `main.tex`、`anonymous-preview.tex`，两份 PDF、`references.bib`、USENIX 样式及构建配置。 |
+| `sections/`、`figures/` | 正式论文章节、架构图、访问路径图及工作负载图。 |
+| `templates/usenix-starter/` | 迁移前位于根目录的通用 USENIX 起始模板，供另建论文使用。 |
+| `templates/usenix-official/` | 原样保留的官方 USENIX 示例及样式；论文自身使用独立标题和真实参考文献。 |
+| `paper/Makefile` | 仅向根目录转发构建命令，兼容旧的 `make -C paper` 用法。 |
 | `planning/` | 中文大纲、实验协议、三项可选机制关系框架、统一术语表、OSDI 风格研究和模板来源。 |
 | `experiments/` | 17 项实验矩阵、agent 负载协议、13 项待完成实现门槛、未执行 manifest 示例、未来观测记录 schema、只有表头的度量模板。 |
 | `references/` | 29 条书目的来源登记与比较矩阵。23 篇研究论文（含工作坊），6 项官方资料。 |
@@ -34,7 +37,7 @@
 | `tools/validate_plan.py` | 只核验本准备包的一致性，不运行 BrewFS 或产生实验数据。 |
 | `MANIFEST.sha256` | 打包时对包内文件计算的 SHA-256 清单。 |
 
-`paper/anonymous-preview.pdf` 只是系统名切换和固定源码标识隐藏后的排版预览，**不是已经完成匿名审查的投稿版**。
+`anonymous-preview.pdf` 只是系统名切换和固定源码标识隐藏后的排版预览，**不是已经完成匿名审查的投稿版**。
 
 ## 当前最重要的研究判断
 
@@ -72,17 +75,15 @@ SWE-bench Pro 和 JuiceFS 分别引用官方数据集及架构文档，没有虚
 
 ## 构建与复核
 
-需要 Python 3，以及含 Windows `xelatex`、`latexmk`、BibTeX、USENIX 所需常用包、TikZ、`xurl` 的 TeX 环境。样式已附，无须在线下载模板。源码使用数值引用的 `plain` 样式；XeLaTeX 使用 `paper/usenix2019_v3_xetex.sty` 兼容副本，官方样式文件保持原样。
+需要 Python 3，以及含 `xelatex`、`latexmk`、BibTeX、USENIX 所需常用包、TikZ、`xurl` 的 TeX 环境。样式已附，无须在线下载模板。源码使用数值引用的 `plain` 样式；XeLaTeX 使用根目录的 `usenix2019_v3_xetex.sty` 兼容副本，官方样式文件保持原样。在仓库根目录运行：
 
 ```bash
-cd paper
 latexmk -xelatex main.tex
 latexmk -xelatex anonymous-preview.tex
-cd ..
 python3 tools/validate_plan.py
 ```
 
-`make` 构建命名稿和匿名预览。`make clean` 清理 LaTeX 中间文件。验证脚本检查条目/引用、实验/RQ 覆盖、未执行状态、样式哈希和可用的编译日志；它不检查系统性能或证明语义正确。最终 PDF 页数、字体及视觉检查以 `validation/quality-report.md` 为准。
+根目录的 `make` 构建命名稿和匿名预览，PDF 输出到根目录；`make clean` 清理 LaTeX 中间文件。`paper/Makefile` 仅保留旧命令的转发兼容。验证脚本检查条目/引用、实验/RQ 覆盖、未执行状态、样式哈希和可用的编译日志；它不检查系统性能或证明语义正确。历史 PDF 页数、字体及视觉检查保留在 `validation/`，其结论对应各自检查时的版本。
 
 ## 写作 skill 与投稿边界
 

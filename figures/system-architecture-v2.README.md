@@ -31,7 +31,6 @@ be checked by the authors before submission.
 
 ```powershell
 python tools/draw_architecture_v2.py
-Set-Location paper
 latexmk -xelatex '-outdir=.' '-auxdir=.' -interaction=nonstopmode -halt-on-error main.tex
 latexmk -xelatex '-outdir=.' '-auxdir=.' -interaction=nonstopmode -halt-on-error anonymous-preview.tex
 ```

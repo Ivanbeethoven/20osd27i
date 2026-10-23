@@ -1,0 +1,1041 @@
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LC_ALL = "C.UTF-8",
+	LC_CTYPE = "C",
+	LC_NUMERIC = "C",
+	LC_COLLATE = "C",
+	LC_TIME = (unset),
+	LC_MONETARY = (unset),
+	LANG = "C.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the system default locale ("Chinese (Simplified)_China.936").
+Initial Win CP for (console input, console output, system): (CP936, CP65001, CP936)
+I changed them all to CP936
+Rc files read (in order):
+  ./.latexmkrc
+Latexmk: This is Latexmk, John Collins, 9 March 2026. Version 4.88.
+No existing .aux file, so I'll make a simple one, and require run of *latex.
+Latexmk: applying rule 'xelatex'...
+Rule 'xelatex':  Reasons for rerun
+Category 'other':
+  Rerun of 'xelatex' forced or previously required:
+    Reason or flag: 'Initial setup'
+
+------------
+Run number 1 of rule 'xelatex'
+------------
+------------
+Running 'xelatex -no-pdf -interaction=nonstopmode -halt-on-error -file-line-error -recorder  "main.tex"'
+------------
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-09-09>
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/base/size10.clo))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/hyperref.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/iftex/iftex.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/keyval.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+) (c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/infwarerr/infwarerr.sty)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/nameref.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/refcount/refcount.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/gettitlestring/gettitlestring
+.sty (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+ (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/puenc.def)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/url/url.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/bitset/bitset.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/hxetex.def
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.s
+ty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/uniquecounter/uniquecounter.s
+ty))) (./usenix2019_v3_xetex.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/mathptmx.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/t1ptm.fd))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pslatex/pslatex.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/microtype.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/microtype-xetex.def)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/microtype.cfg))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/sttools/flushend.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/cite/cite.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/xcolor/xcolor.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics-def/xetex.def)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/mathcolor.ltx)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amstext.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/tools/array.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/tools/tabularx.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/graphics.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/trig.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.
+tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.d
+ef)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/pgf.revision.tex)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.t
+ex
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.te
+x
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryf
+iltered.code.tex))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-xetex.
+def
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdf
+mx.def
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common
+-pdf.def))))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpat
+h.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotoco
+l.code.tex))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.t
+ex (c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex
+)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.t
+ex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.cod
+e.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.bas
+ic.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.tri
+gonometric.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.ran
+dom.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.com
+parison.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.bas
+e.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.rou
+nd.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.mis
+c.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.int
+egerarithmetics.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
+)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.te
+x)) (c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.
+code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathcon
+struct.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusa
+ge.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.
+code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphic
+state.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransfo
+rmations.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects
+.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathpro
+cessing.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.
+code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexterna
+l.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.
+code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretranspa
+rency.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepattern
+s.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.cod
+e.tex)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.cod
+e.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-versi
+on-0-65.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-versi
+on-1-18.sty))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.te
+x)) (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.c
+ode.tex
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibraryploth
+andlers.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librar
+ies/tikzlibrarytopaths.code.tex)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrow
+s.meta.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librar
+ies/tikzlibrarypositioning.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librar
+ies/tikzlibraryfit.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librar
+ies/tikzlibrarycalc.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/xurl/xurl.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/l3kernel/l3backend-xetex.def)
+(./main.aux) (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/omspzccm.fd
+)
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/mt-ptm.cfg)
+(./sections/01-introduction.tex
+
+LaTeX Warning: Citation `sweagent2024' on page 1 undefined on input line 5.
+
+
+LaTeX Warning: Citation `openhands2025' on page 1 undefined on input line 5.
+
+
+LaTeX Warning: Citation `overlayfs' on page 1 undefined on input line 43.
+
+
+LaTeX Warning: Citation `branchfs2026' on page 1 undefined on input line 44.
+
+
+LaTeX Warning: Citation `deltafs2021' on page 1 undefined on input line 45.
+
+
+LaTeX Warning: Citation `cvmfs2011' on page 1 undefined on input line 46.
+
+
+LaTeX Warning: Citation `nydus_rafs' on page 1 undefined on input line 46.
+
+[1] (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/ot1ptmcm.fd)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/omlptmcm.fd)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/omxpsycm.fd)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/mt-msb.cfg))
+(./sections/02-motivation.tex (./sections/02-agent-observations.tex
+
+LaTeX Warning: Citation `swebench2024' on page 2 undefined on input line 5.
+
+
+Underfull \vbox (badness 3323) has occurred while \output is active
+
+LaTeX Warning: Reference `fig:agent-fuse-combined' on page 2 undefined on input
+ line 40.
+
+
+LaTeX Warning: Reference `fig:agent-fuse-combined' on page 2 undefined on input
+ line 57.
+
+
+LaTeX Warning: Reference `fig:agent-fuse-combined' on page 2 undefined on input
+ line 68.
+
+
+Underfull \hbox (badness 7256) in paragraph at lines 64--75
+ []\T1/ptm/b/n/10 Task and tem-po-ral het-ero-gene-ity.[] \T1/ptm/m/n/10 Tasks 
+gen-er-ated
+[2]
+
+LaTeX Warning: Reference `sec:evaluation' on page 3 undefined on input line 95.
+
+
+)
+
+LaTeX Warning: Citation `tablefs2013' on page 3 undefined on input line 34.
+
+
+LaTeX Warning: Citation `indexfs2014' on page 3 undefined on input line 34.
+
+
+LaTeX Warning: Citation `locofs2017' on page 3 undefined on input line 34.
+
+
+LaTeX Warning: Citation `infinifs2022' on page 3 undefined on input line 34.
+
+
+LaTeX Warning: Citation `deltafs2021' on page 3 undefined on input line 47.
+
+[3]
+
+LaTeX Warning: Citation `azureec2012' on page 4 undefined on input line 64.
+
+
+LaTeX Warning: Citation `morph2024' on page 4 undefined on input line 64.
+
+
+LaTeX Warning: Citation `okapi2025' on page 4 undefined on input line 64.
+
+) (./sections/03-overview.tex
+
+LaTeX Warning: Reference `tab:mechanism-choices' on page 4 undefined on input l
+ine 8.
+
+
+LaTeX Warning: Reference `fig:overview' on page 4 undefined on input line 69.
+
+(./figures/architecture.tex)
+
+LaTeX Warning: Reference `sec:layout' on page 4 undefined on input line 90.
+
+
+LaTeX Warning: Reference `sec:layout' on page 4 undefined on input line 90.
+
+
+LaTeX Warning: Reference `sec:implementation' on page 4 undefined on input line
+ 105.
+
+) (./sections/04-delta.tex [4]
+Underfull \vbox (badness 1472) has occurred while \output is active [5]
+Underfull \hbox (badness 2384) in paragraph at lines 31--36
+\T1/ptm/m/n/10 A white-out sup-presses the in-her-ited name; ap-pli-ca-ble
+
+Underfull \hbox (badness 2181) in paragraph at lines 73--79
+\T1/ptm/m/n/10 ary. The En-tity path up-loads an ob-ject durably be-
+
+Underfull \hbox (badness 2573) in paragraph at lines 73--79
+\T1/ptm/m/n/10 fore pub-lish-ing its map-ping. The or-di-nary VFS of-
+
+Underfull \vbox (badness 2080) has occurred while \output is active
+
+LaTeX Warning: Reference `sec:implementation' on page 6 undefined on input line
+ 90.
+
+) (./sections/05-packed.tex [6] (./figures/packed-path.tex)
+
+LaTeX Warning: Reference `fig:packed' on page 7 undefined on input line 64.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 59--65
+\T1/ptm/m/n/10 For \T1/pcr/m/n/10 lookup(parent,name)\T1/ptm/m/n/10 , the reade
+r fol-lows the
+
+Underfull \hbox (badness 1292) in paragraph at lines 84--90
+[]\T1/ptm/m/n/10 For sup-ported snap-shot queries, these struc-tures pro-
+[7]
+Underfull \hbox (badness 1688) in paragraph at lines 108--110
+[]\T1/ptm/m/n/10 Construction, val-i-da-tion, pub-li-ca-tion, re-build-ing, and
+
+
+LaTeX Warning: Citation `deltafs2021' on page 8 undefined on input line 121.
+
+
+LaTeX Warning: Citation `cvmfs2011' on page 8 undefined on input line 121.
+
+
+LaTeX Warning: Citation `nydus_rafs' on page 8 undefined on input line 121.
+
+) (./sections/06-layout.tex
+
+LaTeX Warning: Reference `tab:object-granularity' on page 8 undefined on input 
+line 53.
+
+[8]
+
+LaTeX Warning: Reference `sec:implementation' on page 9 undefined on input line
+ 143.
+
+) (./sections/07-implementation.tex
+
+LaTeX Warning: Reference `tab:implementation-entrypoints' on page 9 undefined o
+n input line 20.
+
+
+Underfull \hbox (badness 3713) in paragraph at lines 53--62
+\T1/ptm/m/n/10 means na-tive cat-a-log lay-ers; it is dis-tinct from the
+[9]) (./sections/08-evaluation.tex
+
+LaTeX Warning: Reference `tab:rqs' on page 10 undefined on input line 7.
+
+
+LaTeX Warning: Reference `sec:agent-observations' on page 10 undefined on input
+ line 8.
+
+
+Underfull \hbox (badness 1286) in paragraph at lines 4--11
+\T1/ptm/m/n/10 E01's lo-cal-ity/sharing study or any system-performance
+
+Underfull \vbox (badness 10000) has occurred while \output is active [10]
+Underfull \hbox (badness 6675) in paragraph at lines 27--27
+[]|\T1/ptm/m/n/7 When do delta-based workspaces re-duce
+
+Underfull \hbox (badness 2409) in paragraph at lines 46--54
+[]\T1/ptm/m/n/10 We will record pro-ces-sor, mem-ory, disks, net-work,
+
+LaTeX Warning: Citation `juicefs_architecture' on page 11 undefined on input li
+ne 56.
+
+
+LaTeX Warning: Citation `branchfs2026' on page 11 undefined on input line 66.
+
+
+Underfull \vbox (badness 1552) has occurred while \output is active
+
+LaTeX Warning: Citation `swebench_pro_v2' on page 11 undefined on input line 90
+.
+
+
+LaTeX Warning: Citation `swebench2024' on page 11 undefined on input line 91.
+
+
+LaTeX Warning: Citation `multi_swebench2025' on page 11 undefined on input line
+ 91.
+
+
+LaTeX Warning: Citation `swebench_audit2026' on page 11 undefined on input line
+ 94.
+
+
+Underfull \hbox (badness 2452) in paragraph at lines 141--141
+[]|\T1/ptm/m/n/7 ready time, lower-
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+\T1/ptm/m/n/7 KV calls, GETs,
+
+Underfull \hbox (badness 4048) in paragraph at lines 141--141
+[]|\T1/ptm/m/n/7 critical path, read
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+\T1/ptm/m/n/7 bytes, CPU, task
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+[]|\T1/ptm/m/n/7 install, re-name/unlink storms,
+
+Underfull \hbox (badness 2119) in paragraph at lines 141--141
+[]|\T1/ptm/m/n/7 whiteouts, re-tained
+
+Underfull \hbox (badness 5064) in paragraph at lines 147--154
+[]\T1/ptm/b/n/10 RQ2. \T1/ptm/m/n/10 Pro-vi-sion-ing ex-per-i-ments vary lower 
+size,
+[11]
+Underfull \vbox (badness 5274) has occurred while \output is active
+Underfull \hbox (badness 2460) in paragraph at lines 182--192
+[]\T1/ptm/m/n/10 The file-system study adds $\OML/ptmcm/m/it/10 g$ \T1/ptm/m/n/
+10 as a sep-a-rate object-
+
+Underfull \vbox (badness 5274) has occurred while \output is active [12]
+Underfull \hbox (badness 1546) in paragraph at lines 201--207
+\T1/ptm/m/n/10 and fre-quent dura-bil-ity re-quests. We record ac-cepted
+
+Underfull \hbox (badness 1231) in paragraph at lines 253--259
+\T1/ptm/m/n/10 ing up-loads, re-tained ob-jects, and recla-ma-tion back-log.
+) (./sections/09-related.tex
+
+LaTeX Warning: Citation `overlayfs' on page 13 undefined on input line 6.
+
+
+LaTeX Warning: Citation `branchfs2026' on page 13 undefined on input line 9.
+
+
+LaTeX Warning: Citation `yolofs2026' on page 13 undefined on input line 11.
+
+
+LaTeX Warning: Citation `agentfs2025' on page 13 undefined on input line 12.
+
+[13]
+
+LaTeX Warning: Reference `tab:comparison' on page 14 undefined on input line 19
+.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 Remote meta-
+
+Underfull \hbox (badness 2418) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 requires an ex-ter-nal
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 cached ob-
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 chunk/slice/block
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 shared mu-ta-ble
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 native or packed
+
+Underfull \hbox (badness 3907) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 objects plus meta-
+
+LaTeX Warning: Citation `tablefs2013' on page 14 undefined on input line 47.
+
+
+LaTeX Warning: Citation `indexfs2014' on page 14 undefined on input line 47.
+
+
+LaTeX Warning: Citation `locofs2017' on page 14 undefined on input line 47.
+
+
+LaTeX Warning: Citation `infinifs2022' on page 14 undefined on input line 47.
+
+
+LaTeX Warning: Citation `mantle2025' on page 14 undefined on input line 49.
+
+
+LaTeX Warning: Citation `switchfs2026' on page 14 undefined on input line 49.
+
+
+Underfull \hbox (badness 1472) in paragraph at lines 45--52
+ []\T1/ptm/b/n/10 Namespace and meta-data or-ga-ni-za-tion.[] \T1/ptm/m/n/10 Ta
+bleFS, In-
+
+LaTeX Warning: Citation `deltafs2021' on page 14 undefined on input line 55.
+
+
+LaTeX Warning: Citation `cvmfs2011' on page 14 undefined on input line 67.
+
+
+LaTeX Warning: Citation `nydus_rafs' on page 14 undefined on input line 67.
+
+
+LaTeX Warning: Citation `slacker2016' on page 14 undefined on input line 68.
+
+
+LaTeX Warning: Citation `dadi2020' on page 14 undefined on input line 68.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--74
+ []\T1/ptm/b/n/10 Immutable dis-tri-bu-tion and stor-age back-ends.[]
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--74
+\T1/ptm/m/n/10 CernVM-FS pro-vides demand-driven soft-ware dis-tri-
+
+Underfull \hbox (badness 3503) in paragraph at lines 65--74
+\T1/ptm/m/n/10 bu-tion with in-dexed cat-a-logs, while Ny-dus de-scribes
+
+Underfull \hbox (badness 1147) in paragraph at lines 65--74
+\T1/ptm/m/n/10 Slacker and DADI also ad-dress im-age dis-tri-bu-tion and
+
+LaTeX Warning: Citation `ceph2006' on page 14 undefined on input line 76.
+
+
+LaTeX Warning: Citation `tectonic2021' on page 14 undefined on input line 76.
+
+
+LaTeX Warning: Citation `azureec2012' on page 14 undefined on input line 79.
+
+
+LaTeX Warning: Citation `morph2024' on page 14 undefined on input line 79.
+
+
+LaTeX Warning: Citation `okapi2025' on page 14 undefined on input line 79.
+
+
+LaTeX Warning: Reference `sec:implementation' on page 14 undefined on input lin
+e 99.
+
+) (./sections/10-conclusion.tex) (./main.bbl [14]
+Underfull \hbox (badness 5316) in paragraph at lines 25--30
+[]\T1/ptm/m/n/10 Tyler Har-ter, Bran-don Salmon, Rose Liu, An-
+
+Underfull \hbox (badness 3930) in paragraph at lines 25--30
+\T1/ptm/m/n/10 drea C. Arpaci-Dusseau, and Remzi H. Arpaci-
+
+Underfull \hbox (badness 1142) in paragraph at lines 25--30
+\T1/ptm/m/n/10 con-tain-ers.  In \T1/ptm/m/it/10 14th USENIX Con-fer-ence on Fi
+le
+
+Underfull \hbox (badness 1337) in paragraph at lines 39--44
+[]\T1/ptm/m/n/10 Carlos E. Jimenez, John Yang, Alexan-der Wet-tig,
+
+Underfull \hbox (badness 1629) in paragraph at lines 39--44
+\T1/ptm/m/n/10 Shunyu Yao, Kexin Pei, Ofir Press, and Karthik
+[15]
+Underfull \hbox (badness 4229) in paragraph at lines 115--122
+[]\T1/ptm/m/n/10 Satadru Pan, Theano Stavri-nos, Yun-qiao Zhang,
+
+Underfull \hbox (badness 5203) in paragraph at lines 115--122
+\T1/ptm/m/n/10 Atul Sikaria, Pavel Za-kharov, Ab-hi-nav Sharma,
+
+Underfull \hbox (badness 2689) in paragraph at lines 115--122
+\T1/ptm/m/n/10 Shiva Shankar P, Mike Shuey, Richard Ware-ing,
+
+Underfull \hbox (badness 1226) in paragraph at lines 144--149
+[]\T1/ptm/m/n/10 Cong Wang and Yusheng Zheng.  Fork, ex-plore,
+
+Underfull \hbox (badness 1122) in paragraph at lines 184--192
+[]\T1/ptm/m/n/10 Daoguang Zan, Zhi-rong Huang, Wei Liu, Hanwu
+
+Underfull \hbox (badness 1189) in paragraph at lines 202--208
+\T1/ptm/m/n/10 Zheng, An-drea C. Arpaci-Dusseau, and Remzi H.
+) [16] (./main.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )
+(see the transcript file for additional information)
+Output written on main.xdv (16 pages, 128072 bytes).
+Transcript written on main.log.
+Latexmk: Getting log file 'main.log'
+Latexmk: Examining 'main.fls'
+Latexmk: Examining 'main.log'
+Latexmk: References changed.
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: References changed.
+Latexmk: References changed.
+Latexmk: Log file says output to 'main.xdv'
+  ===Source file 'main.bbl' for 'xelatex'
+Latexmk: Using bibtex to make bibliography file(s).
+Create bibtex main
+Latexmk: Found bibliography file(s):
+  ./references.bib
+Latexmk: applying rule 'bibtex main'...
+Rule 'bibtex main':  Reasons for rerun
+Category 'other':
+  Rerun of 'bibtex main' forced or previously required:
+    Reason or flag: 'Initial set up of rule'
+
+------------
+Run number 1 of rule 'bibtex main'
+------------
+------------
+Running 'bibtex  "main.aux"'
+------------
+This is BibTeX, Version 0.99e (TeX Live 2026)
+The top-level auxiliary file: main.aux
+The style file: plain.bst
+Database file #1: references.bib
+Latexmk: applying rule 'xelatex'...
+Rule 'xelatex':  Reasons for rerun
+Changed files or newly in use/created:
+  main.aux
+  main.out
+
+------------
+Run number 2 of rule 'xelatex'
+------------
+------------
+Running 'xelatex -no-pdf -interaction=nonstopmode -halt-on-error -file-line-error -recorder  "main.tex"'
+------------
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-09-09>
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/base/size10.clo))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/hyperref.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/iftex/iftex.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/keyval.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+) (c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/infwarerr/infwarerr.sty)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/nameref.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/refcount/refcount.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/gettitlestring/gettitlestring
+.sty (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+ (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/puenc.def)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/url/url.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/bitset/bitset.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/hyperref/hxetex.def
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.s
+ty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/uniquecounter/uniquecounter.s
+ty))) (./usenix2019_v3_xetex.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/mathptmx.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/t1ptm.fd))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pslatex/pslatex.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/microtype.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/microtype-xetex.def)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/microtype.cfg))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/sttools/flushend.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/cite/cite.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/xcolor/xcolor.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics-def/xetex.def)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/mathcolor.ltx)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amstext.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/tools/array.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/tools/tabularx.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/graphics.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics/trig.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.
+tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.d
+ef)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/pgf.revision.tex)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.t
+ex
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.te
+x
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryf
+iltered.code.tex))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-xetex.
+def
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdf
+mx.def
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common
+-pdf.def))))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpat
+h.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotoco
+l.code.tex))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.t
+ex (c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex
+)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.t
+ex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.cod
+e.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.bas
+ic.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.tri
+gonometric.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.ran
+dom.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.com
+parison.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.bas
+e.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.rou
+nd.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.mis
+c.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.int
+egerarithmetics.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
+)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.te
+x)) (c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.
+code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathcon
+struct.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusa
+ge.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.
+code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphic
+state.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransfo
+rmations.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects
+.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathpro
+cessing.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.
+code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexterna
+l.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.
+code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretranspa
+rency.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepattern
+s.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.cod
+e.tex)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.cod
+e.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-versi
+on-0-65.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-versi
+on-1-18.sty))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.te
+x)) (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.c
+ode.tex
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibraryploth
+andlers.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.c
+ode.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librar
+ies/tikzlibrarytopaths.code.tex)))
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrow
+s.meta.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librar
+ies/tikzlibrarypositioning.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librar
+ies/tikzlibraryfit.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librar
+ies/tikzlibrarycalc.code.tex)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/xurl/xurl.sty)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/l3kernel/l3backend-xetex.def)
+(./main.aux) (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/omspzccm.fd
+) (./main.out) (./main.out)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/mt-ptm.cfg)
+(./sections/01-introduction.tex
+Underfull \hbox (badness 10000) in paragraph at lines 42--51
+[]\T1/ptm/m/n/10 The in-di-vid-ual ideas have sub-stan-tial prece-dents.
+
+Underfull \hbox (badness 2012) in paragraph at lines 42--51
+\T1/ptm/m/n/10 Over-layFS pro-vides lay-ered names-pace se-man-tics [[]12[]],
+
+Underfull \hbox (badness 2197) in paragraph at lines 42--51
+\T1/ptm/m/n/10 BranchFS uses copy-on-write branches for agen-tic ex-
+
+Underfull \hbox (badness 2318) in paragraph at lines 42--51
+\T1/ptm/m/n/10 sys-tems al-ready sup-port in-dexed, demand-loaded base-
+[1] (c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/ot1ptmcm.fd)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/omlptmcm.fd)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/psnfss/omxpsycm.fd)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(c:/Users/HXY/texlive/2026/texmf-dist/tex/latex/microtype/mt-msb.cfg))
+(./sections/02-motivation.tex (./sections/02-agent-observations.tex
+Underfull \vbox (badness 1122) has occurred while \output is active
+Underfull \hbox (badness 7256) in paragraph at lines 64--75
+ []\T1/ptm/b/n/10 Task and tem-po-ral het-ero-gene-ity.[] \T1/ptm/m/n/10 Tasks 
+gen-er-ated
+[2]) [3]) (./sections/03-overview.tex (./figures/architecture.tex))
+(./sections/04-delta.tex [4]
+Underfull \vbox (badness 1472) has occurred while \output is active [5]
+Underfull \hbox (badness 2384) in paragraph at lines 31--36
+\T1/ptm/m/n/10 A white-out sup-presses the in-her-ited name; ap-pli-ca-ble
+
+Underfull \hbox (badness 2181) in paragraph at lines 73--79
+\T1/ptm/m/n/10 ary. The En-tity path up-loads an ob-ject durably be-
+
+Underfull \hbox (badness 2573) in paragraph at lines 73--79
+\T1/ptm/m/n/10 fore pub-lish-ing its map-ping. The or-di-nary VFS of-
+
+Underfull \vbox (badness 2080) has occurred while \output is active)
+(./sections/05-packed.tex [6] (./figures/packed-path.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 59--65
+\T1/ptm/m/n/10 For \T1/pcr/m/n/10 lookup(parent,name)\T1/ptm/m/n/10 , the reade
+r fol-lows the
+
+Underfull \hbox (badness 1292) in paragraph at lines 84--90
+[]\T1/ptm/m/n/10 For sup-ported snap-shot queries, these struc-tures pro-
+[7]
+Underfull \hbox (badness 1688) in paragraph at lines 108--110
+[]\T1/ptm/m/n/10 Construction, val-i-da-tion, pub-li-ca-tion, re-build-ing, and
+
+) (./sections/06-layout.tex [8]) (./sections/07-implementation.tex
+Underfull \hbox (badness 3713) in paragraph at lines 53--62
+\T1/ptm/m/n/10 means na-tive cat-a-log lay-ers; it is dis-tinct from the
+[9]) (./sections/08-evaluation.tex
+Underfull \vbox (badness 10000) has occurred while \output is active [10]
+Underfull \hbox (badness 6675) in paragraph at lines 27--27
+[]|\T1/ptm/m/n/7 When do delta-based workspaces re-duce
+
+Underfull \hbox (badness 2409) in paragraph at lines 46--54
+[]\T1/ptm/m/n/10 We will record pro-ces-sor, mem-ory, disks, net-work,
+
+Underfull \vbox (badness 1552) has occurred while \output is active
+Underfull \hbox (badness 2452) in paragraph at lines 141--141
+[]|\T1/ptm/m/n/7 ready time, lower-
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+\T1/ptm/m/n/7 KV calls, GETs,
+
+Underfull \hbox (badness 4048) in paragraph at lines 141--141
+[]|\T1/ptm/m/n/7 critical path, read
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+\T1/ptm/m/n/7 bytes, CPU, task
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+[]|\T1/ptm/m/n/7 install, re-name/unlink storms,
+
+Underfull \hbox (badness 2119) in paragraph at lines 141--141
+[]|\T1/ptm/m/n/7 whiteouts, re-tained
+
+Underfull \hbox (badness 5064) in paragraph at lines 147--154
+[]\T1/ptm/b/n/10 RQ2. \T1/ptm/m/n/10 Pro-vi-sion-ing ex-per-i-ments vary lower 
+size,
+[11]
+Underfull \vbox (badness 5274) has occurred while \output is active
+Underfull \hbox (badness 2460) in paragraph at lines 182--192
+[]\T1/ptm/m/n/10 The file-system study adds $\OML/ptmcm/m/it/10 g$ \T1/ptm/m/n/
+10 as a sep-a-rate object-
+
+Underfull \vbox (badness 5274) has occurred while \output is active [12]
+Underfull \hbox (badness 1546) in paragraph at lines 201--207
+\T1/ptm/m/n/10 and fre-quent dura-bil-ity re-quests. We record ac-cepted
+
+Underfull \hbox (badness 1231) in paragraph at lines 253--259
+\T1/ptm/m/n/10 ing up-loads, re-tained ob-jects, and recla-ma-tion back-log.
+) (./sections/09-related.tex [13]
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 Remote meta-
+
+Underfull \hbox (badness 2418) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 requires an ex-ter-nal
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 cached ob-
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 chunk/slice/block
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 shared mu-ta-ble
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 native or packed
+
+Underfull \hbox (badness 3907) in paragraph at lines 37--37
+[]|\T1/ptm/m/n/7 objects plus meta-
+
+Underfull \hbox (badness 1472) in paragraph at lines 45--52
+ []\T1/ptm/b/n/10 Namespace and meta-data or-ga-ni-za-tion.[] \T1/ptm/m/n/10 Ta
+bleFS, In-
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--74
+ []\T1/ptm/b/n/10 Immutable dis-tri-bu-tion and stor-age back-ends.[]
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--74
+\T1/ptm/m/n/10 CernVM-FS pro-vides demand-driven soft-ware dis-tri-
+
+Underfull \hbox (badness 3503) in paragraph at lines 65--74
+\T1/ptm/m/n/10 bu-tion with in-dexed cat-a-logs, while Ny-dus de-scribes
+
+Underfull \hbox (badness 1147) in paragraph at lines 65--74
+\T1/ptm/m/n/10 Slacker and DADI also ad-dress im-age dis-tri-bu-tion and
+) (./sections/10-conclusion.tex) (./main.bbl [14]
+Underfull \hbox (badness 5316) in paragraph at lines 25--30
+[]\T1/ptm/m/n/10 Tyler Har-ter, Bran-don Salmon, Rose Liu, An-
+
+Underfull \hbox (badness 3930) in paragraph at lines 25--30
+\T1/ptm/m/n/10 drea C. Arpaci-Dusseau, and Remzi H. Arpaci-
+
+Underfull \hbox (badness 1142) in paragraph at lines 25--30
+\T1/ptm/m/n/10 con-tain-ers.  In \T1/ptm/m/it/10 14th USENIX Con-fer-ence on Fi
+le
+
+Underfull \hbox (badness 1337) in paragraph at lines 39--44
+[]\T1/ptm/m/n/10 Carlos E. Jimenez, John Yang, Alexan-der Wet-tig,
+
+Underfull \hbox (badness 1629) in paragraph at lines 39--44
+\T1/ptm/m/n/10 Shunyu Yao, Kexin Pei, Ofir Press, and Karthik
+[15]
+Underfull \hbox (badness 4229) in paragraph at lines 115--122
+[]\T1/ptm/m/n/10 Satadru Pan, Theano Stavri-nos, Yun-qiao Zhang,
+
+Underfull \hbox (badness 5203) in paragraph at lines 115--122
+\T1/ptm/m/n/10 Atul Sikaria, Pavel Za-kharov, Ab-hi-nav Sharma,
+
+Underfull \hbox (badness 2689) in paragraph at lines 115--122
+\T1/ptm/m/n/10 Shiva Shankar P, Mike Shuey, Richard Ware-ing,
+
+Underfull \hbox (badness 1226) in paragraph at lines 144--149
+[]\T1/ptm/m/n/10 Cong Wang and Yusheng Zheng.  Fork, ex-plore,
+
+Underfull \hbox (badness 1122) in paragraph at lines 184--192
+[]\T1/ptm/m/n/10 Daoguang Zan, Zhi-rong Huang, Wei Liu, Hanwu
+
+Underfull \hbox (badness 1189) in paragraph at lines 202--208
+\T1/ptm/m/n/10 Zheng, An-drea C. Arpaci-Dusseau, and Remzi H.
+) [16] (./main.aux) )
+(see the transcript file for additional information)
+Output written on main.xdv (16 pages, 142704 bytes).
+Transcript written on main.log.
+Latexmk: Getting log file 'main.log'
+Latexmk: Examining 'main.fls'
+Latexmk: Examining 'main.log'
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: Log file says output to 'main.xdv'
+  ===Source file 'main.bbl' for 'xelatex'
+Latexmk: Using bibtex to make bibliography file(s).
+Latexmk: Found bibliography file(s):
+  ./references.bib
+Latexmk: applying rule 'xdvipdfmx'...
+Rule 'xdvipdfmx':  Reasons for rerun
+Changed files or newly in use/created:
+  main.xdv
+Category 'changed_source_rules':
+  xelatex
+
+------------
+Run number 1 of rule 'xdvipdfmx'
+------------
+------------
+Running 'xdvipdfmx -E -o "main.pdf"  "main.xdv"'
+------------
+main.xdv -> main.pdf
+[1][2][3][4][5][6][7][8][9][10][11][12][13][14][15][16]
+182146 bytes written
+Latexmk: All targets (main.xdv main.pdf) are up-to-date
+
+Reverting Windows console CPs to (in,out) = (936,65001)

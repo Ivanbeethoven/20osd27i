@@ -1,8 +1,8 @@
 # Editable system architecture
 
-This is the retained first version. The active paper figure now uses
-`system-architecture-v2.pdf`; see `system-architecture-v2.README.md` for the
-imagegen concept, editable reconstruction and current build instructions.
+This is the retained first version. The active paper figure uses
+`system-architecture-compact.pdf`; see `system-architecture-compact.README.md`
+for its editable source and current build instructions.
 
 This replaces the previous overview as Figure 4 in Section 3. It presents the
 logical Entity workspace architecture, not a physical deployment topology.
@@ -30,7 +30,6 @@ From the repository root, with the Python environment recorded in
 
 ```powershell
 python tools/draw_architecture.py
-Set-Location paper
 latexmk -xelatex '-outdir=.' '-auxdir=.' -interaction=nonstopmode -halt-on-error main.tex
 latexmk -xelatex '-outdir=.' '-auxdir=.' -interaction=nonstopmode -halt-on-error anonymous-preview.tex
 ```
@@ -48,7 +47,7 @@ with `n:`, containers with `c:`, and edges with `e:`.
 
 The scientific scope, node/edge source map and excluded claims are in
 `planning/architecture-figure-brief.md`. The final caption is maintained in
-`paper/sections/03-overview.tex`. The figure intentionally retains the mutable
+`sections/03-overview.tex`. The figure intentionally retains the mutable
 metadata service, the upper whole-object integrity boundary in its caption,
 and the incomplete hint connections. It does not depict evaluated speedups,
 general crash recovery, or automatic merging between agents.

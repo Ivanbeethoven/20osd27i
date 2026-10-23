@@ -37,7 +37,7 @@ TASKS = {
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--data', type=Path, default=HERE/'derived')
-    ap.add_argument('--output', type=Path, default=HERE.parents[1]/'paper/figures/agent-fuse')
+    ap.add_argument('--output', type=Path, default=HERE.parents[1]/'figures/agent-fuse')
     ap.add_argument('--qa-output', type=Path, default=HERE/'qa')
     ap.add_argument('--qa-scripts', type=Path,
                     default=Path.home()/'.codex/skills/nature-figure/scripts')

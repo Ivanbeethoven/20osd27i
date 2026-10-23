@@ -11,8 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 errors: list[str] = []
 required = [
-    'paper/main.tex', 'paper/anonymous-preview.tex', 'paper/references.bib',
-    'paper/usenix2019_v3.sty', 'paper/template/usenix2019_v3.sty',
+    'main.tex', 'anonymous-preview.tex', 'references.bib',
+    'usenix2019_v3.sty', 'templates/usenix-official/usenix2019_v3.sty',
     'planning/01-research-outline.zh.md', 'planning/02-experiment-plan.zh.md',
     'experiments/matrix.csv', 'experiments/run-manifest.example.yaml',
     'experiments/observations.schema.json', 'experiments/implementation-backlog.csv',
@@ -25,11 +25,11 @@ for name in required:
 if errors:
     print(json.dumps({'passed': False, 'errors': errors}, indent=2)); sys.exit(1)
 
-bib = (ROOT / 'paper/references.bib').read_text()
+bib = (ROOT / 'references.bib').read_text()
 keys = re.findall(r'@\w+\s*\{\s*([^,\s]+)', bib)
 if len(keys) != len(set(keys)):
     errors.append('Duplicate BibTeX keys')
-tex_files = list((ROOT / 'paper/sections').glob('*.tex')) + [ROOT / 'paper/main.tex']
+tex_files = list((ROOT / 'sections').glob('*.tex')) + [ROOT / 'main.tex']
 tex = '\n'.join(p.read_text() for p in tex_files)
 cited = set()
 for group in re.findall(r'\\cite(?:\[[^\]]*\])?\{([^}]+)\}', tex):
@@ -56,16 +56,16 @@ manifest = (ROOT / 'experiments/run-manifest.example.yaml').read_text()
 if 'status: planned' not in manifest or 'measurements: null' not in manifest:
     errors.append('Manifest template must remain visibly unexecuted')
 
-styles = [ROOT / 'paper/usenix2019_v3.sty', ROOT / 'paper/template/usenix2019_v3.sty']
+styles = [ROOT / 'usenix2019_v3.sty', ROOT / 'templates/usenix-official/usenix2019_v3.sty']
 hashes = [hashlib.sha256(p.read_bytes()).hexdigest() for p in styles]
 expected_style = '4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45ff6'
 if hashes != [expected_style, expected_style]: errors.append('Official style hash mismatch')
 
 log_status = {}
 for stem in ['main', 'anonymous-preview']:
-    p = ROOT / 'paper' / (stem + '.log')
+    p = ROOT / (stem + '.log')
     if not p.exists():
-        log_status[stem] = 'not available; build with make -C paper'
+        log_status[stem] = 'not available; build with make'
         continue
     log = p.read_text(errors='replace')
     problems = [s for s in ['Citation', 'Reference', 'Overfull', 'Missing character']

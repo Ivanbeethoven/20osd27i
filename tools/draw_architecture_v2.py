@@ -34,7 +34,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--font', type=Path, default=Path('C:/Windows/Fonts/arial.ttf'))
     ap.add_argument('--bold-font', type=Path, default=Path('C:/Windows/Fonts/arialbd.ttf'))
-    ap.add_argument('--output', type=Path, default=ROOT/'paper/figures/system-architecture-v2')
+    ap.add_argument('--output', type=Path, default=ROOT/'figures/system-architecture-v2')
     args = ap.parse_args()
     pdfmetrics.registerFont(TTFont('Arial', str(args.font)))
     pdfmetrics.registerFont(TTFont('Arial-Bold', str(args.bold_font)))

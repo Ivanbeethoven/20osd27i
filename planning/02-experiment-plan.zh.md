@@ -378,4 +378,4 @@ GC 与 lease/fence 的 crash 分析只适用于真实选定实现；Entity 与 l
 - [S2] [BrewFS Entity mount，历史检查点](https://github.com/brewfs/brewfs/blob/518e7cc39b2ff0b421ecf0f656de6d468cacb9b8/src/cli/entity_mount.rs)
 - [S3] [RustFS EC block layout](https://github.com/Ivanbeethoven/rustfs/blob/cc4926fac1107aee76540f28bf22dbd47fcbca24/crates/ecstore/src/object_api/ec_block_layout.rs)
 - [B1] [JuiceFS 官方架构](https://juicefs.com/docs/community/architecture/)
-- 近邻论文的完整 metadata、出版状态和 DOI 见 `paper/references.bib` 与 `references/source_registry.csv`。
+- 近邻论文的完整 metadata、出版状态和 DOI 见根目录的 `references.bib` 与 `references/source_registry.csv`。

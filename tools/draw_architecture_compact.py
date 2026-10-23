@@ -34,7 +34,7 @@ def el(parent, tag, **attrs):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--output', type=Path,
-                    default=ROOT/'paper/figures/system-architecture-compact')
+                    default=ROOT/'figures/system-architecture-compact')
     args = ap.parse_args()
     rl_config.useA85 = 0  # keep PDF text streams directly auditable
     pdfmetrics.registerFont(TTFont('Arial','C:/Windows/Fonts/arial.ttf'))

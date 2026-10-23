@@ -1,4 +1,4 @@
-# Generated LaTeX output from the generic root template.
+# Generated LaTeX intermediates and temporary output.
 build/
 *.aux
 *.bcf
@@ -15,13 +15,13 @@ build/
 *.xdv
 *.pdf
 # The research package ships these reviewed PDF/BibTeX artifacts intentionally.
-!paper/main.pdf
-!paper/anonymous-preview.pdf
-!paper/figures/agent-fuse/*.pdf
-!paper/figures/system-architecture.pdf
-!paper/figures/system-architecture-v2.pdf
-!paper/figures/system-architecture-compact.pdf
+!/main.pdf
+!/anonymous-preview.pdf
+!/figures/agent-fuse/*.pdf
+!/figures/system-architecture.pdf
+!/figures/system-architecture-v2.pdf
+!/figures/system-architecture-compact.pdf
 !planning/paper-layout.pdf
 !experiments/ax-multi-agent/report/main.pdf
-!paper/main.bbl
-!paper/anonymous-preview.bbl
+!/main.bbl
+!/anonymous-preview.bbl

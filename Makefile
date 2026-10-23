@@ -1,13 +1,20 @@
-.PHONY: all paper template clean
+LATEXMK ?= latexmk
+LATEX_FLAGS = -xelatex -interaction=nonstopmode -halt-on-error -file-line-error
+.PHONY: all paper named anonymous template clean
 
-all: paper
+all: named anonymous
 
-paper:
-	$(MAKE) -C paper
+paper: all
+
+named:
+	$(LATEXMK) $(LATEX_FLAGS) main.tex
+
+anonymous:
+	$(LATEXMK) $(LATEX_FLAGS) anonymous-preview.tex
 
 template:
-	$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+	cd templates/usenix-starter && $(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
 
 clean:
-	$(MAKE) -C paper clean
-	$(LATEXMK) -C main.tex
+	$(LATEXMK) -c main.tex
+	$(LATEXMK) -c anonymous-preview.tex

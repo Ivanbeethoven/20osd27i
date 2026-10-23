@@ -5,6 +5,25 @@ the supplied capture, not a BrewFS/RustFS performance experiment. The new
 Section 2.2 replaces the earlier unverified-pilot paragraph. E00–E16 remain
 planned; the pilot supplies only part of E01's request characterization.
 
+## Current compact main figure
+
+The paper now includes `figures/agent-fuse/fuse-combined-compact.pdf`:
+one three-panel figure for **request mix → size mixture → task bursts**.
+`plot_combined.py` redraws it from the validated derived data, with 9.5–10.5 pt
+text at the actual 7-inch manuscript width. Its height is 2.75 inches versus
+4.45 inches for the two previous figure images combined.
+
+The full method breakdowns, size ECDFs, and cumulative time curves remain in
+previous exports as companion diagnostics. No event or task is excluded. The
+main figure explicitly aggregates methods into four classes, sizes at the three
+thresholds already discussed in the text, and each task's time bins into its
+busiest-tenth statistic. See `figure-contract-combined.md` and
+`qa/combined/review.md` for definitions and checks.
+
+```powershell
+python experiments/agent-fuse-observations/plot_combined.py --qa-scripts 'C:/path/to/nature-figure/scripts'
+```
+
 ## Inputs and provenance
 
 Original directory (read-only):
@@ -58,8 +77,9 @@ is zero; benchmark grading success was not established.
 
 The main text retains task-level metadata shares (39.6–65.4%), read/write
 ratios (3.12–42.7), call-count range (8,542–634,726), Astropy/Pytest group
-contributions, capture spans and burst statistics. The independent time figure
-continues to show every task. Moving this table does not reduce the discussion
+contributions, capture spans and burst statistics. The companion time figure
+continues to show every task, and main-figure panel c shows each task's burst
+fraction. Moving this table does not reduce the discussion
 to pooled group averages.
 
 ## Definitions
@@ -110,11 +130,11 @@ to pooled group averages.
 
 | Manuscript claim | Recomputed evidence | Artifact |
 |---|---|---|
-| Metadata-related calls constitute a group majority | Six-method share: Core 61.5399%, Exploratory 56.3502%; SymPy exception 39.6035% | `methods.csv`, `summary.json`; Figure 1a,b |
-| Reads outnumber writes, with task differences | Core 22,142/1,112 = 19.9119; Exploratory 98,292/23,600 = 4.16492; per-task ratios 3.12436–42.6974 | `tasks.csv`, per-task table above; Figure 1c,d sample counts |
-| Small and intermediate requests both occur | Read median Core 8 KiB / Exploratory 16 KiB; write median 4084 / 4117 bytes. All per-group threshold counts and p50/p75/p90/p95/p99 are retained | `request-sizes.csv`, `summary.json`; Figure 1c,d |
-| Intensity differs by task and time | 8,542–634,726 calls/task; busiest tenth of 1-s windows contains 47.4134–83.6706% of calls; Astropy contributes 68.8606% of Exploratory events | `tasks.csv`, `timeseries-1s.csv`; Figure 2 |
-| Negative probes matter to the request mix | 253,669 error records; six-method share among ok calls is Core 51.9944%, Exploratory 44.2249% | `methods.csv`, `summary.json`; Figure 1a,b outlines and metadata paragraph |
+| Metadata-related calls constitute a group majority | Six-method share: Core 61.5399%, Exploratory 56.3502%; SymPy exception 39.6035% | `methods.csv`, `summary.json`; combined panel a and task ranges in text |
+| Reads outnumber writes, with task differences | Core 22,142/1,112 = 19.9119; Exploratory 98,292/23,600 = 4.16492; per-task ratios 3.12436–42.6974 | `tasks.csv`, per-task table above; combined panel a and caption sample counts |
+| Small and intermediate requests both occur | Read median Core 8 KiB / Exploratory 16 KiB; write median 4084 / 4117 bytes. All per-group threshold counts and p50/p75/p90/p95/p99 are retained | `request-sizes.csv`, `summary.json`; combined panel b; companion ECDFs retain full detail |
+| Intensity differs by task and time | 8,542–634,726 calls/task; busiest tenth of 1-s windows contains 47.4134–83.6706% of calls; Astropy contributes 68.8606% of Exploratory events | `tasks.csv`, `timeseries-1s.csv`; combined panel c; companion cumulative curves |
+| Negative probes matter to the request mix | 253,669 error records; six-method share among ok calls is Core 51.9944%, Exploratory 44.2249% | `methods.csv`, `summary.json`; combined panel a white segments and metadata paragraph |
 
 These observations motivate testing positive and negative metadata paths for
 Packed, mixed sizes for client/object-layout experiments, and task-specific
@@ -173,11 +193,11 @@ redraw all figures without the 557 MB event file; `summary.json` supplies
 metadata and validates plotted sample counts. The raw input is needed to
 reproduce the statistics, including source hashes.
 
-Active figures are `paper/figures/agent-fuse/fuse-profile.{pdf,svg,png}`
+Previous figures are `figures/agent-fuse/fuse-profile.{pdf,svg,png}`
 (four-panel method/size profile) and `fuse-time.{pdf,svg,png}` (independent
 per-task cumulative calls). The former `fuse-methods` and
 `fuse-request-sizes` exports remain as historical artifacts and are no longer
-included in the paper. The default plotting command regenerates both active
+included in the paper. The legacy `plot.py` command regenerates both previous
 figures; `--profile-only` preserves the time figure when revising the profile.
 At the manuscript's 7-inch width, all profile labels, ticks and legends are
 at least 8 pt. Stars mark the six-method metadata subset; white bar segments
@@ -194,10 +214,11 @@ Figures are provided as PDF, editable SVG and PNG.
 `figure-contract.md` specifies their evidence roles. `qa/` preserves alignment,
 font and collision results; `qa/review.md` records final visual review and
 explains nonblocking static warnings. PDF/SVG are publication graphics; PNGs
-are 300 dpi previews. The paper is built with Windows XeLaTeX:
+are 300 dpi previews. Historical QA records retain their original inspection
+paths. Build the paper with XeLaTeX from the repository root (`main.tex` is the
+formal manuscript entry point):
 
 ```powershell
-Set-Location paper
 latexmk -xelatex '-outdir=.' '-auxdir=.' -interaction=nonstopmode -halt-on-error main.tex
 latexmk -xelatex '-outdir=.' '-auxdir=.' -interaction=nonstopmode -halt-on-error anonymous-preview.tex
 ```

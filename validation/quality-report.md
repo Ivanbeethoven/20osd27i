@@ -1,39 +1,20 @@
-# Final quality report
+# Current artifact quality report
 
-Date: 2026-10-23. Scope: principles rewrite from the author's PPT and a fixed current BrewFS source audit. The three optional mechanisms are view composition, immutable metadata representation/access, and client object formation with optional backend layout. No BrewFS mount, fault-injection, or performance experiments were executed in this revision.
+Date: 2026-10-23. This revision promotes the BrewFS manuscript to the repository root. The canonical entry is `main.tex`; `anonymous-preview.tex`, `sections/`, `figures/`, `references.bib`, styles, and reviewed PDFs are alongside it. `paper/Makefile` only forwards legacy make commands. The original starter is preserved under `templates/usenix-starter/`, and the official example under `templates/usenix-official/`.
 
-## Manuscript and evidence
+## Preservation and scope
 
-- Rewrote the abstract and principles in all ten numbered chapters. The experimental protocol, related work, and conclusion now use the same optional-composition model.
-- Preserved `paper/sections/02-agent-observations.tex` byte for byte, including the eight tasks and 1,138,884 FUSE requests. The bibliography and both official style files are unchanged. Every numeric token in the evaluation chapter remains unchanged from the immediately preceding draft.
-- BrewFS source is fixed at `242af5f7e9bba7afc0c61778f1084fcb20e083a0`; the backend evidence remains the separate RustFS research fork `cc4926fac1107aee76540f28bf22dbd47fcbca24`. Earlier evidence inventories remain historical, rather than being relabelled as current.
-- The PPT was read in presentation order, with explicit slide-to-notes relationships, and its rendered slides were inspected. Current Packed v3 is distinguished from the PPT's earlier tree-and-batch format. Client granularity g is distinguished from backend B/q and from finalized object length.
-- Three delegated audits and chapter rewrites were integrated, followed by independent cross-review of mechanism dependencies and object/recovery boundaries. Detailed source evidence is in `evidence/principles-code/`; the Chinese synthesis is `planning/03-mechanism-relationships.zh.md`.
+All eleven manuscript section files, all figure assets, the bibliography, official style, and derived workload observations are byte-identical to the local pre-move snapshot. The existing uncommitted combined workload figure and its observation-section references were retained and included in the root build. This revision changes paths, build entry points, documentation, and validation; it does not add system measurements or rewrite the scientific claims.
 
-## Artifact verification
+The previous root starter files are preserved exactly. Editable source and regeneration scripts now target `figures/`. Historical evidence and QA records retain paths as recorded at the time. The previous quality report is archived at `validation/root-layout/quality-before.md`.
 
-| Check | Named draft | Neutral-name preview |
-|---|---:|---:|
-| Successful XeLaTeX/latexmk build | Yes | Yes |
-| Total pages | 17 | 17 |
-| Last body page | 15 | 15 |
-| Page size | US Letter | US Letter |
-| Undefined citations/references | 0 | 0 |
-| Overfull boxes / missing glyphs | 0 / 0 | 0 / 0 |
-| Embedded fonts | All | All |
-| Type 3 fonts | 0 | 0 |
-| Text outside page bounds | 0 | 0 |
-| Explicit author metadata | Empty | Empty |
-| BrewFS/source-revision identity matches in preview text | N/A | 0 |
+## Validation
 
-Both final PDFs were rendered completely with Poppler and visually inspected in contact sheets. Full-page checks covered the mechanism-selection table, architecture composition, granularity example, and mount-entry table. The mount table was adjusted to avoid stretched labels and rechecked after rebuilding. No clipped text, overlapping figures, or broken formulas were found. Underfull justification diagnostics remain (53 named, 57 preview); they were visually reviewed and do not represent overflow.
+- Both documents build from the root with bare `latexmk` (XeLaTeX is selected in `.latexmkrc`). Output is `main.pdf` and `anonymous-preview.pdf` in the root.
+- Both PDFs have 16 pages; the last numbered body section ends on page 14. The prior local combined-figure edit accounts for the difference from the older 17-page PDF.
+- Both final logs have zero undefined references/citations, overfull boxes, and missing glyphs. All fonts are embedded, no Type 3 fonts occur, and extracted text stays within page boundaries.
+- Both PDFs were rendered in full and visually inspected in contact sheets; the combined observation figure and caption were inspected at full-page scale. No clipping, overlap, or broken glyphs were found.
+- Package validation passes: 29 BibTeX entries, 27 cited, RQ1–RQ7, and E00–E16 still planned. The official style hash remains unchanged.
+- Root Makefile, legacy forwarding Makefile, README, script output paths, GitHub Actions, and PDF artifact paths agree with the new layout. Windows validation used latexmk directly; make forwarding was inspected rather than executed because make is not installed in this shell.
 
-The architecture artwork is unchanged. Its caption now explicitly scopes it to an illustrative combination, with alternatives and the preceding client g boundary explained in the text. The original packed-access figure remains one representative lookup, not a fixed request-count claim.
-
-`validation/principles-rewrite/pdf-inspection.json` records PDF hashes, fonts, metadata, and preservation checks. The final package validator passed: 29 bibliography entries, 27 cited entries, all seven RQs, exactly 17 experiments E00–E16, and all experiment statuses still planned. `git diff --check` passed. Source edits did not change the official USENIX style, margins, or type sizes.
-
-## Remaining scope
-
-Architectural optionality does not establish every factor combination as a runnable mode. Section 7 records concrete entry points, fixed g configuration, independent backend gates, missing hint connections, and supported recovery scopes. No online access-adaptive client block controller or end-to-end worker migration is claimed. Both PDFs remain internal working drafts; the body has 15 pages and has not been reduced to the recorded submission budget. The neutral-name PDF is a preview, not certification of full submission anonymity.
-
-The prior quality report is retained in `validation/principles-rewrite/quality-before.md`; earlier figure and workload reviews remain in their original validation directories.
+Details are in `validation/root-layout/preservation-and-pdf-checks.json` and `package-validation.json`. The PDFs remain author working drafts; the neutral-name preview is not a certification of submission anonymity or venue compliance. No BrewFS runtime, fault, or performance experiments were executed.

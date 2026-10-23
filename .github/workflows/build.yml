@@ -11,7 +11,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: xu-cheng/latex-action@v4
         with:
-          working_directory: paper
           root_file: |
             main.tex
             anonymous-preview.tex
@@ -20,5 +19,5 @@ jobs:
         with:
           name: brewfs-osdi-paper
           path: |
-            paper/main.pdf
-            paper/anonymous-preview.pdf
+            main.pdf
+            anonymous-preview.pdf

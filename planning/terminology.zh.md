@@ -51,4 +51,4 @@
 - 讨论外部系统时保留该系统自己的术语；一般意义的 delta（例如两个代码版本的差异）不强行替换成工作区增量状态。
 - 术语统一不改变公式、参数、观测数据、实现状态或计划实验的证据边界。
 
-原文依据：`paper/sections/03-overview.tex`、`04-delta.tex`、`05-packed.tex`、`06-layout.tex`；关系框架见 [03-mechanism-relationships.zh.md](03-mechanism-relationships.zh.md)，当前代码证据见 [工作区](../evidence/principles-code/workspaces.md)、[Packed](../evidence/principles-code/packed.md) 和 [对象粒度](../evidence/principles-code/objects.md)。
+原文依据：`sections/03-overview.tex`、`sections/04-delta.tex`、`sections/05-packed.tex`、`sections/06-layout.tex`；正式论文入口为仓库根目录的 `main.tex`。关系框架见 [03-mechanism-relationships.zh.md](03-mechanism-relationships.zh.md)，当前代码证据见 [工作区](../evidence/principles-code/workspaces.md)、[Packed](../evidence/principles-code/packed.md) 和 [对象粒度](../evidence/principles-code/objects.md)。
