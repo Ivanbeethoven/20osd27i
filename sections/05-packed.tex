@@ -1,118 +1,118 @@
 \section{Packed Metadata}
 \label{sec:packed}
 
-\subsection{An optional representation for immutable state}
+\subsection{Organizing immutable records for reuse}
 
-Packed metadata changes how fixed file-system records are stored and
-retrieved. Its input is a selected source view containing directory entries,
-attributes, and file-data mappings. Its output is a packed immutable
-snapshot: authenticated records and access structures that describe the
-selected subtree and locate its contents. Freezing these records permits
-the reader to reuse their organization and validation across requests.
+Once a source view is fixed, its metadata no longer needs to accommodate
+in-place record updates. The producer can organize records for retrieval,
+build their indexes once, and let readers reuse that organization for the
+version's lifetime. Packed metadata applies this principle to directory
+entries, common attributes, and file-data locators, placing related records
+in bounded pages on object storage. It moves organization work to
+construction while retaining demand-driven access to the resulting snapshot.
 
-The same snapshot has two uses. An independent read-only mount serves it
-directly through the file interface. A delta-based workspace
-can instead bind it as its shared immutable lower, with private state
-resolved by the workspace mechanism. Packed metadata therefore does not
-require delta-based workspaces; a shared workspace baseline can likewise
-use native catalog records. It also operates with the object backend's
-default layout. These choices separate immutable access organization from
-view composition and backend encoding.
+The snapshot describes a selected subtree and can directly back a standalone
+read-only mount. It can also serve as the optional immutable lower of a
+delta-based workspace, where the workspace mechanism resolves private
+changes before consulting inherited records. This choice of representation
+does not require a particular backend layout; native catalog records remain
+an alternative lower representation.
 
-\subsection{Freezing records into indexed, bounded units}
-
-The organizing principle is to move work from repeated record lookup to
-snapshot construction. The producer groups fixed records, encodes bounded
-pages, and builds range indexes over their keys. A reader pins the manifest
-identity and follows authenticated references to the required pages. The
-index describes ordered metadata ranges; its height follows page capacity
-and record count, independently of the source directory tree's depth.
-
-In the current representation, a logical read group covers a parent
-directory and a range of raw entry names in byte order. Its GroupMeta page
-co-locates directory entries, common attributes, and file-data locators.
-This organization lets a name lookup return information needed by later
-attribute and data operations. The raw page is bounded at 256 KiB, while a
-physical container may hold multiple groups. A group, a page, and an object
-thus have different roles and sizes.
-
-Metadata co-location, content inlining, compression, and data co-packing
-are separate choices. Co-location combines related records; inlining puts
-small file contents in a metadata page; compression changes the encoded
-bytes; co-packing places multiple data regions in a container. Each can
-change transferred bytes, decoding work, or cache use independently. The
-layout comparison must distinguish their contributions.
+A logical read group covers one parent directory and a range of raw entry
+names in byte order. Its GroupMeta page co-locates each entry with common
+attributes and data locators, so a name lookup can supply information needed
+by subsequent attribute and data operations. Neighboring names may reuse
+the same page. The raw page is bounded at 256 KiB, while a physical container
+may hold several groups. This separates the unit of metadata organization
+from the object that stores it. Range indexes route requests to these groups;
+their height depends on page capacity and record count, rather than on
+the source directory tree's depth.
 
 \begin{figure}[t]
 \centering
 \input{figures/packed-path}
-\caption{A representative packed-snapshot access, used directly by a
-read-only mount or after workspace resolution selects the lower. A name
-lookup obtains an entry, common attributes, and a data locator. Referenced
-payloads use authenticated descriptors and ranges. Other operations may
-use separate indexes; the path does not imply a fixed GET count.}
+\caption{Representative packed-snapshot lookup/read path.
+A name lookup supplies joint metadata and a data locator; reading referenced
+data resolves authenticated descriptors before fetching and verifying payload ranges.}
 \label{fig:packed}
 \end{figure}
 
-\subsection{Fetching, verifying, and reusing records}
+\subsection{Querying a pinned snapshot}
 
-For \code{lookup(parent,name)}, the reader follows the directory-name index
-to the group covering that key, resolves the container reference, and
+A reader pins a manifest identity and starts from its authenticated index
+roots. For \code{lookup(parent,name)}, the directory-name index identifies
+the group covering the key. The reader resolves its container reference and
 fetches the GroupMeta byte range. It verifies the stored-byte digest before
-decoding, then checks the resulting entry count and name boundaries against
-the authenticated group reference. The requested record supplies the inode,
-common attributes, and data locator. Figure~\ref{fig:packed} shows this path.
+decoding, then checks the decoded entry count and name boundaries against
+the authenticated group reference. The matching record supplies the inode,
+common attributes, and data locator (Figure~\ref{fig:packed}).
 
-Other operations use the index appropriate to their input. Direct
-\code{getattr} can obtain common attributes through an inode index.
-Enumeration traverses ordered ranges, with counted indexes supporting
-directory-ordinal navigation. A file read uses inline contents or resolves
-a descriptor for the referenced data region, fetches the applicable range,
-and verifies it. Packed data frames provide snapshot-level access and
-integrity units; the backend interprets these object requests using its own
-persisted layout.
+The query input determines which index is needed. Direct \code{getattr}
+can obtain common attributes through an inode index, while enumeration
+traverses ordered name ranges and uses counted indexes for directory-ordinal
+navigation. A file read returns inline contents or follows a data locator
+to an authenticated descriptor, fetches the referenced payload range, and
+verifies it. Packed data frames define snapshot-level access and integrity
+units; the backend serves these object requests using its own persisted
+layout.
 
-Authenticated pages and resolved records can be cached under the pinned
-snapshot identity. Immutability makes reuse valid for that identity without
-tracking per-record updates. Bounded pages allow demand loading, but a cold
-lookup may traverse several index pages, and a data read may need additional
-descriptor and payload requests. Cache state and access locality therefore
-affect both request count and useful bytes per fetch. Failed authentication
-or a missing referenced object is an error, distinct from an authenticated
-absence result.
+For supported snapshot queries, these paths obtain names, attributes, and
+data locations without consulting per-file records in the mutable metadata
+database. A writable workspace still performs its private upper checks and
+control operations separately. Lower-query independence thus describes
+where inherited records are obtained, while leaving workspace mutation and
+lifetime coordination to their own protocols.
 
-For supported snapshot queries, these structures provide the required
-namespace, attributes, and data locations without consulting per-file
-records in the mutable metadata database. In a writable workspace, private
-upper checks and control operations remain separate database traffic.
-Cold-access tests must distinguish those requests from lower-record
-lookups when establishing lower-query independence.
+\subsection{Preserving identity and authenticated results}
 
-\subsection{Construction, publication, and reuse cost}
+Every returned record or payload must be connected by authenticated
+references to the pinned manifest. Checking a fetched page's digest is one
+part of this rule; checking its declared key boundaries and decoded contents
+also prevents accepting the wrong records for a query. A missing referenced
+object or failed authentication is an error, not evidence that a requested
+name is absent.
 
-Construction fixes a source view, builds and uploads records and data
-objects, and produces the indexed manifest. Source consistency requires a
-snapshot or an explicit validation protocol. An immutable output alone
-does not make a changing input atomic. Before publishing a new binding,
-the selected protocol must establish that referenced dependencies are
-durable and valid. Producing a manifest and publishing its reference are
-separate events. Existing readers retain their pinned view until its
-objects can safely be reclaimed; ordinary file close does not rebuild it.
+The same pinned identity governs reuse. Authenticated pages and resolved
+records remain valid for that version without tracking per-record updates.
+Publishing a later version therefore does not change the records seen by
+an existing reader. Caches can reuse these results, but their effectiveness
+depends on locality: a cold lookup may traverse several index pages, and a
+data read may require descriptor and payload requests beyond the metadata
+page. Co-location provides an opportunity to reuse fetched information,
+rather than a fixed number of GETs per operation.
 
-The current concrete format uses PM11 manifests, IP06 indexes, and GroupMeta
-pages. It instantiates the frozen-record and indexed-fetch principles with
-directory-oriented joint records. Earlier tree-and-batch formats express
-the same organizing principle through different record and wire layouts;
-their compatibility and mount support are implementation properties.
+\subsection{Publication, lifetime, and amortization}
+
+Construction needs a consistent source view, established through a snapshot
+or an explicit validation protocol. The producer groups records, uploads
+their referenced objects, and produces the indexed manifest. Output
+immutability alone cannot establish source consistency. Before publishing
+a binding, the selected protocol must establish that its required objects
+are durable and valid; producing a manifest and publishing its reference are
+separate events. Readers retain their pinned versions, and reclamation must
+preserve objects still required by retained versions or readers. Rebuilding
+creates another version; ordinary file close does not rebuild a snapshot.
+
+The access benefit depends on how much of each fetched page is useful.
+Repeated nearby lookups can reuse joint metadata, whereas isolated lookups
+may transfer records they never consume. Inlining file contents, compressing
+pages, and co-packing payload regions also affect transfers, decoding, and
+cache use. Their costs must be separated from the effect of metadata
+co-location.
 
 Construction, validation, publication, rebuilding, and reclamation all enter
-the cost comparison. For each additive resource metric $c$, we will measure
+the cost comparison. For one published version's lifecycle and $K$ uses,
+we will measure each additive resource metric $c$ as
 \begin{equation}
 C_c(K)=C_{c,\mathrm{build}}+C_{c,\mathrm{publish}}
        +\sum_{i=1}^{K}C_{c,i}+C_{c,\mathrm{reclaim}}.
 \end{equation}
+The per-use terms include setup and access work for the chosen reuse unit;
+construction and publication terms include their required validation.
 CPU-seconds, transferred bytes, and monetary cost are separate metrics;
 concurrent task wall-clock times are not summed into a batch makespan.
+For repeated rebuilding, costs are accumulated over the resulting versions,
+with shared work charged only once.
 Reuse pays for construction only when the accumulated access savings exceed
 these costs. Frequent rebuilding, weak name locality, or expensive cold
 index walks can erase the benefit.

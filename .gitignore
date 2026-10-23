@@ -21,6 +21,7 @@ build/
 !/figures/system-architecture.pdf
 !/figures/system-architecture-v2.pdf
 !/figures/system-architecture-compact.pdf
+!/figures/system-architecture-editable.pdf
 !planning/paper-layout.pdf
 !experiments/ax-multi-agent/report/main.pdf
 !/main.bbl

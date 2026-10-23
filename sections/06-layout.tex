@@ -1,59 +1,106 @@
 \section{Variable-Granularity Object Storage}
 \label{sec:layout}
 
-\subsection{An independent choice of object granularity}
+A file read names a logical byte range, but its cost depends on the objects
+containing that range, the bytes fetched, and the storage units verified.
+Large objects can reduce request count for sequential access while increasing
+the work needed to serve a partial read. \sysname{} therefore separates
+client object formation from backend encoding and verification. The
+connection between them is the finalized object, whose length becomes known
+after assembly, applicable compression, and framing.
 
-Object granularity controls how file data becomes uploadable objects and
-how much work a subsequent access requires. It is useful in an ordinary
-flat volume as well as in a workspace or an immutable snapshot; neither
-delta-based workspaces nor Packed Metadata is a prerequisite. A deployment
-can retain the fixed client block size and the backend's default layout.
-Selecting another granularity changes this data path without changing the
-namespace's inheritance or deletion rules.
+\subsection{From file ranges to objects}
 
-There are several distinct boundaries. Let $g$ denote the client block size,
-and $L_o$ the finalized upload length after applicable
-compression, headers, and framing. The client then chooses which object
-ranges to fetch. On a compatible backend, $B$ denotes the erasure-coding
-block size and $q$ the physical verification/read quantum within a shard.
-These quantities describe different work: object formation, transferred
-bytes, encoding, and physical verification. Changing one does not
-necessarily change the others.
+The ordinary data path maps file offsets to logical chunks and resolves
+the visible slices within each chunk. A chunk is an addressing range;
+slices identify the written content that supplies its visible intervals.
+The uploader partitions each slice's data using the configured client
+block size $g$ and stores the resulting blocks under the slice identity
+and block index. A 10 MiB slice with $g=4\MiB$, for example, can produce
+raw blocks of 4, 4, and 2 MiB.
 
-\subsection{Forming objects from file updates}
+Compression, headers, and framing then determine each object's finalized
+upload length $L_o$. Thus $g$ controls the partition of the slice, whereas
+$L_o$ describes the bytes actually uploaded. Flush boundaries and partial
+writes affect which slices and objects form, and a short tail need not
+occupy a full block. When reading, the client uses the same geometry to
+translate a visible slice interval into object references and offsets.
+A new slice can replace one interval while untouched intervals continue
+to reference older objects; the replacement need not rewrite the complete
+old object.
 
-The ordinary data path locates a file offset within a logical chunk and
-records written content in slices. A chunk is an addressing range, rather
-than a remote object. The uploader partitions each slice's data into blocks
-using $g$ and stores them under the slice identity and block index. Thus a
-10 MiB slice with $g=4\MiB$ can produce raw blocks of 4, 4, and 2 MiB.
-Compression and framing subsequently determine each $L_o$; a short tail
-need not occupy a full block. Flush boundaries and partial writes also
-affect the objects actually formed.
+The ordinary path defaults to 64 MiB chunks and $g=4\MiB$, with a chunk
+size that is a nonzero multiple of $g$. This is a fixed configuration.
+The proposed 1/4/8/16 MiB choices define an object-formation design space,
+not an implemented controller that selects sizes from access behavior.
+Because readers reconstruct block addresses from the configured geometry,
+changing $g$ for existing data requires a compatible representation or
+migration.
 
-The reader resolves the visible slice intervals and translates them into
-object offsets using the same geometry. A new slice can cover an old
-interval while untouched intervals still refer to older objects. Such an
-update need not rewrite the complete old object. Compaction, upload retries,
-and the accumulation of short slices can nevertheless add work beyond the
-newly written bytes.
+\subsection{Mapping objects to backend storage}
 
-The present ordinary path defaults to 64 MiB chunks and $g=4\MiB$.
-Its client block size is a fixed configuration, with a chunk size that is
-a nonzero multiple of $g$. The proposed 1/4/8/16 MiB choices express a
-design space for object formation; an online controller that selects among
-them from access behavior is not implemented in this path. Readers currently
-reconstruct block addresses from the configured geometry, so changing $g$
-for existing data requires a compatible representation or migration.
+Once $L_o$ is known, a compatible RustFS research backend can use it to
+inform a separate layout decision. Let $B$ denote the backend's
+erasure-coding block size. The client may request $B$ through an
+encoding-block-size hint $h(L_o)$, without changing $g$ or multipart part
+sizes. The backend validates the request under its compatibility and
+eligibility rules and persists the effective $B$. Omitting a hint retains
+default selection. Multipart initiation uses the complete object's length,
+and retries retain that object's decision.
 
-\subsection{Trading request count against transferred work}
+The current interface supports fixed hints of 64 KiB, 256 KiB, 1 MiB, and
+4 MiB. Its automatic hint policy omits the hint for $L_o\leq1\MiB$ and
+requests $B=1\MiB$ otherwise. This rule acts on the formed object; it does
+not select the client block size. The backend also defaults to $B=1\MiB$,
+so automatic and default settings need not produce different layouts.
 
-Larger objects can reduce the number of requests needed to transfer a long
-contiguous slice. Smaller objects can reduce excess fetching when decoding,
-authentication, or cache policy requires a complete object. Table~\ref{tab:object-granularity}
-illustrates this tradeoff for one uncompressed, aligned 64 MiB slice and a
-read of file interval $[10,12)\MiB$. These are arithmetic examples, not
-measurements or a policy recommendation.
+The physical verification/read quantum $q$ determines how much shard data
+must be verified together.
+For $d$ data shards and $p$ parity shards, let $s$ be one complete stripe's
+logical shard size. A separately enabled backend policy can select a
+physical verification/read quantum for eligible new framing subject to
+\begin{equation}
+q\mid s, \qquad qd\mid B.
+\end{equation}
+These are admission constraints for the new framing, preserving stripe
+alignment while permitting smaller verification units. Both hint admission
+and new $q$ framing have their own compatibility gates. Reads and healing
+use persisted object geometry even after write settings change.
+
+\subsection{From an object range to physical work}
+
+Object size alone does not determine the bytes fetched for a file read.
+Range GET can retrieve part of an object when its format permits independent
+access. The ordinary store supports page-aligned range reads for eligible
+small requests; compressed blocks or a whole-object fetch policy can require
+larger transfers. A packed frame provides a decoding and integrity boundary
+inside a snapshot object, distinct from both the client block size $g$ and
+the backend quantum $q$. Caching and concurrent-read coalescing determine
+which of these requests reach the backend.
+
+The backend maps the resulting object range into shard intervals.
+For a shard interval $[a,a+\ell)$, with $a\geq0$, $\ell>0$, and $q>0$,
+the number of verification/read quanta intersected is
+\begin{equation}
+n_q(a,\ell)=
+\left\lceil\frac{a+\ell}{q}\right\rceil-
+\left\lfloor\frac{a}{q}\right\rfloor.
+\end{equation}
+Ignoring tails and batching, the covered data is approximately $n_q q$
+plus checksums, summed over shards actually read. The application request
+cannot be substituted directly for $\ell$: the client range, compression,
+and coding determine that interval. Smaller $q$ can reduce over-read while
+increasing checksum overhead. For fixed $(d,p)$, the nominal redundancy
+remains $(d+p)/d$; a large $B$ does not imply a fully padded tail stripe.
+
+\subsection{Costs and scope}
+
+The tradeoff in $g$ is visible even before backend encoding.
+Table~\ref{tab:object-granularity} considers one uncompressed 64 MiB slice
+starting at file offset zero and a read of $[10,12)\MiB$. Increasing $g$
+reduces the number of objects in the slice, but increases bytes fetched
+for this read if complete objects must be obtained. These are arithmetic
+examples, not measurements or a policy recommendation.
 
 \begin{table}[t]
 \centering
@@ -69,77 +116,27 @@ $g$ & Object count & \shortstack{Whole-object\\bytes fetched}\\
 \end{tabular}
 \caption{Idealized object formation and a 2 MiB partial read. The last
 column assumes complete fetches of the intersecting objects, with no cache
-hits or compression; it does not describe every range-read path.}
+hits or compression and ignoring framing overhead; it does not describe
+every range-read path.}
 \label{tab:object-granularity}
 \end{table}
 
-Range GET can retrieve only part of an object when its format permits
-independent access. The ordinary store supports page-aligned range reads
-for eligible small requests, while compressed blocks or a whole-object
-fetch policy can require larger transfers. A packed frame supplies another
-decoding and integrity boundary inside a snapshot object. Its size is
-neither $g$ nor the backend's $q$. Caching and concurrent-read coalescing
-further change how many remote requests reach the backend.
+These layers require separate cost accounting. Network read amplification
+compares object response bytes with application bytes served; upload
+amplification compares uploaded bytes with application bytes written;
+physical read amplification compares storage-device bytes with application
+bytes served. Request counts, compression work, and cache occupancy capture
+additional costs. Compaction, retries, and accumulated short slices can
+increase upload work, so smaller objects do not guarantee lower write
+amplification. Similarly, whole-object fetching can prevent a smaller $q$
+from reducing the work generated by a partial application read.
 
-We therefore separate network read amplification, upload amplification,
-and physical read amplification. Their numerators are,
-respectively, object response bytes, uploaded bytes, and storage-device
-bytes; their denominators are the corresponding application bytes served
-or written. Request counts, compression work, and cache occupancy remain
-separate costs. Smaller objects do not guarantee lower write amplification,
-and a large object does not imply a complete download for every small read.
-
-\subsection{Optional backend layout}
-
-A compatible RustFS research backend provides a further choice after the
-object has formed. The client may send an encoding-block-size hint
-$h(L_o)$ based on the finalized upload length. This interface leaves $g$
-and multipart part sizes unchanged. Omitting the hint retains the backend's
-default selection. The backend validates an enabled request and persists
-the effective $B$; an emitted header alone does not establish which layout
-was used. Multipart initiation uses the complete object's length, and
-retries retain that object's decision.
-
-The current hint modes are disabled, fixed, and automatic. Fixed candidates
-are 64 KiB, 256 KiB, 1 MiB, and 4 MiB. The automatic hint policy omits the
-hint for $L_o\leq1\MiB$ and requests $B=1\MiB$ otherwise. This is a
-threshold rule rather than access-adaptive object formation. Because the
-inspected backend's default $B$ is also 1 MiB, this rule may leave the
-effective encoding block size unchanged.
-
-For $d$ data shards and $p$ parity shards, let $s$ be one complete stripe's
-logical shard size. A separately enabled backend policy can select a
-physical verification/read quantum subject to
-\begin{equation}
-q\mid s, \qquad qd\mid B.
-\end{equation}
-These constraints preserve stripe alignment while permitting smaller
-verification units. Both hint admission and new $q$ framing have their own
-compatibility gates. Reads and healing use persisted object geometry even
-after write settings change.
-
-For a nonempty shard interval starting at $a$ with length $\ell$, the number
-of verification/read quanta intersected is
-\begin{equation}
-n_q(a,\ell)=
-\left\lceil\frac{a+\ell}{q}\right\rceil-
-\left\lfloor\frac{a}{q}\right\rfloor.
-\end{equation}
-Ignoring tails and batching, the covered data is approximately $n_q q$
-plus checksums, summed over shards actually read. The application request
-cannot be substituted directly for $\ell$: the client range, compression,
-and coding determine that interval. Smaller $q$ can reduce over-read while
-increasing checksum overhead. Fixed $(d,p)$ still has nominal redundancy
-$(d+p)/d$; a large $B$ does not imply a fully padded tail stripe.
-
-\subsection{Composition and scope}
-
-A workspace changes which objects a view references; Packed Metadata
-changes how immutable records and payload locations are obtained. Either
-can use default backend layouts. Conversely, a flat volume can configure
-$g$ and eligible backend hints without either mechanism. Snapshot producers
-and workspace upper writers retain their own object formats and upload
-contracts, so one path's block geometry cannot be assumed for all paths.
-Section~\ref{sec:implementation} identifies the current integration limits.
-It also records the ordinary path's coupling between enabled hints and
-whole-object caching, which must be held constant when isolating $B$ or $q$.
+The mechanism applies to an ordinary flat volume without delta-based
+workspaces or Packed Metadata. Either of those mechanisms can also retain
+fixed client geometry and default backend layouts. Their composition
+changes the referenced objects and access patterns, while snapshot
+producers and workspace upper writers retain their own object formats and
+upload contracts. Section~\ref{sec:implementation} describes these path
+boundaries and the ordinary client's coupling of enabled hints with
+whole-object fetch and cache policy. That coupling must be separated from
+backend geometry when attributing a measured effect to $B$ or $q$.

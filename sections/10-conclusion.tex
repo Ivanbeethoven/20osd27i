@@ -1,14 +1,17 @@
 \section{Conclusion}
 
-\sys organizes three optional capabilities over a common file-system and
-object-storage path. Delta-based workspaces compose a shared baseline with
-private changes. Packed metadata provides indexed access to frozen records
-for standalone read-only views or workspace lowers. Variable-granularity
-object storage separates client object formation at $g$ from backend
-encoding and physical verification at $(B,q)$. Each capability can be enabled
-for its own purpose; none requires the other two as an architectural
-prerequisite. The planned evaluation will compare supported configurations
-under matched contracts to determine their individual and combined costs,
-their effects on complete agent execution, and where existing approaches
-remain preferable. Composition does not imply an additional gain, and no
-quantitative performance conclusion is drawn in this draft.
+Sharing file state leaves open how that state is located and how much
+storage work is needed to access it. \sys makes these decisions explicit:
+delta-based workspaces resolve a shared baseline and private changes;
+Packed Metadata organizes immutable records for indexed access; and
+Variable-Granularity Object Storage separates client object formation
+from backend encoding and verification. The mechanisms have independent
+uses and compose through view, metadata, and object interfaces.
+
+The design specifies the invariants needed to preserve file views across
+these choices and the lifecycle costs that can limit their value. The
+eight-task FUSE study establishes request-structure motivation, while
+the implementation analysis identifies which configurations can be
+constructed. The remaining evaluation must determine when each mechanism
+repays its cost and whether composition improves complete agent execution;
+the present evidence does not establish a system-performance gain.

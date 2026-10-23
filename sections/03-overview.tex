@@ -1,15 +1,17 @@
 \section{Overview and System Contract}
 \label{sec:overview}
 
-\subsection{Three optional mechanisms over a common file interface}
+\subsection{From file operations to storage choices}
 
-The common path provides file operations, metadata resolution, and object
-access. Three choices refine that path at different boundaries
-(Table~\ref{tab:mechanism-choices}). View composition determines which state
-a task sees. Metadata representation determines how immutable records are
-located and fetched. Object granularity determines how payloads are formed
-and how much work their access requires. No choice semantically requires
-the other two.
+To read \code{src/parser.py}, a client resolves its name, obtains the
+visible inode and data mappings, and fetches the requested bytes. An
+overwrite stores new payload and updates the file's metadata under the
+selected durability contract. \sys separates three decisions along this
+path: which state the task sees, how immutable metadata is retrieved, and
+how payloads are divided into storage units
+(Table~\ref{tab:mechanism-choices}). On the object path, $g$ denotes client
+block size, $B$ denotes backend erasure-coding block size, and $q$ denotes
+the physical verification/read quantum.
 
 \begin{table*}[t]
 \centering
@@ -29,79 +31,81 @@ combinations; this table is not a claim of eight interchangeable runtime modes.}
 \label{tab:mechanism-choices}
 \end{table*}
 
-For example, a task requiring independent edits can use a delta-based
-workspace over a native immutable layer. A read-only environment can use
-a packed snapshot directly. An ordinary writable volume can configure its
-object block size without either facility. When repeated tasks share a stable
-environment, they can instead combine workspaces and a packed baseline.
-Optional backend layout selection is another data-path decision in each
-eligible uploader, rather than a condition for any of these view types.
+Each decision has its own input. A workspace binds a shared version and
+resolves private changes against it; its lookup rules do not prescribe
+the lower's metadata format. A packed reader obtains immutable records
+from indexed pages and can also serve a read-only consumer. An ordinary
+volume uses the object-data path without a shared baseline. When multiple
+tasks reuse a stable environment, composing workspaces with a packed
+baseline shares its representation while retaining private changes.
 
-\subsection{A representation-independent workspace contract}
+\subsection{Pinning state and isolating changes}
 
 Let $S$ identify a shared immutable baseline and $\Delta_i$ the private
 writable state of workspace $i$. Its view is
 \begin{equation}
   W_i = \operatorname{Resolve}(S,\Delta_i).
 \end{equation}
-The baseline exposes name, attribute, and data-location queries. It may bind
-a sealed native layer or a packed manifest; $S$ does not mean that every
-workspace has a packed lower. Clients pin an identity instead of following
-a mutable ``latest'' pointer on each lookup. A selected subtree can form a
-baseline without freezing an entire source volume.
+Workspace creation pins $S$ so that subsequent lower queries refer to the
+same version. The baseline exposes name, attribute, and data-location
+queries through either a sealed native layer or a packed manifest.
+It can cover a selected subtree without freezing an entire source volume.
+Following a mutable latest pointer on each lookup would not preserve
+this fixed starting state.
 
-The upper represents private names, attributes, deletion state, and data
-mappings. Newly written payload bytes reside in separately referenced objects.
-Resolution checks private state first and inherits from $S$ only when the
-upper permits it. A deletion marker suppresses a lower entry, while absence
-of an upper record permits inheritance. This contract leaves the lower's
-physical metadata representation open.
+Resolution checks private names, attributes, deletion state, and data
+mappings before consulting $S$. A deletion marker suppresses an inherited
+entry; absence of an upper record allows inheritance when no other rule
+blocks it. Newly written payload bytes reside in separately referenced
+objects. Thus an edit changes the workspace's records and references
+without modifying the shared baseline.
 
-The isolation property is view-local mutation: an operation in $W_i$ leaves
-$S$ and another workspace's private state unchanged. This property does not
-provide process isolation, network restrictions, or automatic merging of
-independent edits. Those functions require their own runtime or application
-protocols. Concurrent operations within a workspace must separately preserve
-its namespace and data invariants.
+The isolation invariant is view-local mutation: an operation in $W_i$
+leaves $S$ and another workspace's private state unchanged. Concurrent
+operations within one workspace must still preserve its namespace and
+data invariants. Process isolation, network restrictions, and merging
+independent edits require runtime or application protocols beyond this
+file-view contract.
 
-\subsection{Composition through explicit interfaces}
+\subsection{Reading, writing, and publishing}
 
-Figure~\ref{fig:overview} illustrates one possible composition using an
-explicit upper data map, a packed lower, and optional backend layout hints.
-The figure expands the interfaces between mechanisms; it is not the minimum
-configuration. For example, two workspaces can share a fetched baseline page,
-while one records a private overwrite and the other continues to read $S$.
-The chosen lower reader resolves inherited data locators to payload ranges.
-The backend serves those objects using their persisted storage layout.
+Figure~\ref{fig:overview} follows state references through the metadata and
+object paths. For an inherited read, the chosen lower reader returns
+metadata and resolves data locators to payload ranges. With a packed
+lower, workspaces can reuse a fetched baseline page. If one workspace
+overwrites the file, its private mapping refers to new upper bytes while
+another workspace can continue to read $S$. The object's persisted layout
+determines how the backend serves those bytes.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \input{figures/architecture}
-\caption{An illustrative combination of the optional mechanisms.
-(a) An Entity-style upper resolves private state and explicit Data, LowerRange,
-and Hole intervals. (b) A packed lower resolves a representative name lookup
-through an index and GroupMeta page to a payload descriptor. A native lower
-can implement the baseline contract instead; Packed also supports standalone
-read-only use. (c) Finalized objects may request a compatible backend layout;
-omitted hints retain default selection. Client object formation with $g$
-precedes this panel and is detailed in Section~\ref{sec:layout}.
-Solid arrows show access dependencies within this combination; dashed hint
-wiring remains incomplete in the illustrated Entity/producer paths. The 2+2
-shards are schematic. This is a design composition, not an end-to-end result.}
+\caption{Three optional, composable mechanisms.
+The metadata example stores file bytes separately.
+In ordinary uploads, each raw block forms an object after applicable
+compression/framing. Matching $U_1/O_p$ ports use separate upload contracts.
+Dashed $B$ hints are optional; backends persist effective layouts.
+Integration limits appear in Section~\ref{sec:implementation}.}
 \label{fig:overview}
-\end{figure*}
+\end{figure}
 
-Composition preserves three boundaries. First, transient dirty buffers may
-provide local read-after-write behavior before objects are remotely durable;
-they are distinct from the workspace's private namespace state. Second,
-publication makes a validated immutable version visible only after its
-required objects satisfy the selected persistence contract. Reader ownership
-must keep referenced state alive through reclamation. Third, logical object
-identity and file contents remain independent of the backend's coding layout.
-Changing a backend setting does not change an already published view.
+Writes introduce two distinct visibility boundaries. A dirty buffer can
+serve this client's reads before its bytes are remotely durable.
+Publishing a recoverable immutable version requires its referenced
+objects to satisfy the selected persistence contract and its metadata
+to be validated. Private namespace state alone does not establish that
+boundary, and a local read returning new bytes does not establish it
+either.
 
-A recoverable file version can include explicit application checkpoints,
-but does not reconstruct process memory, open handles, or execution state
-by itself. Section~\ref{sec:implementation} distinguishes current mount
-paths and recovery support. The following sections develop the principles
-of each mechanism before those implementation-specific limits.
+Publication also creates a lifetime obligation: workspace and reader
+ownership must retain referenced metadata and payloads until they can be
+reclaimed. Backend layout selection can change how an object is encoded
+and read while preserving its logical identity and contents. Readers of
+an existing version continue to interpret each object using its persisted
+layout.
+
+A published file version may contain application checkpoints; restoring
+process memory, open handles, and execution state remains the runtime's
+responsibility. The next sections develop workspace resolution, immutable
+metadata access, and object formation. Section~\ref{sec:implementation}
+identifies their current mount and recovery paths.
