@@ -1,74 +1,66 @@
 \section{Background and Motivation}
 \label{sec:motivation}
 
-\subsection{The ordinary file-system path}
+\subsection{Task views and reusable state}
 
-Tools issue file operations through FUSE. The file system resolves names and
-attributes through its metadata path, translates file offsets through data
-mappings, and obtains payload bytes from local caches or object storage.
-Writes introduce new data and update those mappings under the selected
-visibility and durability protocol. This ordinary path is useful without
-shared workspaces, packed snapshots, or backend layout hints.
+A coding-agent workspace contains source files, dependencies, generated
+artifacts, and temporary files. In the deployment considered here, multiple
+attempts can start from a common repository revision and dependency set.
+For example, two attempts may initially read the same \code{src/parser.py}.
+If one edits or deletes that file, the other must continue to see its own
+version. The shared starting state must therefore have a stable identity,
+and each attempt's changes must remain private. This is a requirement on
+the visible file tree, independent of where its metadata and bytes reside.
 
-A workspace can contain source files, dependency directories, generated
-artifacts, build trees, and temporary files. Some subtrees remain stable across
-tasks; others are frequently rewritten. A deployment can choose stable state
-as a shared baseline while retaining private changes for each task. The
-usefulness of doing so depends on cross-task overlap, mutation footprint,
-and baseline lifetime. Agent framework papers establish that repository
-navigation and editing occur; they do not establish that every task shares
-most of its state or benefits from a layered view.
+Reuse is conditional on the deployment. A stable dependency tree may serve
+many attempts, whereas generated outputs may be replaced on every run.
+A baseline can cover a selected subtree; it need not include the entire
+working directory. The value of sharing depends on overlap between tasks,
+the amount of private modification, and how long the baseline remains
+useful. These properties determine whether sharing is appropriate; they
+are distinct from the access behavior of an individual task.
+
+\subsection{From file operations to storage work}
+
+To read \code{src/parser.py}, a tool first needs the path resolved and the
+file's data located. An object-backed file system keeps names, attributes,
+and file-to-object mappings in its metadata path, and retrieves payloads
+from caches or object storage. Metadata services can batch requests and
+cache records~\cite{tablefs2013,indexfs2014}; immutable distributions can
+also organize records for demand fetching~\cite{cvmfs2011,nydus_rafs}.
+Resolving a shared file therefore does not imply either a network request
+per metadata operation or a particular metadata representation.
+
+The requested file range also differs from the storage work it induces.
+Kernel caching and readahead affect which requests reach FUSE. The client
+then maps those requests to stored objects and may fetch a range or an
+entire object. Backend encoding and integrity checks can require access
+to still different units~\cite{azureec2012,okapi2025}. Writes similarly
+pass through buffering and object formation before publication. Thus a
+small file request does not by itself determine transferred bytes,
+verification work, or uploaded object size. The following observations
+characterize one point in this path: requests received by FUSE handlers.
 
 \input{sections/02-agent-observations}
 
-\subsection{View sharing and metadata access are separate choices}
+\subsection{Implications for storage design}
 
-A shared view needs a stable identity and rules for resolving private changes.
-It does not prescribe how baseline records are stored. A native catalog or
-KV namespace can supply the same immutable names and attributes as an
-object-resident packed representation, provided each satisfies the view's
-lookup contract. Conversely, a read-only consumer can use packed metadata
-without allocating a writable workspace.
+The observed mix makes metadata resolution a substantial part of the
+request path, including unsuccessful probes. It also requires serving
+both short and longer data requests, with demand that changes across
+tasks and within a run. These observations motivate treating metadata
+access and data access as separate design concerns. They do not select
+one metadata layout or one object size: grouping can amortize requests
+when nearby records or bytes are reused, but can fetch unnecessary data
+when accesses are scattered. Whether access savings repay construction
+and retention costs depends on how often a version is reused.
 
-Metadata organization and caching already reduce service costs in TableFS,
-IndexFS, LocoFS, and InfiniFS~\cite{tablefs2013,indexfs2014,locofs2017,infinifs2022}.
-It would be misleading to assume that every operation on native metadata
-requires a separate network round trip. Packing exploits a more specific
-property: records that cannot change after publication can be indexed and
-fetched together without joining the mutable update protocol. A directory
-scan may reuse names, attributes, and data locators from one fetched page;
-a random point lookup may consume only a small part of that page.
-
-The relevant property is \emph{lower-query independence}: supported baseline
-queries can obtain their records from the snapshot objects. Mutable upper
-records, reader pins, publication, and reclamation may still use a metadata
-service. DeltaFS's private logs and selectively assembled namespaces likewise
-show why namespace sharing must be compared with more than one global mutable
-metadata design~\cite{deltafs2021}. Equal cache budgets and appropriate batch
-access belong in these comparisons.
-
-\subsection{Object formation and physical work have different boundaries}
-
-An application's request size, a logical chunk, the client block size $g$,
-and the finalized object length $L_o$ describe different stages. A chunk
-provides an addressing range; slice mappings describe visible file data;
-blocks determine how a slice becomes objects. Tail blocks, compression,
-and framing can make $L_o$ differ from $g$. An object format and the client's
-cache and verification policy then determine whether a read fetches a range
-or an entire object.
-
-Backend coding adds further boundaries. An erasure-coding block of size $B$
-is distributed across data and parity shards. The physical verification/read
-quantum $q$ determines the verified units required within the serving shards.
-Storage systems already make different choices about striping, coding, and
-redundancy transitions~\cite{azureec2012,morph2024,okapi2025}. A compatible
-backend can expose an additional layout choice without changing the file
-system's view semantics or the client's object boundaries.
-
-These distinctions motivate separate measurements of requests, network
-bytes, physical bytes, CPU work, and durable write completion. A smaller $g$
-can increase request count; a smaller $q$ adds checksums and processing;
-a fixed data/parity ratio retains its nominal redundancy. Caches and
-whole-object verification can hide a physical-layout benefit. The evaluation
-must trace actual object formation and reads rather than infer storage work
-directly from a FUSE request histogram.
+The shared-state scenario adds a semantic constraint to these access
+choices. A task's private changes must not alter the baseline seen by
+other tasks, whatever representation serves that baseline. A reader
+that needs only published state should also be able to use its metadata
+representation without acquiring a writable workspace. Together, these
+requirements motivate separating view composition, immutable metadata
+access, and object granularity. Section~\ref{sec:overview} defines the
+interfaces through which \sysname{} makes these choices independently
+and composes them when a deployment needs more than one.
