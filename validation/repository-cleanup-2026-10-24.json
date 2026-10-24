@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-24",
+  "base_commit": "59947694c65e0a7fe2b9f581bfcc62049de36ad5",
+  "scope": "Remove superseded drafts and regenerable artifacts; preserve research evidence and active builds.",
+  "tracked_files_deleted": 222,
+  "tracked_bytes_removed": 41145768,
+  "deletion_categories": {
+    "stale_package_manifest": {
+      "tracked_files": 1,
+      "tracked_bytes": 41384,
+      "local_only_files": 0,
+      "local_only_bytes": 0
+    },
+    "generated_bibliographies": {
+      "tracked_files": 2,
+      "tracked_bytes": 18342,
+      "local_only_files": 0,
+      "local_only_bytes": 0
+    },
+    "superseded_workload_generator": {
+      "tracked_files": 2,
+      "tracked_bytes": 14288,
+      "local_only_files": 0,
+      "local_only_bytes": 0
+    },
+    "superseded_workload_qa": {
+      "tracked_files": 35,
+      "tracked_bytes": 329359,
+      "local_only_files": 6,
+      "local_only_bytes": 206682
+    },
+    "superseded_workload_exports": {
+      "tracked_files": 9,
+      "tracked_bytes": 566167,
+      "local_only_files": 0,
+      "local_only_bytes": 0
+    },
+    "superseded_architecture_exports": {
+      "tracked_files": 29,
+      "tracked_bytes": 4283734,
+      "local_only_files": 4,
+      "local_only_bytes": 269746
+    },
+    "superseded_imagegen_drafts": {
+      "tracked_files": 27,
+      "tracked_bytes": 15846585,
+      "local_only_files": 0,
+      "local_only_bytes": 0
+    },
+    "superseded_figure_briefs": {
+      "tracked_files": 9,
+      "tracked_bytes": 32338,
+      "local_only_files": 0,
+      "local_only_bytes": 0
+    },
+    "unused_generic_starter": {
+      "tracked_files": 9,
+      "tracked_bytes": 10096,
+      "local_only_files": 0,
+      "local_only_bytes": 0
+    },
+    "superseded_architecture_generators": {
+      "tracked_files": 7,
+      "tracked_bytes": 72463,
+      "local_only_files": 0,
+      "local_only_bytes": 0
+    },
+    "generated_validation_assets_and_snapshots": {
+      "tracked_files": 92,
+      "tracked_bytes": 19931012,
+      "local_only_files": 228,
+      "local_only_bytes": 47232575
+    }
+  },
+  "protected_files_verified": 237,
+  "protected_file_changes": [],
+  "broken_document_links": [],
+  "clean_builds_from_git_index": {
+    "main": {
+      "passed": true,
+      "pages": 13,
+      "body_last_page": 11,
+      "text_matches_delivered_pdf": true,
+      "page_renders_match_delivered_pdf": true,
+      "overfull_count": 0,
+      "underfull_count": 23,
+      "errors": []
+    },
+    "anonymous-preview": {
+      "passed": true,
+      "pages": 13,
+      "body_last_page": 11,
+      "text_matches_delivered_pdf": true,
+      "page_renders_match_delivered_pdf": true,
+      "overfull_count": 0,
+      "underfull_count": 23,
+      "errors": []
+    }
+  },
+  "historical_artifacts": "Historical report paths can be recovered from base_commit; Git history was not rewritten.",
+  "package_validation": {
+    "passed": true,
+    "scope": "planning/package validation only; no runtime experiments",
+    "bibliography_entries": 29,
+    "cited_entries": 27,
+    "experiments": 17,
+    "research_questions": [
+      "RQ1",
+      "RQ2",
+      "RQ3",
+      "RQ4",
+      "RQ5",
+      "RQ6",
+      "RQ7"
+    ],
+    "official_style_sha256": "4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45ff6",
+    "latex_logs": {
+      "main": "checked",
+      "anonymous-preview": "checked"
+    },
+    "errors": []
+  }
+}

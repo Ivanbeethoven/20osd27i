@@ -10,14 +10,23 @@ Run `make` from the repository root to build both previews, or run
 `paper/Makefile` only forwards legacy `make -C paper` commands to the root;
 `paper/` is no longer the manuscript source directory.
 
-The former generic root template is preserved in `templates/usenix-starter/`
-for use in a separate paper. The unchanged official USENIX example and style
-are preserved in `templates/usenix-official/`.
+The unchanged official USENIX example and style are preserved in
+`templates/usenix-official/`. The unused generic starter and its Make target
+have been removed.
+
+The active architecture source is `tools/draw_architecture_editable.py`, with
+SVG, PDF and PNG exports in `figures/`. The active workload figure is
+`fuse-single-column`; `fuse-profile` and `fuse-time` remain companion diagnostics.
+Superseded architecture variants, image-generation drafts, old combined
+workload figures and generated QA assets have been removed from the checkout.
 
 Supporting research material remains in `planning/`, `experiments/`,
 `evidence/`, `references/`, `validation/`, and `skills/`. Historical evidence
 and QA reports retain the paths and version information recorded at the time
-of inspection; those records do not define the current build layout.
+of inspection; those records do not define the current build layout. See
+`validation/README.md` for the distinction between retained review evidence and
+removed generated assets. The pre-cleanup files remain in Git commit `5994769`.
+The stale package hash manifest was removed; use Git and the current validator.
 
 Documents inside the imported package are research artifacts and may contain
 planning notes or instructions for their original workflow. They are stored as

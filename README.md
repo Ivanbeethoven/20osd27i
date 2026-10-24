@@ -1,12 +1,12 @@
 # BrewFS — OSDI 论文研究准备包
 
-版本：2026-10-23。工作标题：
+版本：2026-10-24。工作标题：
 
 **BrewFS: Delta-Based Multi-Agent Workspaces with Packed Metadata and Variable-Granularity Object Storage**
 
 本包提供英文内部初稿、中文研究大纲、完整实验协议、文献核验记录、实现证据及可移植写作 skill。现已纳入 **8 个真实 Agent 任务、1,138,884 条 FUSE 请求的原始数据重分析**，位于论文 §2.3；Core 与 Exploratory 分开呈现。**E00–E16 系统实验仍处于规划阶段；没有据此宣称 BrewFS/RustFS 的性能、正确性或故障恢复收益。** 提议的机器、样本规模和参数也不是已部署环境。
 
-本轮观测的统计口径、证据对应关系及复现命令见 [工作负载分析说明](experiments/agent-fuse-observations/README.md)。当前论文使用一张单栏三面板主图，由 `analyze.py` 流式统计、`plot_single_column.py` 绘制；`plot_combined.py` 和 `plot.py` 保留生成历史图件的能力。保留实际模型名 `deepseek-v4-flash`，并区分 FUSE 错误、进程退出码与基准任务评分。
+本轮观测的统计口径、证据对应关系及复现命令见 [工作负载分析说明](experiments/agent-fuse-observations/README.md)。当前论文使用一张单栏三面板主图，由 `analyze.py` 流式统计、`plot_single_column.py` 绘制；`plot.py` 生成配套的方法、请求大小和时序诊断图。保留实际模型名 `deepseek-v4-flash`，并区分 FUSE 错误、进程退出码与基准任务评分。
 
 论文与中文研究文档统一沿用[已确认术语表](planning/terminology.zh.md)：三项机制为基于增量状态的多智能体工作区、打包式元数据和可变粒度对象存储。**三者均为可选、可组合能力，不是必须依次开启的流程。** 普通卷提供公共文件与对象路径；增量工作区选择视图构成，打包式元数据选择不可变记录的组织与获取方式，对象粒度选择数据对象的形成及可选后端布局。
 
@@ -25,7 +25,6 @@
 |---|---|
 | 仓库根目录 | 正式论文入口 `main.tex`、`anonymous-preview.tex`，两份 PDF、`references.bib`、USENIX 样式及构建配置。 |
 | `sections/`、`figures/` | 正式论文章节、架构图、访问路径图及工作负载图。 |
-| `templates/usenix-starter/` | 迁移前位于根目录的通用 USENIX 起始模板，供另建论文使用。 |
 | `templates/usenix-official/` | 原样保留的官方 USENIX 示例及样式；论文自身使用独立标题和真实参考文献。 |
 | `paper/Makefile` | 仅向根目录转发构建命令，兼容旧的 `make -C paper` 用法。 |
 | `planning/` | 中文大纲、实验协议、三项可选机制关系框架、统一术语表、OSDI 风格研究和模板来源。 |
@@ -33,9 +32,12 @@
 | `references/` | 29 条书目的来源登记与比较矩阵。23 篇研究论文（含工作坊），6 项官方资料。 |
 | `evidence/` | 当前 `principles-code/` 三项原理审计与 `ppt-principles/` 正文/讲稿，历史代码审计、实现清单、远端来源和验证记录。 |
 | `skills/osdi-systems-paper/` | 独立撰写的可移植 OSDI 系统论文写作 skill；带英文改写、证据及实验、BrewFS 专用约束和来源说明。 |
-| `validation/` | 分工审阅记录、处理结果、最终格式与文件验证记录。早期审阅意见反映审阅当时状态，以 `review-resolution.md` 为准。 |
+| `validation/` | 审阅结论、语义核查和结构化验证记录，入口见 [检查记录说明](validation/README.md)。历史记录对应检查当时版本。 |
 | `tools/validate_plan.py` | 只核验本准备包的一致性，不运行 BrewFS 或产生实验数据。 |
-| `MANIFEST.sha256` | 打包时对包内文件计算的 SHA-256 清单。 |
+
+当前架构图只保留 `figures/system-architecture-editable.{svg,pdf,png}` 及生成脚本。
+淘汰的架构图、绘图草稿、旧主图、通用起始模板和渲染缓存已清理；历史版本可从 Git 提交
+`5994769` 恢复。旧打包校验清单已失效并删除，当前一致性以验证脚本和 Git 提交为准。
 
 `anonymous-preview.pdf` 只是系统名切换和固定源码标识隐藏后的排版预览，**不是已经完成匿名审查的投稿版**。
 

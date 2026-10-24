@@ -1,0 +1,21 @@
+# 检查记录说明
+
+这里保留论文审阅结论、代码与原理的语义核查、字体/碰撞检查结果、数据一致性记录及构建摘要。
+每项历史报告只描述检查当时的版本；旧报告中的页数、图号或“当前图件”不自动适用于最新论文。
+
+2026-10-24 的仓库清理删除了可重建的页面/图件 PNG、旧 SVG、原始构建日志、
+临时证明文档和过时源码副本。审阅 Markdown、语义场景记录、结构化检查 JSON 保留。
+历史报告中提到的已删除图件或脚本，可从清理前提交 `5994769` 的相应路径读取；
+这些历史路径不属于当前构建依赖。恢复单个文件可使用：
+
+```text
+git restore --source=5994769 -- path/to/file
+```
+
+正式构建入口是根目录 `main.tex` 和 `anonymous-preview.tex`。当前架构图源文件为
+`tools/draw_architecture_editable.py`，当前主观测图源文件为
+`experiments/agent-fuse-observations/plot_single_column.py`。重新生成的 QA 图像和构建日志
+由 `.gitignore` 排除，正式论文 PDF 与正式图件仍随仓库保存。
+
+本次删除分类、保留文件核验和清理后全新构建结果见
+[仓库清理记录](repository-cleanup-2026-10-24.json)。

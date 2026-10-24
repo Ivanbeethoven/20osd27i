@@ -1,6 +1,7 @@
 # Generated LaTeX intermediates and temporary output.
 build/
 *.aux
+*.bbl
 *.bcf
 *.blg
 *.fdb_latexmk
@@ -13,22 +14,19 @@ build/
 *.synctex.gz
 *.toc
 *.xdv
-# Regenerable manuscript page renders and extracted text stay local.
-/validation/**/page-*.png
-/validation/**/*-page-*.png
-/validation/**/page-*.txt
-/validation/**/*-text.txt
+# Regenerable QA renders, raw build logs, and image-generation drafts.
+/validation/**/*.png
+/validation/**/*.svg
+/validation/**/*.txt
 /validation/**/ppt-renders/
+/output/imagegen/
+__pycache__/
+*.py[cod]
 *.pdf
-# The research package ships these reviewed PDF/BibTeX artifacts intentionally.
+# Reviewed manuscript and figure PDFs are intentionally versioned.
 !/main.pdf
 !/anonymous-preview.pdf
 !/figures/agent-fuse/*.pdf
-!/figures/system-architecture.pdf
-!/figures/system-architecture-v2.pdf
-!/figures/system-architecture-compact.pdf
 !/figures/system-architecture-editable.pdf
 !planning/paper-layout.pdf
 !experiments/ax-multi-agent/report/main.pdf
-!/main.bbl
-!/anonymous-preview.bbl

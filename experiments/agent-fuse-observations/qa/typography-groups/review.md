@@ -1,7 +1,8 @@
 # Figure 1 typography and group-label review
 
-Date: 2026-10-24. Before-state PNG, PDF, generator, plotted-data JSON,
-observations section, and README are retained in this directory.
+Date: 2026-10-24. Before-state plotted-data JSON and observations source are
+retained in this directory. Superseded PNG/PDF, generator and README snapshots
+were removed during cleanup; their original copies remain in Git commit `5994769`.
 
 ## What the original labels mean
 

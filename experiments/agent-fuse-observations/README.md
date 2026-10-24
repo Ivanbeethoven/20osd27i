@@ -32,16 +32,18 @@ three size bins are explicit aggregations; the per-task temporal panel
 uses one-second bins including zeros and the final partial bin. See
 `figure-contract-single-column.md` for definitions. Current generator QA
 outputs, plotted data, PDF font-family checks, and label-clearance checks are
-under `qa/typography-groups/`. The preceding layout is retained in
-`qa/coordinated/`, and this revision's complete before state is also saved.
+under `qa/typography-groups/`. Before-state plotted data and the observations
+section are retained there for the data/caption verification. Superseded
+layouts and generated before-state previews were removed during cleanup;
+their historical copies remain in Git commit `5994769`.
 
 ```powershell
 python experiments/agent-fuse-observations/plot_single_column.py --qa-scripts 'C:/path/to/nature-figure/scripts'
 ```
 
-The former `fuse-combined-compact` figure and `plot_combined.py` are historical
-7-inch-wide exports, not the current manuscript entry point. Detailed method
-breakdowns, size ECDFs, and cumulative time curves remain companion diagnostics.
+Detailed method breakdowns, size ECDFs, and cumulative time curves remain
+companion diagnostics through `plot.py`. The superseded 7-inch combined main
+figure and its separate generator were removed.
 
 ## Inputs and provenance
 
@@ -212,11 +214,10 @@ redraw all figures without the 557 MB event file; `summary.json` supplies
 metadata and validates plotted sample counts. The raw input is needed to
 reproduce the statistics, including source hashes.
 
-Previous figures are `figures/agent-fuse/fuse-profile.{pdf,svg,png}`
+Companion diagnostic figures are `figures/agent-fuse/fuse-profile.{pdf,svg,png}`
 (four-panel method/size profile) and `fuse-time.{pdf,svg,png}` (independent
-per-task cumulative calls). The former `fuse-methods` and
-`fuse-request-sizes` exports remain as historical artifacts and are no longer
-included in the paper. The legacy `plot.py` command regenerates both previous
+per-task cumulative calls). The obsolete standalone method/request-size exports
+have been removed. The `plot.py` command regenerates both diagnostic
 figures; `--profile-only` preserves the time figure when revising the profile.
 At the historical profile's 7-inch width, all labels, ticks and legends are
 at least 8 pt. Stars mark the six-method metadata subset; white bar segments
@@ -232,7 +233,7 @@ unchanged. Historical compact-figure audits are also saved under
 Figures are provided as PDF, editable SVG and PNG.
 `figure-contract-single-column.md` specifies the current main figure;
 `figure-contract.md` covers historical diagnostics. `qa/` preserves alignment,
-font and collision results. `qa/coordinated/review.md` covers the current
+font and collision results. `qa/typography-groups/review.md` covers the current
 single-column figure; `qa/review.md` describes historical exports. PDF/SVG
 are publication graphics; PNGs
 are 300 dpi previews. Historical QA records retain their original inspection
