@@ -23,10 +23,9 @@
 
 | 目录 | 内容与用途 |
 |---|---|
-| 仓库根目录 | 正式论文入口 `main.tex`、`anonymous-preview.tex`，两份 PDF、`references.bib`、USENIX 样式及构建配置。 |
+| 仓库根目录 | 唯一论文入口 `main.tex`、阅读版 `main.pdf`、`references.bib`、USENIX 样式及构建配置。 |
 | `sections/`、`figures/` | 正式论文章节、架构图、访问路径图及工作负载图。 |
 | `templates/usenix-official/` | 原样保留的官方 USENIX 示例及样式；论文自身使用独立标题和真实参考文献。 |
-| `paper/Makefile` | 仅向根目录转发构建命令，兼容旧的 `make -C paper` 用法。 |
 | `planning/` | 中文大纲、实验协议、三项可选机制关系框架、统一术语表、OSDI 风格研究和模板来源。 |
 | `experiments/` | 17 项实验矩阵、agent 负载协议、13 项待完成实现门槛、未执行 manifest 示例、未来观测记录 schema、只有表头的度量模板。 |
 | `references/` | 29 条书目的来源登记与比较矩阵。23 篇研究论文（含工作坊），6 项官方资料。 |
@@ -39,7 +38,8 @@
 淘汰的架构图、绘图草稿、旧主图、通用起始模板和渲染缓存已清理；历史版本可从 Git 提交
 `5994769` 恢复。旧打包校验清单已失效并删除，当前一致性以验证脚本和 Git 提交为准。
 
-`anonymous-preview.pdf` 只是系统名切换和固定源码标识隐藏后的排版预览，**不是已经完成匿名审查的投稿版**。
+仓库仅维护命名研究稿，章节位于 `sections/`，统一从根目录构建。名称切换预览及旧的
+`paper/` 构建转发目录已移除；正式投稿仍需作者完成独立的匿名审查。
 
 ## 当前最重要的研究判断
 
@@ -81,11 +81,10 @@ SWE-bench Pro 和 JuiceFS 分别引用官方数据集及架构文档，没有虚
 
 ```bash
 latexmk -xelatex main.tex
-latexmk -xelatex anonymous-preview.tex
 python3 tools/validate_plan.py
 ```
 
-根目录的 `make` 构建命名稿和匿名预览，PDF 输出到根目录；`make clean` 清理 LaTeX 中间文件。`paper/Makefile` 仅保留旧命令的转发兼容。验证脚本检查条目/引用、实验/RQ 覆盖、未执行状态、样式哈希和可用的编译日志；它不检查系统性能或证明语义正确。历史 PDF 页数、字体及视觉检查保留在 `validation/`，其结论对应各自检查时的版本。
+根目录的 `make` 或 `make paper` 构建正式稿，PDF 输出到根目录；`make clean` 清理 LaTeX 中间文件。验证脚本检查条目/引用、实验/RQ 覆盖、未执行状态、样式哈希和可用的编译日志；它不检查系统性能或证明语义正确。历史 PDF 页数、字体及视觉检查保留在 `validation/`，其结论对应各自检查时的版本。
 
 ## 写作 skill 与投稿边界
 

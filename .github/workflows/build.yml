@@ -11,13 +11,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: xu-cheng/latex-action@v4
         with:
-          root_file: |
-            main.tex
-            anonymous-preview.tex
+          root_file: main.tex
           args: -xelatex -interaction=nonstopmode -halt-on-error -file-line-error
       - uses: actions/upload-artifact@v4
         with:
           name: brewfs-osdi-paper
-          path: |
-            main.pdf
-            anonymous-preview.pdf
+          path: main.pdf

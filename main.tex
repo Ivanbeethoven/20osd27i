@@ -15,15 +15,8 @@
 \usepackage{microtype}
 \usepackage{xurl}
 \hypersetup{breaklinks=true,hidelinks}
-\newif\ifanonymouspreview
-\ifdefined\AnonymousPreview\anonymouspreviewtrue\else\anonymouspreviewfalse\fi
-\ifanonymouspreview
-  \newcommand{\sysname}{System X}
-  \hypersetup{pdftitle={System X: Internal Research Draft},pdfauthor={}}
-\else
-  \newcommand{\sysname}{BrewFS}
-  \hypersetup{pdftitle={BrewFS: Delta-Based Multi-Agent Workspaces with Packed Metadata and Variable-Granularity Object Storage},pdfauthor={}}
-\fi
+\newcommand{\sysname}{BrewFS}
+\hypersetup{pdftitle={BrewFS: Delta-Based Multi-Agent Workspaces with Packed Metadata and Variable-Granularity Object Storage},pdfauthor={}}
 \newcommand{\sys}{\sysname{} }
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\KiB}{\,\mathrm{KiB}}

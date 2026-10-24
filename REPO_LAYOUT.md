@@ -1,14 +1,13 @@
 # Repository layout
 
-The canonical BrewFS manuscript starts at the repository-root `main.tex`.
-`anonymous-preview.tex` builds the name-switching preview. The manuscript's
-`sections/`, `figures/`, `references.bib`, USENIX styles, and generated
-`main.pdf` and `anonymous-preview.pdf` also live at the root.
+The sole BrewFS manuscript entry point is the repository-root `main.tex`.
+Its chapters live in `sections/`; `figures/`, `references.bib`, USENIX styles,
+and the generated `main.pdf` also live at the root. `sections/` contains the
+actual manuscript text and is required for compilation.
 
-Run `make` from the repository root to build both previews, or run
-`latexmk -xelatex main.tex` and `latexmk -xelatex anonymous-preview.tex`.
-`paper/Makefile` only forwards legacy `make -C paper` commands to the root;
-`paper/` is no longer the manuscript source directory.
+Run `make`, `make paper`, or `latexmk -xelatex main.tex` from the repository
+root. The obsolete `paper/` forwarding directory and the name-switching
+preview were removed; historical reports may still refer to those old paths.
 
 The unchanged official USENIX example and style are preserved in
 `templates/usenix-official/`. The unused generic starter and its Make target

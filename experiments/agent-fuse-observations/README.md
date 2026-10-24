@@ -242,7 +242,6 @@ formal manuscript entry point):
 
 ```powershell
 latexmk -xelatex '-outdir=.' '-auxdir=.' -interaction=nonstopmode -halt-on-error main.tex
-latexmk -xelatex '-outdir=.' '-auxdir=.' -interaction=nonstopmode -halt-on-error anonymous-preview.tex
 ```
 
 No source events are modified; no observations are simulated, dropped for

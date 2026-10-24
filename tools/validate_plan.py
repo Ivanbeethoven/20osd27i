@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 errors: list[str] = []
 required = [
-    'main.tex', 'anonymous-preview.tex', 'references.bib',
+    'main.tex', 'references.bib',
     'usenix2019_v3.sty', 'templates/usenix-official/usenix2019_v3.sty',
     'planning/01-research-outline.zh.md', 'planning/02-experiment-plan.zh.md',
     'experiments/matrix.csv', 'experiments/run-manifest.example.yaml',
@@ -62,7 +62,7 @@ expected_style = '4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45f
 if hashes != [expected_style, expected_style]: errors.append('Official style hash mismatch')
 
 log_status = {}
-for stem in ['main', 'anonymous-preview']:
+for stem in ['main']:
     p = ROOT / (stem + '.log')
     if not p.exists():
         log_status[stem] = 'not available; build with make'

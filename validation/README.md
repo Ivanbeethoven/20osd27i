@@ -12,7 +12,8 @@
 git restore --source=5994769 -- path/to/file
 ```
 
-正式构建入口是根目录 `main.tex` 和 `anonymous-preview.tex`。当前架构图源文件为
+唯一正式构建入口是根目录 `main.tex`，章节源文件保存在 `sections/`。名称切换预览和
+旧的 `paper/` 转发目录已删除；旧检查记录中对它们的描述只代表历史状态。当前架构图源文件为
 `tools/draw_architecture_editable.py`，当前主观测图源文件为
 `experiments/agent-fuse-observations/plot_single_column.py`。重新生成的 QA 图像和构建日志
 由 `.gitignore` 排除，正式论文 PDF 与正式图件仍随仓库保存。

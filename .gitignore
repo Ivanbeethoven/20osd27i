@@ -25,7 +25,6 @@ __pycache__/
 *.pdf
 # Reviewed manuscript and figure PDFs are intentionally versioned.
 !/main.pdf
-!/anonymous-preview.pdf
 !/figures/agent-fuse/*.pdf
 !/figures/system-architecture-editable.pdf
 !planning/paper-layout.pdf
