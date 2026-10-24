@@ -1,0 +1,216 @@
+{
+  "date": "2026-10-23",
+  "scope": "confirmed terminology only; no system experiments",
+  "source_checks": [
+    {
+      "file": "paper/figures/packed-path.tex",
+      "before_sha256": "2f9053b1eafcf9c0bbada98e69d5c986dc371c905618a6c2c83dba1d332a633b",
+      "after_sha256": "105ed58f6963017a65d5cdc0b02fcfccd33b2cf06b91a07916e86c098b4e6cbf",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/figures/system-architecture-compact.README.md",
+      "before_sha256": "fec95e482cd1acd139b3711132ed14aada4874e49034e4f311d811e7968f254c",
+      "after_sha256": "46bc6ee12abc70186d93427bab1db299274180aa9ffc70a77dc4645e5ecb5161"
+    },
+    {
+      "file": "paper/main.tex",
+      "before_sha256": "c41501537279aea3e79a7e516f5cd93d0fbe7134956fc7e5782a9e2cc551397d",
+      "after_sha256": "0826b531c1b6f891fbe017718efb9e714747378faa51631aa6a59e7e2c2eb2b6",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/01-introduction.tex",
+      "before_sha256": "8aed850b662b687f44db6a1d1eceac2683084c98daf8109fef14bdb5e53d9a81",
+      "after_sha256": "120202caab96f619405811b6ef07ac8324f3a289d675972997d4d9be68b003a8",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/02-agent-observations.tex",
+      "before_sha256": "1fee13cde6fd36c57e509499a4ac78d6445897837f0be2532f11965b7eb0fc32",
+      "after_sha256": "f0de08b396b3520c952815059a4792a01760d0e0a4791b06e9a6c2a554c15dc5",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/02-motivation.tex",
+      "before_sha256": "c069d765dddafbcad0b7f8543f19e5c3c8bcc73ae772859cf6e286c330c79ba1",
+      "after_sha256": "28475545111cefa389554d92c2d83681287d536e0c77732de1f989e1e4b91c6c",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/03-overview.tex",
+      "before_sha256": "502eaadb982a273f37ffadb197746830bc14a2dd0e2bd32cbaf542dd8635f176",
+      "after_sha256": "fc1e66e6b38d9b755a3f560c1a571b4952ec8361d4cddb408880e081cf1d77c4",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/04-delta.tex",
+      "before_sha256": "582ac23d9d7d2cb7b294e1ea6e71fe9d5e6b77ab8210d0b95c7c8224f36e0885",
+      "after_sha256": "0599f834243c20821fa768e16cbf8908b1ddefb67040628ce33bd6fec6d9203a",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/05-packed.tex",
+      "before_sha256": "509dbdc6d541eb296b0d012164d582e57f80289fa61cab334d4f51cfc3aafc02",
+      "after_sha256": "ec9f24fffb32900b2691bb527e715894272c08e1d9ee3be7987981c2fe545d92",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/06-layout.tex",
+      "before_sha256": "f973b36c77cead77a57f4aca28243a760302956cf00d4fd3f3a8245c94ef9769",
+      "after_sha256": "ef7284c6dd685449f5a2394a3cb952733c6f18e4c98c961f30bcb849c2bc4ba9",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/07-implementation.tex",
+      "before_sha256": "0dbb8f6f591060d66cc9e61876e4943c135f71438ccd8c5d31dd5a8ecb9ea426",
+      "after_sha256": "8bf99ae3112587b0a7e7374ed89981c70c9cd0ff57f99522d68a9819a40e9abe",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/08-evaluation.tex",
+      "before_sha256": "c411ae17818d4c54698f863fd918c91c0a7f9f3a2992624a48e197f137e5d5da",
+      "after_sha256": "90b65fa9fe8086de0fe9fa419ddbced9adacf400e8f0e9cc8494a75864666345",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/09-related.tex",
+      "before_sha256": "8d30d46fa35c03486c57ccd0e58795a2d5b8275b19f077cbf06d52a2676efb84",
+      "after_sha256": "978b698386ec15ca83a43d5337ae1ebda1a00b63b7681fe9e697e7632889dfe9",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "paper/sections/10-conclusion.tex",
+      "before_sha256": "b607ad1af97b95b3f3e63b082c5831fd802f4c9c13702a19bcf6a7dac0d13580",
+      "after_sha256": "c8b512c2b885e5e6d364336a85c2fecb05b149243fa5e17453a5239fbda79b71",
+      "numeric_sequence_unchanged": true,
+      "equations_unchanged": true,
+      "citation_keys_unchanged": true
+    },
+    {
+      "file": "planning/01-research-outline.zh.md",
+      "before_sha256": "fa7dbc8128a87d492897a63e656e328bb427016aa3f503bbdfe32e959aa8d284",
+      "after_sha256": "c5646cd1923f6697573f2f36f8b2993f6900fd39241750a6567b94a15d229e18",
+      "numeric_sequence_unchanged": true
+    },
+    {
+      "file": "planning/02-experiment-plan.zh.md",
+      "before_sha256": "92311689bb2d5e478606663ab0a8b553bca54a981ccb491dd4c002cf3776e676",
+      "after_sha256": "3d66c9ed0316493715a201da49e13c9234b83acee37a40d631c75e0357b0b32d",
+      "numeric_sequence_unchanged": true
+    },
+    {
+      "file": "planning/architecture-compact-brief.md",
+      "before_sha256": "2a9fd797df6057c717eabda8e663480be9f717cf08ac639d7da527865ebcf909",
+      "after_sha256": "eb8124ae8f2b1c77113217a6facecf7449e5aa5eaf5e95209dcb309a1fc2594e"
+    },
+    {
+      "file": "README.md",
+      "before_sha256": "f449c717e58c7e45813e462ba1d27fc8685e0b4a3834258f7265a7da1ce15622",
+      "after_sha256": "375b296639ca5a29c8aacc149b4076100e6bd2ca04a618cd4920d27277f24aa7",
+      "numeric_sequence_unchanged": true
+    },
+    {
+      "file": "tools/draw_architecture_compact.py",
+      "before_sha256": "11606081d3b9870b3d081bbac6203107c6e6b7c1321301a5ecc869008e584216",
+      "after_sha256": "381d551394a861510da0b7857e38bd7c81c6e368e65fe77026f928d6f889c7f8"
+    }
+  ],
+  "pdfs": [
+    {
+      "file": "paper/main.pdf",
+      "pages": 15,
+      "overfull": 0,
+      "missing_glyphs": 0,
+      "undefined_references": 0,
+      "underfull": 57,
+      "headings": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [
+          "Figure 3: Mechanisms connecting private views to stored objects. (a) Each workspace resolves upper state ﬁrst. LowerRange"
+        ],
+        "6": [],
+        "7": [
+          "Figure 4: A representative lower access. A directory-name"
+        ],
+        "8": [
+          "Encoding block size and physical veriﬁca-"
+        ],
+        "9": [],
+        "10": [],
+        "11": [],
+        "12": [],
+        "13": [],
+        "14": [],
+        "15": []
+      }
+    },
+    {
+      "file": "paper/anonymous-preview.pdf",
+      "pages": 15,
+      "overfull": 0,
+      "missing_glyphs": 0,
+      "undefined_references": 0,
+      "underfull": 55,
+      "headings": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [
+          "Figure 3: Mechanisms connecting private views to stored objects. (a) Each workspace resolves upper state ﬁrst. LowerRange"
+        ],
+        "6": [],
+        "7": [
+          "Figure 4: A representative lower access. A directory-name"
+        ],
+        "8": [
+          "Encoding block size and physical veriﬁca-"
+        ],
+        "9": [],
+        "10": [],
+        "11": [],
+        "12": [],
+        "13": [],
+        "14": [],
+        "15": []
+      }
+    }
+  ],
+  "visual_review": {
+    "main_contact_sheet": "passed",
+    "anonymous_contact_sheet": "passed",
+    "main_pages_5_8": "passed",
+    "architecture_labels": "passed; minimum 8 pt retained",
+    "notes": "No clipping or label collisions found. Existing paragraph spacing notices remain."
+  },
+  "independent_source_review": "passed; no grammar or meaning regressions found",
+  "package_validation": "passed; 29 bibliography entries, 27 cited entries, E00-E16, RQ1-RQ7, official style hashes unchanged"
+}

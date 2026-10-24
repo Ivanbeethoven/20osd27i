@@ -1,0 +1,85 @@
+{
+  "pdf": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\main.pdf",
+  "pages": 16,
+  "body_last_page": 14,
+  "page_dimensions": [
+    0.0,
+    0.0,
+    612.0,
+    792.0
+  ],
+  "page_map": [
+    {
+      "page": 1,
+      "chars": 4350
+    },
+    {
+      "page": 2,
+      "chars": 5489
+    },
+    {
+      "page": 3,
+      "chars": 4690
+    },
+    {
+      "page": 4,
+      "chars": 4649
+    },
+    {
+      "page": 5,
+      "chars": 4748
+    },
+    {
+      "page": 6,
+      "chars": 4921
+    },
+    {
+      "page": 7,
+      "chars": 5313
+    },
+    {
+      "page": 8,
+      "chars": 5133
+    },
+    {
+      "page": 9,
+      "chars": 5319
+    },
+    {
+      "page": 10,
+      "chars": 4759
+    },
+    {
+      "page": 11,
+      "chars": 5611
+    },
+    {
+      "page": 12,
+      "chars": 5347
+    },
+    {
+      "page": 13,
+      "chars": 5523
+    },
+    {
+      "page": 14,
+      "chars": 4875
+    },
+    {
+      "page": 15,
+      "chars": 4705
+    },
+    {
+      "page": 16,
+      "chars": 1942
+    }
+  ],
+  "overfull_count": 0,
+  "underfull_count": 42,
+  "undefined": [],
+  "pdf_sha256": "5bbd20a1ae18bc02f7ec83c438cfcb79671e9ee7510c451c03d99d81bd1e469c",
+  "changed_pages_since_first_build": [
+    4
+  ],
+  "changed_sources_during_final_build": []
+}

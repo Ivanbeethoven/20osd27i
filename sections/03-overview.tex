@@ -16,7 +16,7 @@ the physical verification/read quantum.
 \begin{table*}[t]
 \centering
 \small
-\begin{tabularx}{\textwidth}{@{}p{3.0cm}YY@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.0cm}YY@{}}
 \toprule
 Choice & Mechanism selected & Alternative retained\\
 \midrule
@@ -25,19 +25,17 @@ Immutable metadata & Packed Metadata: indexed records in bounded object-resident
 Object granularity & Configured client block size $g$; optional compatible backend $B/q$ choices & Fixed client geometry and backend default layout\\
 \bottomrule
 \end{tabularx}
-\caption{Independent design decisions. A deployment selects mechanisms for
-their own costs and contracts. Current mount paths support specific
-combinations; this table is not a claim of eight interchangeable runtime modes.}
+\caption{Independent design decisions. Current mount paths admit specific
+combinations, rather than eight interchangeable runtime modes.}
 \label{tab:mechanism-choices}
 \end{table*}
 
-Each decision has its own input. A workspace binds a shared version and
-resolves private changes against it; its lookup rules do not prescribe
-the lower's metadata format. A packed reader obtains immutable records
-from indexed pages and can also serve a read-only consumer. An ordinary
-volume uses the object-data path without a shared baseline. When multiple
-tasks reuse a stable environment, composing workspaces with a packed
-baseline shares its representation while retaining private changes.
+Composition rests on two interfaces. The lower reader resolves names,
+attributes, and data locators under a fixed version identity; the data
+path returns the referenced logical bytes under the object's persisted
+layout. Changing the lower representation must preserve the first
+contract, and choosing a storage layout must preserve the second.
+Table~\ref{tab:mechanism-choices} retains alternatives at both boundaries.
 
 \subsection{Pinning state and isolating changes}
 
@@ -53,59 +51,39 @@ It can cover a selected subtree without freezing an entire source volume.
 Following a mutable latest pointer on each lookup would not preserve
 this fixed starting state.
 
-Resolution checks private names, attributes, deletion state, and data
-mappings before consulting $S$. A deletion marker suppresses an inherited
-entry; absence of an upper record allows inheritance when no other rule
-blocks it. Newly written payload bytes reside in separately referenced
-objects. Thus an edit changes the workspace's records and references
-without modifying the shared baseline.
-
 The isolation invariant is view-local mutation: an operation in $W_i$
-leaves $S$ and another workspace's private state unchanged. Concurrent
-operations within one workspace must still preserve its namespace and
-data invariants. Process isolation, network restrictions, and merging
-independent edits require runtime or application protocols beyond this
-file-view contract.
+leaves $S$ and another workspace's private state unchanged. Private names,
+attributes, deletion markers, and data mappings determine which inherited
+records remain visible. Section~\ref{sec:delta} specifies resolution and
+the operation boundaries that preserve inode identity and prevent stale
+bytes from reappearing. Process isolation and merging independent edits
+require separate runtime or application protocols.
 
 \subsection{Reading, writing, and publishing}
 
-Figure~\ref{fig:overview} follows state references through the metadata and
-object paths. For an inherited read, the chosen lower reader returns
-metadata and resolves data locators to payload ranges. With a packed
-lower, workspaces can reuse a fetched baseline page. If one workspace
-overwrites the file, its private mapping refers to new upper bytes while
-another workspace can continue to read $S$. The object's persisted layout
-determines how the backend serves those bytes.
+Figure~\ref{fig:overview} follows these parallel interfaces. An inherited
+read obtains a locator from the chosen lower reader, then fetches its
+payload range. An overwrite publishes a private mapping to new upper
+bytes; other workspaces retain their references to $S$.
 
 \begin{figure}[!t]
 \centering
 \input{figures/architecture}
-\caption{Three optional, composable mechanisms.
-The metadata example stores file bytes separately.
-In ordinary uploads, each raw block forms an object after applicable
-compression/framing. Matching $U_1/O_p$ ports use separate upload contracts.
-Dashed $B$ hints are optional; backends persist effective layouts.
-Integration limits appear in Section~\ref{sec:implementation}.}
+\caption{Independently optional mechanisms. Packed pages co-locate multiple
+metadata records. Ordinary uploads use fixed $g$; the backend diagrams show
+alternative $B$ layouts for eligible objects. $q$ applies within a shard.
+Layouts are schematic; producer contracts and admission gates differ
+(Section~\ref{sec:implementation}).}
 \label{fig:overview}
 \end{figure}
 
-Writes introduce two distinct visibility boundaries. A dirty buffer can
-serve this client's reads before its bytes are remotely durable.
-Publishing a recoverable immutable version requires its referenced
-objects to satisfy the selected persistence contract and its metadata
-to be validated. Private namespace state alone does not establish that
-boundary, and a local read returning new bytes does not establish it
-either.
+Writes introduce two visibility boundaries. A dirty buffer can serve
+this client's reads before remote durability. Publishing a recoverable
+version requires its referenced objects to satisfy the selected
+persistence contract and its metadata to be validated.
 
-Publication also creates a lifetime obligation: workspace and reader
-ownership must retain referenced metadata and payloads until they can be
-reclaimed. Backend layout selection can change how an object is encoded
-and read while preserving its logical identity and contents. Readers of
-an existing version continue to interpret each object using its persisted
-layout.
-
-A published file version may contain application checkpoints; restoring
-process memory, open handles, and execution state remains the runtime's
-responsibility. The next sections develop workspace resolution, immutable
-metadata access, and object formation. Section~\ref{sec:implementation}
-identifies their current mount and recovery paths.
+Workspace and reader ownership must retain referenced metadata and
+payloads until reclamation is safe. A published version may contain
+application checkpoints; restoring process memory and open handles
+remains the runtime's responsibility. Section~\ref{sec:implementation}
+identifies the current mount and recovery paths.

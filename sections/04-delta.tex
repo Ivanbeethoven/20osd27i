@@ -3,19 +3,13 @@
 
 \subsection{Creating a view and resolving names}
 
-Creating a workspace gives a task the shared starting files and an
-independent place to record changes. The workspace binds a shared
-immutable lower $S$ and maintains a private writable upper $\Delta_i$,
-with view $W_i=\operatorname{Resolve}(S,\Delta_i)$. A sealed catalog in the
-metadata database and a packed snapshot on object storage can supply the
-same inherited records through different access paths.
-
-Creation registers the base identity and independent private state.
-The catalog path identifies the base by its layer, sealed version, and
-root hash; a packed lower additionally binds its authenticated manifest.
-Unchanged entries and file contents remain reachable through this identity,
-so creation need not copy the complete metadata tree. Binding validation,
-ownership records, and mount preparation still contribute to its cost.
+A workspace binds an immutable lower $S$ and private writable upper
+$\Delta_i$, yielding $W_i=\operatorname{Resolve}(S,\Delta_i)$. Creation
+registers the base identity and private control state without copying the
+complete metadata tree. The catalog path identifies the base by layer,
+sealed version, and root hash; a packed lower additionally binds its
+authenticated manifest. Binding validation, ownership records, and mount
+preparation still contribute to creation cost.
 
 A name lookup first consults the private record, which distinguishes a
 present entry, an explicit deletion, and absence. For parent directory
@@ -30,77 +24,78 @@ e, & \Delta_i(d,n)=\operatorname{Present}(e),\\
 R_S(d,n), & \Delta_i(d,n)=\operatorname{Absent}\land\neg H_i(d,n).
 \end{cases}
 \end{equation}
-Here $\bot$ denotes an absent lookup result. A whiteout suppresses the
-inherited name. $H_i$ covers applicable directory-opacity or other
-lower-inheritance rules, not visibility of a present upper entry.
-Absence permits fallback only when $H_i$ is false. Deleting an inherited
-file must therefore preserve a deletion marker; merely removing a private
-record could expose the lower file again.
+Here $\bot$ denotes absence. $H_i$ covers directory-opacity or other
+lower-inheritance rules without hiding a present upper entry. A whiteout
+terminates lookup; deleting an inherited name must preserve this marker,
+since merely removing a private record could expose the lower name again.
 
 Directory enumeration applies the same precedence to each name, removes
-duplicates, and returns attributes of the visible inode. Private
-attributes describe its current state rather than an arithmetic merge
-with lower attributes. Materializing private inode state must preserve
-the identity shared by hard-link aliases. Rename and other namespace
-mutations must update related entries consistently within the workspace.
+duplicates, and returns attributes of the visible inode. The catalog-backed
+buffered path and a direct-I/O workspace path both retain an inherited file's
+inode number when materializing private attributes or mappings. Updates
+through one hard-link alias therefore remain visible through the others.
+
+The direct-I/O path uses a transactional private namespace. Rename locks
+participating inodes in number order, validates the observed rows and writer
+authority, then atomically commits the source
+whiteout, destination binding, and affected inode and parent records.
+Its namespace reads validate an operation-local view and retry conflicts:
+a successful read can observe either side of a concurrent rename, but
+not its partially updated rows. Separate calls may straddle that commit.
+The catalog-backed buffered path instead serializes local mutations and
+uses version-guarded catalog transactions. These mechanisms do not establish a
+snapshot across multiple system calls; entry-specific caching and runtime
+bounds remain as described in Section~\ref{sec:implementation}.
 
 \subsection{Resolving overwrites and truncation}
 
-An overwrite changes which bytes a file range references. The catalog
+An overwrite changes which bytes a file range references. The buffered
 path records private data extents alongside namespace and inode changes.
-The Entity path supplies one concrete current-state representation:
-each changed logical chunk has a normalized map with explicit \emph{Data},
-\emph{LowerRange}, and \emph{Hole} spans. Data references newly stored upper
-bytes, LowerRange references inherited bytes in $S$, and Hole reads as
-zeros. An explicit map must cover its applicable range completely;
-an uncovered interval is not an implicit lower reference.
+The direct-I/O path represents each changed logical chunk by a normalized
+map with explicit spans of upper data, lower references, or zeros. These
+respectively identify newly stored bytes, inherited bytes in $S$, and holes.
+An explicit map covers its applicable range completely; an uncovered
+interval is not an implicit lower reference.
 
-A short overwrite stores new bytes and replaces their mapped interval,
-while unchanged intervals can retain lower references. This does not
-require a byte-difference algorithm or copying the whole lower file.
-Truncation must also prevent discarded lower bytes from reappearing.
-Entity maintains a lower-visible size that can decrease but cannot
-increase. Extending a truncated file exposes zeros or new upper data
-beyond that boundary, rather than old bytes from $S$. Object formation
-and integrity checking determine the stored units independently: a short
-logical write need not produce an equally short object.
+A short overwrite replaces its mapped interval while preserving lower
+references elsewhere. In this path, truncation first commits the reduced size,
+a nonincreasing lower-visible boundary, and a cleanup intent. Cleanup
+replaces discarded spans, including existing upper data, with zero spans;
+subsequent extension completes pending cleanup before changing the size.
+For example, writing upper bytes at $[6,10)$, shrinking to 7, then extending
+to 34 must yield zeros at $[7,34)$. Lower-visible size alone would not
+invalidate the old upper bytes. These steps describe the direct-I/O path;
+other mounts retain their own update protocols. Object formation
+remains separate: a short logical write need not produce a short object.
 
-The VFS dirty overlay handles a separate read case: this client's bytes
-are readable before writeback completes. If local dirty data covers
+The buffered client's dirty overlay makes its bytes readable before writeback
+completes. If local dirty data covers
 $[4,8)$ KiB, a read of $[2,10)$ KiB combines two committed 2 KiB ranges
-with the dirty 4 KiB range. Workspace delta state instead determines
-persistent namespace, attribute, and data-mapping visibility. A buffered
-workspace path can use both mechanisms, but local read-your-writes
-behavior alone establishes neither remote durability nor a published
-recovery point.
+with the dirty 4 KiB range. A buffered workspace can use both this overlay
+and persistent private mappings; local read-your-writes alone establishes
+neither remote durability nor a published recovery point.
 
 \subsection{Publishing and retaining a version}
 
-Publishing a new data mapping creates a dependency on its referenced
-objects. The Entity path uploads an object durably before publishing its
-mapping. The ordinary VFS offers upload-before-commit and explicitly
-selected commit-before-upload modes; the latter can expose a mapping
-before its object is remotely available. Preparing a recoverable version
-therefore requires an explicit drain and validation boundary, even when
-local reads already return new data.
+The direct-I/O workspace uploads an object durably before publishing its
+mapping. The ordinary buffered path defaults to upload-before-commit and
+offers explicitly selected commit-before-upload mode, which can expose
+mappings before their objects
+are remotely available.
+Preparing a recoverable version therefore requires draining and validating
+referenced objects even when local reads already return new data.
 
-A recoverable worker handoff requires application checkpoints and a stop
-to new source writes. Required payloads and metadata must become durable
-and validated before an immutable version reference is published. The
-destination then binds that version and acquires authority for subsequent
-private writes. Lease and generation checks must reject stale writers.
-This protocol must establish a file recovery point; the application
-runtime is responsible for restoring sessions, restarting tools, and
-reopening files. The file version does not transfer running processes
-or guarantee recovery of progress beyond the last confirmed publication.
-Section~\ref{sec:implementation} distinguishes the available publication
-and recovery paths.
+A worker handoff requires application checkpoints, stopping new source
+writes, and making required payloads and metadata durable before publishing
+the immutable version. The destination binds that version and acquires
+write authority; lease and generation checks reject stale writers.
+Applications restore execution state and reopen files from this recovery
+point. Section~\ref{sec:implementation} distinguishes implemented lifecycle
+components from connected recovery paths.
 
-A published baseline must remain available for every workspace or reader
-that still holds it. Publishing a replacement must not invalidate those
-readers, and reclamation must separate live references from abandoned
-construction objects. This lifetime requirement applies to either lower
-representation. For one shared baseline, live logical metadata obeys
+Publication must preserve prior versions still held by workspaces or readers.
+Reclamation separates those references from abandoned construction
+objects. For one shared baseline, live logical metadata obeys
 \begin{equation}
 M_{\mathrm{live\text{-}meta}}=M_S+\sum_i M_{\Delta_i}+M_{\mathrm{control}}.
 \end{equation}
@@ -108,7 +103,6 @@ $M_S$ counts the shared metadata once; $M_{\Delta_i}$ counts private names,
 attributes, deletion records, and mappings; $M_{\mathrm{control}}$ counts
 disjoint binding and ownership records. Upper payload, encoding and
 checksum overhead, unreclaimed objects, and caches belong to separate
-physical accounting. Private state includes complete current records
-and mapping overhead, so its cost grows with modification and deletion.
-The evaluation will compare this cost with materialized workspaces under
-matched visibility and durability contracts.
+physical accounting. Complete private records and mappings grow with
+modification and deletion; comparison with materialized workspaces must
+match visibility and durability contracts.

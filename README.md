@@ -4,9 +4,9 @@
 
 **BrewFS: Delta-Based Multi-Agent Workspaces with Packed Metadata and Variable-Granularity Object Storage**
 
-本包提供英文内部初稿、中文研究大纲、完整实验协议、文献核验记录、实现证据及可移植写作 skill。现已纳入 **8 个真实 Agent 任务、1,138,884 条 FUSE 请求的原始数据重分析**，位于论文 §2.2；Core 与 Exploratory 分开呈现。**E00–E16 系统实验仍处于规划阶段；没有据此宣称 BrewFS/RustFS 的性能、正确性或故障恢复收益。** 提议的机器、样本规模和参数也不是已部署环境。
+本包提供英文内部初稿、中文研究大纲、完整实验协议、文献核验记录、实现证据及可移植写作 skill。现已纳入 **8 个真实 Agent 任务、1,138,884 条 FUSE 请求的原始数据重分析**，位于论文 §2.3；Core 与 Exploratory 分开呈现。**E00–E16 系统实验仍处于规划阶段；没有据此宣称 BrewFS/RustFS 的性能、正确性或故障恢复收益。** 提议的机器、样本规模和参数也不是已部署环境。
 
-本轮观测的统计口径、证据对应关系及复现命令见 [工作负载分析说明](experiments/agent-fuse-observations/README.md)。当前论文使用一张三面板合并主图，由 `analyze.py` 流式统计、`plot_combined.py` 绘制；`plot.py` 保留生成历史诊断图的能力。保留实际模型名 `deepseek-v4-flash`，并区分 FUSE 错误、进程退出码与基准任务评分。
+本轮观测的统计口径、证据对应关系及复现命令见 [工作负载分析说明](experiments/agent-fuse-observations/README.md)。当前论文使用一张单栏三面板主图，由 `analyze.py` 流式统计、`plot_single_column.py` 绘制；`plot_combined.py` 和 `plot.py` 保留生成历史图件的能力。保留实际模型名 `deepseek-v4-flash`，并区分 FUSE 错误、进程退出码与基准任务评分。
 
 论文与中文研究文档统一沿用[已确认术语表](planning/terminology.zh.md)：三项机制为基于增量状态的多智能体工作区、打包式元数据和可变粒度对象存储。**三者均为可选、可组合能力，不是必须依次开启的流程。** 普通卷提供公共文件与对象路径；增量工作区选择视图构成，打包式元数据选择不可变记录的组织与获取方式，对象粒度选择数据对象的形成及可选后端布局。
 

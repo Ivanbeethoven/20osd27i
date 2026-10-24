@@ -1,0 +1,34 @@
+[
+  {
+    "task": "Django",
+    "label_to_marker_edge_pt": 48.68953798387347
+  },
+  {
+    "task": "Matplotlib",
+    "label_to_marker_edge_pt": 38.51234358737133
+  },
+  {
+    "task": "Flask",
+    "label_to_marker_edge_pt": 43.71208967454927
+  },
+  {
+    "task": "Requests",
+    "label_to_marker_edge_pt": 5.155039361223564
+  },
+  {
+    "task": "Sphinx",
+    "label_to_marker_edge_pt": 50.10599169878447
+  },
+  {
+    "task": "Astropy",
+    "label_to_marker_edge_pt": 23.722064855543977
+  },
+  {
+    "task": "Pytest",
+    "label_to_marker_edge_pt": 39.602765106662076
+  },
+  {
+    "task": "SymPy",
+    "label_to_marker_edge_pt": 23.460537098941998
+  }
+]

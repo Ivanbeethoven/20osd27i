@@ -1,0 +1,72 @@
+[
+  {
+    "name": "DWNTRA+NimbusRomNo9L-Medi",
+    "type": "Type1",
+    "embedded": true
+  },
+  {
+    "name": "VGPCXC+NimbusRomNo9L-ReguItal",
+    "type": "Type1",
+    "embedded": true
+  },
+  {
+    "name": "UACRXE+NimbusRomNo9L-Regu",
+    "type": "Type1",
+    "embedded": true
+  },
+  {
+    "name": "OJFNKL+NimbusMonL-Regu",
+    "type": "Type1",
+    "embedded": true
+  },
+  {
+    "name": "EQFILB+DejaVuSans-Bold",
+    "type": "Type0",
+    "embedded": true
+  },
+  {
+    "name": "WNRMHH+DejaVuSans",
+    "type": "Type0",
+    "embedded": true
+  },
+  {
+    "name": "HKRIDO+CMR10",
+    "type": "Type1",
+    "embedded": true
+  },
+  {
+    "name": "ULGDNB+CMMI10",
+    "type": "Type1",
+    "embedded": true
+  },
+  {
+    "name": "NAHCEU+StandardSymL",
+    "type": "Type1",
+    "embedded": true
+  },
+  {
+    "name": "AAAAAA+ArialMT",
+    "type": "TrueType",
+    "embedded": true
+  },
+  {
+    "name": "AAAAAA+Arial-BoldMT",
+    "type": "TrueType",
+    "embedded": true
+  },
+  {
+    "name": "JLSYEZ+CMEX10",
+    "type": "Type1",
+    "embedded": true
+  },
+  {
+    "name": "EANSWY+CMSY10",
+    "type": "Type1",
+    "embedded": true
+  },
+  {
+    "name": "SNZKIN+CMEX9",
+    "type": "Type1",
+    "embedded": true
+  }
+]

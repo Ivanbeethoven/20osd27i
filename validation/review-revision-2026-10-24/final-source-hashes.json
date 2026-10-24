@@ -1,0 +1,70 @@
+[
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\main.tex",
+    "Hash": "3C04DE968FAF989586F948ADFA2EF44704DE64131526D8F3979617BCC6F86F7C"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\references.bib",
+    "Hash": "07939B515FF72CB4F4C151B5B10A4329ED57B98B53BE7993691EB0247B27EE6C"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\figures\\architecture.tex",
+    "Hash": "2312D80D862F4D39E4DC80A89C7AA828ECB1116DE5B3470511B9B6848247CBA1"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\figures\\packed-path.tex",
+    "Hash": "9C89B9F695147ECB01CEAAA1AEA4D376DA89B06C8A6FE2D9F665C9843483E691"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\figures\\system-architecture-editable.pdf",
+    "Hash": "8272C8872511E4DD1B39E143F1D7F57669058AC05D08A5C583C3B9D369C17B6E"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\figures\\agent-fuse\\fuse-single-column.pdf",
+    "Hash": "AC9FFC9175E235B1235A606EE6C8F3E760179B1BB175588346E53847B24BC74F"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\01-introduction.tex",
+    "Hash": "73CFBBFD146E214992F30EE957A329345B36FEE781AE31561AA600F05AA27746"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\02-agent-observations.tex",
+    "Hash": "7C743AE7527F1A8970CB1013508E7667BDA141CDB0233C7B8A85BE2E28ED109A"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\02-motivation.tex",
+    "Hash": "8429C978C473DE10D974A2A753EB134874E42949B0510575E2E529918F682B18"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\03-overview.tex",
+    "Hash": "5C7FDB0A922BCE4CB784E8D1DBE6BF2E5AE9096A8EEA77ECB8291EFF4EC00717"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\04-delta.tex",
+    "Hash": "AD62C446F859B7FFB3BA137CF56FBC4333DA1589D67DC2F3DD1C66D3E953EAD3"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\05-packed.tex",
+    "Hash": "C01505A327DBF3937BDC4A952A5981E0E0795C1D7220EC38BB07C689EFDED598"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\06-layout.tex",
+    "Hash": "02F8FCEB17A9B7EEE97A62EFE0FCAB2674140584E4A706AB061594E694DAB1BE"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\07-implementation.tex",
+    "Hash": "14E6BF037036A325BA3C2B68EB47A8A16E6A4E083C1848490010186968053017"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\08-evaluation.tex",
+    "Hash": "3918553CE567F76657F5B3C4F8CBA31305D8CE14C0979396481DF500EFB28900"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\09-related.tex",
+    "Hash": "3ACD296FF993CB3737E301D3995BDB5544D94B0EB2D5586A665AA69633DD3198"
+  },
+  {
+    "Path": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\sections\\10-conclusion.tex",
+    "Hash": "7F19190299EA30D03D6985B6A937A247E0BA0B1769D53DC8724C5E45026B8914"
+  }
+]

@@ -1,0 +1,886 @@
+{
+  "width_pt": 240,
+  "height_pt": 258,
+  "nodes": {
+    "ordinary-volume": [
+      4,
+      46,
+      47,
+      25
+    ],
+    "workspace-choice": [
+      64,
+      21,
+      172,
+      63
+    ],
+    "workspace-view-1": [
+      71,
+      45,
+      75,
+      20
+    ],
+    "workspace-view-2": [
+      153,
+      45,
+      75,
+      20
+    ],
+    "shared-baseline": [
+      71,
+      71,
+      157,
+      10
+    ],
+    "metadata-choice": [
+      4,
+      107,
+      112,
+      141
+    ],
+    "native-records": [
+      8,
+      137,
+      50,
+      14
+    ],
+    "packed-records": [
+      68,
+      137,
+      44,
+      14
+    ],
+    "readonly-mount": [
+      7,
+      154,
+      38,
+      21
+    ],
+    "name-range-index": [
+      51,
+      156,
+      59,
+      20
+    ],
+    "joint-metadata-page": [
+      10,
+      180,
+      100,
+      40
+    ],
+    "joint-records": [
+      12,
+      193,
+      96,
+      24
+    ],
+    "referenced-bytes": [
+      10,
+      230,
+      100,
+      12
+    ],
+    "granularity-choice": [
+      124,
+      107,
+      112,
+      141
+    ],
+    "default-geometry": [
+      129,
+      137,
+      43,
+      16
+    ],
+    "selected-geometry": [
+      182,
+      137,
+      49,
+      16
+    ],
+    "backend": [
+      4,
+      250,
+      232,
+      8
+    ]
+  },
+  "text": [
+    {
+      "text": "Agents",
+      "group": "common-entry",
+      "size_pt": 7.5,
+      "bbox": [
+        20.3251953125,
+        4.5,
+        43.6748046875,
+        13.5
+      ]
+    },
+    {
+      "text": "FUSE",
+      "group": "common-entry",
+      "size_pt": 8.0,
+      "bbox": [
+        85.33203125,
+        4.0,
+        106.66796875,
+        13.5
+      ]
+    },
+    {
+      "text": "1\u20133 independently optional",
+      "group": "common-entry",
+      "size_pt": 7.0,
+      "bbox": [
+        147.158935546875,
+        5.0,
+        230.841064453125,
+        13.5
+      ]
+    },
+    {
+      "text": "Ordinary",
+      "group": "ordinary-volume",
+      "size_pt": 7.3,
+      "bbox": [
+        13.5041748046875,
+        48.7,
+        41.4958251953125,
+        57.5
+      ]
+    },
+    {
+      "text": "volume",
+      "group": "ordinary-volume",
+      "size_pt": 7.3,
+      "bbox": [
+        15.733740234375,
+        57.7,
+        39.266259765625,
+        66.5
+      ]
+    },
+    {
+      "text": "or",
+      "group": "view-alternative",
+      "size_pt": 7.0,
+      "bbox": [
+        54.387939453125,
+        54.0,
+        60.612060546875,
+        62.5
+      ]
+    },
+    {
+      "text": "1",
+      "group": "workspace-choice",
+      "size_pt": 8,
+      "bbox": [
+        70.775390625,
+        25.1,
+        75.224609375,
+        34.6
+      ]
+    },
+    {
+      "text": "Delta-Based Multi-Agent",
+      "group": "workspace-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        81,
+        22.5,
+        179.227294921875,
+        32.5
+      ]
+    },
+    {
+      "text": "Workspaces",
+      "group": "workspace-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        81,
+        33.0,
+        131.07861328125,
+        43.0
+      ]
+    },
+    {
+      "text": "Private state first",
+      "group": "workspace-choice",
+      "size_pt": 7.0,
+      "bbox": [
+        164.936279296875,
+        34.5,
+        217.063720703125,
+        43.0
+      ]
+    },
+    {
+      "text": "View W\u2081",
+      "group": "workspace-view-1",
+      "size_pt": 7.1,
+      "bbox": [
+        94.572767578125,
+        44.4,
+        122.42723242187499,
+        53.0
+      ]
+    },
+    {
+      "text": "Private state \u0394\u2081",
+      "group": "workspace-view-1",
+      "size_pt": 7.0,
+      "bbox": [
+        84.256962890625,
+        54.5,
+        132.743037109375,
+        63.0
+      ]
+    },
+    {
+      "text": "View W\u2082",
+      "group": "workspace-view-2",
+      "size_pt": 7.1,
+      "bbox": [
+        176.572767578125,
+        44.4,
+        204.427232421875,
+        53.0
+      ]
+    },
+    {
+      "text": "Private state \u0394\u2082",
+      "group": "workspace-view-2",
+      "size_pt": 7.0,
+      "bbox": [
+        166.256962890625,
+        54.5,
+        214.743037109375,
+        63.0
+      ]
+    },
+    {
+      "text": "Pinned shared immutable S",
+      "group": "shared-baseline",
+      "size_pt": 7.0,
+      "bbox": [
+        103.60009765625,
+        71.5,
+        195.39990234375,
+        80.0
+      ]
+    },
+    {
+      "text": "2",
+      "group": "metadata-choice",
+      "size_pt": 8,
+      "bbox": [
+        9.775390625,
+        111.1,
+        14.224609375,
+        120.6
+      ]
+    },
+    {
+      "text": "Packed Metadata",
+      "group": "metadata-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        21,
+        110.5,
+        89.975341796875,
+        120.5
+      ]
+    },
+    {
+      "text": "Metadata access",
+      "group": "metadata-choice",
+      "size_pt": 7.0,
+      "bbox": [
+        33.54150390625,
+        123.0,
+        86.45849609375,
+        131.5
+      ]
+    },
+    {
+      "text": "Native records",
+      "group": "native-records",
+      "size_pt": 7.0,
+      "bbox": [
+        10.436279296875,
+        140.0,
+        55.563720703125,
+        148.5
+      ]
+    },
+    {
+      "text": "Packed",
+      "group": "packed-records",
+      "size_pt": 7.2,
+      "bbox": [
+        77.3912109375,
+        139.8,
+        102.60878906250001,
+        148.5
+      ]
+    },
+    {
+      "text": "or",
+      "group": "metadata-alternative",
+      "size_pt": 7.0,
+      "bbox": [
+        59.887939453125,
+        140.0,
+        66.112060546875,
+        148.5
+      ]
+    },
+    {
+      "text": "Read-only",
+      "group": "readonly-mount",
+      "size_pt": 7.0,
+      "bbox": [
+        10.046630859375,
+        155.0,
+        41.953369140625,
+        163.5
+      ]
+    },
+    {
+      "text": "mount",
+      "group": "readonly-mount",
+      "size_pt": 7.0,
+      "bbox": [
+        16.2724609375,
+        164.0,
+        35.7275390625,
+        172.5
+      ]
+    },
+    {
+      "text": "Name-range",
+      "group": "name-range-index",
+      "size_pt": 7.0,
+      "bbox": [
+        61.046630859375,
+        157.0,
+        99.953369140625,
+        165.5
+      ]
+    },
+    {
+      "text": "index \u00b7 /src",
+      "group": "name-range-index",
+      "size_pt": 7.0,
+      "bbox": [
+        63.384521484375,
+        165.5,
+        97.615478515625,
+        174.0
+      ]
+    },
+    {
+      "text": "Joint metadata page",
+      "group": "joint-metadata-page",
+      "size_pt": 7.0,
+      "bbox": [
+        26.15869140625,
+        182.0,
+        93.84130859375,
+        190.5
+      ]
+    },
+    {
+      "text": "Name",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        16.663818359375,
+        193.0,
+        35.336181640625,
+        201.5
+      ]
+    },
+    {
+      "text": "Attributes",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        44.215576171875,
+        193.0,
+        73.784423828125,
+        201.5
+      ]
+    },
+    {
+      "text": "Data ref.",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        79.57763671875,
+        193.0,
+        106.42236328125,
+        201.5
+      ]
+    },
+    {
+      "text": "main.py",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        13.744873046875,
+        202.5,
+        38.255126953125,
+        211.0
+      ]
+    },
+    {
+      "text": "size",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        52.77587890625,
+        202.5,
+        65.22412109375,
+        211.0
+      ]
+    },
+    {
+      "text": "Referenced file bytes",
+      "group": "referenced-bytes",
+      "size_pt": 7.0,
+      "bbox": [
+        27.120849609375,
+        231.5,
+        92.879150390625,
+        240.0
+      ]
+    },
+    {
+      "text": "3",
+      "group": "granularity-choice",
+      "size_pt": 8,
+      "bbox": [
+        129.775390625,
+        111.1,
+        134.224609375,
+        120.6
+      ]
+    },
+    {
+      "text": "Variable-Granularity",
+      "group": "granularity-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        141,
+        110.5,
+        222.252197265625,
+        120.5
+      ]
+    },
+    {
+      "text": "Object Storage",
+      "group": "granularity-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        141,
+        120.5,
+        201.458740234375,
+        130.5
+      ]
+    },
+    {
+      "text": "Defaults",
+      "group": "default-geometry",
+      "size_pt": 7.1,
+      "bbox": [
+        137.4769775390625,
+        140.9,
+        163.52302246093748,
+        149.5
+      ]
+    },
+    {
+      "text": "g \u00b7 B hint",
+      "group": "selected-geometry",
+      "size_pt": 7.0,
+      "bbox": [
+        192.4931640625,
+        137.0,
+        220.5068359375,
+        145.5
+      ]
+    },
+    {
+      "text": "q policy",
+      "group": "selected-geometry",
+      "size_pt": 7.0,
+      "bbox": [
+        194.6328125,
+        144.0,
+        218.3671875,
+        152.5
+      ]
+    },
+    {
+      "text": "or",
+      "group": "geometry-alternative",
+      "size_pt": 7.0,
+      "bbox": [
+        173.887939453125,
+        141.0,
+        180.112060546875,
+        149.5
+      ]
+    },
+    {
+      "text": "Ordinary upload",
+      "group": "ordinary-uploader",
+      "size_pt": 7.2,
+      "bbox": [
+        152.1966796875,
+        156.8,
+        207.8033203125,
+        165.5
+      ]
+    },
+    {
+      "text": "Chunk",
+      "group": "ordinary-uploader",
+      "size_pt": 7.0,
+      "bbox": [
+        139.112060546875,
+        169.0,
+        160.887939453125,
+        177.5
+      ]
+    },
+    {
+      "text": "address range",
+      "group": "ordinary-uploader",
+      "size_pt": 7.0,
+      "bbox": [
+        127.624267578125,
+        177.0,
+        172.375732421875,
+        185.5
+      ]
+    },
+    {
+      "text": "Slice",
+      "group": "selected-slice",
+      "size_pt": 7.0,
+      "bbox": [
+        141.82763671875,
+        193.0,
+        158.17236328125,
+        201.5
+      ]
+    },
+    {
+      "text": "written range",
+      "group": "selected-slice",
+      "size_pt": 7.0,
+      "bbox": [
+        129.767333984375,
+        201.0,
+        170.232666015625,
+        209.5
+      ]
+    },
+    {
+      "text": "Upload",
+      "group": "upload-block-label",
+      "size_pt": 7.0,
+      "bbox": [
+        138.1396484375,
+        212.0,
+        161.8603515625,
+        220.5
+      ]
+    },
+    {
+      "text": "blocks g",
+      "group": "upload-block-label",
+      "size_pt": 7.0,
+      "bbox": [
+        137.160400390625,
+        220.0,
+        162.839599609375,
+        228.5
+      ]
+    },
+    {
+      "text": "Compress/frame",
+      "group": "object-formation-label",
+      "size_pt": 7.0,
+      "bbox": [
+        170.1328125,
+        225.0,
+        221.8671875,
+        233.5
+      ]
+    },
+    {
+      "text": "Objects",
+      "group": "object-formation-label",
+      "size_pt": 7.0,
+      "bbox": [
+        138.134521484375,
+        229.0,
+        161.865478515625,
+        237.5
+      ]
+    },
+    {
+      "text": "length L\u2092",
+      "group": "object-formation-label",
+      "size_pt": 7.0,
+      "bbox": [
+        136.065556640625,
+        237.0,
+        163.934443359375,
+        245.5
+      ]
+    },
+    {
+      "text": "RustFS",
+      "group": "backend",
+      "size_pt": 7.0,
+      "bbox": [
+        12.75,
+        249.3,
+        37.25,
+        257.8
+      ]
+    },
+    {
+      "text": "EC block B",
+      "group": "backend",
+      "size_pt": 7.0,
+      "bbox": [
+        77.68798828125,
+        249.3,
+        112.31201171875,
+        257.8
+      ]
+    },
+    {
+      "text": "Per-shard verify/read q",
+      "group": "backend",
+      "size_pt": 7.0,
+      "bbox": [
+        154.40185546875,
+        249.3,
+        225.59814453125,
+        257.8
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "agent-fuse",
+      "points": [
+        [
+          48,
+          9
+        ],
+        [
+          79,
+          9
+        ]
+      ],
+      "meaning": "file operations through FUSE"
+    },
+    {
+      "id": "fuse-workspace",
+      "points": [
+        [
+          96,
+          16
+        ],
+        [
+          150,
+          16
+        ],
+        [
+          150,
+          21
+        ]
+      ],
+      "meaning": "select workspace view composition"
+    },
+    {
+      "id": "fuse-ordinary",
+      "points": [
+        [
+          27.5,
+          42
+        ],
+        [
+          27.5,
+          46
+        ]
+      ],
+      "meaning": "retain an ordinary volume without workspace composition"
+    },
+    {
+      "id": "metadata-access",
+      "points": [
+        [
+          60,
+          93
+        ],
+        [
+          60,
+          107
+        ]
+      ],
+      "meaning": "both ordinary and workspace views expose metadata access; representation remains optional"
+    },
+    {
+      "id": "data-access",
+      "points": [
+        [
+          184,
+          93
+        ],
+        [
+          184,
+          107
+        ]
+      ],
+      "meaning": "both view types expose data access; each producer retains its own upload contract"
+    },
+    {
+      "id": "readonly-entry",
+      "points": [
+        [
+          45,
+          164.5
+        ],
+        [
+          51,
+          164.5
+        ]
+      ],
+      "meaning": "standalone read-only access does not require a workspace or native metadata"
+    },
+    {
+      "id": "packed-index",
+      "points": [
+        [
+          90,
+          151
+        ],
+        [
+          90,
+          156
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "index-page",
+      "points": [
+        [
+          80.5,
+          176
+        ],
+        [
+          80.5,
+          180
+        ]
+      ],
+      "meaning": "select a bounded joint-metadata page by directory and raw-name range"
+    },
+    {
+      "id": "record-bytes",
+      "points": [
+        [
+          108,
+          207
+        ],
+        [
+          119,
+          207
+        ],
+        [
+          119,
+          236
+        ],
+        [
+          110,
+          236
+        ]
+      ],
+      "meaning": "reference existing file bytes, with descriptor resolution abstracted; never feed an upload slice"
+    },
+    {
+      "id": "partition-slice",
+      "points": [
+        [
+          203,
+          205
+        ],
+        [
+          203,
+          216
+        ]
+      ],
+      "meaning": "partition the illustrated slice into configured upload blocks with a short tail"
+    },
+    {
+      "id": "format-object",
+      "points": [
+        [
+          230,
+          220
+        ],
+        [
+          234,
+          220
+        ],
+        [
+          234,
+          240
+        ],
+        [
+          228,
+          240
+        ]
+      ],
+      "meaning": "each raw block forms an object after applicable compression and framing"
+    },
+    {
+      "id": "referenced-storage",
+      "points": [
+        [
+          60,
+          242
+        ],
+        [
+          60,
+          250
+        ]
+      ],
+      "meaning": "referenced file bytes are stored objects; reference is not an upload action"
+    },
+    {
+      "id": "ordinary-storage",
+      "points": [
+        [
+          203,
+          244
+        ],
+        [
+          203,
+          250
+        ]
+      ],
+      "meaning": "backend persists its effective coding and verification/read layout"
+    }
+  ]
+}

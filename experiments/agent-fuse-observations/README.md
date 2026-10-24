@@ -2,27 +2,46 @@
 
 Reanalysis date: 2026-10-23. This is a measured **workload characterization** of
 the supplied capture, not a BrewFS/RustFS performance experiment. The new
-Section 2.2 replaces the earlier unverified-pilot paragraph. E00–E16 remain
+Section 2.3 replaces the earlier unverified-pilot paragraph. E00–E16 remain
 planned; the pilot supplies only part of E01's request characterization.
 
-## Current compact main figure
+## Current single-column main figure
 
-The paper now includes `figures/agent-fuse/fuse-combined-compact.pdf`:
-one three-panel figure for **request mix → size mixture → task bursts**.
-`plot_combined.py` redraws it from the validated derived data, with 9.5–10.5 pt
-text at the actual 7-inch manuscript width. Its height is 2.75 inches versus
-4.45 inches for the two previous figure images combined.
+The paper includes `figures/agent-fuse/fuse-single-column.pdf` through
+`sections/02-agent-observations.tex`. `plot_single_column.py` regenerates
+its editable SVG, vector PDF, and PNG from the validated derived data.
+The source canvas is 3.3 × 2.9 inches and is included at column width;
+all figure text uses Arial at 9 pt at source size. Panel (a) shows the all-call method mix
+with errors hatched, (b) the within-method/group requested-length distribution,
+and (c) every task's busiest-tenth statistic. The displayed **Initial runs**
+and **Extended runs** are aliases for the original Core and Exploratory capture
+groups. Initial contains five original task runs; Extended contains three runs
+with a broader investigation/testing prompt and a 30-minute budget. They use
+the same agent harness and configured model. They are not different methods,
+models, or independently replicated treatments.
 
-The full method breakdowns, size ECDFs, and cumulative time curves remain in
-previous exports as companion diagnostics. No event or task is excluded. The
-main figure explicitly aggregates methods into four classes, sizes at the three
-thresholds already discussed in the text, and each task's time bins into its
-busiest-tenth statistic. See `figure-contract-combined.md` and
-`qa/combined/review.md` for definitions and checks.
+The two groups remain separate in panels (a,b), preserving the published
+group-normalized statistics and avoiding a pooled result dominated by the
+larger Extended capture. The legend's parenthesized counts were removed;
+the five/three sample counts and name correspondence are now in the caption.
+Panel (c) uses one neutral marker style for every named task, because its
+per-task burst statistic does not need group coloring.
+
+All events and all eight tasks are retained. The four method classes and
+three size bins are explicit aggregations; the per-task temporal panel
+uses one-second bins including zeros and the final partial bin. See
+`figure-contract-single-column.md` for definitions. Current generator QA
+outputs, plotted data, PDF font-family checks, and label-clearance checks are
+under `qa/typography-groups/`. The preceding layout is retained in
+`qa/coordinated/`, and this revision's complete before state is also saved.
 
 ```powershell
-python experiments/agent-fuse-observations/plot_combined.py --qa-scripts 'C:/path/to/nature-figure/scripts'
+python experiments/agent-fuse-observations/plot_single_column.py --qa-scripts 'C:/path/to/nature-figure/scripts'
 ```
+
+The former `fuse-combined-compact` figure and `plot_combined.py` are historical
+7-inch-wide exports, not the current manuscript entry point. Detailed method
+breakdowns, size ECDFs, and cumulative time curves remain companion diagnostics.
 
 ## Inputs and provenance
 
@@ -130,11 +149,11 @@ to pooled group averages.
 
 | Manuscript claim | Recomputed evidence | Artifact |
 |---|---|---|
-| Metadata-related calls constitute a group majority | Six-method share: Core 61.5399%, Exploratory 56.3502%; SymPy exception 39.6035% | `methods.csv`, `summary.json`; combined panel a and task ranges in text |
-| Reads outnumber writes, with task differences | Core 22,142/1,112 = 19.9119; Exploratory 98,292/23,600 = 4.16492; per-task ratios 3.12436–42.6974 | `tasks.csv`, per-task table above; combined panel a and caption sample counts |
-| Small and intermediate requests both occur | Read median Core 8 KiB / Exploratory 16 KiB; write median 4084 / 4117 bytes. All per-group threshold counts and p50/p75/p90/p95/p99 are retained | `request-sizes.csv`, `summary.json`; combined panel b; companion ECDFs retain full detail |
-| Intensity differs by task and time | 8,542–634,726 calls/task; busiest tenth of 1-s windows contains 47.4134–83.6706% of calls; Astropy contributes 68.8606% of Exploratory events | `tasks.csv`, `timeseries-1s.csv`; combined panel c; companion cumulative curves |
-| Negative probes matter to the request mix | 253,669 error records; six-method share among ok calls is Core 51.9944%, Exploratory 44.2249% | `methods.csv`, `summary.json`; combined panel a white segments and metadata paragraph |
+| Metadata-related calls constitute a group majority | Six-method share: Core 61.5399%, Exploratory 56.3502%; SymPy exception 39.6035% | `methods.csv`, `summary.json`; main panel a and task ranges in text |
+| Reads outnumber writes, with task differences | Core 22,142/1,112 = 19.9119; Exploratory 98,292/23,600 = 4.16492; per-task ratios 3.12436–42.6974 | `tasks.csv`, per-task table above; main panel a; exact request counts in text |
+| Small and intermediate requests both occur | Read median Core 8 KiB / Exploratory 16 KiB; write median 4084 / 4117 bytes. All per-group threshold counts and p50/p75/p90/p95/p99 are retained | `request-sizes.csv`, `summary.json`; main panel b; companion ECDFs retain full detail |
+| Intensity differs by task and time | 8,542–634,726 calls/task; busiest tenth of 1-s windows contains 47.4134–83.6706% of calls; Astropy contributes 68.8606% of Exploratory events | `tasks.csv`, `timeseries-1s.csv`; main panel c; companion cumulative curves |
+| Negative probes matter to the request mix | 253,669 error records; six-method share among ok calls is Core 51.9944%, Exploratory 44.2249% | `methods.csv`, `summary.json`; main panel a hatched error segments and metadata paragraph |
 
 These observations motivate testing positive and negative metadata paths for
 Packed, mixed sizes for client/object-layout experiments, and task-specific
@@ -182,7 +201,7 @@ From the repository root, use Python 3.12 (the analysis itself is stdlib-only):
 ```powershell
 python experiments/agent-fuse-observations/analyze.py --source 'C:/path/to/agent-fuse-swebench'
 python -m pip install -r experiments/agent-fuse-observations/requirements.txt
-python experiments/agent-fuse-observations/plot.py --qa-scripts 'C:/path/to/nature-figure/scripts'
+python experiments/agent-fuse-observations/plot_single_column.py --qa-scripts 'C:/path/to/nature-figure/scripts'
 ```
 
 The installed nature-figure skill from
@@ -199,7 +218,7 @@ per-task cumulative calls). The former `fuse-methods` and
 `fuse-request-sizes` exports remain as historical artifacts and are no longer
 included in the paper. The legacy `plot.py` command regenerates both previous
 figures; `--profile-only` preserves the time figure when revising the profile.
-At the manuscript's 7-inch width, all profile labels, ticks and legends are
+At the historical profile's 7-inch width, all labels, ticks and legends are
 at least 8 pt. Stars mark the six-method metadata subset; white bar segments
 preserve error counts. Write ticks below 1 KiB use byte labels.
 The compact profile is 7 x 2.45 inches: four panels in one row, with shared
@@ -207,13 +226,15 @@ method labels for (a,b), equal widths within each method/ECDF pair, and a
 Core/Exploratory sample-count order in (c,d). The time figure is 7 x 2 inches;
 its legend uses repository names, with exact task IDs retained in the table
 above and derived files. Every request, size bin and per-task time window is
-unchanged. Current compact-figure audits are also saved under
+unchanged. Historical compact-figure audits are also saved under
 `validation/compact-figures/`.
 
 Figures are provided as PDF, editable SVG and PNG.
-`figure-contract.md` specifies their evidence roles. `qa/` preserves alignment,
-font and collision results; `qa/review.md` records final visual review and
-explains nonblocking static warnings. PDF/SVG are publication graphics; PNGs
+`figure-contract-single-column.md` specifies the current main figure;
+`figure-contract.md` covers historical diagnostics. `qa/` preserves alignment,
+font and collision results. `qa/coordinated/review.md` covers the current
+single-column figure; `qa/review.md` describes historical exports. PDF/SVG
+are publication graphics; PNGs
 are 300 dpi previews. Historical QA records retain their original inspection
 paths. Build the paper with XeLaTeX from the repository root (`main.tex` is the
 formal manuscript entry point):

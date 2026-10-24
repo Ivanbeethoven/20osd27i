@@ -35,28 +35,29 @@
 \begin{document}
 \title{\sysname: Delta-Based Multi-Agent Workspaces with Packed Metadata\\
 and Variable-Granularity Object Storage}
-\author{Internal research draft\\23 October 2026}
+\author{Internal research draft\\24 October 2026}
 \date{}
 \maketitle
 \begin{abstract}
-Coding agents need ordinary writable volumes, isolated views of shared
-environments, and read-only access to published state. We present the design
-of \sysname, an object-backed file system with three optional, composable
-mechanisms. Delta-based workspaces resolve a shared immutable baseline and
-private changes into a task's file-system view. Packed Metadata organizes
-immutable directory entries, attributes, and data locators into indexed pages
-on object storage; it can serve a workspace lower or a standalone read-only
-mount. Variable-Granularity Object Storage separates client object formation
-from optional backend encoding and verification layouts. A workspace can use
-native metadata, a packed snapshot can operate without private changes, and
-an ordinary volume can choose object granularity independently of both.
-We explain their state, access, and publication rules, then distinguish
-architectural composition from combinations supported by current mount paths.
+Coding agents can share a repository baseline while keeping edits private,
+but sharing does not determine metadata and data access costs.
+\sysname{} separates shared-version identity from metadata and object
+access units through three independently optional mechanisms.
+Delta-Based Workspaces resolve a shared baseline with private changes;
+Packed Metadata places names, attributes, and data locators in indexed
+object-resident pages; Variable-Granularity Object Storage separates
+client object formation from optional backend encoding and verification.
+Our hypothesis is that these choices reduce lifecycle storage work when
+reuse or selective access repays construction and maintenance, under
+matched visibility and durability contracts. We explain inode identity,
+atomic namespace updates, truncation, publication, and persisted layouts,
+then identify the combinations supported by current mount paths.
 A reanalysis of 1,138,884 FUSE requests from eight coding-agent task runs
 characterizes metadata traffic, read/write sizes, and temporal heterogeneity.
-The evaluation plan tests each mechanism and their legal combinations while
-controlling caching, request coalescing, durability, and construction costs.
-The workload observations do not establish system speedups.
+The planned evaluation compares individual mechanisms and legal
+combinations with mature immutable-lower/writable-upper systems, accounting
+for construction, retention, caching, and failure outcomes. The workload
+observations do not establish system speedups.
 \end{abstract}
 
 \noindent\textbf{Status.} This is an author working document: design, source

@@ -1,0 +1,96 @@
+{
+  "pdf": "figures\\system-architecture-editable.pdf",
+  "auditable": true,
+  "verdict": "REVIEW REQUIRED",
+  "page_count": 1,
+  "visible_text_box_count": 53,
+  "text_trace_count": 73,
+  "stroke_path_count": 72,
+  "filled_region_count": 62,
+  "image_region_count": 0,
+  "summary": {
+    "fail": 0,
+    "warn": 3,
+    "contained_fill_overlays": 41,
+    "contained_image_overlays": 0
+  },
+  "thresholds": {
+    "text_inset_pt": 0.6,
+    "min_overlap_ratio": 0.05,
+    "clipping_tolerance_pt": 0.5
+  },
+  "findings": [
+    {
+      "severity": "WARN",
+      "kind": "text-fill-edge",
+      "page": 1,
+      "message": "Text partially overlaps the edge of 1 filled region(s)",
+      "text": "1Delta-Based Multi-Agent Workspaces",
+      "text_bbox": [
+        3.775391101837158,
+        4.199999809265137,
+        155.23599243164062,
+        12.700000762939453
+      ],
+      "other_text": null,
+      "other_bbox": [
+        1.0,
+        3.0,
+        11.0,
+        13.0
+      ],
+      "object_count": 1,
+      "object_indexes": [
+        0
+      ]
+    },
+    {
+      "severity": "WARN",
+      "kind": "text-fill-edge",
+      "page": 1,
+      "message": "Text partially overlaps the edge of 1 filled region(s)",
+      "text": "2Packed Metadata",
+      "text_bbox": [
+        3.775391101837158,
+        99.19999694824219,
+        80.14830017089844,
+        107.69999694824219
+      ],
+      "other_text": null,
+      "other_bbox": [
+        1.0,
+        98.0,
+        11.0,
+        108.0
+      ],
+      "object_count": 1,
+      "object_indexes": [
+        24
+      ]
+    },
+    {
+      "severity": "WARN",
+      "kind": "text-fill-edge",
+      "page": 1,
+      "message": "Text partially overlaps the edge of 1 filled region(s)",
+      "text": "3Variable-Granularity Object Storage",
+      "text_bbox": [
+        3.775391101837158,
+        179.1999969482422,
+        148.63279724121094,
+        187.70001220703125
+      ],
+      "other_text": null,
+      "other_bbox": [
+        1.0,
+        178.0,
+        11.0,
+        188.0
+      ],
+      "object_count": 1,
+      "object_indexes": [
+        55
+      ]
+    }
+  ]
+}

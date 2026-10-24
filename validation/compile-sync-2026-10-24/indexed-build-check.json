@@ -1,0 +1,20 @@
+{
+  "method": "Export staged TeX, BibTeX, styles, build config and figure files with git checkout-index; compile both entries without pre-existing PDF, BBL or AUX files.",
+  "passed": true,
+  "results": {
+    "main": {
+      "pages": 13,
+      "same_page_count": true,
+      "identical_extracted_text": true,
+      "identical_page_renders": true,
+      "final_log_errors": []
+    },
+    "anonymous-preview": {
+      "pages": 13,
+      "same_page_count": true,
+      "identical_extracted_text": true,
+      "identical_page_renders": true,
+      "final_log_errors": []
+    }
+  }
+}

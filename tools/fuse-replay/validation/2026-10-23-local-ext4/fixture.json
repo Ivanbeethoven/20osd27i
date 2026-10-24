@@ -1,0 +1,66 @@
+{
+  "data-00.bin": {
+    "bytes": 4096,
+    "sha256": "dbd8fe2c6d7a1442b7199f8ebe994b3cdb332c9679543fa7c57436c3e4fc65b6"
+  },
+  "data-01.bin": {
+    "bytes": 4096,
+    "sha256": "c4d12bd0286b45d95b9107f74f4bf95617fd8bba72ca16d4c39080537afaaca6"
+  },
+  "data-02.bin": {
+    "bytes": 4096,
+    "sha256": "4329394e36596fbccf6ab6616e5ccf936db22a4f185ec1a4b938b5045c53dce4"
+  },
+  "data-03.bin": {
+    "bytes": 4096,
+    "sha256": "c7d10b2be9e61d797d4b449dfdbaaa4f9e7447e3a1f251370677120af6e60add"
+  },
+  "data-04.bin": {
+    "bytes": 4096,
+    "sha256": "c07d114d9590be55cea2e922b857ea5c97107b50c3bc136f3f53c6316267343c"
+  },
+  "data-05.bin": {
+    "bytes": 4096,
+    "sha256": "6accf84fc2ef4c602c73df1981020597b09787375623b677a5e2ca253ddc3ddb"
+  },
+  "data-06.bin": {
+    "bytes": 4096,
+    "sha256": "d7e4cdf5d6fe9e4707332c2e594bcb14ec0de09d2ee5cbf5ca461f8fd903153a"
+  },
+  "data-07.bin": {
+    "bytes": 4096,
+    "sha256": "f651c5d094e21edcb2c3f416f3830eebdb0de0ec1ed3ac134fdc59defbefc5a3"
+  },
+  "data-08.bin": {
+    "bytes": 4096,
+    "sha256": "3d678eee1de37453284bcbbb9c95bcfde1fefcf82dfa8ba27126d81d680a5498"
+  },
+  "data-09.bin": {
+    "bytes": 4096,
+    "sha256": "1a14a760ec41a95e7598c44ff960bd10371cf043dfefff78e44ca332ae489a1a"
+  },
+  "data-10.bin": {
+    "bytes": 4096,
+    "sha256": "b4f4a43d9670e6e5216ad894444d86ccacf41d479654563179f132cd93d2eab2"
+  },
+  "data-11.bin": {
+    "bytes": 4096,
+    "sha256": "a26339164d0eea5434afda9dfd6ac8f290f14e9b0153dcd8272e7d602786bc6e"
+  },
+  "data-12.bin": {
+    "bytes": 4096,
+    "sha256": "95871f9511322b3866a18aa7dfcfa157022c7ae8163f539ddda772956385623a"
+  },
+  "data-13.bin": {
+    "bytes": 4096,
+    "sha256": "9e12b8c2dfac31ff3f6d6446c8a8fdabb3566b99b5c585c9e43d4272db1a589f"
+  },
+  "data-14.bin": {
+    "bytes": 4096,
+    "sha256": "79730c6cfe3fda6e37dfb286f590745bcea4f0f6f671d84867c81a02edf46de4"
+  },
+  "data-15.bin": {
+    "bytes": 4096,
+    "sha256": "b9da8d1ea82b83aa1ffe25d0815fe1dcd917df925ce4806d95b09405f7b71a90"
+  }
+}

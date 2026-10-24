@@ -5,65 +5,56 @@ Coding agents work through ordinary file-system tools: they traverse a
 repository, inspect source files, edit code, and run builds and
 tests~\cite{sweagent2024,openhands2025}. Consider a service that launches
 several attempts from the same repository revision and dependency set.
-Each attempt needs a consistent starting view and must be able to change
-files independently. Making that starting state available is only the first
-part of serving a task. Throughout execution, the file system must also
-resolve names and attributes, locate file contents, and serve reads and writes.
+Each attempt needs a consistent starting view and independent changes.
+Serving it requires both provisioning that view and resolving names,
+attributes, and file data throughout execution.
 
 Sharing a baseline addresses provisioning, but leaves these access costs
 open. Layered namespaces and copy-on-write branches already let tasks reuse
 state while keeping changes private~\cite{overlayfs,branchfs2026,deltafs2021}.
-A shared directory tree still needs a metadata access path, and its files
-still need a data access path. Immutable distribution systems support
-indexed, demand-loaded state~\cite{cvmfs2011,nydus_rafs}; grouping records
-can amortize requests, but may also fetch records a task never uses. On the
-data path, larger objects can amortize object requests, while smaller
-independently readable units can limit excess transfer and verification.
-The problem is therefore to support independent task views while controlling
-the work of provisioning state, obtaining metadata, and accessing file data.
+Immutable distributions provide indexed, demand-loaded
+state~\cite{cvmfs2011,nydus_rafs}. A mature immutable lower with a compatible
+writable upper and object backend is therefore a strong direct alternative.
+Its sharing and caching must be included in the comparison. The remaining
+question is how the metadata and object units fetched by a task affect
+request count, transferred bytes, and processing work.
 
-Our observations motivate considering access throughout a task's lifetime.
 We reanalyzed 1,138,884 FUSE requests from eight coding-agent task runs
 (Section~\ref{sec:agent-observations}). Metadata operations, including
 unsuccessful probes, made up more than half of the requests in each of the
 two workload groups. Reads and writes had mixed request lengths, and
-activity varied substantially across tasks and over time. A provisioning
-mechanism alone leaves this metadata and data traffic to the underlying
-storage path.
+activity varied substantially across tasks and over time. These observations
+motivate examining access costs alongside provisioning; request counts alone
+do not identify a latency bottleneck or establish cross-task reuse.
 
 Our design separates the state a task shares from the units used to access
-that state. A workspace needs an immutable baseline identity and rules for
-resolving private changes; those rules need not prescribe the baseline's
-metadata format. Immutable metadata can be organized for lookup and reuse
-whether or not its consumer needs a writable workspace. Likewise, object
-formation and backend read units can be selected without changing which
-file version a task sees. These boundaries allow choices driven by state
-reuse, metadata locality, and data access to remain distinct.
+that state. A workspace resolves private changes before querying its pinned
+lower version; lower answers need not depend on one metadata representation.
+Data locators connect those answers to object ranges, whose interpretation
+must preserve the referenced bytes across storage layouts. These interfaces
+allow different access units to serve the same logical file view. Our
+hypothesis is that separating shared-version identity from metadata and
+object access units can reduce lifecycle storage work under matched
+visibility and durability contracts. The expected savings
+depend on unchanged-state reuse, metadata locality, or selective data access,
+and must exceed construction and maintenance costs. Direct composition may
+already capture those savings; matching or exceeding its cost would weaken
+the case for the corresponding mechanism.
 
 \sys realizes this design in an object-backed file system with three
 mechanisms. \emph{Delta-Based Workspaces} resolve a shared immutable
-baseline together with private namespace and data-mapping changes, avoiding
-a separate materialized baseline for each task. \emph{Packed Metadata}
-places immutable names, attributes, and data locators in indexed, bounded
-groups on object storage so that readers can fetch and reuse related
-records. \emph{Variable-Granularity Object Storage} lets deployments choose
-client object size separately from optional encoding and verification
-layouts on a compatible backend, to trade request count against transferred
-bytes and processing work.
+baseline with private namespace and data-mapping changes. \emph{Packed
+Metadata} groups immutable names, attributes, and data locators into indexed
+pages on object storage. \emph{Variable-Granularity Object Storage} separates
+client object formation from optional backend encoding and verification
+units. Each addresses a different cost and remains optional: workspaces
+can use native metadata, packed snapshots can serve read-only mounts, and
+ordinary volumes can configure object granularity. Section~\ref{sec:overview}
+defines their composition interfaces.
 
-The mechanisms are optional and can be composed. A workspace can inherit
-a native metadata layer; a packed snapshot can serve a read-only consumer;
-and an ordinary writable volume can choose its object block size with the
-backend's default layout. When tasks reuse a stable environment, multiple
-workspaces can instead reference one packed baseline. This composition
-shares the baseline's representation while preserving each task's private
-changes; it does not make packing a prerequisite for workspace isolation.
-
-The paper develops the state and access rules that make these choices
-compatible: private-view resolution, immutable metadata lookup and
-publication, and the mapping from file ranges to object and backend work
-units. Section~\ref{sec:implementation} identifies the paths present in the
-current code and their integration limits. The completed workload study
-characterizes request structure; it does not establish cross-task sharing
-or system speedups. Performance and failure experiments remain to be
-completed under the evaluation plan in Section~\ref{sec:evaluation}.
+The paper develops private-view resolution, immutable metadata lookup and
+publication, and file-to-object access rules. It connects those rules to
+the inspected implementation (Section~\ref{sec:implementation}) and the
+completed request-characterization study. System performance and failure
+experiments remain planned (Section~\ref{sec:evaluation}); neither the
+observations nor source inspection establishes a system speedup.

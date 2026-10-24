@@ -1,0 +1,14 @@
+{
+  "labels": 52,
+  "distinct_labels": 50,
+  "minimum_body_pt": 7.0,
+  "fonts": [
+    "Arial-BoldMT",
+    "ArialMT"
+  ],
+  "raster_images": 0,
+  "canvas_pt": [
+    240,
+    258
+  ]
+}

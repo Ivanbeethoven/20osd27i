@@ -1,0 +1,96 @@
+{
+  "pdf": "figures\\system-architecture-editable.pdf",
+  "auditable": true,
+  "verdict": "REVIEW REQUIRED",
+  "page_count": 1,
+  "visible_text_box_count": 51,
+  "text_trace_count": 58,
+  "stroke_path_count": 64,
+  "filled_region_count": 54,
+  "image_region_count": 0,
+  "summary": {
+    "fail": 0,
+    "warn": 3,
+    "contained_fill_overlays": 50,
+    "contained_image_overlays": 0
+  },
+  "thresholds": {
+    "text_inset_pt": 0.6,
+    "min_overlap_ratio": 0.05,
+    "clipping_tolerance_pt": 0.5
+  },
+  "findings": [
+    {
+      "severity": "WARN",
+      "kind": "text-fill-edge",
+      "page": 1,
+      "message": "Text partially overlaps the edge of 1 filled region(s)",
+      "text": "2Packed Metadata",
+      "text_bbox": [
+        9.775390625,
+        112.19999694824219,
+        89.97029113769531,
+        120.69999694824219
+      ],
+      "other_text": null,
+      "other_bbox": [
+        7.0,
+        111.0,
+        17.0,
+        121.0
+      ],
+      "object_count": 1,
+      "object_indexes": [
+        25
+      ]
+    },
+    {
+      "severity": "WARN",
+      "kind": "text-fill-edge",
+      "page": 1,
+      "message": "Text partially overlaps the edge of 1 filled region(s)",
+      "text": "1Delta-Based Multi-Agent",
+      "text_bbox": [
+        70.775390625,
+        24.200000762939453,
+        179.22607421875,
+        34.69999694824219
+      ],
+      "other_text": null,
+      "other_bbox": [
+        68.0,
+        25.0,
+        78.0,
+        35.0
+      ],
+      "object_count": 1,
+      "object_indexes": [
+        11
+      ]
+    },
+    {
+      "severity": "WARN",
+      "kind": "text-fill-edge",
+      "page": 1,
+      "message": "Text partially overlaps the edge of 1 filled region(s)",
+      "text": "3Variable-Granularity",
+      "text_bbox": [
+        129.77540588378906,
+        112.19999694824219,
+        222.25282287597656,
+        120.69999694824219
+      ],
+      "other_text": null,
+      "other_bbox": [
+        127.0,
+        111.0,
+        137.0,
+        121.0
+      ],
+      "object_count": 1,
+      "object_indexes": [
+        51
+      ]
+    }
+  ]
+}

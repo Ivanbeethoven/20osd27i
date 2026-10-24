@@ -1,0 +1,996 @@
+{
+  "width_pt": 240,
+  "height_pt": 258,
+  "nodes": {
+    "private-payload": [
+      34,
+      60,
+      52,
+      17
+    ],
+    "shared-lower": [
+      87,
+      77,
+      142,
+      14
+    ],
+    "native-reader": [
+      83,
+      113,
+      61,
+      13
+    ],
+    "packed-reader": [
+      169,
+      113,
+      56,
+      13
+    ],
+    "packed-group": [
+      43,
+      129,
+      185,
+      46
+    ],
+    "read-only": [
+      2,
+      144,
+      35,
+      20
+    ],
+    "groupmeta-table": [
+      87,
+      143,
+      89,
+      23
+    ],
+    "packed-payload": [
+      184,
+      143,
+      40,
+      23
+    ],
+    "ordinary-uploader": [
+      2,
+      192,
+      103,
+      35
+    ],
+    "rustfs": [
+      121,
+      237,
+      59,
+      18
+    ],
+    "u1-reference": [
+      122,
+      222,
+      22,
+      11
+    ],
+    "packed-reference": [
+      146,
+      222,
+      22,
+      11
+    ],
+    "persisted-layout": [
+      187,
+      215,
+      51,
+      40
+    ]
+  },
+  "text": [
+    {
+      "text": "1",
+      "group": "heading-1",
+      "size_pt": 8,
+      "bbox": [
+        3.775390625,
+        3.0999999999999996,
+        8.224609375,
+        12.6
+      ]
+    },
+    {
+      "text": "Delta-Based Multi-Agent Workspaces",
+      "group": "heading-1",
+      "size_pt": 8.5,
+      "bbox": [
+        14,
+        2.5,
+        164.66748046875,
+        12.5
+      ]
+    },
+    {
+      "text": "FUSE",
+      "group": "workspace-label-1",
+      "size_pt": 6.8,
+      "bbox": [
+        28.9322265625,
+        12.2,
+        47.067773437499994,
+        20.5
+      ]
+    },
+    {
+      "text": "View W\u2081",
+      "group": "workspace-label-1",
+      "size_pt": 7.4,
+      "bbox": [
+        61.48429296875,
+        18.6,
+        90.51570703125,
+        27.5
+      ]
+    },
+    {
+      "text": "FUSE",
+      "group": "workspace-label-2",
+      "size_pt": 6.8,
+      "bbox": [
+        168.9322265625,
+        12.2,
+        187.0677734375,
+        20.5
+      ]
+    },
+    {
+      "text": "View W\u2082",
+      "group": "workspace-label-2",
+      "size_pt": 7.4,
+      "bbox": [
+        201.48429296875,
+        18.6,
+        230.51570703125,
+        27.5
+      ]
+    },
+    {
+      "text": "LowerRange",
+      "group": "map-labels",
+      "size_pt": 6.4,
+      "bbox": [
+        7.854687500000001,
+        42.6,
+        44.1453125,
+        50.5
+      ]
+    },
+    {
+      "text": "Data",
+      "group": "map-labels",
+      "size_pt": 6.4,
+      "bbox": [
+        53.240625,
+        42.6,
+        66.759375,
+        50.5
+      ]
+    },
+    {
+      "text": "Hole",
+      "group": "map-labels",
+      "size_pt": 6.4,
+      "bbox": [
+        85.41875,
+        42.6,
+        98.58125000000001,
+        50.5
+      ]
+    },
+    {
+      "text": "zeros",
+      "group": "map-labels",
+      "size_pt": 6.4,
+      "bbox": [
+        84.175,
+        51.6,
+        99.825,
+        59.5
+      ]
+    },
+    {
+      "text": "\u0394\u1d62: private writable upper",
+      "group": "map-labels",
+      "size_pt": 6.8,
+      "bbox": [
+        128.75615234375,
+        47.2,
+        203.24384765624998,
+        55.5
+      ]
+    },
+    {
+      "text": "W\u1d62 = Resolve(S, \u0394\u1d62)",
+      "group": "map-labels",
+      "size_pt": 7.2,
+      "bbox": [
+        135.07375,
+        59.8,
+        196.92624999999998,
+        68.5
+      ]
+    },
+    {
+      "text": "Private payload",
+      "group": "private-payload",
+      "size_pt": 6.2,
+      "bbox": [
+        38.631494140624994,
+        59.8,
+        81.368505859375,
+        67.5
+      ]
+    },
+    {
+      "text": "U\u2081",
+      "group": "private-payload",
+      "size_pt": 6.3,
+      "bbox": [
+        56.2791748046875,
+        67.10000000000001,
+        63.7208251953125,
+        74.9
+      ]
+    },
+    {
+      "text": "S  Shared immutable lower",
+      "group": "shared-lower",
+      "size_pt": 7.0,
+      "bbox": [
+        113.265625,
+        79.5,
+        202.734375,
+        88.0
+      ]
+    },
+    {
+      "text": "pinned reference",
+      "group": "pin-read-references",
+      "size_pt": 6.3,
+      "bbox": [
+        26.3580810546875,
+        86.7,
+        73.6419189453125,
+        94.5
+      ]
+    },
+    {
+      "text": "2",
+      "group": "heading-2",
+      "size_pt": 8,
+      "bbox": [
+        3.775390625,
+        98.1,
+        8.224609375,
+        107.6
+      ]
+    },
+    {
+      "text": "Packed Metadata",
+      "group": "heading-2",
+      "size_pt": 8.5,
+      "bbox": [
+        14,
+        97.5,
+        82.975341796875,
+        107.5
+      ]
+    },
+    {
+      "text": "Native catalog",
+      "group": "native-reader",
+      "size_pt": 6.6,
+      "bbox": [
+        92.58818359375,
+        115.4,
+        134.41181640625,
+        123.5
+      ]
+    },
+    {
+      "text": "Packed snapshot",
+      "group": "packed-reader",
+      "size_pt": 6.6,
+      "bbox": [
+        171.6828125,
+        115.4,
+        222.31718750000002,
+        123.5
+      ]
+    },
+    {
+      "text": "or",
+      "group": "baseline-choice",
+      "size_pt": 6.3,
+      "bbox": [
+        153.1991455078125,
+        116.7,
+        158.80085449218748,
+        124.5
+      ]
+    },
+    {
+      "text": "Read-only",
+      "group": "read-only",
+      "size_pt": 6.4,
+      "bbox": [
+        4.9140625,
+        145.6,
+        34.0859375,
+        153.5
+      ]
+    },
+    {
+      "text": "mount",
+      "group": "read-only",
+      "size_pt": 6.4,
+      "bbox": [
+        10.60625,
+        153.6,
+        28.39375,
+        161.5
+      ]
+    },
+    {
+      "text": "Name-range",
+      "group": "packed-labels",
+      "size_pt": 6.2,
+      "bbox": [
+        46.769873046875,
+        130.8,
+        81.230126953125,
+        138.5
+      ]
+    },
+    {
+      "text": "index",
+      "group": "packed-labels",
+      "size_pt": 6.2,
+      "bbox": [
+        56.5890625,
+        138.8,
+        71.4109375,
+        146.5
+      ]
+    },
+    {
+      "text": "GroupMeta page",
+      "group": "packed-labels",
+      "size_pt": 6.8,
+      "bbox": [
+        106.4833984375,
+        132.2,
+        157.5166015625,
+        140.5
+      ]
+    },
+    {
+      "text": "Object O\u209a",
+      "group": "packed-labels",
+      "size_pt": 6.2,
+      "bbox": [
+        191.322021484375,
+        132.8,
+        218.677978515625,
+        140.5
+      ]
+    },
+    {
+      "text": "(parent, name)",
+      "group": "packed-labels",
+      "size_pt": 6.2,
+      "bbox": [
+        43.668359374999994,
+        166.8,
+        84.331640625,
+        174.5
+      ]
+    },
+    {
+      "text": "Name",
+      "group": "groupmeta-table",
+      "size_pt": 6.3,
+      "bbox": [
+        92.0974365234375,
+        144.7,
+        108.90256347656249,
+        152.5
+      ]
+    },
+    {
+      "text": "Attrs",
+      "group": "groupmeta-table",
+      "size_pt": 6.3,
+      "bbox": [
+        120.524658203125,
+        144.7,
+        133.475341796875,
+        152.5
+      ]
+    },
+    {
+      "text": "Locator",
+      "group": "groupmeta-table",
+      "size_pt": 6.3,
+      "bbox": [
+        147.4933349609375,
+        144.7,
+        168.50666503906248,
+        152.5
+      ]
+    },
+    {
+      "text": "y",
+      "group": "groupmeta-table",
+      "size_pt": 6.5,
+      "bbox": [
+        98.875,
+        156.5,
+        102.125,
+        164.5
+      ]
+    },
+    {
+      "text": "Packed",
+      "group": "packed-object-id",
+      "size_pt": 6.2,
+      "bbox": [
+        193.660107421875,
+        146.8,
+        214.33989257812502,
+        154.5
+      ]
+    },
+    {
+      "text": "frame",
+      "group": "packed-object-id",
+      "size_pt": 6.2,
+      "bbox": [
+        196.075927734375,
+        153.8,
+        211.924072265625,
+        161.5
+      ]
+    },
+    {
+      "text": "via descriptor",
+      "group": "packed-object-id",
+      "size_pt": 6.2,
+      "bbox": [
+        159.564990234375,
+        166.8,
+        196.43500976562498,
+        174.5
+      ]
+    },
+    {
+      "text": "3",
+      "group": "heading-3",
+      "size_pt": 8,
+      "bbox": [
+        3.775390625,
+        178.1,
+        8.224609375,
+        187.6
+      ]
+    },
+    {
+      "text": "Variable-Granularity Object Storage",
+      "group": "heading-3",
+      "size_pt": 8.5,
+      "bbox": [
+        14,
+        177.5,
+        158.072509765625,
+        187.5
+      ]
+    },
+    {
+      "text": "Ordinary upload \u00b7 fixed g",
+      "group": "ordinary-uploader",
+      "size_pt": 6.6,
+      "bbox": [
+        17.36435546875,
+        193.4,
+        89.63564453125,
+        201.5
+      ]
+    },
+    {
+      "text": "Slice",
+      "group": "ordinary-uploader",
+      "size_pt": 6.4,
+      "bbox": [
+        6.0640624999999995,
+        204.6,
+        19.9359375,
+        212.5
+      ]
+    },
+    {
+      "text": "g\u2081",
+      "group": "g-configurations",
+      "size_pt": 7.0,
+      "bbox": [
+        28.5741015625,
+        203.0,
+        35.4258984375,
+        211.5
+      ]
+    },
+    {
+      "text": "g\u2082",
+      "group": "g-configurations",
+      "size_pt": 7.0,
+      "bbox": [
+        28.5741015625,
+        217.0,
+        35.4258984375,
+        225.5
+      ]
+    },
+    {
+      "text": "tail",
+      "group": "g-configurations",
+      "size_pt": 6.3,
+      "bbox": [
+        86.973291015625,
+        202.7,
+        95.02670898437499,
+        210.5
+      ]
+    },
+    {
+      "text": "tail",
+      "group": "g-configurations",
+      "size_pt": 6.3,
+      "bbox": [
+        86.973291015625,
+        216.7,
+        95.02670898437499,
+        224.5
+      ]
+    },
+    {
+      "text": "Compress",
+      "group": "encode-label",
+      "size_pt": 6.3,
+      "bbox": [
+        112.64658203125,
+        189.7,
+        141.35341796875,
+        197.5
+      ]
+    },
+    {
+      "text": "& frame",
+      "group": "encode-label",
+      "size_pt": 6.3,
+      "bbox": [
+        115.971923828125,
+        197.7,
+        138.028076171875,
+        205.5
+      ]
+    },
+    {
+      "text": "Final length L\u2092",
+      "group": "finalized-objects",
+      "size_pt": 6.4,
+      "bbox": [
+        146.34150390625,
+        191.6,
+        187.65849609375002,
+        199.5
+      ]
+    },
+    {
+      "text": "RustFS",
+      "group": "rustfs",
+      "size_pt": 7.1,
+      "bbox": [
+        138.075,
+        237.9,
+        162.92499999999998,
+        246.5
+      ]
+    },
+    {
+      "text": "Layout selection",
+      "group": "rustfs",
+      "size_pt": 6.2,
+      "bbox": [
+        128.096142578125,
+        245.8,
+        172.90385742187502,
+        253.5
+      ]
+    },
+    {
+      "text": "Optional B hint",
+      "group": "hint-label",
+      "size_pt": 6.2,
+      "bbox": [
+        191.66533203125,
+        191.8,
+        232.33466796874998,
+        199.5
+      ]
+    },
+    {
+      "text": "h(L\u2092)",
+      "group": "hint-label",
+      "size_pt": 6.3,
+      "bbox": [
+        204.952294921875,
+        200.7,
+        219.047705078125,
+        208.5
+      ]
+    },
+    {
+      "text": "U\u2081",
+      "group": "u1-reference",
+      "size_pt": 6.5,
+      "bbox": [
+        129.2069580078125,
+        223.5,
+        136.79304199218748,
+        231.5
+      ]
+    },
+    {
+      "text": "O\u209a",
+      "group": "packed-reference",
+      "size_pt": 6.5,
+      "bbox": [
+        153.0260498046875,
+        223.5,
+        160.97395019531248,
+        231.5
+      ]
+    },
+    {
+      "text": "Persisted layout",
+      "group": "persisted-layout",
+      "size_pt": 6.2,
+      "bbox": [
+        190.444287109375,
+        216.8,
+        234.55571289062502,
+        224.5
+      ]
+    },
+    {
+      "text": "EC block size B",
+      "group": "persisted-layout",
+      "size_pt": 6.2,
+      "bbox": [
+        190.792431640625,
+        225.8,
+        234.20756835937502,
+        233.5
+      ]
+    },
+    {
+      "text": "Shard span s",
+      "group": "persisted-layout",
+      "size_pt": 6.3,
+      "bbox": [
+        190.43837890625,
+        233.7,
+        227.56162109374998,
+        241.5
+      ]
+    },
+    {
+      "text": "Verify/read q",
+      "group": "q-bracket",
+      "size_pt": 6.2,
+      "bbox": [
+        202.424755859375,
+        246.8,
+        237.57524414062502,
+        254.5
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "fuse-entry-1",
+      "points": [
+        [
+          18,
+          23
+        ],
+        [
+          56,
+          23
+        ]
+      ],
+      "meaning": "FUSE file operations into workspace view"
+    },
+    {
+      "id": "fuse-entry-2",
+      "points": [
+        [
+          158,
+          23
+        ],
+        [
+          196,
+          23
+        ]
+      ],
+      "meaning": "FUSE file operations into workspace view"
+    },
+    {
+      "id": "data-to-private",
+      "points": [
+        [
+          60,
+          51
+        ],
+        [
+          60,
+          60
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "baseline-native",
+      "points": [
+        [
+          158,
+          110
+        ],
+        [
+          113.5,
+          110
+        ],
+        [
+          113.5,
+          113
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "baseline-packed",
+      "points": [
+        [
+          158,
+          110
+        ],
+        [
+          197,
+          110
+        ],
+        [
+          197,
+          113
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "expand-packed",
+      "points": [
+        [
+          197,
+          126
+        ],
+        [
+          197,
+          129
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "readonly-index",
+      "points": [
+        [
+          37,
+          154
+        ],
+        [
+          45,
+          154
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "index-record",
+      "points": [
+        [
+          78,
+          155
+        ],
+        [
+          87,
+          155
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "locator-frame",
+      "points": [
+        [
+          176,
+          160
+        ],
+        [
+          181,
+          160
+        ],
+        [
+          181,
+          154.5
+        ],
+        [
+          188,
+          154.5
+        ]
+      ],
+      "meaning": "resolve authenticated frame descriptor, then reference payload range"
+    },
+    {
+      "id": "slice-fine",
+      "points": [
+        [
+          23,
+          218
+        ],
+        [
+          25,
+          218
+        ],
+        [
+          25,
+          207
+        ],
+        [
+          28,
+          207
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "slice-coarse",
+      "points": [
+        [
+          25,
+          218
+        ],
+        [
+          25,
+          221
+        ],
+        [
+          28,
+          221
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "encode-objects",
+      "points": [
+        [
+          105,
+          212
+        ],
+        [
+          151,
+          212
+        ]
+      ],
+      "meaning": "client-side compression and framing as applicable"
+    },
+    {
+      "id": "ordinary-storage",
+      "points": [
+        [
+          173,
+          217
+        ],
+        [
+          173,
+          237
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "optional-layout-hint",
+      "points": [
+        [
+          181,
+          203
+        ],
+        [
+          185,
+          203
+        ],
+        [
+          185,
+          235
+        ],
+        [
+          179,
+          235
+        ],
+        [
+          179,
+          237
+        ]
+      ],
+      "meaning": "optional B hint from finalized upload length; distinct from independently gated backend q selection"
+    },
+    {
+      "id": "private-storage",
+      "points": [
+        [
+          133,
+          233
+        ],
+        [
+          133,
+          237
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "packed-storage",
+      "points": [
+        [
+          157,
+          233
+        ],
+        [
+          157,
+          237
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "block-to-shard",
+      "points": [
+        [
+          232,
+          234.5
+        ],
+        [
+          232,
+          243
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "persist-layout",
+      "points": [
+        [
+          180,
+          246
+        ],
+        [
+          187,
+          246
+        ]
+      ],
+      "meaning": "reference/access"
+    }
+  ]
+}

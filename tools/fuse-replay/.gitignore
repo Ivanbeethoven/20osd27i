@@ -1,0 +1,4 @@
+/target/
+/*.result.json
+__pycache__/
+*.pyc

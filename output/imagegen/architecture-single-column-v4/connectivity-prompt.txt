@@ -1,0 +1,10 @@
+Make ONLY two connectivity corrections to this compact square scientific diagram. Preserve the composition, all typography, text, colors, shapes, sizes, and the three numbered titles. Do not redesign or add explanatory text.
+
+1. PRIVATE PAYLOAD CONNECTION:
+Remove the entire orange connector that incorrectly originates from the RIGHT EDGE OF THE BLUE "S (immutable)" box, runs along the far right, and enters RustFS. S must NOT be the source of a private-payload line.
+Instead, use a compact matching-reference notation: keep the existing orange U₁ payload box near the top unchanged; add a SMALL orange "U₁" input port immediately ABOVE the RustFS box with a short downward arrow INTO RustFS. This second U₁ label refers to the same private payload identity already drawn above. There must be no long connector from S to RustFS. Preserve the OTHER orange connector from the Packed frame to RustFS exactly; it already has the correct origin. Do not connect U₁ to S. The final backend has two inputs: the short U₁ reference port and the Packed frame route.
+
+2. NATIVE/PACKED ALTERNATIVE:
+The dark-blue fork below S currently points both branches into the Packed container, leaving "Native catalog" unconnected. Change ONLY the LEFT BRANCH of that fork: route it left to terminate with an arrowhead precisely at the TOP CENTER of the "Native catalog" box. Keep the right fork branch ending at the Packed container. This must visibly show S choosing Native catalog OR Packed. The Read-only arrow still goes only to Packed Index.
+
+Every other element remains unchanged, particularly the ordinary g₁/g₂ partition example, object lengths Lₒ, optional dashed hint, default/hinted RustFS, and stored B/q with a shard-level q. Flat white background.

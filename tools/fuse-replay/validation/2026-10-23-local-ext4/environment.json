@@ -1,0 +1,59 @@
+{
+  "scope": "warm local filesystem replay-engine overhead; NOT FUSE/BrewFS performance",
+  "date_utc": "2026-10-23T10:50:51Z",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "cpu_count": 16,
+  "cpuinfo": "processor\t: 0\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 198\nmodel name\t: Intel(R) Core(TM) Ultra 9 275HX\nstepping\t: 2\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3071.999\ncache size\t: 36864 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 0\ncpu cores\t: 16\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni vnmi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi invvpid ept_x_only ept_ad ept_1gb tsc_offset vtpr ept vpid unrestricted_guest ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed eibrs_pbrsb bhi spectre_v2_user\nbogomips\t: 6143.99\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 42 bits physical, 48 bits virtual\npower management:",
+  "meminfo": "MemTotal:       24608404 kB\nMemFree:        16215728 kB\nMemAvailable:   23248848 kB\nBuffers:          451856 kB\nCached:          6747752 kB\nSwapCached:        31912 kB\nActive:          3608392 kB\nInactive:        3804600 kB\nActive(anon):      70036 kB\nInactive(anon):   146428 kB\nActive(file):    3538356 kB\nInactive(file):  3658172 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:       8388608 kB\nSwapFree:        8253868 kB\nDirty:            224272 kB\nWriteback:             0 kB\nAnonPages:        207056 kB\nMapped:           267788 kB\nShmem:              2968 kB\nKReclaimable:     155000 kB\nSlab:             321776 kB\nSReclaimable:     155000 kB\nSUnreclaim:       166776 kB\nKernelStack:        7296 kB\nPageTables:         9904 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:    20692808 kB\nCommitted_AS:    2197336 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:      137584 kB\nVmallocChunk:          0 kB\nPercpu:             6976 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:    550912 kB\nFilePmdMapped:     63488 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       80896 kB\nDirectMap2M:     8306688 kB\nDirectMap1G:    26214400 kB\n",
+  "filesystem": {
+    "argv": [
+      "findmnt",
+      "-T",
+      "/tmp/fuse-replay-benchmark-20261023-v2/measured-root",
+      "-o",
+      "TARGET,SOURCE,FSTYPE,OPTIONS",
+      "--json"
+    ],
+    "returncode": 0,
+    "stdout": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/\",\n         \"source\": \"/dev/sdd\",\n         \"fstype\": \"ext4\",\n         \"options\": \"rw,relatime,discard,errors=remount-ro,data=ordered\"\n      }\n   ]\n}",
+    "stderr": ""
+  },
+  "rustc": {
+    "argv": [
+      "rustc",
+      "--version",
+      "--verbose"
+    ],
+    "returncode": 0,
+    "stdout": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1",
+    "stderr": ""
+  },
+  "binary": "/tmp/codex-fuse-replay-target/release/fuse-replay",
+  "binary_sha256": "cefd1aea17a129aaf598c6da1445bc0a3a815c89dd28561e1af09c60e003cef9",
+  "traces": {
+    "stat-heavy": {
+      "sha256": "e968fefceb07d1e79fe8d8398313efbd6e23b472c3d03d62863756caa0f1efb2",
+      "bytes": 59113643
+    },
+    "pread4k-hot": {
+      "sha256": "6a8d133fade59ad1dbb7b209620f7279fed2a70ef904788724c667d96cd53192",
+      "bytes": 91621464
+    }
+  },
+  "operations_per_trace": 1048576,
+  "streams": 16,
+  "workers": [
+    1,
+    4,
+    16
+  ],
+  "timing": [
+    "off",
+    "op"
+  ],
+  "repeats": 3,
+  "complete_trace_iterations_per_run": 8,
+  "cache": "fixtures written before run; no cache eviction; preflight scans metadata; repeated same files",
+  "oracle": "fixed initial file hashes recorded; pread return-length checked, per-read content hashing disabled equally",
+  "timing_boundaries": "parse and tree checks precede execution; process user/system/RSS include parse and setup"
+}

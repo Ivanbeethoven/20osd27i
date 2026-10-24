@@ -1,0 +1,24 @@
+[
+  {
+    "document": "main.pdf",
+    "page_count": 13,
+    "figure2": [
+      {
+        "page": 4,
+        "render": "validation\\architecture-granularity\\main-figure2-page.png",
+        "caption_excerpt": "Figure 2: Independently optional mechanisms. The ordinary-\nupload example compares \ufb01xed g = 4 and 8MiB for the same\naligned 10MiB slice; bar labels are raw MiB. Each block\nforms an object after applicable formatting. Other producers\nretain separate upload contracts; backend controls have sep-\narate admission gates (Section 7).\ncopying the complete metadata tree. The catalog path identi-\n\ufb01es the base by layer, sealed version, and root hash; a packed\nlower additionally binds its authenticated manifest. Binding\nvalida"
+      }
+    ]
+  },
+  {
+    "document": "anonymous-preview.pdf",
+    "page_count": 13,
+    "figure2": [
+      {
+        "page": 4,
+        "render": "validation\\architecture-granularity\\anonymous-preview-figure2-page.png",
+        "caption_excerpt": "Figure 2: Independently optional mechanisms. The ordinary-\nupload example compares \ufb01xed g = 4 and 8MiB for the same\naligned 10MiB slice; bar labels are raw MiB. Each block\nforms an object after applicable formatting. Other producers\nretain separate upload contracts; backend controls have sep-\narate admission gates (Section 7).\ncopying the complete metadata tree. The catalog path identi-\n\ufb01es the base by layer, sealed version, and root hash; a packed\nlower additionally binds its authenticated manifest. Binding\nvalida"
+      }
+    ]
+  }
+]

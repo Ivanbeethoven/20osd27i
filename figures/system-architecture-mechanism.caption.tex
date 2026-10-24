@@ -1,0 +1,17 @@
+\caption{Private views connected to object-bound storage layouts.
+Each agent resolves its pinned snapshot $S$ and private current state
+$\Delta_i$. The aligned range maps illustrate different private overwrites:
+$S$ cells are explicit lower references, and $U_i$ cells reference separate
+private payload objects. $\Delta_i$ resides in the mutable metadata service;
+$S$ and $U_i$ reside in object storage. A representative packed record
+co-locates a name, common attributes and a locator to a frame in $O_1$.
+The grey connector shows that same object's storage representation.
+At finalization, a configured policy may request $B$; RustFS admits the layout
+and persists the effective $(B,q)$ for reads and repair. The two object
+strips illustrate different supported fixed layouts over equal byte extents,
+not automatic-policy outcomes. The enlarged full-stripe shard inset illustrates
+$s=B_1/d=2q_1$; packed frames and $q$ are distinct.
+Dashed hint wiring still needs Entity/producer integration; smaller-$q$
+writes require eligible new objects and both default-off gates enabled.
+Upper reads verify whole objects before slicing. Other lookup paths,
+Hole/visibility rules and lifecycle coordination are omitted.}

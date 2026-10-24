@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-23",
+  "mode": "built-in imagegen; new generation followed by reference edit",
+  "model_version": "not exposed by tool",
+  "purpose": "Internal BrewFS draft mechanism schematic",
+  "source_basis": ["sections/03-overview.tex", "sections/04-delta.tex", "sections/05-packed.tex", "sections/06-layout.tex"],
+  "prompts": ["prompt.txt", "refinement-prompt.txt"],
+  "selected_output": "final.png",
+  "paper_asset": "figures/system-architecture-rewritten.png",
+  "review": "Three optional mechanisms, native/packed alternatives, private-payload separation, client g versus finalized L_o and backend B/q, default and optional hint paths. User accepted the revision without the File interface bar and requested embedding in the current paper.",
+  "submission_eligibility": "not assessed; internal design draft"
+}

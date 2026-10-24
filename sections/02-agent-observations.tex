@@ -3,41 +3,37 @@
 
 \paragraph{Capture and scope.}
 We reanalyzed eight SWE-bench Verified task runs~\cite{swebench2024}: five
-Core and three Exploratory. All used DSH 0.1.5-rc.1 and the CCSwitch-configured
-model \code{deepseek-v4-flash}. Exploratory runs used a broader
+Core and three Exploratory. All used the same agent harness configured for
+\code{deepseek-v4-flash}. Exploratory runs used a broader
 investigation/testing prompt and a 30-minute budget; all finished earlier.
-Each base-commit checkout was mounted through \code{libfuse-fs}
-\code{PassthroughFs} on Ubuntu 24.04 under WSL; \code{rfuse3}
-\code{LoggingFileSystem} recorded actual FUSE handler requests.
+Each base-commit checkout was mounted through an instrumented passthrough
+file system on Ubuntu 24.04 under WSL, recording actual FUSE handler
+requests. The companion record retains the harness and instrumentation versions.
 Streaming reanalysis covered all 1,138,884 events: 217,129 Core and 921,755
 Exploratory. Counts retain every status, 64 setup/canary requests before
 agent startup, and teardown, including 24 requests after recorded run finish.
 Group statistics weight requests equally, not tasks. Per-task counts and
 source-validation details are in the companion workload record.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
-\includegraphics[width=\textwidth]{figures/agent-fuse/fuse-combined-compact.pdf}
-\caption{Request structure across eight single-run FUSE captures.
-Core bars precede Exploratory bars in each pair.
-(a) Shares of all calls; white segments are errors within each total.
-Metadata comprises \code{lookup}, \code{getattr}, \code{getxattr},
-\code{readdirplus}, \code{opendir}, and \code{releasedir}; Other contains
-every remaining method, including file open/flush/release.
-(b) Each bar includes all reads or writes in its group. Dark, light, and white
-segments denote $\leq4$, $(4,64]$, and $>64$ KiB, respectively
-($1\,\mathrm{KiB}=1024$ bytes). Read counts are 22,142/98,292 and write
-counts 1,112/23,600 (Core/Exploratory), all \code{ok}. Lengths are requested
-FUSE bytes, not object sizes.
-(c) Fraction of each task's calls in its busiest 10\% of one-second windows,
-rounding the window count up; zero-call and final partial windows are retained.
-All panels retain setup/teardown and every recorded status.}
+\includegraphics[width=\columnwidth]{figures/agent-fuse/fuse-single-column.pdf}
+\caption{FUSE request structure across eight task runs.
+Initial and Extended denote the five Core and three broader-prompt
+Exploratory captures.
+(a) All-call shares; hatching marks errors.
+(b) Requested-length distributions within method/group.
+(c) Each task's call share in its busiest 10\% of one-second windows.
+}
 \label{fig:agent-fuse-combined}
-\end{figure*}
+\end{figure}
 
 \paragraph{Metadata traffic and read dominance.}
-The six metadata methods accounted for 61.5\% of Core and 56.4\%
+The metadata methods---\code{lookup}, \code{getattr}, \code{getxattr},
+\code{readdirplus}, \code{opendir}, and \code{releasedir}---accounted for
+61.5\% of Core and 56.4\%
 of Exploratory calls (Figure~\ref{fig:agent-fuse-combined}a).
+Other comprises all methods except these six and read/write.
 Restricting the denominator and numerator to \code{ok} events reduces these
 shares to 52.0\% and 44.2\%: failed probes materially change the request mix.
 Across tasks, the all-status share ranged from 39.6\% in SymPy to 65.4\% in
@@ -48,6 +44,8 @@ These observations motivate evaluating both positive and negative metadata
 paths alongside data I/O.
 
 \paragraph{A mixture of request sizes.}
+All 22,142/98,292 reads and 1,112/23,600 writes (Core/Exploratory) were
+\code{ok}; $1\,\mathrm{KiB}=1024$ bytes.
 Reads ranged from 4 to 128 KiB, with Core and Exploratory medians of 8 and
 16 KiB. Writes ranged from one byte
 to 128 KiB, with medians of 4,084 and 4,117 bytes, respectively.
@@ -64,7 +62,8 @@ bytes, finalized object lengths, or an optimal block size.
 Tasks generated 8,542--634,726 calls. Astropy contributed 68.9\% of
 Exploratory calls, versus 6.0\% for Pytest. Capture spans, from first to last
 request start, were 42.7--71.3 seconds for Core and 119.9--556.1 seconds for
-Exploratory. The busiest 10\% of one-second windows, rounded up per task,
+Exploratory. Windows include zero-call and final partial windows.
+The busiest 10\% of one-second windows, rounded up per task,
 contained 47.4--83.7\% of its calls (Figure~\ref{fig:agent-fuse-combined}c).
 The companion record retains the full method breakdowns, size ECDFs,
 and per-task cumulative time curves. Replay

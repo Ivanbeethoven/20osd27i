@@ -1,0 +1,36 @@
+\documentclass[letterpaper,twocolumn,10pt]{article}
+\usepackage{hyperref}
+\usepackage{usenix2019_v3_xetex}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,graphicx}
+\hypersetup{hidelinks,pdftitle={Mechanism figure: typesetting proof},pdfauthor={}}
+\makeatletter
+\newcommand{\captiontypefigure}{\def\@captype{figure}}
+\makeatother
+\begin{document}
+\twocolumn[{
+\noindent\textbf{Mechanism overview: author-review proof}\par
+\vspace{8pt}
+\centering
+\includegraphics[width=\textwidth]{figures/system-architecture-mechanism.pdf}
+\vspace{3pt}
+\captiontypefigure
+\input{figures/system-architecture-mechanism.caption}
+\vspace{14pt}
+}]
+\section{Private state over one shared snapshot}
+Let $S$ be a pinned immutable snapshot and $\Delta_i$ the private upper of
+workspace $i$. Its logical view is $W_i=\operatorname{Resolve}(S,\Delta_i)$.
+The map stores explicit references to inherited ranges and to private data.
+The lower groups names, common attributes and data locations into immutable
+access structures. The figure follows one representative record into a
+frame of $O_1$; it does not prescribe a fixed number of storage requests.
+
+\section{A layout that stays with its object}
+The coding block $B$ is requested when an object's finalized wire length is
+known. RustFS admits the request, chooses a compatible verification quantum
+$q$, and persists the effective layout. Existing objects are read and repaired
+using their saved layout. The two illustrative strips show configurability,
+not an adaptive optimization result. Integration and eligibility conditions
+remain explicit in the caption.
+\end{document}

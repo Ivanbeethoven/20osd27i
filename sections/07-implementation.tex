@@ -1,141 +1,78 @@
-\section{Implementation and Integration Status}
+\section{Implementation Boundaries}
 \label{sec:implementation}
 
-\ifanonymouspreview
-The source audit fixes separate file-system and object-backend research
-revisions; the internal evidence ledger retains their identities and source
-locations.
-\else
-The source audit fixes \sysname{} at \code{242af5f7e9bb} and the RustFS
-research fork at \code{cc4926fac110}.\footnote{Fixed sources:
-\url{https://github.com/brewfs/brewfs/tree/242af5f7e9bba7afc0c61778f1084fcb20e083a0} and
-\url{https://github.com/Ivanbeethoven/rustfs/tree/cc4926fac1107aee76540f28bf22dbd47fcbca24}.}
-\fi
-The implementation realizes the design through several runtime paths.
-This section identifies their metadata, data, and lifecycle connections
-at the fixed revisions above. The evidence is source inspection; mount,
-failure, and performance validation remain part of the evaluation plan.
+The implementation connects the mechanisms through several access paths.
+Their differences affect both guarantees and performance attribution.
+The following boundaries come from source inspection; the companion
+record identifies the inspected revisions, while runtime and failure
+validation remain part of the evaluation plan.
 
-\subsection{Runtime paths and reader contracts}
+\subsection{Buffered and direct access}
 
-Table~\ref{tab:implementation-entrypoints} shows how each entry constructs
-a file-system view. Choosing an entry selects a runtime contract as well
-as a set of mechanisms: metadata access, caching, and writeback can differ
-between entries. These differences determine which comparisons can isolate
-a mechanism's effect.
+An ordinary volume resolves mutable metadata and sends file data through
+buffered caching and writeback. A workspace can reuse this path while
+replacing metadata lookup with private-state resolution over a sealed
+catalog or packed lower. A standalone snapshot reader instead provides
+read-only access without constructing a private upper. Its metadata cache
+is separate from payload caching; the current read-only path does not
+admit configurable payload-cache or prefetch budgets.
 
-\begin{table*}[t]
-\centering
-\small
-\caption{Current mount entry points and their construction. Compile-time
-features and backend capabilities further restrict admission.}
-\label{tab:implementation-entrypoints}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth}Y@{}}
-\toprule
-Entry point & Constructed file-system view \\
-\midrule
-Ordinary \code{flat-v1} &
-Ordinary metadata store and VFS with an object-data path; no workspace
-upper/lower construction. \\
-\code{workspace-v1} &
-One sealed catalog base and one private writable upper; an optional
-persisted binding selects a Packed v3 lower adapter. \\
-Standalone Packed v3 &
-Authenticated packed snapshot and read-only VFS; no private writable
-upper is required. \\
-Native P1 (\code{workspace-native-v2}) &
-Workspace-v1 KV namespace and base-data source, with Native data runtime
-and ordinary VFS. \\
-Experimental Entity (\code{workspace-entity-v1}) &
-Fresh Redis-backed current-entity namespace over a packed manifest,
-S3 data, and a dedicated FUSE adapter. \\
-\bottomrule
-\end{tabularx}
-\end{table*}
+A second workspace implementation stores current private namespace and
+mapping records transactionally and uses a dedicated direct-I/O adapter.
+This is the concrete namespace and truncation path described in
+Section~\ref{sec:delta}. It bypasses ordinary buffered writeback and
+metadata TTL caching. Its operation sizes, complete-directory enumeration,
+and live ownership set have admission bounds. It currently supports
+newly created workspaces, without process-crash takeover. These limits
+belong to that path, rather than the logical workspace model or every mount.
 
-The \code{workspace-v1} entry uses a catalog backed by SQLite, Redis, or
-TiKV; it rejects etcd. A Packed lower additionally requires the catalog's
-permission, identifier, and lifecycle capabilities. Its default
-\code{WorkspaceLower::Native} means native catalog layers; it is distinct
-from the \code{native\_base} subsystem. Native P1 requires a workspace-v1
-schema-1 base and a KV namespace. Its CLI explicitly rejects a frozen
-metadata volume rather than treating the mutable KV path as a fallback.
-Frozen Native metadata is consequently a library capability outside this
-mount entry's admitted configurations.
-
-\paragraph{Reader and Entity bounds.}
-The standalone Packed reader resolves a content-addressed manifest in
-the current wire005 format. Its CLI rejects earlier Packed v1/v2 entries
-and nonzero payload memory-cache, payload SSD-cache, or prefetch budgets.
-Metadata caching remains a separate facility, so a comparison must specify
-which cache holds records and which holds payloads.
-
-Entity is an experimental, fresh-only path with process-crash takeover
-disabled. Its adapter uses direct I/O, zero metadata TTL, and no ordinary
-VFS slice-cache or writeback path. The Entity data API bounds an individual
-read, write, and logical chunk size at 16 MiB; the FUSE adapter separately
-limits writes to 1 MiB. Its complete-directory resolver bounds enumeration
-at 4,096 entries. Durable Entity lower ownership is limited to 256 active
-owner records per catalog store, with admission and census checks. This is
-distinct from the separate bounded set of Packed reader leases. These bounds
-apply to Entity operations and ownership, rather than file or directory sizes
-in all mounts. On reads, Entity fetches and authenticates the complete upper
-object before returning a subrange; its physical-layout opportunities thus
-depend on this whole-object fetch policy.
+The direct path authenticates an entire upper object before returning a
+subrange. Thus a smaller backend verification unit need not reduce work
+for a short application read. Comparing this path with a buffered volume
+changes cache and fetch behavior as well as workspace representation;
+an ablation must retain one access path or control those changes explicitly.
 
 \subsection{Publication and recovery}
 
-Publication connects authenticated snapshot production to persisted lower
-bindings and reader pins. The code guards this transition and includes a
-restricted Packed recovery command for reusing the same persistent volume
-claim (PVC). Recovery checks the generation, lease and pod identities, and
-scoped metadata/PVC authority. This path supports same-PVC recovery;
-Entity takeover and migration to an arbitrary worker require other runtime
-connections.
+Snapshot publication validates uploaded objects before installing the
+lower binding and acquiring reader ownership. Recovering a binding also
+requires generation and lease checks: knowing a manifest's identity does
+not grant authority to resume writes. One connected recovery path reuses
+the same persistent storage allocation and checks its worker identity and
+scoped metadata authority. It does not provide arbitrary-worker migration.
 
-Native seal, publish, and fork functions encode quiescence, object
-verification, retention, and atomic revision transitions. The inspected
-tree contains these lifecycle definitions and unit-test callers, but no
-ordinary CLI handoff driver, so the protocol has not been connected into
-that worker-transfer path. Its recovery target is a published file state.
-Applications must separately checkpoint execution state and reopen their
-tools; file-state recovery does not restore process memory or open sessions.
+Catalog lifecycle operations encode quiescence, object verification,
+retention, and atomic version transitions. Connecting these operations
+to worker handoff still requires runtime orchestration. The recovery
+target is a published file state; applications must checkpoint execution
+state and reopen tools separately. Source-level lifecycle operations
+therefore do not by themselves demonstrate end-to-end recovery.
 
-\subsection{Object formation and backend integration}
+\subsection{Object formation and layout admission}
 
-The ordinary object path fixes client block size $g$ in configuration,
-with a default of 4 MiB inside 64 MiB logical chunks. Readers use the
-declared geometry, and incompatible volume configuration is rejected.
-The proposed 1/4/8/16 MiB sizes are research settings; the code has no
-access-driven controller choosing among them. Existing data must retain
-its declared geometry when a configuration changes.
+The ordinary uploader partitions slices using fixed volume geometry,
+defaulting to $g=4\MiB$ within 64 MiB chunks. Readers use the same geometry;
+an incompatible configuration is rejected. The proposed 1/4/8/16 MiB
+settings expose a design space, not an adaptive sizing policy.
 
-Backend layout selection crosses a separate interface. The client sends
-an encoding-block-size hint only with an explicit compile-time feature
-and a compatible S3 backend; the feature is off by default and leaves $g$
-and multipart part size unchanged. The backend independently gates $B$
-hint acceptance and new $q$ framing, each with enable and fleet-confirmation
-gates that default to off. Eligible writes must also pass geometry checks.
-Reads and repair follow the persisted object layout, so enabling hints
-affects eligible new objects rather than re-encoding existing ones.
+Backend hints are optional and require both client support and compatible
+storage servers. Hint admission and new verification framing have separate
+enable and fleet-compatibility gates, disabled by default. The backend
+checks eligible writes and persists their effective layouts, which govern
+later reads and repair. Changing admission settings does not re-encode
+existing objects.
 
-\paragraph{Uploader coverage.}
-The ordinary uploader propagates configured hints, but the Entity mount
-constructs its S3 client with the default hint setting, and its strict
-durable create-only upload does not attach hint metadata. The Packed
-fixture producer also uses the default setting. Extending these paths must
-preserve conditional creation and precondition-failure behavior. Moreover,
-Entity directly uploads segments of each FUSE write rather than aggregating
-ordinary client blocks. Its upper objects therefore remain at most 1 MiB
-on this path and do not trigger the automatic hint policy.
+Uploader coverage matters. The ordinary uploader propagates hints; direct
+workspace writes and the current snapshot producer use default settings.
+Extending them must preserve conditional object creation and rejection of
+conflicting writes. Direct workspace uploads also form objects from write
+fragments, rather than ordinary buffered blocks, and cap those fragments
+at the automatic policy's no-hint threshold.
 
-\paragraph{Effective treatment.}
-The automatic hint policy omits a hint for $L_o\leq1\MiB$ and requests
-$B=1\MiB$ otherwise. The inspected research backend already defaults to
-$B=1\MiB$, so enabling the policy can leave effective $B$ unchanged.
-Hint configuration also changes the ordinary client's fetch and cache
-policy, even for objects receiving no hint. The evaluation must separate
-these client-policy changes from changes to persisted $(B,q)$, recording
-actual $(g,L_o,B,q)$, eligibility, cache behavior, and physical read bytes.
-These effective settings, together with uploader coverage, define the
-treatment being compared.
+That policy omits hints for $L_o\leq1\MiB$ and requests $B=1\MiB$
+otherwise; the inspected backend already defaults to $B=1\MiB$.
+Enabling hints can therefore leave the stored layout unchanged while
+changing client fetch and cache policy. Experiments must record actual
+$(g,L_o,B,q)$ and physical work, and separate those client effects from
+backend geometry. These integration restrictions constrain current
+comparisons without making any of the three mechanisms mandatory.

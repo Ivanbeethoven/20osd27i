@@ -1,0 +1,930 @@
+{
+  "width_pt": 240,
+  "height_pt": 258,
+  "nodes": {
+    "workspace-1": [
+      4,
+      29,
+      106,
+      27
+    ],
+    "private-state-1": [
+      10,
+      33,
+      94,
+      12
+    ],
+    "workspace-2": [
+      134,
+      29,
+      102,
+      27
+    ],
+    "private-state-2": [
+      140,
+      33,
+      90,
+      12
+    ],
+    "private-payload": [
+      4,
+      66,
+      68,
+      13
+    ],
+    "shared-lower": [
+      85,
+      66,
+      150,
+      13
+    ],
+    "native-reader": [
+      88,
+      103,
+      62,
+      12
+    ],
+    "packed-reader": [
+      170,
+      103,
+      66,
+      12
+    ],
+    "read-only": [
+      2,
+      128,
+      35,
+      25
+    ],
+    "name-index": [
+      42,
+      123,
+      40,
+      32
+    ],
+    "metadata-page": [
+      87,
+      120,
+      112,
+      42
+    ],
+    "metadata-table": [
+      91,
+      133,
+      104,
+      25
+    ],
+    "packed-payload": [
+      205,
+      139,
+      33,
+      20
+    ],
+    "u1-reference": [
+      4,
+      229,
+      28,
+      11
+    ],
+    "packed-reference": [
+      36,
+      229,
+      28,
+      11
+    ],
+    "rustfs": [
+      3,
+      246,
+      234,
+      11
+    ]
+  },
+  "text": [
+    {
+      "text": "1",
+      "group": "heading-1",
+      "size_pt": 8,
+      "bbox": [
+        3.775390625,
+        3.0999999999999996,
+        8.224609375,
+        12.6
+      ]
+    },
+    {
+      "text": "Delta-Based Multi-Agent Workspaces",
+      "group": "heading-1",
+      "size_pt": 8.5,
+      "bbox": [
+        14,
+        2.5,
+        164.66748046875,
+        12.5
+      ]
+    },
+    {
+      "text": "FUSE",
+      "group": "workspace-label-1",
+      "size_pt": 7.0,
+      "bbox": [
+        28.66552734375,
+        12.0,
+        47.33447265625,
+        20.5
+      ]
+    },
+    {
+      "text": "View W\u2081",
+      "group": "workspace-label-1",
+      "size_pt": 7.4,
+      "bbox": [
+        61.48429296875,
+        18.6,
+        90.51570703125,
+        27.5
+      ]
+    },
+    {
+      "text": "FUSE",
+      "group": "workspace-label-2",
+      "size_pt": 7.0,
+      "bbox": [
+        168.66552734375,
+        12.0,
+        187.33447265625,
+        20.5
+      ]
+    },
+    {
+      "text": "View W\u2082",
+      "group": "workspace-label-2",
+      "size_pt": 7.4,
+      "bbox": [
+        201.48429296875,
+        18.6,
+        230.51570703125,
+        27.5
+      ]
+    },
+    {
+      "text": "Private state \u0394\u2081",
+      "group": "private-state-1",
+      "size_pt": 7.0,
+      "bbox": [
+        31.215458984375,
+        34.5,
+        82.784541015625,
+        43.0
+      ]
+    },
+    {
+      "text": "resolve private first",
+      "group": "private-state-1",
+      "size_pt": 7.0,
+      "bbox": [
+        27.62939453125,
+        45.5,
+        86.37060546875,
+        54.0
+      ]
+    },
+    {
+      "text": "Private state \u0394\u2082",
+      "group": "private-state-2",
+      "size_pt": 7.0,
+      "bbox": [
+        159.215458984375,
+        34.5,
+        210.784541015625,
+        43.0
+      ]
+    },
+    {
+      "text": "resolve private first",
+      "group": "private-state-2",
+      "size_pt": 7.0,
+      "bbox": [
+        155.62939453125,
+        45.5,
+        214.37060546875,
+        54.0
+      ]
+    },
+    {
+      "text": "Private bytes U\u2081",
+      "group": "private-payload",
+      "size_pt": 7.0,
+      "bbox": [
+        12.789677734375001,
+        68.5,
+        63.210322265624995,
+        77.0
+      ]
+    },
+    {
+      "text": "Shared immutable baseline S",
+      "group": "shared-lower",
+      "size_pt": 7.0,
+      "bbox": [
+        111.37255859375,
+        68.5,
+        208.62744140625,
+        77.0
+      ]
+    },
+    {
+      "text": "pinned",
+      "group": "pin-read-references",
+      "size_pt": 7.0,
+      "bbox": [
+        138.48974609375,
+        55.5,
+        159.51025390625,
+        64.0
+      ]
+    },
+    {
+      "text": "2",
+      "group": "heading-2",
+      "size_pt": 8,
+      "bbox": [
+        3.775390625,
+        86.1,
+        8.224609375,
+        95.6
+      ]
+    },
+    {
+      "text": "Packed Metadata",
+      "group": "heading-2",
+      "size_pt": 8.5,
+      "bbox": [
+        14,
+        85.5,
+        82.975341796875,
+        95.5
+      ]
+    },
+    {
+      "text": "Native records",
+      "group": "native-reader",
+      "size_pt": 7.0,
+      "bbox": [
+        96.436279296875,
+        104.6,
+        141.563720703125,
+        113.1
+      ]
+    },
+    {
+      "text": "Packed snapshot",
+      "group": "packed-reader",
+      "size_pt": 7.0,
+      "bbox": [
+        176.1484375,
+        104.6,
+        229.8515625,
+        113.1
+      ]
+    },
+    {
+      "text": "or",
+      "group": "baseline-choice",
+      "size_pt": 7.0,
+      "bbox": [
+        155.887939453125,
+        104.6,
+        162.112060546875,
+        113.1
+      ]
+    },
+    {
+      "text": "Read-only",
+      "group": "read-only",
+      "size_pt": 7.0,
+      "bbox": [
+        3.546630859375,
+        131.0,
+        35.453369140625,
+        139.5
+      ]
+    },
+    {
+      "text": "mount",
+      "group": "read-only",
+      "size_pt": 7.0,
+      "bbox": [
+        9.7724609375,
+        139.0,
+        29.2275390625,
+        147.5
+      ]
+    },
+    {
+      "text": "Name-range",
+      "group": "name-index",
+      "size_pt": 7.0,
+      "bbox": [
+        42.546630859375,
+        124.0,
+        81.453369140625,
+        132.5
+      ]
+    },
+    {
+      "text": "index",
+      "group": "name-index",
+      "size_pt": 7.0,
+      "bbox": [
+        53.6328125,
+        132.0,
+        70.3671875,
+        140.5
+      ]
+    },
+    {
+      "text": "dir: /src",
+      "group": "directory-context",
+      "size_pt": 7.0,
+      "bbox": [
+        50.027587890625,
+        155.0,
+        72.972412109375,
+        163.5
+      ]
+    },
+    {
+      "text": "Packed metadata page",
+      "group": "metadata-page",
+      "size_pt": 7.2,
+      "bbox": [
+        104.1822265625,
+        121.3,
+        181.81777343750002,
+        130.0
+      ]
+    },
+    {
+      "text": "Name",
+      "group": "metadata-table",
+      "size_pt": 7.0,
+      "bbox": [
+        98.663818359375,
+        132.7,
+        117.336181640625,
+        141.2
+      ]
+    },
+    {
+      "text": "Attributes",
+      "group": "metadata-table",
+      "size_pt": 7.0,
+      "bbox": [
+        128.215576171875,
+        132.7,
+        157.784423828125,
+        141.2
+      ]
+    },
+    {
+      "text": "Data ref.",
+      "group": "metadata-table",
+      "size_pt": 7.0,
+      "bbox": [
+        164.57763671875,
+        132.7,
+        191.42236328125,
+        141.2
+      ]
+    },
+    {
+      "text": "main.py",
+      "group": "metadata-table",
+      "size_pt": 7.0,
+      "bbox": [
+        95.744873046875,
+        142.6,
+        120.255126953125,
+        151.1
+      ]
+    },
+    {
+      "text": "size, mode",
+      "group": "metadata-table",
+      "size_pt": 7.0,
+      "bbox": [
+        126.075927734375,
+        142.6,
+        159.924072265625,
+        151.1
+      ]
+    },
+    {
+      "text": "Data object",
+      "group": "payload-label",
+      "size_pt": 7.0,
+      "bbox": [
+        203.794921875,
+        127.0,
+        239.205078125,
+        135.5
+      ]
+    },
+    {
+      "text": "Bytes",
+      "group": "packed-payload",
+      "size_pt": 7.0,
+      "bbox": [
+        212.74658203125,
+        140.0,
+        230.25341796875,
+        148.5
+      ]
+    },
+    {
+      "text": "O\u209a",
+      "group": "packed-payload",
+      "size_pt": 7.0,
+      "bbox": [
+        217.29822265625,
+        148.0,
+        225.70177734375,
+        156.5
+      ]
+    },
+    {
+      "text": "3",
+      "group": "heading-3",
+      "size_pt": 8,
+      "bbox": [
+        3.775390625,
+        168.1,
+        8.224609375,
+        177.6
+      ]
+    },
+    {
+      "text": "Variable-Granularity Object Storage",
+      "group": "heading-3",
+      "size_pt": 8.5,
+      "bbox": [
+        14,
+        167.5,
+        158.072509765625,
+        177.5
+      ]
+    },
+    {
+      "text": "Ordinary file offsets",
+      "group": "ordinary-ranges",
+      "size_pt": 7.0,
+      "bbox": [
+        9.85009765625,
+        178.0,
+        70.14990234375,
+        186.5
+      ]
+    },
+    {
+      "text": "Slice: written range",
+      "group": "ordinary-ranges",
+      "size_pt": 7.0,
+      "bbox": [
+        84.236328125,
+        178.0,
+        143.763671875,
+        186.5
+      ]
+    },
+    {
+      "text": "Chunk",
+      "group": "selected-slice",
+      "size_pt": 7.0,
+      "bbox": [
+        29.112060546875,
+        206.0,
+        50.887939453125,
+        214.5
+      ]
+    },
+    {
+      "text": "address range",
+      "group": "selected-slice",
+      "size_pt": 7.0,
+      "bbox": [
+        17.624267578125,
+        214.0,
+        62.375732421875,
+        222.5
+      ]
+    },
+    {
+      "text": "Upload blocks",
+      "group": "client-block-labels",
+      "size_pt": 7.0,
+      "bbox": [
+        90.079345703125,
+        221.0,
+        137.920654296875,
+        229.5
+      ]
+    },
+    {
+      "text": "configured g",
+      "group": "client-block-labels",
+      "size_pt": 7.0,
+      "bbox": [
+        94.736328125,
+        229.0,
+        133.263671875,
+        237.5
+      ]
+    },
+    {
+      "text": "Compress",
+      "group": "encode-label",
+      "size_pt": 7.0,
+      "bbox": [
+        142.0517578125,
+        198.0,
+        173.9482421875,
+        206.5
+      ]
+    },
+    {
+      "text": "& frame",
+      "group": "encode-label",
+      "size_pt": 7.0,
+      "bbox": [
+        145.74658203125,
+        206.0,
+        170.25341796875,
+        214.5
+      ]
+    },
+    {
+      "text": "Objects",
+      "group": "finalized-objects",
+      "size_pt": 7.0,
+      "bbox": [
+        181.162109375,
+        198.0,
+        206.837890625,
+        206.5
+      ]
+    },
+    {
+      "text": "length L\u2092",
+      "group": "finalized-objects",
+      "size_pt": 7.0,
+      "bbox": [
+        175.065556640625,
+        223.0,
+        202.934443359375,
+        231.5
+      ]
+    },
+    {
+      "text": "U\u2081",
+      "group": "u1-reference",
+      "size_pt": 7.0,
+      "bbox": [
+        13.993046875000001,
+        230.0,
+        22.006953125000003,
+        238.5
+      ]
+    },
+    {
+      "text": "O\u209a",
+      "group": "packed-reference",
+      "size_pt": 7.0,
+      "bbox": [
+        45.79822265625,
+        230.0,
+        54.201777343749995,
+        238.5
+      ]
+    },
+    {
+      "text": "Backend selects layout",
+      "group": "backend-layout-label",
+      "size_pt": 7.0,
+      "bbox": [
+        67.201904296875,
+        237.0,
+        138.798095703125,
+        245.5
+      ]
+    },
+    {
+      "text": "RustFS",
+      "group": "rustfs",
+      "size_pt": 7.0,
+      "bbox": [
+        14.75,
+        246.8,
+        39.25,
+        255.3
+      ]
+    },
+    {
+      "text": "EC block B",
+      "group": "rustfs",
+      "size_pt": 7.0,
+      "bbox": [
+        81.68798828125,
+        246.8,
+        116.31201171875,
+        255.3
+      ]
+    },
+    {
+      "text": "Per-shard verify/read q",
+      "group": "rustfs",
+      "size_pt": 7.0,
+      "bbox": [
+        155.40185546875,
+        246.8,
+        226.59814453125,
+        255.3
+      ]
+    },
+    {
+      "text": "B hint",
+      "group": "hint-label",
+      "size_pt": 7.0,
+      "bbox": [
+        216.050048828125,
+        223.0,
+        233.949951171875,
+        231.5
+      ]
+    },
+    {
+      "text": "optional",
+      "group": "hint-label",
+      "size_pt": 7.0,
+      "bbox": [
+        212.73974609375,
+        231.0,
+        237.26025390625,
+        239.5
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "fuse-entry-1",
+      "points": [
+        [
+          18,
+          23
+        ],
+        [
+          56,
+          23
+        ]
+      ],
+      "meaning": "FUSE file operations into workspace view"
+    },
+    {
+      "id": "fuse-entry-2",
+      "points": [
+        [
+          158,
+          23
+        ],
+        [
+          196,
+          23
+        ]
+      ],
+      "meaning": "FUSE file operations into workspace view"
+    },
+    {
+      "id": "data-to-private",
+      "points": [
+        [
+          26,
+          56
+        ],
+        [
+          26,
+          66
+        ]
+      ],
+      "meaning": "private state references separately stored new bytes"
+    },
+    {
+      "id": "baseline-native",
+      "points": [
+        [
+          160,
+          100
+        ],
+        [
+          119,
+          100
+        ],
+        [
+          119,
+          103
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "baseline-packed",
+      "points": [
+        [
+          160,
+          100
+        ],
+        [
+          203,
+          100
+        ],
+        [
+          203,
+          103
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "expand-packed",
+      "points": [
+        [
+          185,
+          115
+        ],
+        [
+          185,
+          120
+        ]
+      ],
+      "meaning": "expand indexed joint records within a packed snapshot"
+    },
+    {
+      "id": "readonly-index",
+      "points": [
+        [
+          37,
+          140.5
+        ],
+        [
+          42,
+          140.5
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "index-record",
+      "points": [
+        [
+          73.5,
+          147.5
+        ],
+        [
+          91,
+          147.5
+        ]
+      ],
+      "meaning": "directory and name range select a joint-metadata page"
+    },
+    {
+      "id": "record-bytes",
+      "points": [
+        [
+          195,
+          147
+        ],
+        [
+          205,
+          147
+        ]
+      ],
+      "meaning": "logical data reference; authenticated descriptor resolution is expanded in Figure 3"
+    },
+    {
+      "id": "expand-slice",
+      "points": [
+        [
+          40,
+          193
+        ],
+        [
+          40,
+          188
+        ],
+        [
+          114,
+          188
+        ],
+        [
+          114,
+          191
+        ]
+      ],
+      "meaning": "magnify a written slice interval within the selected logical chunk"
+    },
+    {
+      "id": "partition-slice",
+      "points": [
+        [
+          114,
+          200
+        ],
+        [
+          114,
+          211
+        ]
+      ],
+      "meaning": "partition slice data into configured raw upload blocks"
+    },
+    {
+      "id": "encode-objects",
+      "points": [
+        [
+          140,
+          217.5
+        ],
+        [
+          176,
+          217.5
+        ]
+      ],
+      "meaning": "format each block independently; compression/framing as applicable determines its finalized object length"
+    },
+    {
+      "id": "private-storage",
+      "points": [
+        [
+          18,
+          240
+        ],
+        [
+          18,
+          246
+        ]
+      ],
+      "meaning": "private payload uses its own upload contract"
+    },
+    {
+      "id": "packed-storage",
+      "points": [
+        [
+          50,
+          240
+        ],
+        [
+          50,
+          246
+        ]
+      ],
+      "meaning": "snapshot payload uses its own upload contract"
+    },
+    {
+      "id": "ordinary-storage",
+      "points": [
+        [
+          208,
+          220
+        ],
+        [
+          208,
+          246
+        ]
+      ],
+      "meaning": "store finalized object using backend-selected persisted geometry"
+    },
+    {
+      "id": "optional-layout-hint",
+      "points": [
+        [
+          210,
+          222
+        ],
+        [
+          239,
+          222
+        ],
+        [
+          239,
+          241
+        ],
+        [
+          231,
+          241
+        ],
+        [
+          231,
+          246
+        ]
+      ],
+      "meaning": "optional B hint from finalized upload length; distinct from independently gated q framing"
+    }
+  ]
+}

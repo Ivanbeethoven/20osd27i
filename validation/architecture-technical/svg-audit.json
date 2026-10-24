@@ -1,0 +1,21 @@
+{
+  "svg": "paper\\figures\\system-architecture-technical.svg",
+  "verdict": "PASS WITH WARNINGS",
+  "auditable": true,
+  "width_mm": 177.79999999999998,
+  "text_count": 40,
+  "minimum_found_pt": 9.5,
+  "maximum_found_pt": 10.5,
+  "thresholds": {
+    "min_pt": 9.5,
+    "max_pt": 10.5,
+    "max_width_mm": 177.8
+  },
+  "findings": [
+    {
+      "severity": "WARN",
+      "kind": "canvas.width",
+      "message": "width 177.8 mm is not 89 mm or 183 mm"
+    }
+  ]
+}

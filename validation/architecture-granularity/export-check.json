@@ -1,0 +1,21 @@
+{
+  "canvas_pt": [
+    240,
+    258
+  ],
+  "minimum_body_pt": 7.0,
+  "mechanisms_1_2_and_parallel_links_unchanged": true,
+  "raw_slice_MiB": 10,
+  "raw_partitions_MiB": {
+    "g4": [
+      4,
+      4,
+      2
+    ],
+    "g8": [
+      8,
+      2
+    ]
+  },
+  "raster_images": 0
+}

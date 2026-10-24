@@ -1,0 +1,1029 @@
+{
+  "schema_version": 1,
+  "before_scene": "before-scene.json",
+  "after_scene": "after-scene.json",
+  "canvas": {
+    "before_pt": [
+      240,
+      258
+    ],
+    "after_pt": [
+      240,
+      258
+    ],
+    "unchanged": true
+  },
+  "summary": {
+    "old_occurrences": 54,
+    "old_distinct_strings": 50,
+    "new_occurrences": 56,
+    "new_distinct_strings": 53,
+    "actions": {
+      "keep": 29,
+      "rewrite_or_expand": 22,
+      "remove_duplicate_label": 2,
+      "text_to_graphic": 1
+    },
+    "old_covered": 54,
+    "new_covered": 56,
+    "unmapped_old": [],
+    "unmapped_new": []
+  },
+  "occurrence_map": [
+    {
+      "old_id": "O01",
+      "old_text": "1",
+      "old_bbox": [
+        3.775390625,
+        3.0999999999999996,
+        8.224609375,
+        12.6
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N01",
+          "text": "1",
+          "group": "heading-1"
+        }
+      ]
+    },
+    {
+      "old_id": "O02",
+      "old_text": "Delta-Based Multi-Agent Workspaces",
+      "old_bbox": [
+        14,
+        2.5,
+        164.66748046875,
+        12.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N02",
+          "text": "Delta-Based Multi-Agent Workspaces",
+          "group": "heading-1"
+        }
+      ]
+    },
+    {
+      "old_id": "O03",
+      "old_text": "FUSE",
+      "old_bbox": [
+        28.9322265625,
+        12.2,
+        47.067773437499994,
+        20.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N03",
+          "text": "FUSE",
+          "group": "workspace-label-1"
+        }
+      ]
+    },
+    {
+      "old_id": "O04",
+      "old_text": "W₁",
+      "old_bbox": [
+        58.94386328125,
+        18.6,
+        69.05613671875,
+        27.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N04",
+          "text": "View W₁",
+          "group": "workspace-label-1"
+        }
+      ]
+    },
+    {
+      "old_id": "O05",
+      "old_text": "Δ₁",
+      "old_bbox": [
+        85.0736796875,
+        18.8,
+        92.92632031250001,
+        27.5
+      ],
+      "action": "remove_duplicate_label",
+      "new_occurrences": []
+    },
+    {
+      "old_id": "O06",
+      "old_text": "FUSE",
+      "old_bbox": [
+        168.9322265625,
+        12.2,
+        187.0677734375,
+        20.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N05",
+          "text": "FUSE",
+          "group": "workspace-label-2"
+        }
+      ]
+    },
+    {
+      "old_id": "O07",
+      "old_text": "W₂",
+      "old_bbox": [
+        198.94386328125,
+        18.6,
+        209.05613671875,
+        27.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N06",
+          "text": "View W₂",
+          "group": "workspace-label-2"
+        }
+      ]
+    },
+    {
+      "old_id": "O08",
+      "old_text": "Δ₂",
+      "old_bbox": [
+        225.0736796875,
+        18.8,
+        232.9263203125,
+        27.5
+      ],
+      "action": "remove_duplicate_label",
+      "new_occurrences": []
+    },
+    {
+      "old_id": "O09",
+      "old_text": "LowerRange",
+      "old_bbox": [
+        7.854687500000001,
+        42.6,
+        44.1453125,
+        50.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N07",
+          "text": "LowerRange",
+          "group": "map-labels"
+        }
+      ]
+    },
+    {
+      "old_id": "O10",
+      "old_text": "Data",
+      "old_bbox": [
+        53.240625,
+        42.6,
+        66.759375,
+        50.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N08",
+          "text": "Data",
+          "group": "map-labels"
+        }
+      ]
+    },
+    {
+      "old_id": "O11",
+      "old_text": "Hole",
+      "old_bbox": [
+        85.41875,
+        42.6,
+        98.58125000000001,
+        50.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N09",
+          "text": "Hole",
+          "group": "map-labels"
+        }
+      ]
+    },
+    {
+      "old_id": "O12",
+      "old_text": "0",
+      "old_bbox": [
+        90.2203125,
+        51.6,
+        93.77968750000001,
+        59.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N10",
+          "text": "zeros",
+          "group": "map-labels"
+        }
+      ]
+    },
+    {
+      "old_id": "O13",
+      "old_text": "Δᵢ: private state + map",
+      "old_bbox": [
+        129.25244140625,
+        47.2,
+        196.74755859375,
+        55.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N11",
+          "text": "Δᵢ: private writable upper",
+          "group": "map-labels"
+        }
+      ]
+    },
+    {
+      "old_id": "O14",
+      "old_text": "Wᵢ = Resolve(S, Δᵢ)",
+      "old_bbox": [
+        132.07375,
+        59.8,
+        193.92624999999998,
+        68.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N12",
+          "text": "Wᵢ = Resolve(S, Δᵢ)",
+          "group": "map-labels"
+        }
+      ]
+    },
+    {
+      "old_id": "O15",
+      "old_text": "U₁ payload",
+      "old_bbox": [
+        43.24404296875,
+        64.7,
+        76.75595703125,
+        73
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N13",
+          "text": "Private payload",
+          "group": "private-payload"
+        },
+        {
+          "new_id": "N14",
+          "text": "U₁",
+          "group": "private-payload"
+        }
+      ]
+    },
+    {
+      "old_id": "O16",
+      "old_text": "S  Shared immutable lower",
+      "old_bbox": [
+        113.265625,
+        79.5,
+        202.734375,
+        88
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N15",
+          "text": "S  Shared immutable lower",
+          "group": "shared-lower"
+        }
+      ]
+    },
+    {
+      "old_id": "O17",
+      "old_text": "pin / read",
+      "old_bbox": [
+        39.8662841796875,
+        82.7,
+        66.13371582031249,
+        90.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N16",
+          "text": "pinned reference",
+          "group": "pin-read-references"
+        }
+      ]
+    },
+    {
+      "old_id": "O18",
+      "old_text": "2",
+      "old_bbox": [
+        3.775390625,
+        98.1,
+        8.224609375,
+        107.6
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N17",
+          "text": "2",
+          "group": "heading-2"
+        }
+      ]
+    },
+    {
+      "old_id": "O19",
+      "old_text": "Packed Metadata",
+      "old_bbox": [
+        14,
+        97.5,
+        82.975341796875,
+        107.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N18",
+          "text": "Packed Metadata",
+          "group": "heading-2"
+        }
+      ]
+    },
+    {
+      "old_id": "O20",
+      "old_text": "Native catalog",
+      "old_bbox": [
+        92.58818359375,
+        115.4,
+        134.41181640625,
+        123.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N19",
+          "text": "Native catalog",
+          "group": "native-reader"
+        }
+      ]
+    },
+    {
+      "old_id": "O21",
+      "old_text": "Packed",
+      "old_bbox": [
+        185.993017578125,
+        115.4,
+        208.006982421875,
+        123.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N20",
+          "text": "Packed snapshot",
+          "group": "packed-reader"
+        }
+      ]
+    },
+    {
+      "old_id": "O22",
+      "old_text": "or",
+      "old_bbox": [
+        153.1991455078125,
+        116.7,
+        158.80085449218748,
+        124.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N21",
+          "text": "or",
+          "group": "baseline-choice"
+        }
+      ]
+    },
+    {
+      "old_id": "O23",
+      "old_text": "Read-only",
+      "old_bbox": [
+        4.9140625,
+        146.6,
+        34.0859375,
+        154.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N22",
+          "text": "Read-only",
+          "group": "read-only"
+        },
+        {
+          "new_id": "N23",
+          "text": "mount",
+          "group": "read-only"
+        }
+      ]
+    },
+    {
+      "old_id": "O24",
+      "old_text": "Index",
+      "old_bbox": [
+        54.6826171875,
+        132.2,
+        71.3173828125,
+        140.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N24",
+          "text": "Name-range",
+          "group": "packed-labels"
+        },
+        {
+          "new_id": "N25",
+          "text": "index",
+          "group": "packed-labels"
+        }
+      ]
+    },
+    {
+      "old_id": "O25",
+      "old_text": "GroupMeta page",
+      "old_bbox": [
+        106.4833984375,
+        132.2,
+        157.5166015625,
+        140.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N26",
+          "text": "GroupMeta page",
+          "group": "packed-labels"
+        }
+      ]
+    },
+    {
+      "old_id": "O26",
+      "old_text": "Object Oₚ",
+      "old_bbox": [
+        191.322021484375,
+        132.8,
+        218.677978515625,
+        140.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N27",
+          "text": "Object Oₚ",
+          "group": "packed-labels"
+        }
+      ]
+    },
+    {
+      "old_id": "O27",
+      "old_text": "Name",
+      "old_bbox": [
+        92.0974365234375,
+        144.7,
+        108.90256347656249,
+        152.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N29",
+          "text": "Name",
+          "group": "groupmeta-table"
+        }
+      ]
+    },
+    {
+      "old_id": "O28",
+      "old_text": "Attr.",
+      "old_bbox": [
+        121.2244873046875,
+        144.7,
+        132.7755126953125,
+        152.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N30",
+          "text": "Attrs",
+          "group": "groupmeta-table"
+        }
+      ]
+    },
+    {
+      "old_id": "O29",
+      "old_text": "Locator",
+      "old_bbox": [
+        147.4933349609375,
+        144.7,
+        168.50666503906248,
+        152.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N31",
+          "text": "Locator",
+          "group": "groupmeta-table"
+        }
+      ]
+    },
+    {
+      "old_id": "O30",
+      "old_text": "/h/y",
+      "old_bbox": [
+        95.2615966796875,
+        156.5,
+        105.7384033203125,
+        164.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N32",
+          "text": "y",
+          "group": "groupmeta-table"
+        }
+      ]
+    },
+    {
+      "old_id": "O31",
+      "old_text": "…",
+      "old_bbox": [
+        123.75,
+        156.5,
+        130.25,
+        164.5
+      ],
+      "action": "text_to_graphic",
+      "new_occurrences": [],
+      "graphic_replacement": "Two abstract attribute-value lines in groupmeta-table"
+    },
+    {
+      "old_id": "O32",
+      "old_text": "Packed",
+      "old_bbox": [
+        193.660107421875,
+        146.8,
+        214.33989257812502,
+        154.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N33",
+          "text": "Packed",
+          "group": "packed-object-id"
+        }
+      ]
+    },
+    {
+      "old_id": "O33",
+      "old_text": "frame",
+      "old_bbox": [
+        196.075927734375,
+        153.8,
+        211.924072265625,
+        161.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N34",
+          "text": "frame",
+          "group": "packed-object-id"
+        }
+      ]
+    },
+    {
+      "old_id": "O34",
+      "old_text": "3",
+      "old_bbox": [
+        3.775390625,
+        178.1,
+        8.224609375,
+        187.6
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N36",
+          "text": "3",
+          "group": "heading-3"
+        }
+      ]
+    },
+    {
+      "old_id": "O35",
+      "old_text": "Variable-Granularity Object Storage",
+      "old_bbox": [
+        14,
+        177.5,
+        158.072509765625,
+        187.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N37",
+          "text": "Variable-Granularity Object Storage",
+          "group": "heading-3"
+        }
+      ]
+    },
+    {
+      "old_id": "O36",
+      "old_text": "Ordinary uploader · configured g",
+      "old_bbox": [
+        15.989990234375,
+        193.4,
+        111.010009765625,
+        201.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N38",
+          "text": "Ordinary upload · fixed g",
+          "group": "ordinary-uploader"
+        }
+      ]
+    },
+    {
+      "old_id": "O37",
+      "old_text": "Slice",
+      "old_bbox": [
+        6.0640624999999995,
+        204.6,
+        19.9359375,
+        212.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N39",
+          "text": "Slice",
+          "group": "ordinary-uploader"
+        }
+      ]
+    },
+    {
+      "old_id": "O38",
+      "old_text": "g₁",
+      "old_bbox": [
+        31.5741015625,
+        203,
+        38.4258984375,
+        211.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N40",
+          "text": "g₁",
+          "group": "g-configurations"
+        }
+      ]
+    },
+    {
+      "old_id": "O39",
+      "old_text": "g₂",
+      "old_bbox": [
+        31.5741015625,
+        217,
+        38.4258984375,
+        225.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N41",
+          "text": "g₂",
+          "group": "g-configurations"
+        }
+      ]
+    },
+    {
+      "old_id": "O40",
+      "old_text": "tail",
+      "old_bbox": [
+        96.973291015625,
+        202.7,
+        105.02670898437499,
+        210.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N42",
+          "text": "tail",
+          "group": "g-configurations"
+        }
+      ]
+    },
+    {
+      "old_id": "O41",
+      "old_text": "tail",
+      "old_bbox": [
+        96.973291015625,
+        216.7,
+        105.02670898437499,
+        224.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N43",
+          "text": "tail",
+          "group": "g-configurations"
+        }
+      ]
+    },
+    {
+      "old_id": "O42",
+      "old_text": "Encode /",
+      "old_bbox": [
+        132.56611328125,
+        197.7,
+        157.43388671875002,
+        205.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N44",
+          "text": "Compress",
+          "group": "encode-label"
+        }
+      ]
+    },
+    {
+      "old_id": "O43",
+      "old_text": "frame",
+      "old_bbox": [
+        136.9481201171875,
+        205.7,
+        153.0518798828125,
+        213.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N45",
+          "text": "& frame",
+          "group": "encode-label"
+        }
+      ]
+    },
+    {
+      "old_id": "O44",
+      "old_text": "Objects Lₒ",
+      "old_bbox": [
+        165.1919921875,
+        193.2,
+        196.8080078125,
+        201.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N46",
+          "text": "Final length Lₒ",
+          "group": "finalized-objects"
+        }
+      ]
+    },
+    {
+      "old_id": "O45",
+      "old_text": "RustFS",
+      "old_bbox": [
+        138.075,
+        237.9,
+        162.92499999999998,
+        246.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N47",
+          "text": "RustFS",
+          "group": "rustfs"
+        }
+      ]
+    },
+    {
+      "old_id": "O46",
+      "old_text": "default / hinted",
+      "old_bbox": [
+        130.1623046875,
+        245.8,
+        170.83769531250002,
+        253.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N48",
+          "text": "Layout selection",
+          "group": "rustfs"
+        }
+      ]
+    },
+    {
+      "old_id": "O47",
+      "old_text": "B hint h(Lₒ)",
+      "old_bbox": [
+        67.02216796875,
+        234.7,
+        98.97783203125,
+        242.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N49",
+          "text": "Optional B hint",
+          "group": "hint-label"
+        },
+        {
+          "new_id": "N50",
+          "text": "h(Lₒ)",
+          "group": "hint-label"
+        }
+      ]
+    },
+    {
+      "old_id": "O48",
+      "old_text": "optional",
+      "old_bbox": [
+        71.965771484375,
+        242.7,
+        94.03422851562499,
+        250.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N49",
+          "text": "Optional B hint",
+          "group": "hint-label"
+        }
+      ]
+    },
+    {
+      "old_id": "O49",
+      "old_text": "U₁",
+      "old_bbox": [
+        129.2069580078125,
+        223.5,
+        136.79304199218748,
+        231.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N51",
+          "text": "U₁",
+          "group": "u1-reference"
+        }
+      ]
+    },
+    {
+      "old_id": "O50",
+      "old_text": "Oₚ",
+      "old_bbox": [
+        153.0260498046875,
+        223.5,
+        160.97395019531248,
+        231.5
+      ],
+      "action": "keep",
+      "new_occurrences": [
+        {
+          "new_id": "N52",
+          "text": "Oₚ",
+          "group": "packed-reference"
+        }
+      ]
+    },
+    {
+      "old_id": "O51",
+      "old_text": "Stored (B, q)",
+      "old_bbox": [
+        194.075927734375,
+        216.5,
+        230.924072265625,
+        224.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N53",
+          "text": "Persisted layout",
+          "group": "persisted-layout"
+        }
+      ]
+    },
+    {
+      "old_id": "O52",
+      "old_text": "EC block B",
+      "old_bbox": [
+        196.919189453125,
+        225.7,
+        228.080810546875,
+        233.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N54",
+          "text": "EC block size B",
+          "group": "persisted-layout"
+        }
+      ]
+    },
+    {
+      "old_id": "O53",
+      "old_text": "Shard s",
+      "old_bbox": [
+        198.144189453125,
+        233.7,
+        219.855810546875,
+        241.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N55",
+          "text": "Shard span s",
+          "group": "persisted-layout"
+        }
+      ]
+    },
+    {
+      "old_id": "O54",
+      "old_text": "q",
+      "old_bbox": [
+        214.2481201171875,
+        246.7,
+        217.75187988281252,
+        254.5
+      ],
+      "action": "rewrite_or_expand",
+      "new_occurrences": [
+        {
+          "new_id": "N56",
+          "text": "Verify/read q",
+          "group": "q-bracket"
+        }
+      ]
+    }
+  ],
+  "added_occurrences": [
+    {
+      "new_id": "N28",
+      "text": "(parent, name)",
+      "group": "packed-labels",
+      "role": "Lookup key context"
+    },
+    {
+      "new_id": "N35",
+      "text": "via descriptor",
+      "group": "packed-object-id",
+      "role": "Descriptor-mediated payload reference"
+    }
+  ],
+  "notes": [
+    "Repeated Packed labels and repeated frame labels are mapped separately by occurrence.",
+    "Old optional is merged into new Optional B hint; h(Lₒ) remains a separate line.",
+    "Old Δ₁ and Δ₂ are removed as standalone duplicates; generic Δᵢ remains.",
+    "Ellipsis becomes abstract attribute-value graphics, not invented numeric fields."
+  ]
+}

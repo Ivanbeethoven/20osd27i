@@ -1,0 +1,17 @@
+Edit the supplied BrewFS concept into a professional, fully 2D systems-paper figure. Preserve its engaging overall story, three agents sharing one baseline, the connection from packed metadata to stored objects, and the three prominent numbered contributions ① ② ③. Keep the recognizable composition and relationships, while re-art-directing it as a clean academic diagram.
+
+Visual changes: pure white background; remove the landscape scenery, glass platform, perspective, 3D cubes, glow, gradients, shadows, and decorative cloud. Replace robots with small flat line-art agent icons, object piles with simple flat segmented rectangles, and the platform with a clean shared-snapshot boundary. Use restrained pale color fills, crisp thin strokes, generous whitespace and large readable English labels. Reduce the oversized BrewFS poster heading to a small figure title. Compress paragraphs into short labels and succinct numbered mechanism explanations. Let the figure feel polished and informative rather than promotional. No photorealism or 3D.
+
+Correct the following scientific semantics everywhere in the image:
+- A workspace is W_i = Resolve(S, Δ_i). Δ_i means private CURRENT STATE: namespace/attribute/deletion records and file-range mappings. It does not mean only new bytes, and is not an operation history. Use the exact concise label "Δ_i: private state + mappings".
+- Store new bytes in a separate private payload object U_i, outside the shared-snapshot boundary. Each agent's Δ_i has a short arrow to its OWN U_i labeled "private data". This arrow ends at U_i and must never continue into S. No private payload writes to the shared snapshot. Shared snapshot S stays immutable.
+- Each workspace separately references S with an arrow labeled "pin / read". These are inherited-read references, not writes or edit propagation. The other agents' views remain independent.
+- Packed metadata belongs to S: indexed name ranges locate grouped name / attributes / locator records; a locator points to an authenticated frame inside an object. Metadata records and file bytes are distinct.
+- The same stored objects carry their own layouts (B, q). Client policy may supply a B hint when the upload object is finalized; RustFS validates and persists its effective layout. Read / repair use that persisted layout. Different B values illustrate per-object configurability, not automatic read-time retuning. q is a verification unit inside a stripe shard, distinct from a packed frame and from coding block B.
+
+Use these numbered labels:
+① Shared snapshots + private deltas
+② Packed metadata
+③ Per-object block sizing
+
+The numbers identify three connected contributions, not a mandatory three-step read pipeline. Produce one complete revised image, keeping the appealing integrated narrative of the reference but with clear, precise 2D paper-figure visual language.

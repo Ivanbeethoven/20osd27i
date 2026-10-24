@@ -9,35 +9,19 @@ workshop prototype and a proposed kernel abstraction~\cite{branchfs2026}.
 YoloFS addresses visibility and control over agent effects through staging,
 snapshots, and permissions~\cite{yolofs2026}; AgentFS documents a file-system
 and tool-state abstraction for agents~\cite{agentfs2025}. These systems
-establish workspace and agent-control mechanisms on which the present
-problem builds. \sys focuses on serving private views through remote
-metadata and object access. Process isolation, user approval, and the
-commit semantics of other agent systems remain separate concerns.
+establish the workspace mechanisms on which this work builds. \sys focuses
+on remote metadata and object access; process isolation and approval of
+agent actions require separate runtime policies.
 
-Table~\ref{tab:comparison} identifies the comparison axes. Its last column
-states the boundary to test against each baseline under matched persistence
-and cache budgets; it reports no measured advantage.
-
-\begin{table*}[t]
-\centering
-\scriptsize
-\begin{tabularx}{\textwidth}{@{}p{1.60cm}p{1.95cm}p{2.15cm}p{2.0cm}Y@{}}
-\toprule
-System & Shared baseline & Private view & Remote metadata/data & Boundary tested in this work\\
-\midrule
-OverlayFS & local lower tree & kernel upper/copy-up & none by itself & remote immutable lower, explicit object reads, and durable upper\\
-DeltaFS & immutable logs and manifests & per-job namespace & object store plus registry & current-value upper, directory-oriented pages, and online POSIX lookup\\
-BranchFS & local COW branch context & branch commit/abort & prototype-local & remote persistence and multi-client lower sharing\\
-CVMFS/Nydus & lazy immutable catalog/image & requires an external upper & cached objects/blobs & writable workspace semantics and metadata/data locator co-location\\
-JuiceFS & chunk/slice/block volume & shared mutable POSIX view & object store plus KV & frozen metadata access, object formation at $g$, and persisted $(B,q)$ layout\\
-\sys & native or packed baseline & optional private delta & objects plus metadata/control KV & separate and combined effects of view composition, packing, and object layout\\
-\bottomrule
-\end{tabularx}
-\caption{Comparison axes used to choose baselines. Existing systems already
-provide individual mechanisms; the opportunity examined here is their
-independent use and optional composition for remote agent workloads.}
-\label{tab:comparison}
-\end{table*}
+The comparison must distinguish a local private view from a remotely
+durable one. OverlayFS and BranchFS are useful controls for workspace
+creation and mutation; their persistence boundaries must be matched or
+reported separately. JuiceFS supplies an object-backed volume baseline
+with a metadata service and chunk/slice/block data
+organization~\cite{juicefs_architecture}. These comparisons test the costs
+of inherited versus materialized metadata, private updates, and object
+access, rather than treating the presence of a private upper as a new
+mechanism.
 
 \paragraph{Namespace and metadata organization.}
 TableFS, IndexFS, LocoFS, and InfiniFS organize, partition, and cache
@@ -51,47 +35,45 @@ a metadata service need not issue one remote request per file operation.
 DeltaFS is a particularly close conceptual predecessor. It uses private
 namespaces and immutable mutation logs over shared storage, with selective
 composition of prior state~\cite{deltafs2021}. \sys builds on the separation
-of shared state and private changes, and examines the metadata access units
-used to serve a file view. Packed Metadata places common attributes and
-data locators in indexed, bounded groups. It can serve a standalone
-read-only view or the immutable lower of an online private workspace,
-while the workspace contract also admits a native metadata lower. This
-separation permits comparing the representation independently of view
-composition, then measuring the cost of combining them.
+of shared state and private changes. Its current-value upper and Packed
+Metadata's directory-oriented groups are concrete representation choices
+to compare with immutable logs and sorted records. An internal sorted-KV
+control can isolate co-location and indexing costs; it cannot establish
+superiority over the DeltaFS system or replace a compatible system-level
+comparison.
 
 \paragraph{Immutable distribution and storage backends.}
 CernVM-FS provides demand-driven software distribution with indexed
 catalogs, while Nydus describes metadata/data organization for lazy
 image access~\cite{cvmfs2011,nydus_rafs}. Slacker and DADI also address
 image distribution and startup costs~\cite{slacker2016,dadi2020}.
-These systems supply close comparisons for on-demand access to an
-immutable baseline. The distinguishing questions concern how records and
-data locators are obtained, which fetched units can be reused, and how
-construction and staging costs are amortized. The planned comparisons
-cover both standalone read-only access and reuse beneath writable views.
+Our strongest simple composition baseline combines a mature immutable lower
+with a compatible writable upper and object backend. It already
+shares state and fetches it on demand. The evaluation must determine
+whether \sys changes useful records per fetch, excess payload transfer,
+or construction and staging costs at equal content, cache capacity, and
+persistence. Standalone lower access and complete writable workspaces
+require separate comparisons; neither the proposed interfaces nor their
+composition establishes an advantage by itself.
 
 Distributed systems such as Ceph and Tectonic separate aspects of metadata
-and data services~\cite{ceph2006,tectonic2021}. Erasure-coded storage research considers
-repair cost, changing redundancy over a file's lifetime, and the relation
-between data placement and redundancy~\cite{azureec2012,morph2024,okapi2025}.
-Okapi's separation of striping and redundancy grouping is different from
-our $(B,q)$ distinction, although both motivate making coupled decisions
-explicit. Client block granularity $g$ additionally determines how file
-data forms objects; it is distinct from backend coding and physical
-verification granularity. Our comparisons hold the code rate fixed and
-separate object counts, checksums, tails, and repair work. Reducing a block
-size can change these costs without changing the nominal redundancy ratio.
-The same distinction applies to ordinary volumes, workspace data, and
-packed snapshots where the selected object path supports layout selection.
+and data services~\cite{ceph2006,tectonic2021}. Erasure-coded storage research
+considers repair cost, changing redundancy over a file's lifetime, and the
+relation between data placement and
+redundancy~\cite{azureec2012,morph2024,okapi2025}. Okapi's separation of
+striping and redundancy grouping is different from our $(B,q)$ distinction,
+although both motivate making coupled decisions explicit. Client block
+granularity $g$ additionally determines how file data forms objects; it is
+distinct from backend coding and physical verification granularity. Our
+comparisons hold the code rate fixed and separate object counts, checksums,
+tails, and repair work. A smaller unit can reduce over-read without reducing
+the nominal redundancy ratio, and can increase checksum or repair cost.
 
 \paragraph{Scope and unresolved evidence.}
-The design targets three conditions: sufficient unchanged state to reuse
-a baseline, sufficient reuse of immutable records to repay packing, and
-an access pattern for which a different object or backend unit reduces
-total storage work. These conditions need not occur together. Poor name
-locality, high mutation, or rapid snapshot churn may favor a native
-metadata path even when a different object layout is useful. The current
-entry points and lifecycle support further bound the combinations that can
-be tested (Section~\ref{sec:implementation}). Establishing each mechanism's
-useful region and any additional value from composition remains the
-purpose of the evaluation plan.
+Poor name locality, high mutation, rapid version churn, and large
+sequential reads can erase the expected savings. The current entry points
+and lifecycle support further bound the comparisons
+(Section~\ref{sec:implementation}). The planned evaluation must establish
+where each mechanism repays its cost and whether a supported combination
+improves on its best individual configuration and the direct composition
+baseline.

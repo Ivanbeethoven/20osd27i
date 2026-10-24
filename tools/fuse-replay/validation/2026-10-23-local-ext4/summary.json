@@ -1,0 +1,386 @@
+[
+  {
+    "workload": "stat-heavy",
+    "workers": 1,
+    "timing": "off",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 4.32841907,
+      "median": 4.335782839,
+      "max": 4.352549618
+    },
+    "parse_seconds": {
+      "min": 0.344283072,
+      "median": 0.346148556,
+      "max": 0.361644297
+    },
+    "preparation_seconds": {
+      "min": 0.012045731,
+      "median": 0.012075768,
+      "max": 0.014487248
+    },
+    "logical_operations_per_second": {
+      "min": 1927286.0130781396,
+      "median": 1934738.9644483991,
+      "max": 1938030.4596985339
+    },
+    "process_max_rss_kib": {
+      "min": 257504,
+      "median": 257540,
+      "max": 257580
+    }
+  },
+  {
+    "workload": "stat-heavy",
+    "workers": 1,
+    "timing": "op",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 4.662170494,
+      "median": 4.666592458,
+      "max": 4.737714039
+    },
+    "parse_seconds": {
+      "min": 0.342900008,
+      "median": 0.343207797,
+      "max": 0.345044472
+    },
+    "preparation_seconds": {
+      "min": 0.011856787,
+      "median": 0.011892241,
+      "max": 0.011976397
+    },
+    "logical_operations_per_second": {
+      "min": 1770602.4320899288,
+      "median": 1797587.4421215635,
+      "max": 1799292.4134361355
+    },
+    "process_max_rss_kib": {
+      "min": 257488,
+      "median": 257548,
+      "max": 257580
+    }
+  },
+  {
+    "workload": "stat-heavy",
+    "workers": 4,
+    "timing": "off",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 2.788220658,
+      "median": 2.834309712,
+      "max": 2.9703032069999997
+    },
+    "parse_seconds": {
+      "min": 0.339775077,
+      "median": 0.340302423,
+      "max": 0.340910663
+    },
+    "preparation_seconds": {
+      "min": 0.013541978,
+      "median": 0.013931416,
+      "max": 0.014068171
+    },
+    "logical_operations_per_second": {
+      "min": 2824158.8199584773,
+      "median": 2959665.263285807,
+      "max": 3008588.282254955
+    },
+    "process_max_rss_kib": {
+      "min": 259944,
+      "median": 260088,
+      "max": 260096
+    }
+  },
+  {
+    "workload": "stat-heavy",
+    "workers": 4,
+    "timing": "op",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 2.712644624,
+      "median": 2.805052107,
+      "max": 2.936828847
+    },
+    "parse_seconds": {
+      "min": 0.339826613,
+      "median": 0.34374704,
+      "max": 0.345731902
+    },
+    "preparation_seconds": {
+      "min": 0.012894495,
+      "median": 0.013787636,
+      "max": 0.01471403
+    },
+    "logical_operations_per_second": {
+      "min": 2856348.952227518,
+      "median": 2990535.533748643,
+      "max": 3092409.498016132
+    },
+    "process_max_rss_kib": {
+      "min": 260048,
+      "median": 260048,
+      "max": 260136
+    }
+  },
+  {
+    "workload": "stat-heavy",
+    "workers": 16,
+    "timing": "off",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 3.193960806,
+      "median": 3.195190911,
+      "max": 3.209295441
+    },
+    "parse_seconds": {
+      "min": 0.337447054,
+      "median": 0.342102807,
+      "max": 0.347108227
+    },
+    "preparation_seconds": {
+      "min": 0.012848287,
+      "median": 0.013282312,
+      "max": 0.015983782
+    },
+    "logical_operations_per_second": {
+      "min": 2613847.23040212,
+      "median": 2625385.53521818,
+      "max": 2626396.6621761983
+    },
+    "process_max_rss_kib": {
+      "min": 257740,
+      "median": 257772,
+      "max": 257816
+    }
+  },
+  {
+    "workload": "stat-heavy",
+    "workers": 16,
+    "timing": "op",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 3.228703033,
+      "median": 3.454211681,
+      "max": 3.502508998
+    },
+    "parse_seconds": {
+      "min": 0.33875463,
+      "median": 0.342007348,
+      "max": 0.361167243
+    },
+    "preparation_seconds": {
+      "min": 0.012677257,
+      "median": 0.014251933,
+      "max": 0.015936753
+    },
+    "logical_operations_per_second": {
+      "min": 2395028.251116573,
+      "median": 2428515.903105129,
+      "max": 2598135.509602936
+    },
+    "process_max_rss_kib": {
+      "min": 257596,
+      "median": 257724,
+      "max": 257740
+    }
+  },
+  {
+    "workload": "pread4k-hot",
+    "workers": 1,
+    "timing": "off",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 1.603519875,
+      "median": 1.611392411,
+      "max": 1.6451447689999998
+    },
+    "parse_seconds": {
+      "min": 0.408400141,
+      "median": 0.410709316,
+      "max": 0.427736307
+    },
+    "preparation_seconds": {
+      "min": 0.011946408,
+      "median": 0.012354712,
+      "max": 0.015231585
+    },
+    "logical_operations_per_second": {
+      "min": 5099164.619475504,
+      "median": 5205972.141071478,
+      "max": 5231531.040424429
+    },
+    "process_max_rss_kib": {
+      "min": 159164,
+      "median": 159232,
+      "max": 159244
+    }
+  },
+  {
+    "workload": "pread4k-hot",
+    "workers": 1,
+    "timing": "op",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 1.920586447,
+      "median": 1.927630115,
+      "max": 1.9739921790000001
+    },
+    "parse_seconds": {
+      "min": 0.404159424,
+      "median": 0.406132352,
+      "max": 0.406360681
+    },
+    "preparation_seconds": {
+      "min": 0.011460675,
+      "median": 0.011583594,
+      "max": 0.011830028
+    },
+    "logical_operations_per_second": {
+      "min": 4249694.648866185,
+      "median": 4351905.448416384,
+      "max": 4367865.874042586
+    },
+    "process_max_rss_kib": {
+      "min": 159184,
+      "median": 159228,
+      "max": 159252
+    }
+  },
+  {
+    "workload": "pread4k-hot",
+    "workers": 4,
+    "timing": "off",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 0.379709089,
+      "median": 0.382126712,
+      "max": 0.386558314
+    },
+    "parse_seconds": {
+      "min": 0.406301166,
+      "median": 0.410054603,
+      "max": 0.414014218
+    },
+    "preparation_seconds": {
+      "min": 0.015070615,
+      "median": 0.01557192,
+      "max": 0.015695497
+    },
+    "logical_operations_per_second": {
+      "min": 21701419.155092858,
+      "median": 21953094.972329494,
+      "max": 22092871.20856883
+    },
+    "process_max_rss_kib": {
+      "min": 163584,
+      "median": 163612,
+      "max": 163632
+    }
+  },
+  {
+    "workload": "pread4k-hot",
+    "workers": 4,
+    "timing": "op",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 0.457013069,
+      "median": 0.45743009,
+      "max": 0.462646282
+    },
+    "parse_seconds": {
+      "min": 0.407222863,
+      "median": 0.408648436,
+      "max": 0.410338967
+    },
+    "preparation_seconds": {
+      "min": 0.015072603,
+      "median": 0.015845824,
+      "max": 0.017163144
+    },
+    "logical_operations_per_second": {
+      "min": 18132349.326866522,
+      "median": 18339117.131538067,
+      "max": 18355851.438462913
+    },
+    "process_max_rss_kib": {
+      "min": 163604,
+      "median": 163624,
+      "max": 163652
+    }
+  },
+  {
+    "workload": "pread4k-hot",
+    "workers": 16,
+    "timing": "off",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 0.15216171,
+      "median": 0.157161914,
+      "max": 0.178558315
+    },
+    "parse_seconds": {
+      "min": 0.406120978,
+      "median": 0.416573232,
+      "max": 0.428508781
+    },
+    "preparation_seconds": {
+      "min": 0.016549432,
+      "median": 0.019213127,
+      "max": 0.027363233
+    },
+    "logical_operations_per_second": {
+      "min": 46981088.50321532,
+      "median": 53377206.89759479,
+      "max": 55131241.62445335
+    },
+    "process_max_rss_kib": {
+      "min": 164112,
+      "median": 164164,
+      "max": 164176
+    }
+  },
+  {
+    "workload": "pread4k-hot",
+    "workers": 16,
+    "timing": "op",
+    "attempted_runs": 3,
+    "valid_runs": 3,
+    "execution_seconds": {
+      "min": 0.177632277,
+      "median": 0.183940103,
+      "max": 0.198757856
+    },
+    "parse_seconds": {
+      "min": 0.408512119,
+      "median": 0.410670601,
+      "max": 0.417700262
+    },
+    "preparation_seconds": {
+      "min": 0.016688732,
+      "median": 0.016761539,
+      "max": 0.018340547
+    },
+    "logical_operations_per_second": {
+      "min": 42206452.45841251,
+      "median": 45606498.328425966,
+      "max": 47226011.74560184
+    },
+    "process_max_rss_kib": {
+      "min": 164192,
+      "median": 164200,
+      "max": 164248
+    }
+  }
+]

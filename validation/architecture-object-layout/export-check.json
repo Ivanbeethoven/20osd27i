@@ -1,0 +1,25 @@
+{
+  "canvas_pt": [
+    240,
+    258
+  ],
+  "minimum_body_pt": 7.0,
+  "live_labels": 54,
+  "raster_images": 0,
+  "reference_arrow": {
+    "id": "record-bytes",
+    "points": [
+      [
+        93,
+        220
+      ],
+      [
+        93,
+        230
+      ]
+    ],
+    "meaning": "the page data reference resolves existing file bytes directly below; never feed an upload slice"
+  },
+  "object_geometry": "two full B spans plus short tail; not raw-MiB scale",
+  "shard_geometry": "q within one shard; d/p counts unspecified"
+}

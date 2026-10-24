@@ -1,0 +1,54 @@
+{
+  "main": {
+    "pages": 16,
+    "figure_pages": [
+      {
+        "page": 3,
+        "figures": [
+          "Figure 1:"
+        ],
+        "render": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\validation\\figure-coordination\\main-figure-page-03.png"
+      },
+      {
+        "page": 4,
+        "figures": [
+          "Figure 2:"
+        ],
+        "render": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\validation\\figure-coordination\\main-figure-page-04.png"
+      },
+      {
+        "page": 7,
+        "figures": [
+          "Figure 3:"
+        ],
+        "render": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\validation\\figure-coordination\\main-figure-page-07.png"
+      }
+    ]
+  },
+  "anonymous-preview": {
+    "pages": 16,
+    "figure_pages": [
+      {
+        "page": 3,
+        "figures": [
+          "Figure 1:"
+        ],
+        "render": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\validation\\figure-coordination\\anonymous-preview-figure-page-03.png"
+      },
+      {
+        "page": 4,
+        "figures": [
+          "Figure 2:"
+        ],
+        "render": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\validation\\figure-coordination\\anonymous-preview-figure-page-04.png"
+      },
+      {
+        "page": 7,
+        "figures": [
+          "Figure 3:"
+        ],
+        "render": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\validation\\figure-coordination\\anonymous-preview-figure-page-07.png"
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "scope": "planning/package validation only; no runtime experiments",
+  "bibliography_entries": 29,
+  "cited_entries": 27,
+  "experiments": 17,
+  "research_questions": [
+    "RQ1",
+    "RQ2",
+    "RQ3",
+    "RQ4",
+    "RQ5",
+    "RQ6",
+    "RQ7"
+  ],
+  "official_style_sha256": "4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45ff6",
+  "latex_logs": {
+    "main": "checked",
+    "anonymous-preview": "checked"
+  },
+  "errors": []
+}

@@ -1,17 +1,12 @@
 \section{Conclusion}
 
-Sharing file state leaves open how that state is located and how much
-storage work is needed to access it. \sys makes these decisions explicit:
-delta-based workspaces resolve a shared baseline and private changes;
-Packed Metadata organizes immutable records for indexed access; and
-Variable-Granularity Object Storage separates client object formation
-from backend encoding and verification. The mechanisms have independent
-uses and compose through view, metadata, and object interfaces.
-
-The design specifies the invariants needed to preserve file views across
-these choices and the lifecycle costs that can limit their value. The
-eight-task FUSE study establishes request-structure motivation, while
-the implementation analysis identifies which configurations can be
-constructed. The remaining evaluation must determine when each mechanism
-repays its cost and whether composition improves complete agent execution;
-the present evidence does not establish a system-performance gain.
+\sys separates a shared version's identity from the metadata and object
+units used to serve it. Its workspace, packed-metadata, and object-layout
+mechanisms expose different opportunities to reduce storage work, subject
+to visibility, publication, and lifetime constraints. The eight-task FUSE
+study characterizes request structure, and the source audit identifies
+available runtime paths. The remaining evaluation must test whether
+access savings repay lifecycle costs under matched contracts, including
+comparison with a mature immutable lower, writable upper, and object
+backend. The present evidence characterizes the workload and implementation
+scope; it does not establish a system-performance gain.

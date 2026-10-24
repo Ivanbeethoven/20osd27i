@@ -1,0 +1,910 @@
+{
+  "width_pt": 240,
+  "height_pt": 258,
+  "nodes": {
+    "ordinary-volume": [
+      4,
+      46,
+      47,
+      25
+    ],
+    "workspace-choice": [
+      64,
+      21,
+      172,
+      63
+    ],
+    "workspace-view-1": [
+      71,
+      45,
+      75,
+      20
+    ],
+    "workspace-view-2": [
+      153,
+      45,
+      75,
+      20
+    ],
+    "shared-baseline": [
+      71,
+      71,
+      157,
+      10
+    ],
+    "metadata-choice": [
+      4,
+      107,
+      112,
+      141
+    ],
+    "native-records": [
+      8,
+      137,
+      50,
+      14
+    ],
+    "packed-records": [
+      68,
+      137,
+      44,
+      14
+    ],
+    "readonly-mount": [
+      7,
+      154,
+      38,
+      21
+    ],
+    "name-range-index": [
+      51,
+      156,
+      59,
+      20
+    ],
+    "joint-metadata-page": [
+      10,
+      180,
+      100,
+      40
+    ],
+    "joint-records": [
+      12,
+      193,
+      96,
+      24
+    ],
+    "referenced-bytes": [
+      10,
+      230,
+      100,
+      12
+    ],
+    "granularity-choice": [
+      124,
+      107,
+      112,
+      141
+    ],
+    "optional-b-hint": [
+      129,
+      229,
+      43,
+      14
+    ],
+    "backend-q-policy": [
+      181,
+      229,
+      46,
+      14
+    ],
+    "backend": [
+      4,
+      250,
+      232,
+      8
+    ]
+  },
+  "text": [
+    {
+      "text": "Agents",
+      "group": "common-entry",
+      "size_pt": 7.5,
+      "bbox": [
+        20.3251953125,
+        4.5,
+        43.6748046875,
+        13.5
+      ]
+    },
+    {
+      "text": "FUSE",
+      "group": "common-entry",
+      "size_pt": 8.0,
+      "bbox": [
+        85.33203125,
+        4.0,
+        106.66796875,
+        13.5
+      ]
+    },
+    {
+      "text": "1\u20133 independently optional",
+      "group": "common-entry",
+      "size_pt": 7.0,
+      "bbox": [
+        147.158935546875,
+        5.0,
+        230.841064453125,
+        13.5
+      ]
+    },
+    {
+      "text": "Ordinary",
+      "group": "ordinary-volume",
+      "size_pt": 7.3,
+      "bbox": [
+        13.5041748046875,
+        48.7,
+        41.4958251953125,
+        57.5
+      ]
+    },
+    {
+      "text": "volume",
+      "group": "ordinary-volume",
+      "size_pt": 7.3,
+      "bbox": [
+        15.733740234375,
+        57.7,
+        39.266259765625,
+        66.5
+      ]
+    },
+    {
+      "text": "or",
+      "group": "view-alternative",
+      "size_pt": 7.0,
+      "bbox": [
+        54.387939453125,
+        54.0,
+        60.612060546875,
+        62.5
+      ]
+    },
+    {
+      "text": "1",
+      "group": "workspace-choice",
+      "size_pt": 8,
+      "bbox": [
+        70.775390625,
+        25.1,
+        75.224609375,
+        34.6
+      ]
+    },
+    {
+      "text": "Delta-Based Multi-Agent",
+      "group": "workspace-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        81,
+        22.5,
+        179.227294921875,
+        32.5
+      ]
+    },
+    {
+      "text": "Workspaces",
+      "group": "workspace-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        81,
+        33.0,
+        131.07861328125,
+        43.0
+      ]
+    },
+    {
+      "text": "Private state first",
+      "group": "workspace-choice",
+      "size_pt": 7.0,
+      "bbox": [
+        164.936279296875,
+        34.5,
+        217.063720703125,
+        43.0
+      ]
+    },
+    {
+      "text": "View W\u2081",
+      "group": "workspace-view-1",
+      "size_pt": 7.1,
+      "bbox": [
+        94.572767578125,
+        44.4,
+        122.42723242187499,
+        53.0
+      ]
+    },
+    {
+      "text": "Private state \u0394\u2081",
+      "group": "workspace-view-1",
+      "size_pt": 7.0,
+      "bbox": [
+        84.256962890625,
+        54.5,
+        132.743037109375,
+        63.0
+      ]
+    },
+    {
+      "text": "View W\u2082",
+      "group": "workspace-view-2",
+      "size_pt": 7.1,
+      "bbox": [
+        176.572767578125,
+        44.4,
+        204.427232421875,
+        53.0
+      ]
+    },
+    {
+      "text": "Private state \u0394\u2082",
+      "group": "workspace-view-2",
+      "size_pt": 7.0,
+      "bbox": [
+        166.256962890625,
+        54.5,
+        214.743037109375,
+        63.0
+      ]
+    },
+    {
+      "text": "Pinned shared immutable S",
+      "group": "shared-baseline",
+      "size_pt": 7.0,
+      "bbox": [
+        103.60009765625,
+        71.5,
+        195.39990234375,
+        80.0
+      ]
+    },
+    {
+      "text": "2",
+      "group": "metadata-choice",
+      "size_pt": 8,
+      "bbox": [
+        9.775390625,
+        111.1,
+        14.224609375,
+        120.6
+      ]
+    },
+    {
+      "text": "Packed Metadata",
+      "group": "metadata-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        21,
+        110.5,
+        89.975341796875,
+        120.5
+      ]
+    },
+    {
+      "text": "Metadata access",
+      "group": "metadata-choice",
+      "size_pt": 7.0,
+      "bbox": [
+        33.54150390625,
+        123.0,
+        86.45849609375,
+        131.5
+      ]
+    },
+    {
+      "text": "Native records",
+      "group": "native-records",
+      "size_pt": 7.0,
+      "bbox": [
+        10.436279296875,
+        140.0,
+        55.563720703125,
+        148.5
+      ]
+    },
+    {
+      "text": "Packed",
+      "group": "packed-records",
+      "size_pt": 7.2,
+      "bbox": [
+        77.3912109375,
+        139.8,
+        102.60878906250001,
+        148.5
+      ]
+    },
+    {
+      "text": "or",
+      "group": "metadata-alternative",
+      "size_pt": 7.0,
+      "bbox": [
+        59.887939453125,
+        140.0,
+        66.112060546875,
+        148.5
+      ]
+    },
+    {
+      "text": "Read-only",
+      "group": "readonly-mount",
+      "size_pt": 7.0,
+      "bbox": [
+        10.046630859375,
+        155.0,
+        41.953369140625,
+        163.5
+      ]
+    },
+    {
+      "text": "mount",
+      "group": "readonly-mount",
+      "size_pt": 7.0,
+      "bbox": [
+        16.2724609375,
+        164.0,
+        35.7275390625,
+        172.5
+      ]
+    },
+    {
+      "text": "Name-range",
+      "group": "name-range-index",
+      "size_pt": 7.0,
+      "bbox": [
+        61.046630859375,
+        157.0,
+        99.953369140625,
+        165.5
+      ]
+    },
+    {
+      "text": "index \u00b7 /src",
+      "group": "name-range-index",
+      "size_pt": 7.0,
+      "bbox": [
+        63.384521484375,
+        165.5,
+        97.615478515625,
+        174.0
+      ]
+    },
+    {
+      "text": "Joint metadata page",
+      "group": "joint-metadata-page",
+      "size_pt": 7.0,
+      "bbox": [
+        26.15869140625,
+        182.0,
+        93.84130859375,
+        190.5
+      ]
+    },
+    {
+      "text": "Name",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        16.663818359375,
+        193.0,
+        35.336181640625,
+        201.5
+      ]
+    },
+    {
+      "text": "Attributes",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        44.215576171875,
+        193.0,
+        73.784423828125,
+        201.5
+      ]
+    },
+    {
+      "text": "Data ref.",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        79.57763671875,
+        193.0,
+        106.42236328125,
+        201.5
+      ]
+    },
+    {
+      "text": "main.py",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        13.744873046875,
+        202.5,
+        38.255126953125,
+        211.0
+      ]
+    },
+    {
+      "text": "size",
+      "group": "joint-records",
+      "size_pt": 7.0,
+      "bbox": [
+        52.77587890625,
+        202.5,
+        65.22412109375,
+        211.0
+      ]
+    },
+    {
+      "text": "Referenced file bytes",
+      "group": "referenced-bytes",
+      "size_pt": 7.0,
+      "bbox": [
+        27.120849609375,
+        231.5,
+        92.879150390625,
+        240.0
+      ]
+    },
+    {
+      "text": "3",
+      "group": "granularity-choice",
+      "size_pt": 8,
+      "bbox": [
+        129.775390625,
+        111.1,
+        134.224609375,
+        120.6
+      ]
+    },
+    {
+      "text": "Variable-Granularity",
+      "group": "granularity-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        141,
+        110.5,
+        222.252197265625,
+        120.5
+      ]
+    },
+    {
+      "text": "Object Storage",
+      "group": "granularity-choice",
+      "size_pt": 8.5,
+      "bbox": [
+        141,
+        120.5,
+        201.458740234375,
+        130.5
+      ]
+    },
+    {
+      "text": "Ordinary upload \u00b7 fixed g",
+      "group": "ordinary-uploader",
+      "size_pt": 7.5,
+      "bbox": [
+        135.6207275390625,
+        137.5,
+        224.3792724609375,
+        146.5
+      ]
+    },
+    {
+      "text": "Written slice",
+      "group": "ordinary-uploader",
+      "size_pt": 7.0,
+      "bbox": [
+        129.94140625,
+        164.0,
+        168.05859375,
+        172.5
+      ]
+    },
+    {
+      "text": "10 MiB",
+      "group": "same-slice-length",
+      "size_pt": 7.5,
+      "bbox": [
+        190.828857421875,
+        164.8,
+        214.171142578125,
+        173.8
+      ]
+    },
+    {
+      "text": "g = 4 MiB",
+      "group": "fine-blocks-label",
+      "size_pt": 7.7,
+      "bbox": [
+        130.9927001953125,
+        182.8,
+        165.0072998046875,
+        192.0
+      ]
+    },
+    {
+      "text": "default",
+      "group": "fine-blocks-label",
+      "size_pt": 7.0,
+      "bbox": [
+        137.491455078125,
+        192.0,
+        158.508544921875,
+        200.5
+      ]
+    },
+    {
+      "text": "4",
+      "group": "fine-blocks-raw-values",
+      "size_pt": 7.8,
+      "bbox": [
+        183.831005859375,
+        182.7,
+        188.16899414062502,
+        192.0
+      ]
+    },
+    {
+      "text": "4",
+      "group": "fine-blocks-raw-values",
+      "size_pt": 7.8,
+      "bbox": [
+        205.831005859375,
+        182.7,
+        210.16899414062502,
+        192.0
+      ]
+    },
+    {
+      "text": "2",
+      "group": "fine-blocks-raw-values",
+      "size_pt": 7.8,
+      "bbox": [
+        222.331005859375,
+        182.7,
+        226.66899414062502,
+        192.0
+      ]
+    },
+    {
+      "text": "g = 8 MiB",
+      "group": "coarse-blocks-label",
+      "size_pt": 7.7,
+      "bbox": [
+        130.9927001953125,
+        201.8,
+        165.0072998046875,
+        211.0
+      ]
+    },
+    {
+      "text": "8",
+      "group": "coarse-blocks-raw-values",
+      "size_pt": 7.8,
+      "bbox": [
+        194.831005859375,
+        201.7,
+        199.16899414062502,
+        211.0
+      ]
+    },
+    {
+      "text": "2",
+      "group": "coarse-blocks-raw-values",
+      "size_pt": 7.8,
+      "bbox": [
+        222.331005859375,
+        201.7,
+        226.66899414062502,
+        211.0
+      ]
+    },
+    {
+      "text": "Block \u2192 object",
+      "group": "object-formation-label",
+      "size_pt": 7.3,
+      "bbox": [
+        155.6565673828125,
+        214.7,
+        204.34343261718752,
+        223.5
+      ]
+    },
+    {
+      "text": "B hint",
+      "group": "optional-b-hint",
+      "size_pt": 7.5,
+      "bbox": [
+        140.9107666015625,
+        231.3,
+        160.0892333984375,
+        240.3
+      ]
+    },
+    {
+      "text": "q policy",
+      "group": "backend-q-policy",
+      "size_pt": 7.5,
+      "bbox": [
+        191.28515625,
+        231.3,
+        216.71484375,
+        240.3
+      ]
+    },
+    {
+      "text": "RustFS",
+      "group": "backend",
+      "size_pt": 7.0,
+      "bbox": [
+        12.75,
+        249.3,
+        37.25,
+        257.8
+      ]
+    },
+    {
+      "text": "EC block B",
+      "group": "backend",
+      "size_pt": 7.0,
+      "bbox": [
+        77.68798828125,
+        249.3,
+        112.31201171875,
+        257.8
+      ]
+    },
+    {
+      "text": "Per-shard verify/read q",
+      "group": "backend",
+      "size_pt": 7.0,
+      "bbox": [
+        154.40185546875,
+        249.3,
+        225.59814453125,
+        257.8
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "agent-fuse",
+      "points": [
+        [
+          48,
+          9
+        ],
+        [
+          79,
+          9
+        ]
+      ],
+      "meaning": "file operations through FUSE"
+    },
+    {
+      "id": "fuse-workspace",
+      "points": [
+        [
+          96,
+          16
+        ],
+        [
+          150,
+          16
+        ],
+        [
+          150,
+          21
+        ]
+      ],
+      "meaning": "select workspace view composition"
+    },
+    {
+      "id": "fuse-ordinary",
+      "points": [
+        [
+          27.5,
+          42
+        ],
+        [
+          27.5,
+          46
+        ]
+      ],
+      "meaning": "retain an ordinary volume without workspace composition"
+    },
+    {
+      "id": "metadata-access",
+      "points": [
+        [
+          60,
+          93
+        ],
+        [
+          60,
+          107
+        ]
+      ],
+      "meaning": "both ordinary and workspace views expose metadata access; representation remains optional"
+    },
+    {
+      "id": "data-access",
+      "points": [
+        [
+          184,
+          93
+        ],
+        [
+          184,
+          107
+        ]
+      ],
+      "meaning": "both view types expose data access; each producer retains its own upload contract"
+    },
+    {
+      "id": "readonly-entry",
+      "points": [
+        [
+          45,
+          164.5
+        ],
+        [
+          51,
+          164.5
+        ]
+      ],
+      "meaning": "standalone read-only access does not require a workspace or native metadata"
+    },
+    {
+      "id": "packed-index",
+      "points": [
+        [
+          90,
+          151
+        ],
+        [
+          90,
+          156
+        ]
+      ],
+      "meaning": "reference/access"
+    },
+    {
+      "id": "index-page",
+      "points": [
+        [
+          80.5,
+          176
+        ],
+        [
+          80.5,
+          180
+        ]
+      ],
+      "meaning": "select a bounded joint-metadata page by directory and raw-name range"
+    },
+    {
+      "id": "record-bytes",
+      "points": [
+        [
+          108,
+          207
+        ],
+        [
+          119,
+          207
+        ],
+        [
+          119,
+          236
+        ],
+        [
+          110,
+          236
+        ]
+      ],
+      "meaning": "reference existing file bytes, with descriptor resolution abstracted; never feed an upload slice"
+    },
+    {
+      "id": "fixed-g-4",
+      "points": [
+        [
+          171,
+          188
+        ],
+        [
+          175,
+          188
+        ]
+      ],
+      "meaning": "alternative fixed g=4 MiB applied to the same 10 MiB raw slice"
+    },
+    {
+      "id": "fixed-g-8",
+      "points": [
+        [
+          171,
+          207
+        ],
+        [
+          175,
+          207
+        ]
+      ],
+      "meaning": "alternative fixed g=8 MiB applied to the same raw slice; no runtime adaptation"
+    },
+    {
+      "id": "referenced-storage",
+      "points": [
+        [
+          60,
+          242
+        ],
+        [
+          60,
+          250
+        ]
+      ],
+      "meaning": "referenced file bytes are stored objects; reference is not an upload action"
+    },
+    {
+      "id": "ordinary-storage",
+      "points": [
+        [
+          222,
+          220
+        ],
+        [
+          233,
+          220
+        ],
+        [
+          233,
+          250
+        ]
+      ],
+      "meaning": "formed objects use effective persisted backend layouts, independently of the illustrated client partition"
+    },
+    {
+      "id": "b-hint-control",
+      "points": [
+        [
+          150.5,
+          243
+        ],
+        [
+          150.5,
+          250
+        ]
+      ],
+      "meaning": "optional client B hint is validated by the backend; it does not set q"
+    },
+    {
+      "id": "q-policy-control",
+      "points": [
+        [
+          204,
+          243
+        ],
+        [
+          204,
+          250
+        ]
+      ],
+      "meaning": "backend q policy has separate compatibility and geometry gates"
+    }
+  ]
+}

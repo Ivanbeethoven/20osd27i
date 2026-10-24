@@ -1,0 +1,17 @@
+{"format":"mounted-fs-replay","version":1,"payload_provenance":"synthetic","description":"Two streams; phase 0 writes, phase 1 checks cross-stream visibility; synthetic bytes only"}
+{"phase":0,"stream":0,"op":"mkdir","path":"a"}
+{"phase":0,"stream":0,"op":"open","fd":1,"path":"a/data.bin","access":"read_write","create":true,"exclusive":true}
+{"phase":0,"stream":0,"op":"pwrite","fd":1,"offset":0,"len":4096,"fill":65,"expected_bytes":4096}
+{"phase":0,"stream":0,"op":"fdatasync","fd":1}
+{"phase":0,"stream":0,"op":"close","fd":1}
+{"phase":0,"stream":1,"op":"mkdir","path":"b"}
+{"phase":0,"stream":1,"op":"open","fd":1,"path":"b/data.bin","access":"read_write","create":true,"exclusive":true}
+{"phase":0,"stream":1,"op":"pwrite","fd":1,"offset":0,"len":4096,"fill":66,"expected_bytes":4096}
+{"phase":0,"stream":1,"op":"fsync","fd":1}
+{"phase":0,"stream":1,"op":"close","fd":1}
+{"phase":1,"stream":0,"op":"stat","path":"b/data.bin"}
+{"phase":1,"stream":0,"op":"open","fd":1,"path":"b/data.bin","access":"read"}
+{"phase":1,"stream":0,"op":"pread","fd":1,"offset":4090,"len":16,"expected_bytes":6}
+{"phase":1,"stream":0,"op":"close","fd":1}
+{"phase":1,"stream":1,"op":"readdir","path":"a","expected_entries":1}
+{"phase":1,"stream":1,"op":"stat","path":"missing","expected_errno":2}

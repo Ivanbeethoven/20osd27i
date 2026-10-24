@@ -13,6 +13,12 @@ build/
 *.synctex.gz
 *.toc
 *.xdv
+# Regenerable manuscript page renders and extracted text stay local.
+/validation/**/page-*.png
+/validation/**/*-page-*.png
+/validation/**/page-*.txt
+/validation/**/*-text.txt
+/validation/**/ppt-renders/
 *.pdf
 # The research package ships these reviewed PDF/BibTeX artifacts intentionally.
 !/main.pdf

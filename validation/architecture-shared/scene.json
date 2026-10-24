@@ -1,0 +1,764 @@
+{
+  "width_pt": 504,
+  "height_pt": 230,
+  "nodes": {
+    "view:i": [
+      4,
+      23,
+      154,
+      52
+    ],
+    "map:i:0": [
+      10,
+      55,
+      47,
+      17
+    ],
+    "map:i:1": [
+      57,
+      55,
+      47,
+      17
+    ],
+    "map:i:2": [
+      104,
+      55,
+      48,
+      17
+    ],
+    "payload:i": [
+      41,
+      83,
+      80,
+      17
+    ],
+    "view:j": [
+      174,
+      23,
+      154,
+      52
+    ],
+    "map:j:0": [
+      180,
+      55,
+      47,
+      17
+    ],
+    "map:j:1": [
+      227,
+      55,
+      47,
+      17
+    ],
+    "map:j:2": [
+      274,
+      55,
+      48,
+      17
+    ],
+    "payload:j": [
+      211,
+      83,
+      80,
+      17
+    ],
+    "snapshot:S": [
+      4,
+      129,
+      324,
+      86
+    ],
+    "snapshot:roots": [
+      14,
+      151,
+      92,
+      22
+    ],
+    "snapshot:index": [
+      119,
+      151,
+      75,
+      22
+    ],
+    "snapshot:groupmeta": [
+      207,
+      151,
+      111,
+      22
+    ],
+    "frame:0": [
+      14,
+      192,
+      76,
+      16
+    ],
+    "frame:1": [
+      90,
+      192,
+      76,
+      16
+    ],
+    "frame:2": [
+      166,
+      192,
+      76,
+      16
+    ],
+    "frame:3": [
+      242,
+      192,
+      76,
+      16
+    ],
+    "backend:rustfs": [
+      350,
+      23,
+      150,
+      192
+    ],
+    "backend:admit": [
+      360,
+      67,
+      130,
+      25
+    ],
+    "backend:persist": [
+      360,
+      104,
+      130,
+      19
+    ],
+    "shard:D0:0": [
+      374,
+      145,
+      58,
+      10
+    ],
+    "shard:D0:1": [
+      432,
+      145,
+      58,
+      10
+    ],
+    "shard:D1:0": [
+      374,
+      157,
+      58,
+      10
+    ],
+    "shard:D1:1": [
+      432,
+      157,
+      58,
+      10
+    ],
+    "shard:P0:0": [
+      374,
+      169,
+      58,
+      10
+    ],
+    "shard:P0:1": [
+      432,
+      169,
+      58,
+      10
+    ],
+    "shard:P1:0": [
+      374,
+      181,
+      58,
+      10
+    ],
+    "shard:P1:1": [
+      432,
+      181,
+      58,
+      10
+    ]
+  },
+  "text": [
+    {
+      "text": "(a) Private views, one shared base",
+      "size_pt": 9,
+      "bbox": [
+        4,
+        2,
+        146.56640625000003,
+        9
+      ]
+    },
+    {
+      "text": "(b) Stored object layout",
+      "size_pt": 9,
+      "bbox": [
+        350,
+        2,
+        100.50292968750001,
+        9
+      ]
+    },
+    {
+      "text": "Workspace i",
+      "size_pt": 9,
+      "bbox": [
+        54.489990234375,
+        26,
+        53.02001953125001,
+        9
+      ]
+    },
+    {
+      "text": "\u0394\u1d62 in mutable metadata service",
+      "size_pt": 8,
+      "bbox": [
+        26.5625,
+        39,
+        108.875,
+        8
+      ]
+    },
+    {
+      "text": "Lower A",
+      "size_pt": 8,
+      "bbox": [
+        18.826171875,
+        58.5,
+        29.34765625,
+        8
+      ]
+    },
+    {
+      "text": "Data B\u2032",
+      "size_pt": 8,
+      "bbox": [
+        67.521484375,
+        58.5,
+        25.95703125,
+        8
+      ]
+    },
+    {
+      "text": "Lower C",
+      "size_pt": 8,
+      "bbox": [
+        113.10546875,
+        58.5,
+        29.7890625,
+        8
+      ]
+    },
+    {
+      "text": "Private object i",
+      "size_pt": 8,
+      "bbox": [
+        54.765625,
+        86.5,
+        52.46875,
+        8
+      ]
+    },
+    {
+      "text": "Workspace j",
+      "size_pt": 9,
+      "bbox": [
+        224.489990234375,
+        26,
+        53.02001953125001,
+        9
+      ]
+    },
+    {
+      "text": "\u0394\u2c7c in mutable metadata service",
+      "size_pt": 8,
+      "bbox": [
+        196.5546875,
+        39,
+        108.890625,
+        8
+      ]
+    },
+    {
+      "text": "Lower A",
+      "size_pt": 8,
+      "bbox": [
+        188.826171875,
+        58.5,
+        29.34765625,
+        8
+      ]
+    },
+    {
+      "text": "Lower B",
+      "size_pt": 8,
+      "bbox": [
+        235.826171875,
+        58.5,
+        29.34765625,
+        8
+      ]
+    },
+    {
+      "text": "Data C\u2032",
+      "size_pt": 8,
+      "bbox": [
+        284.80078125,
+        58.5,
+        26.3984375,
+        8
+      ]
+    },
+    {
+      "text": "Private object j",
+      "size_pt": 8,
+      "bbox": [
+        224.765625,
+        86.5,
+        52.46875,
+        8
+      ]
+    },
+    {
+      "text": "Upper GET: whole-object verification, then slice",
+      "size_pt": 8,
+      "bbox": [
+        81.740234375,
+        106,
+        168.51953125,
+        8
+      ]
+    },
+    {
+      "text": "pin S",
+      "size_pt": 8,
+      "bbox": [
+        43,
+        116,
+        18.234375,
+        8
+      ]
+    },
+    {
+      "text": "pin S",
+      "size_pt": 8,
+      "bbox": [
+        270.765625,
+        116,
+        18.234375,
+        8
+      ]
+    },
+    {
+      "text": "Pinned immutable snapshot S (object storage)",
+      "size_pt": 9,
+      "bbox": [
+        66.73632812499999,
+        133,
+        198.52734375000003,
+        9
+      ]
+    },
+    {
+      "text": "Manifest / roots",
+      "size_pt": 8,
+      "bbox": [
+        32.65625,
+        157,
+        54.6875,
+        8
+      ]
+    },
+    {
+      "text": "Paged name index",
+      "size_pt": 8,
+      "bbox": [
+        123.142578125,
+        157,
+        66.71484375,
+        8
+      ]
+    },
+    {
+      "text": "GroupMeta page",
+      "size_pt": 8,
+      "bbox": [
+        232.48046875,
+        152,
+        60.0390625,
+        8
+      ]
+    },
+    {
+      "text": "name | attrs | locator",
+      "size_pt": 8,
+      "bbox": [
+        226.185546875,
+        161.5,
+        72.62890625,
+        8
+      ]
+    },
+    {
+      "text": "Packed data frames",
+      "size_pt": 8,
+      "bbox": [
+        14,
+        177,
+        71.1484375,
+        8
+      ]
+    },
+    {
+      "text": "frame 0",
+      "size_pt": 8,
+      "bbox": [
+        38.439453125,
+        195.5,
+        27.12109375,
+        8
+      ]
+    },
+    {
+      "text": "frame 1",
+      "size_pt": 8,
+      "bbox": [
+        114.439453125,
+        195.5,
+        27.12109375,
+        8
+      ]
+    },
+    {
+      "text": "frame 2",
+      "size_pt": 8,
+      "bbox": [
+        190.439453125,
+        195.5,
+        27.12109375,
+        8
+      ]
+    },
+    {
+      "text": "frame 3",
+      "size_pt": 8,
+      "bbox": [
+        266.439453125,
+        195.5,
+        27.12109375,
+        8
+      ]
+    },
+    {
+      "text": "Finalized object length L\u2092",
+      "size_pt": 8,
+      "bbox": [
+        380.3515625,
+        28,
+        89.296875,
+        8
+      ]
+    },
+    {
+      "text": "Upper or snapshot object",
+      "size_pt": 8,
+      "bbox": [
+        380.306640625,
+        40,
+        89.38671875,
+        8
+      ]
+    },
+    {
+      "text": "h(L\u2092)",
+      "size_pt": 8,
+      "bbox": [
+        438,
+        53,
+        17.24609375,
+        8
+      ]
+    },
+    {
+      "text": "RustFS: admit B; choose q",
+      "size_pt": 8,
+      "bbox": [
+        377.423828125,
+        69,
+        95.15234375,
+        8
+      ]
+    },
+    {
+      "text": "Small q: gated (default off)",
+      "size_pt": 8,
+      "bbox": [
+        378.0859375,
+        80,
+        93.828125,
+        8
+      ]
+    },
+    {
+      "text": "Stored: B | q | d | p",
+      "size_pt": 8,
+      "bbox": [
+        391.865234375,
+        108.5,
+        66.26953125,
+        8
+      ]
+    },
+    {
+      "text": "2+2: B = 256 KiB; gates on",
+      "size_pt": 8,
+      "bbox": [
+        377.1875,
+        128,
+        95.625,
+        8
+      ]
+    },
+    {
+      "text": "D0",
+      "size_pt": 8,
+      "bbox": [
+        355,
+        145.5,
+        10.2265625,
+        8
+      ]
+    },
+    {
+      "text": "64 KiB",
+      "size_pt": 8,
+      "bbox": [
+        391.21484375,
+        145,
+        23.5703125,
+        8
+      ]
+    },
+    {
+      "text": "64 KiB",
+      "size_pt": 8,
+      "bbox": [
+        449.21484375,
+        145,
+        23.5703125,
+        8
+      ]
+    },
+    {
+      "text": "D1",
+      "size_pt": 8,
+      "bbox": [
+        355,
+        157.5,
+        10.2265625,
+        8
+      ]
+    },
+    {
+      "text": "P0",
+      "size_pt": 8,
+      "bbox": [
+        355,
+        169.5,
+        9.78515625,
+        8
+      ]
+    },
+    {
+      "text": "P1",
+      "size_pt": 8,
+      "bbox": [
+        355,
+        181.5,
+        9.78515625,
+        8
+      ]
+    },
+    {
+      "text": "Reads / repair use stored layout",
+      "size_pt": 8,
+      "bbox": [
+        368.302734375,
+        195,
+        113.39453125,
+        8
+      ]
+    },
+    {
+      "text": "A, B, C: same logical file ranges",
+      "size_pt": 8,
+      "bbox": [
+        4,
+        220,
+        113.3828125,
+        8
+      ]
+    },
+    {
+      "text": "Each shard cell = q; frame \u2260 q",
+      "size_pt": 8,
+      "bbox": [
+        182,
+        220,
+        106.44140625,
+        8
+      ]
+    },
+    {
+      "text": "Dashed hint: integration pending",
+      "size_pt": 8,
+      "bbox": [
+        384.8046875,
+        220,
+        115.1953125,
+        8
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "data-ref:i",
+      "points": [
+        [
+          80.5,
+          72
+        ],
+        [
+          81,
+          83
+        ]
+      ],
+      "meaning": "reference"
+    },
+    {
+      "id": "data-ref:j",
+      "points": [
+        [
+          298.0,
+          72
+        ],
+        [
+          251,
+          83
+        ]
+      ],
+      "meaning": "reference"
+    },
+    {
+      "id": "binding:i",
+      "points": [
+        [
+          28,
+          75
+        ],
+        [
+          28,
+          129
+        ]
+      ],
+      "meaning": "binding to the same pinned snapshot S"
+    },
+    {
+      "id": "binding:j",
+      "points": [
+        [
+          304,
+          75
+        ],
+        [
+          304,
+          129
+        ]
+      ],
+      "meaning": "binding to the same pinned snapshot S"
+    },
+    {
+      "id": "roots-index",
+      "points": [
+        [
+          106,
+          162
+        ],
+        [
+          119,
+          162
+        ]
+      ],
+      "meaning": "representative name lookup"
+    },
+    {
+      "id": "index-group",
+      "points": [
+        [
+          194,
+          162
+        ],
+        [
+          207,
+          162
+        ]
+      ],
+      "meaning": "representative name lookup"
+    },
+    {
+      "id": "locator-frame",
+      "points": [
+        [
+          280,
+          173
+        ],
+        [
+          280,
+          192
+        ]
+      ],
+      "meaning": "data locator to authenticated frame"
+    },
+    {
+      "id": "hint-pending",
+      "points": [
+        [
+          425,
+          52
+        ],
+        [
+          425,
+          67
+        ]
+      ],
+      "meaning": "hint integration pending in Entity/producer paths"
+    },
+    {
+      "id": "admit-persist",
+      "points": [
+        [
+          425,
+          92
+        ],
+        [
+          425,
+          104
+        ]
+      ],
+      "meaning": "persist admitted effective layout"
+    },
+    {
+      "id": "snapshot-backend",
+      "points": [
+        [
+          328,
+          198
+        ],
+        [
+          350,
+          198
+        ]
+      ],
+      "meaning": "snapshot object access uses its stored backend layout"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "document": "main.pdf",
+    "page_count": 13,
+    "figures": [
+      {
+        "figure": 1,
+        "page": 2,
+        "render": "main-figure1-page.png"
+      },
+      {
+        "figure": 2,
+        "page": 4,
+        "render": "main-figure2-page.png"
+      }
+    ],
+    "log_flags": []
+  },
+  {
+    "document": "anonymous-preview.pdf",
+    "page_count": 13,
+    "figures": [
+      {
+        "figure": 1,
+        "page": 2,
+        "render": "anonymous-preview-figure1-page.png"
+      },
+      {
+        "figure": 2,
+        "page": 4,
+        "render": "anonymous-preview-figure2-page.png"
+      }
+    ],
+    "log_flags": []
+  }
+]

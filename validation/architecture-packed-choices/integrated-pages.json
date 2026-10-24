@@ -1,0 +1,24 @@
+[
+  {
+    "document": "main.pdf",
+    "page_count": 13,
+    "figure2": [
+      {
+        "page": 4,
+        "render": "main-figure2-page.png"
+      }
+    ],
+    "log_flags": []
+  },
+  {
+    "document": "anonymous-preview.pdf",
+    "page_count": 13,
+    "figure2": [
+      {
+        "page": 4,
+        "render": "anonymous-preview-figure2-page.png"
+      }
+    ],
+    "log_flags": []
+  }
+]

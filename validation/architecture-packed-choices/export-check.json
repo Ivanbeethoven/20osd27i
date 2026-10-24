@@ -1,0 +1,22 @@
+{
+  "before": {
+    "labels": 54,
+    "characters": 522,
+    "whitespace_tokens": 95
+  },
+  "after": {
+    "labels": 46,
+    "characters": 485,
+    "whitespace_tokens": 81
+  },
+  "canvas_pt": [
+    240,
+    258
+  ],
+  "minimum_body_pt": 7,
+  "raster_images": 0,
+  "first_panel_and_parallel_connections_unchanged": true,
+  "b_choices": "equal object extents; 10+10+10+5 versus 20+15 drawing units",
+  "g_policy": "fixed volume geometry; no per-file g",
+  "layout_policy": "optional eligible-object choices, not automatic per-file selection"
+}

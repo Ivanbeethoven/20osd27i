@@ -1,0 +1,32 @@
+{
+  "pages": 16,
+  "figures": [
+    {
+      "page": 3,
+      "types": [
+        "data"
+      ],
+      "preview": "validation\\figures-rewritten\\main-page-03.png",
+      "images": []
+    },
+    {
+      "page": 5,
+      "types": [
+        "architecture"
+      ],
+      "preview": "validation\\figures-rewritten\\main-page-05.png",
+      "images": [
+        {
+          "width": 1774,
+          "height": 887,
+          "bbox": [
+            54.0,
+            203.9983673095703,
+            558.001220703125,
+            455.9989929199219
+          ]
+        }
+      ]
+    }
+  ]
+}

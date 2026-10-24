@@ -1,0 +1,13 @@
+\caption{Shared state and per-object layouts.
+(a) Two illustrative views change different ranges of one file.
+$\Delta_i$ resides in the mutable metadata service; private payload $U_i$ and
+snapshot $S$ reside on object storage. The index--record--frame path represents
+a name lookup. Upper reads verify whole objects before slicing; visibility and
+Hole rules are omitted here.
+(b) Fixed policies partition the same 1\,MiB object on a common byte scale.
+The enlarged 2+2 inset has $s=B/2=128\,\mathrm{KiB}$ and $q=64\,\mathrm{KiB}$;
+the 1\,MiB policy instead has $s=q=512\,\mathrm{KiB}$.
+These are supported configurations, not automatic-policy outcomes.
+RustFS persists the admitted layout for reads and repair. Smaller-$q$ writes
+require both default-off gates; dashed hint wiring still needs Entity/producer
+integration. Packed frames and $q$ are distinct.}

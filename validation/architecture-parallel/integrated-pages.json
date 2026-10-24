@@ -1,0 +1,22 @@
+{
+  "main": {
+    "pages": 16,
+    "figure2": [
+      {
+        "page": 4,
+        "render": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\validation\\architecture-parallel\\main-figure2-page-04.png"
+      }
+    ],
+    "layout_reference_warnings": []
+  },
+  "anonymous-preview": {
+    "pages": 16,
+    "figure2": [
+      {
+        "page": 4,
+        "render": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\validation\\architecture-parallel\\anonymous-preview-figure2-page-04.png"
+      }
+    ],
+    "layout_reference_warnings": []
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "main": {
+    "pages": 16,
+    "figure_pages": [
+      5
+    ]
+  },
+  "anonymous-preview": {
+    "pages": 16,
+    "figure_pages": [
+      5
+    ]
+  }
+}

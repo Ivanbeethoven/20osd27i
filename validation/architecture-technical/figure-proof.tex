@@ -1,0 +1,34 @@
+\documentclass[letterpaper,twocolumn,10pt]{article}
+\usepackage{hyperref}
+\usepackage{usenix2019_v3_xetex}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,graphicx}
+\hypersetup{hidelinks,pdftitle={Architecture figure: typesetting proof},pdfauthor={}}
+\makeatletter
+\newcommand{\captiontypefigure}{\def\@captype{figure}}
+\makeatother
+\begin{document}
+\twocolumn[{
+\noindent\textbf{Architecture figure: author-review proof}\par
+\vspace{8pt}
+\centering
+\includegraphics[width=\textwidth]{figures/system-architecture-technical.pdf}
+\vspace{3pt}
+\captiontypefigure
+\input{figures/system-architecture-technical.caption}
+\vspace{14pt}
+}]
+\section{Shared immutable state}
+Let $S$ be a pinned immutable snapshot and $\Delta_i$ the private upper of
+workspace $i$. Its logical view is $W_i=\operatorname{Resolve}(S,\Delta_i)$.
+Private names, attributes and file mappings remain in the mutable metadata
+service. The file-range example highlights separate private changes while
+unchanged ranges retain explicit references to the same lower snapshot.
+
+\section{Per-object storage layout}
+The coding block $B$ is selected at the finalized-object boundary. The storage
+backend admits and persists the effective geometry. Read and repair paths use
+that stored geometry. The two equal-width strips compare supported fixed
+layouts for the same illustrative object; they do not describe an adaptive
+optimizer or a measured performance result.
+\end{document}

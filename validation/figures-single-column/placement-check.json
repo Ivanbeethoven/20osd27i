@@ -1,0 +1,32 @@
+{
+  "pages": 16,
+  "figures": [
+    {
+      "page": 2,
+      "types": [
+        "data"
+      ],
+      "preview": "validation\\figures-single-column\\main-page-02.png",
+      "images": []
+    },
+    {
+      "page": 5,
+      "types": [
+        "architecture"
+      ],
+      "preview": "validation\\figures-single-column\\main-page-05.png",
+      "images": [
+        {
+          "width": 1254,
+          "height": 1254,
+          "bbox": [
+            54.0,
+            211.96749877929688,
+            294.1205139160156,
+            452.0880126953125
+          ]
+        }
+      ]
+    }
+  ]
+}

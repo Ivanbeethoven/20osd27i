@@ -1,0 +1,15 @@
+{
+  "logical_labels": 52,
+  "distinct_labels": 49,
+  "minimum_body_pt": 7.0,
+  "fonts": [
+    "Arial-BoldMT",
+    "ArialMT"
+  ],
+  "raster_images": 0,
+  "white_text_contrast": {
+    "#B65F2D": 4.503,
+    "#2D6084": 6.735,
+    "#4C5965": 7.182
+  }
+}

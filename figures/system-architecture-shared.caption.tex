@@ -1,0 +1,17 @@
+\caption{Private views over a shared immutable base.
+(a) Two illustrative views of the same three file ranges modify B and C
+independently. Lower denotes an explicit LowerRange span; Data references
+new private payload in object storage. Hole spans (not illustrated) read zero. Private names,
+attributes, and maps reside in the mutable metadata service. Upper-first
+resolution applies whiteouts and directory visibility before lower fallback.
+Both views pin the same snapshot $S$. The expanded snapshot shows one
+representative directory-name route; inherited reads can follow their frame
+locators directly, and other queries may use different indexes.
+(b) Finalized object length informs a layout hint; RustFS admits and persists
+the effective $(B,q,d,p)$ for reads and repair. The eligible 2+2 example has
+$B=256\,\mathrm{KiB}$ and $q=64\,\mathrm{KiB}$ with both write gates on.
+A Packed frame is distinct from $q$. Solid edges denote bindings or
+references/access dependencies, not a universal execution sequence.
+Dashed hint wiring still needs integration in the selected Entity and producer
+paths. Upper reads verify a whole object before slicing. This design diagram
+does not establish sharing frequency or performance gains.}

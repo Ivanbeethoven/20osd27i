@@ -1,0 +1,136 @@
+{
+  "main": {
+    "pages": 13,
+    "body_last_page": 11,
+    "page_dimensions_pt": [
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ]
+    ],
+    "overfull_count": 0,
+    "underfull_count": 23,
+    "underfull_hbox_count": 22,
+    "underfull_vbox_count": 1,
+    "errors_or_unresolved": [],
+    "font_resources": 14,
+    "unembedded_fonts": [],
+    "words_outside_page": [],
+    "sha256": "163728eb6a97deb3c50209557d257c3bb7568feb40722ee34a256411b6c32755"
+  },
+  "anonymous-preview": {
+    "pages": 13,
+    "body_last_page": 11,
+    "page_dimensions_pt": [
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ],
+      [
+        612.0,
+        792.0
+      ]
+    ],
+    "overfull_count": 0,
+    "underfull_count": 23,
+    "underfull_hbox_count": 22,
+    "underfull_vbox_count": 1,
+    "errors_or_unresolved": [],
+    "font_resources": 14,
+    "unembedded_fonts": [],
+    "words_outside_page": [],
+    "sha256": "f40ebc1642b86da31820caca3df4f4867a9a2d28411440b6a2169155464e8672"
+  }
+}

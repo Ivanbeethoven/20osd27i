@@ -1,0 +1,176 @@
+{
+  "pdf": "C:\\Users\\HXY\\Documents\\Codex\\2026-10-22\\https-www-usenix-org-conferences-author\\work\\osdi2027\\main.pdf",
+  "pages": 16,
+  "page_dimensions": [
+    0.0,
+    0.0,
+    612.0,
+    792.0
+  ],
+  "page_map": [
+    {
+      "page": 1,
+      "chars": 4350,
+      "headings": [
+        "Introduction",
+        "Delta-Based Workspaces",
+        "Packed Metadata",
+        "Variable-Granularity Object Storage"
+      ],
+      "figures": [],
+      "tables": []
+    },
+    {
+      "page": 2,
+      "chars": 5489,
+      "headings": [
+        "Background and Motivation",
+        "Packed Metadata"
+      ],
+      "figures": [],
+      "tables": []
+    },
+    {
+      "page": 3,
+      "chars": 4690,
+      "headings": [],
+      "figures": [
+        "Figure 1:"
+      ],
+      "tables": []
+    },
+    {
+      "page": 4,
+      "chars": 4658,
+      "headings": [
+        "Overview and System Contract",
+        "Packed Metadata"
+      ],
+      "figures": [
+        "Figure 2:"
+      ],
+      "tables": []
+    },
+    {
+      "page": 5,
+      "chars": 4748,
+      "headings": [
+        "Delta-Based Workspaces",
+        "Packed Metadata"
+      ],
+      "figures": [],
+      "tables": [
+        "Table 1:"
+      ]
+    },
+    {
+      "page": 6,
+      "chars": 4921,
+      "headings": [
+        "Packed Metadata"
+      ],
+      "figures": [
+        "Figure 3:"
+      ],
+      "tables": []
+    },
+    {
+      "page": 7,
+      "chars": 5313,
+      "headings": [
+        "Variable-Granularity Object Storage"
+      ],
+      "figures": [],
+      "tables": []
+    },
+    {
+      "page": 8,
+      "chars": 5133,
+      "headings": [],
+      "figures": [],
+      "tables": [
+        "Table 2:"
+      ]
+    },
+    {
+      "page": 9,
+      "chars": 5319,
+      "headings": [
+        "Packed Metadata",
+        "Implementation and Integration Status"
+      ],
+      "figures": [],
+      "tables": []
+    },
+    {
+      "page": 10,
+      "chars": 4759,
+      "headings": [
+        "Evaluation Plan"
+      ],
+      "figures": [],
+      "tables": [
+        "Table 3:"
+      ]
+    },
+    {
+      "page": 11,
+      "chars": 5611,
+      "headings": [],
+      "figures": [],
+      "tables": [
+        "Table 4:"
+      ]
+    },
+    {
+      "page": 12,
+      "chars": 5347,
+      "headings": [],
+      "figures": [],
+      "tables": [
+        "Table 5:"
+      ]
+    },
+    {
+      "page": 13,
+      "chars": 5523,
+      "headings": [
+        "Packed Metadata",
+        "Related Work and Scope"
+      ],
+      "figures": [],
+      "tables": []
+    },
+    {
+      "page": 14,
+      "chars": 4875,
+      "headings": [
+        "Variable-Granularity Object Storage",
+        "Conclusion",
+        "References"
+      ],
+      "figures": [],
+      "tables": [
+        "Table 6:"
+      ]
+    },
+    {
+      "page": 15,
+      "chars": 4705,
+      "headings": [],
+      "figures": [],
+      "tables": []
+    },
+    {
+      "page": 16,
+      "chars": 1942,
+      "headings": [],
+      "figures": [],
+      "tables": []
+    }
+  ],
+  "overfull_count": 0,
+  "underfull_count": 42,
+  "undefined": [],
+  "pdf_sha256": "40f471eedb1c7a48110578a99ce4e2110fbcdf32414f32633b9ed6844b82778b"
+}
