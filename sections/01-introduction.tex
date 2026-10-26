@@ -15,7 +15,8 @@ state while keeping changes private~\cite{overlayfs,branchfs2026,deltafs2021}.
 Immutable distributions provide indexed, demand-loaded
 state~\cite{cvmfs2011,nydus_rafs}. A mature immutable lower with a compatible
 writable upper and object backend is therefore a strong direct alternative.
-Its sharing and caching must be included in the comparison. The remaining
+Any comparison with this composition must include its sharing and caching.
+The remaining
 question is how the metadata and object units fetched by a task affect
 request count, transferred bytes, and processing work.
 
@@ -45,7 +46,9 @@ the case for the corresponding mechanism.
 mechanisms. \emph{Delta-Based Workspaces} resolve a shared immutable
 baseline with private namespace and data-mapping changes. \emph{Packed
 Metadata} groups immutable names, attributes, and data locators into indexed
-pages on object storage. \emph{Variable-Granularity Object Storage} separates
+pages on object storage, moving fixed-version queries away from the central
+metadata database while mutable and control records remain there.
+\emph{Variable-Granularity Object Storage} separates
 client object formation from optional backend encoding and verification
 units. Each addresses a different cost and remains optional: workspaces
 can use native metadata, packed snapshots can serve read-only mounts, and

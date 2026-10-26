@@ -5,7 +5,9 @@ The implementation connects the mechanisms through several access paths.
 Their differences affect both guarantees and performance attribution.
 The following boundaries come from source inspection; the companion
 record identifies the inspected revisions, while runtime and failure
-validation remain part of the evaluation plan.
+validation remain part of the evaluation plan. These are boundaries of
+the audited revisions; the execution build must be qualified again before
+using them to admit or exclude an experimental configuration.
 
 \subsection{Buffered and direct access}
 

@@ -29,6 +29,14 @@ cache records~\cite{tablefs2013,indexfs2014}; immutable distributions can
 also organize records for demand fetching~\cite{cvmfs2011,nydus_rafs}.
 Thus a file-system operation need not generate a remote metadata request.
 
+For a large fixed collection of small files, the metadata database may
+still serve repeated reads alongside mutable updates. Moving that
+collection's read service to immutable object pages can reduce this shared
+load, but requires first fixing and publishing a version. Its value
+therefore depends on reuse and update frequency as well as query latency.
+The evaluation measures database pressure directly; a high FUSE metadata
+request count alone does not establish such a bottleneck.
+
 The requested file range also differs from the storage work it induces.
 Kernel caching and readahead affect which requests reach FUSE. The client
 then maps those requests to stored objects and may fetch a range or an

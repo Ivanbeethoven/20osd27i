@@ -28,4 +28,3 @@ __pycache__/
 !/figures/agent-fuse/*.pdf
 !/figures/system-architecture-editable.pdf
 !planning/paper-layout.pdf
-!experiments/ax-multi-agent/report/main.pdf

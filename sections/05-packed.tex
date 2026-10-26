@@ -3,8 +3,16 @@
 
 \subsection{Organizing immutable records for reuse}
 
-Once a source view is fixed, a producer can organize its metadata for
-retrieval and build reusable indexes. Packed metadata places directory
+Large collections of small files keep names, attributes, and data locators
+in the metadata database even when their contents no longer change.
+Concurrent consumers query those records alongside mutable workspace
+operations. Packed Metadata moves the fixed version's read service to
+indexed object pages and client caches; private updates and ownership
+still use metadata and control services. The intended benefit is lower
+central database traffic and interference, purchased with construction,
+publication, and object-access work.
+
+Packed metadata places directory
 entries, common attributes, and file-data locators in bounded object-resident
 pages. The resulting snapshot describes a selected subtree and serves either
 a standalone read-only mount or a workspace lower, with demand-driven access.
@@ -74,6 +82,14 @@ indexed manifest. Publishing its binding separately requires those objects
 to be durable and valid. Reclamation preserves objects needed by retained
 versions or readers. Rebuilding creates another version; ordinary file close
 does not rebuild a snapshot.
+
+Native overlay fork does not require packing. Its first child pays for
+the native consistency and version-binding steps; a packed child must
+also wait for any required construction and publication. Later children
+can reuse that published representation. These are distinct costs.
+Offloading queries can help while source records remain retained, but
+database space falls only if the lifecycle protocol can safely retire
+them. Replacing reads with object requests does not itself reclaim records.
 
 The access benefit depends on how much of each fetched page is useful.
 Repeated nearby lookups can reuse joint metadata, whereas isolated lookups

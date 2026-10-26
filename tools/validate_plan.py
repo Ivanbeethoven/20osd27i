@@ -1,84 +1,52 @@
 #!/usr/bin/env python3
-"""Validate this planning package. Does not run or validate BrewFS experiments."""
-from __future__ import annotations
-import csv
+"""Validate the standalone manuscript; experiment validation lives in the AX repo."""
+from pathlib import Path
 import hashlib
 import json
 import re
 import sys
-from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-errors: list[str] = []
-required = [
-    'main.tex', 'references.bib',
-    'usenix2019_v3.sty', 'templates/usenix-official/usenix2019_v3.sty',
-    'planning/01-research-outline.zh.md', 'planning/02-experiment-plan.zh.md',
-    'experiments/matrix.csv', 'experiments/run-manifest.example.yaml',
-    'experiments/observations.schema.json', 'experiments/implementation-backlog.csv',
-    'evidence/implementation_inventory.csv', 'references/source_registry.csv',
-    'skills/osdi-systems-paper/SKILL.md'
-]
+errors = []
+required = ['main.tex', 'references.bib', 'sections/08-evaluation.tex',
+            'usenix2019_v3.sty', 'templates/usenix-official/usenix2019_v3.sty']
 for name in required:
     if not (ROOT / name).is_file():
-        errors.append(f'Missing file: {name}')
+        errors.append('Missing file: ' + name)
 if errors:
-    print(json.dumps({'passed': False, 'errors': errors}, indent=2)); sys.exit(1)
-
-bib = (ROOT / 'references.bib').read_text()
+    print(json.dumps({'passed': False, 'errors': errors}, indent=2))
+    sys.exit(1)
+bib = (ROOT / 'references.bib').read_text(encoding='utf-8')
 keys = re.findall(r'@\w+\s*\{\s*([^,\s]+)', bib)
 if len(keys) != len(set(keys)):
     errors.append('Duplicate BibTeX keys')
-tex_files = list((ROOT / 'sections').glob('*.tex')) + [ROOT / 'main.tex']
-tex = '\n'.join(p.read_text() for p in tex_files)
+tex = '\n'.join(p.read_text(encoding='utf-8') for p in
+                [ROOT / 'main.tex', *sorted((ROOT / 'sections').glob('*.tex'))])
 cited = set()
 for group in re.findall(r'\\cite(?:\[[^\]]*\])?\{([^}]+)\}', tex):
     cited.update(k.strip() for k in group.split(','))
-missing = sorted(cited - set(keys))
-if missing: errors.append(f'Undefined bibliography keys: {missing}')
-
-with (ROOT / 'experiments/matrix.csv').open(newline='') as f:
-    matrix = list(csv.DictReader(f))
-ids = [row['experiment_id'] for row in matrix]
-if set(ids) != {f'E{i:02d}' for i in range(17)} or len(ids) != 17:
-    errors.append('Expected exactly E00 through E16')
-rqs = set()
-for row in matrix:
-    rqs.update(row['rq'].split('|'))
-    if row['status'] != 'planned': errors.append(f"Unexpected status: {row['experiment_id']}")
-    for field in ['intervention', 'primary_metrics', 'implementation_gate', 'weakening_outcome']:
-        if not row[field].strip(): errors.append(f"Empty {field}: {row['experiment_id']}")
-if not {f'RQ{i}' for i in range(1, 8)}.issubset(rqs): errors.append('Missing RQ coverage')
-
-schema = json.loads((ROOT / 'experiments/observations.schema.json').read_text())
-if schema['properties']['status'].get('const') != 'executed': errors.append('Bad observation status contract')
-manifest = (ROOT / 'experiments/run-manifest.example.yaml').read_text()
-if 'status: planned' not in manifest or 'measurements: null' not in manifest:
-    errors.append('Manifest template must remain visibly unexecuted')
-
-styles = [ROOT / 'usenix2019_v3.sty', ROOT / 'templates/usenix-official/usenix2019_v3.sty']
-hashes = [hashlib.sha256(p.read_bytes()).hexdigest() for p in styles]
-expected_style = '4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45ff6'
-if hashes != [expected_style, expected_style]: errors.append('Official style hash mismatch')
-
-log_status = {}
-for stem in ['main']:
-    p = ROOT / (stem + '.log')
-    if not p.exists():
-        log_status[stem] = 'not available; build with make'
-        continue
-    log = p.read_text(errors='replace')
-    problems = [s for s in ['Citation', 'Reference', 'Overfull', 'Missing character']
-                if ((s in ['Citation','Reference'] and re.search(s + r'.*undefined', log))
-                    or (s in ['Overfull','Missing character'] and s in log))]
-    if problems: errors.append(f'{stem} LaTeX issues: {problems}')
-    log_status[stem] = 'checked' if not problems else problems
-
-report = {
-    'passed': not errors, 'scope': 'planning/package validation only; no runtime experiments',
-    'bibliography_entries': len(keys), 'cited_entries': len(cited),
-    'experiments': len(matrix), 'research_questions': sorted(x for x in rqs if x.startswith('RQ')),
-    'official_style_sha256': hashes[0], 'latex_logs': log_status, 'errors': errors
-}
-print(json.dumps(report, indent=2))
-sys.exit(0 if not errors else 1)
+if cited - set(keys):
+    errors.append('Undefined bibliography keys: ' + ', '.join(sorted(cited - set(keys))))
+rqs = re.findall(r'\\researchq\{(\d+)\}', tex)
+if sorted(rqs) != ['1', '2', '3', '4', '5']:
+    errors.append('Expected exactly one declaration for each of RQ1 through RQ5')
+expected = '4ed9aa9d0c5daec54ce3b4188a4bf6d3bef3462c79ff65551d567511d3c45ff6'
+for name in ['usenix2019_v3.sty', 'templates/usenix-official/usenix2019_v3.sty']:
+    if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != expected:
+        errors.append('Official style hash mismatch: ' + name)
+log_status = 'not available; compile main.tex to inspect diagnostics'
+log_path = ROOT / 'main.log'
+if log_path.exists():
+    log = log_path.read_text(encoding='utf-8', errors='replace')
+    problems = [s for s in ['Overfull', 'Missing character'] if s in log]
+    if re.search(r'(?:Citation|Reference).*undefined', log):
+        problems.append('undefined citation/reference')
+    if problems:
+        errors.append('LaTeX issues: ' + ', '.join(problems))
+    log_status = 'checked' if not problems else problems
+print(json.dumps({'passed': not errors, 'scope': 'standalone manuscript only; no runtime experiments',
+                  'bibliography_entries': len(keys), 'cited_entries': len(cited),
+                  'research_questions': ['RQ' + n for n in sorted(rqs)],
+                  'official_style_sha256': expected, 'latex_log': log_status,
+                  'errors': errors}, indent=2))
+sys.exit(1 if errors else 0)

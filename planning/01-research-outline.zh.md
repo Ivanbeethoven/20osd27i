@@ -80,7 +80,7 @@
 | RQ6 | 这些改进能否转化为多 agent 任务吞吐、就绪时间或资源收益？ | E12–E13：回放和 AX/DSH 真实任务 | 存储关键路径及端到端改善，模型时间占比与输出质量保持情况 |
 | RQ7 | 隔离、完整性、崩溃恢复和资源回收的边界是什么？ | E14–E16：语义、故障、稳态尾延迟 | 经过验证的操作范围、失败行为及剩余限制 |
 
-详细实验协议见 `02-experiment-plan.zh.md`，机器可读列表见 `experiments/matrix.csv`。这里没有把 RQ 写成预期答案。
+实验操作与参数统一维护在 [AX实验仓库](https://github.com/Ivanbeethoven/ax-multi-agent-experiments) 的 `paper-design/README.md` 和 `execution-grid.json`；本仓库只保留论文中的研究问题与设计叙述。
 
 ## 6. 12 页正文的写作结构
 

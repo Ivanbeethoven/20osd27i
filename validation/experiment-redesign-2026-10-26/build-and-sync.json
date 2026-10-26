@@ -1,0 +1,11 @@
+{
+  "pdf_pages": 13,
+  "body_end_page": "12",
+  "synced_files": 6,
+  "unembedded_fonts": [],
+  "builtin_compile": "failed before TeX: Windows restricted-token split writable roots",
+  "local_compile": "latexmk XeLaTeX successful",
+  "experiments_executed": false,
+  "git_commit_or_push": false,
+  "pdf_sha256": "751d93cb8d8bb28d7c9ec2507ae1fe68d6295e4c3c1e5e6783ee8768a89caae8"
+}

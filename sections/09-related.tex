@@ -47,12 +47,13 @@ CernVM-FS provides demand-driven software distribution with indexed
 catalogs, while Nydus describes metadata/data organization for lazy
 image access~\cite{cvmfs2011,nydus_rafs}. Slacker and DADI also address
 image distribution and startup costs~\cite{slacker2016,dadi2020}.
-Our strongest simple composition baseline combines a mature immutable lower
+A strong composition alternative combines a mature immutable lower
 with a compatible writable upper and object backend. It already
-shares state and fetches it on demand. The evaluation must determine
-whether \sys changes useful records per fetch, excess payload transfer,
-or construction and staging costs at equal content, cache capacity, and
-persistence. Standalone lower access and complete writable workspaces
+shares state and fetches it on demand. A direct comparison would need to
+measure useful records per fetch, excess payload transfer, and construction
+costs at equal content, cache capacity, and persistence. The current campaign
+uses JuiceFS as its external comparator and does not establish an advantage
+over these immutable distribution systems. Standalone lower access and complete writable workspaces
 require separate comparisons; neither the proposed interfaces nor their
 composition establishes an advantage by itself.
 
@@ -75,5 +76,4 @@ sequential reads can erase the expected savings. The current entry points
 and lifecycle support further bound the comparisons
 (Section~\ref{sec:implementation}). The planned evaluation must establish
 where each mechanism repays its cost and whether a supported combination
-improves on its best individual configuration and the direct composition
-baseline.
+improves on its best supported subset and the external comparator.
