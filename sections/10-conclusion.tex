@@ -1,13 +1,7 @@
 \section{Conclusion}
 
-\sys separates a shared version's identity from the metadata and object
-units used to serve it. Its workspace, packed-metadata, and object-layout
-mechanisms expose different opportunities to reduce storage work, subject
-to visibility, publication, and lifetime constraints. The eight-task FUSE
-study characterizes request structure, and the source audit identifies
-available runtime paths. The remaining evaluation must test whether
-metadata-database relief and access savings repay lifecycle costs under
-matched contracts, and how these affect branching, migration, and concurrent
-tasks. The planned external comparison uses JuiceFS. The present evidence
-characterizes the workload and implementation
-scope; it does not establish a system-performance gain.
+\sys provides independently optional mechanisms for private workspace
+state, read-only metadata, and object granularity. The coding-agent traces
+motivate evaluating access costs alongside fork latency. The remaining
+evaluation must determine when metadata offload and selective reads repay
+construction and retention across concurrent agent tasks.

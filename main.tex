@@ -32,32 +32,30 @@ and Variable-Granularity Object Storage}
 \date{}
 \maketitle
 \begin{abstract}
-Coding agents can share a repository baseline while keeping edits private,
-but sharing does not determine metadata and data access costs.
-\sysname{} separates shared-version identity from metadata and object
-access units through three independently optional mechanisms.
-Delta-Based Workspaces resolve a shared baseline with private changes;
-Packed Metadata places names, attributes, and data locators in indexed
-object-resident pages; Variable-Granularity Object Storage separates
-client object formation from optional backend encoding and verification.
-Our hypothesis is that these choices reduce lifecycle storage work when
-reuse or selective access repays construction and maintenance, under
-matched visibility and durability contracts. We explain inode identity,
-atomic namespace updates, truncation, publication, and persisted layouts,
-then identify the implementation boundaries relevant to their evaluation.
-A reanalysis of 1,138,884 FUSE requests from eight coding-agent task runs
-characterizes metadata traffic, read/write sizes, and temporal heterogeneity.
-The planned evaluation isolates overlay, metadata offload, and object
-granularity, then tests fork, migration, and concurrent workloads with
-JuiceFS as the external comparator. It accounts for construction,
-retention, caching, and failure outcomes. The workload
-observations do not establish system speedups.
+Agent tasks need private working state while reusing source trees,
+dependencies, and datasets. Sharing those bytes avoids duplication, but
+leaves the cost of serving metadata and partial reads.
+\sys addresses these costs through three independently optional mechanisms.
+Delta-Based Workspaces retain private namespace changes and data-range
+mappings over a shared baseline. Packed Metadata serves a selected,
+previously packed read-only subtree through indexed object pages that
+co-locate names, attributes, and data locators. It targets stable
+collections of many small files, including training datasets reused across
+machine-learning experiments. Variable-Granularity Object Storage separates
+client object formation from backend encoding and verification units.
+Each mechanism has a distinct cost: retaining private changes, building
+and publishing packed versions, or fetching and verifying storage units.
+We describe their representations, update protocols, and implementation
+limits. A study of 1,138,884 FUSE requests from eight coding-agent runs
+finds substantial metadata traffic, mixed request sizes, and bursty access.
+The planned evaluation tests whether savings repay preparation and
+retention costs, then examines their effect on fork, migration, and
+concurrent execution.
 \end{abstract}
 
-\noindent\textbf{Status.} This is an author working document: design, source
-audit, and measured passthrough workload observations are distinguished from
-planned system experiments. Integration,
-correctness, and performance claims require the evidence described below.
+\noindent\textbf{Draft status.} The workload characterization is complete.
+System-performance experiments and end-to-end recovery validation remain
+to be conducted.
 
 \input{sections/01-introduction}
 \input{sections/02-motivation}

@@ -1,79 +1,78 @@
-\section{Related Work and Scope}
+\section{Related Work}
 \label{sec:related}
 
-\paragraph{Workspaces and agent-native file systems.}
-OverlayFS provides layered namespaces with a private upper and shared
-lower~\cite{overlayfs}. BranchFS applies copy-on-write branch contexts to
-agentic exploration, with a commit/abort lifecycle described through a
-workshop prototype and a proposed kernel abstraction~\cite{branchfs2026}.
-YoloFS addresses visibility and control over agent effects through staging,
-snapshots, and permissions~\cite{yolofs2026}; AgentFS documents a file-system
-and tool-state abstraction for agents~\cite{agentfs2025}. These systems
-establish the workspace mechanisms on which this work builds. \sys focuses
-on remote metadata and object access; process isolation and approval of
-agent actions require separate runtime policies.
+\paragraph{Private workspaces.}
+OverlayFS combines upper and lower trees using copy-up and deletion
+markers~\cite{overlayfs}. BranchFS adds a fork/explore/commit lifecycle
+with first-commit-wins resolution; its evaluated prototype copies an
+inherited file when it is first modified~\cite{branchfs2026}.
+\sys retains private namespace changes and data-range mappings over
+a pinned baseline, preserving references to unchanged ranges.
+Its lower-query interface accepts native or packed metadata.
+YoloFS emphasizes staging, reversible effects, and
+permissions~\cite{yolofs2026}; AgentFS combines files, key-value state,
+and tool-call records in SQLite~\cite{agentfs2025}. These execution-control
+and observability functions complement the storage mechanisms studied here.
 
-The comparison must distinguish a local private view from a remotely
-durable one. OverlayFS and BranchFS are useful controls for workspace
-creation and mutation; their persistence boundaries must be matched or
-reported separately. JuiceFS supplies an object-backed volume baseline
-with a metadata service and chunk/slice/block data
-organization~\cite{juicefs_architecture}. These comparisons test the costs
-of inherited versus materialized metadata, private updates, and object
-access, rather than treating the presence of a private upper as a new
-mechanism.
+\paragraph{Mutable metadata services.}
+TableFS and IndexFS use table-based layouts for metadata and small
+files; IndexFS also partitions directories and supports caching and
+bulk insertion~\cite{tablefs2013,indexfs2014}. LocoFS and InfiniFS
+separate metadata responsibilities to improve distribution and
+access~\cite{locofs2017,infinifs2022}. Mantle targets hierarchical object
+metadata, while SwitchFS coordinates asynchronous directory
+updates~\cite{mantle2025,switchfs2026}. Packed Metadata changes the service
+path for a selected fixed subtree. Supported queries use object pages
+and client caches, while mutable work and lifetime control retain their
+existing services. The question is whether this separation reduces
+interference enough to repay publication and access costs.
 
-\paragraph{Namespace and metadata organization.}
-TableFS, IndexFS, LocoFS, and InfiniFS organize, partition, and cache
-metadata to change the work required by file-system
-operations~\cite{tablefs2013,indexfs2014,locofs2017,infinifs2022}.
-Recent systems also study hierarchical object metadata and distributed
-update coordination~\cite{mantle2025,switchfs2026}. Their access paths make
-record layout, batching, and cache reuse relevant comparison criteria:
-a metadata service need not issue one remote request per file operation.
+\paragraph{Private namespaces and immutable logs.}
+DeltaFS combines private namespaces with object-backed metadata.
+Jobs publish mutation logs as SSTables; subsequent jobs select and,
+when needed, merge snapshots. Job-local servers and compaction reduce
+dependence on a globally synchronized metadata
+service~\cite{deltafs2021}. \sys instead maintains a current-value private
+upper over a pinned lower. Packing separately organizes fixed records
+by directory and name range, co-locating attributes and data locators.
+A native-metadata workspace can therefore fork without constructing
+that representation. The distinction concerns update representation,
+query organization, and when construction cost is paid.
 
-DeltaFS is a particularly close conceptual predecessor. It uses private
-namespaces and immutable mutation logs over shared storage, with selective
-composition of prior state~\cite{deltafs2021}. \sys builds on the separation
-of shared state and private changes. Its current-value upper and Packed
-Metadata's directory-oriented groups are concrete representation choices
-to compare with immutable logs and sorted records. An internal sorted-KV
-control can isolate co-location and indexing costs; it cannot establish
-superiority over the DeltaFS system or replace a compatible system-level
-comparison.
+\paragraph{Read-only distribution and indexing.}
+CernVM-FS publishes content-addressed trees through nested SQLite catalogs
+and downloads metadata and data on demand~\cite{cvmfs2011}. It is a
+close precedent for serving large immutable collections outside a mutable
+metadata service. OCI defines layered filesystem archives, including
+compressed tar representations~\cite{oci_layers}. Lazy loading is supported
+by systems such as SOCI~\cite{soci}. Nydus separates filesystem metadata
+from chunked data and provides caching and integrity
+verification~\cite{nydus_rafs}. Slacker and DADI also reduce image
+distribution and startup work through demand-driven
+access~\cite{slacker2016,dadi2020}.
 
-\paragraph{Immutable distribution and storage backends.}
-CernVM-FS provides demand-driven software distribution with indexed
-catalogs, while Nydus describes metadata/data organization for lazy
-image access~\cite{cvmfs2011,nydus_rafs}. Slacker and DADI also address
-image distribution and startup costs~\cite{slacker2016,dadi2020}.
-A strong composition alternative combines a mature immutable lower
-with a compatible writable upper and object backend. It already
-shares state and fetches it on demand. A direct comparison would need to
-measure useful records per fetch, excess payload transfer, and construction
-costs at equal content, cache capacity, and persistence. The current campaign
-uses JuiceFS as its external comparator and does not establish an advantage
-over these immutable distribution systems. Standalone lower access and complete writable workspaces
-require separate comparisons; neither the proposed interfaces nor their
-composition establishes an advantage by itself.
+CoFS exploits a fixed image namespace by building minimal perfect hashes
+and storing metadata in a dense array. Kernel lookup and cached-data
+paths reduce userspace interposition~\cite{cofs2026}.
+\sys addresses the metadata service used by agents throughout execution.
+It offloads queries for selected fixed subtrees while retaining mutable
+workspace operations in their existing services. Its packed representation
+groups directory entries, attributes, and data locators into bounded
+pages reached through authenticated range indexes. These groups define
+remote metadata access units independently of their physical containers.
+The relevant comparison with immutable distributions is the work
+required to locate, fetch, retain, and reuse these records.
 
-Distributed systems such as Ceph and Tectonic separate aspects of metadata
-and data services~\cite{ceph2006,tectonic2021}. Erasure-coded storage research
-considers repair cost, changing redundancy over a file's lifetime, and the
-relation between data placement and
-redundancy~\cite{azureec2012,morph2024,okapi2025}. Okapi's separation of
-striping and redundancy grouping is different from our $(B,q)$ distinction,
-although both motivate making coupled decisions explicit. Client block
-granularity $g$ additionally determines how file data forms objects; it is
-distinct from backend coding and physical verification granularity. Our
-comparisons hold the code rate fixed and separate object counts, checksums,
-tails, and repair work. A smaller unit can reduce over-read without reducing
-the nominal redundancy ratio, and can increase checksum or repair cost.
-
-\paragraph{Scope and unresolved evidence.}
-Poor name locality, high mutation, rapid version churn, and large
-sequential reads can erase the expected savings. The current entry points
-and lifecycle support further bound the comparisons
-(Section~\ref{sec:implementation}). The planned evaluation must establish
-where each mechanism repays its cost and whether a supported combination
-improves on its best supported subset and the external comparator.
+\paragraph{Object granularity.}
+Ceph and Tectonic separate metadata and storage
+services~\cite{ceph2006,tectonic2021}. Azure's erasure coding reduces repair
+traffic, Morph studies redundancy transitions over a file's lifetime,
+and Okapi separates striping from redundancy
+grouping~\cite{azureec2012,morph2024,okapi2025}. \sys connects object
+formation to optional backend layout choices. Client block size $g$
+controls formation, backend block size $B$ controls encoding, and $q$
+controls shard verification and read coverage. Finalized object length
+informs a hint; persisted geometry governs reads and repair.
+The design retains the backend's erasure code and exposes these distinct
+units to the filesystem. Its benefit depends on the ranges actually
+requested by the client.

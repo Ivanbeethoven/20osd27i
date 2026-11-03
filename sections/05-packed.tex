@@ -1,130 +1,101 @@
 \section{Packed Metadata}
 \label{sec:packed}
 
-\subsection{Organizing immutable records for reuse}
+\subsection{Serving a read-only collection}
 
-Large collections of small files keep names, attributes, and data locators
-in the metadata database even when their contents no longer change.
-Concurrent consumers query those records alongside mutable workspace
-operations. Packed Metadata moves the fixed version's read service to
-indexed object pages and client caches; private updates and ownership
-still use metadata and control services. The intended benefit is lower
-central database traffic and interference, purchased with construction,
-publication, and object-access work.
+Packed Metadata targets selected read-only directories containing many
+small files. Even when file contents remain fixed, their names,
+attributes, and data locators can occupy and repeatedly query a shared
+metadata database. Packing moves the fixed version's read service to
+indexed object pages and client caches. The benefit sought is less
+database traffic and interference with mutable operations.
 
-Packed metadata places directory
-entries, common attributes, and file-data locators in bounded object-resident
-pages. The resulting snapshot describes a selected subtree and serves either
-a standalone read-only mount or a workspace lower, with demand-driven access.
+The packed snapshot covers only the directory version explicitly built
+and published. It can serve a standalone read-only mount or supply
+a workspace lower. Writes in the latter case go to the private upper;
+they never modify packed pages. Files outside the snapshot receive no
+benefit from this representation.
 
-A logical read group covers one parent directory and a range of raw entry
-names in byte order. Its joint metadata page co-locates each entry with common
-attributes and data locators, so a name lookup can supply information needed
-by subsequent attribute and data operations. Neighboring names may reuse
-the same page. The raw page is bounded at 256 KiB, while a physical container
-may hold several groups. This separates the unit of metadata organization
-from the object that stores it. Range indexes route requests to these groups;
-their height depends on page capacity and record count, rather than on
-the source directory tree's depth.
+A fixed ML dataset illustrates the intended use. Several experiments
+can mount the same packed input while keeping code changes, checkpoints,
+and temporary results in writable storage. Packing is paid once per
+published dataset version and can be amortized across readers. Updating
+the source dataset requires another publication. Collections with few
+files, short lifetimes, or frequent changes may not repay that cost.
+
+\subsection{Grouping and indexing records}
+
+A logical read group contains entries from one parent directory over
+a range of raw names in byte order. Its joint metadata page co-locates
+each entry with common attributes and data locators. A name lookup can
+therefore supply information needed by subsequent attribute and data
+operations. Grouping neighboring names also makes the page a natural
+unit for reuse; Section~\ref{sec:implementation} describes current caching.
+
+Raw pages are bounded at 256 KiB. A physical container may hold several
+groups, so the metadata access unit need not equal the stored object.
+Range indexes route queries to groups; index height depends on page
+capacity and record count rather than source-directory depth.
 
 \begin{figure}[t]
 \centering
 \input{figures/packed-path}
-\caption{Representative packed-snapshot lookup/read path.
-A name lookup supplies joint metadata and a data locator; reading referenced
-data resolves authenticated descriptors before fetching and verifying payload ranges.}
+\caption{Packed-snapshot lookup and data access. A name lookup returns
+joint metadata and a data locator. A file read resolves authenticated
+descriptors before fetching and verifying the referenced payload range.}
 \label{fig:packed}
 \end{figure}
 
 \subsection{Querying a pinned snapshot}
 
-A reader pins a manifest identity and starts from its authenticated index
-roots. To look up a name within a parent directory, the directory-name index
-identifies the group covering that key. The reader resolves its container
-reference and fetches the joint metadata page's byte range. It verifies the
-stored-byte digest before decoding, then checks the decoded entry count and name boundaries against
-the authenticated group reference. The matching record supplies the inode,
+A reader pins a manifest and starts from its authenticated index roots.
+For a name lookup, the directory-name index identifies the group covering
+the key. The reader resolves the container and fetches the metadata page's
+byte range. Before decoding, it verifies the stored-byte digest; after
+decoding, it checks entry counts and name boundaries against the
+authenticated group reference. The matching record supplies the inode,
 common attributes, and data locator (Figure~\ref{fig:packed}).
 
-The query input determines which index is needed. Attribute queries addressed
-by inode use a separate index, while enumeration
-traverses ordered name ranges and uses counted indexes for directory-ordinal
-navigation. A file read returns inline contents or follows a data locator
-to an authenticated descriptor, fetches the referenced payload range, and
-verifies it. Packed data frames define snapshot-level access and integrity
-units; the backend serves these object requests using its own persisted
-layout.
-
-Supported snapshot queries obtain names, attributes, and data locations
-without per-file records in the mutable metadata database. This lower-query
-independence leaves private upper checks, mutation, and lifetime coordination
-to the workspace and control protocols.
-
-\subsection{Preserving identity and authenticated results}
+Other queries use indexes suited to their keys. Attribute queries
+addressed by inode use a separate index. Enumeration traverses ordered
+name ranges, with counted indexes supporting directory-ordinal navigation.
+A file read returns inline contents or follows a locator to an
+authenticated descriptor and verified payload range. Packed data frames
+define snapshot-level access and integrity units; the backend serves
+them using its own persisted object layout.
 
 Every returned record or payload must connect through authenticated
-references to the pinned manifest. Digest and key-boundary checks prevent
-accepting the wrong records for a query. A missing referenced object or
-failed authentication is an error, not evidence that a name is absent.
+references to the pinned manifest. Missing objects and failed
+authentication are errors, not evidence that a name is absent. Cached
+records remain valid for that identity after newer versions appear.
+A cold lookup may still require several index requests; data reads can
+add descriptor and payload requests. Co-location provides opportunities
+for reuse without fixing the number of GETs per operation.
 
-Authenticated records remain valid under their pinned identity after later
-versions are published. Cache reuse still depends on locality: a cold lookup
-may traverse several index pages, and data reads may need descriptor and
-payload requests beyond the metadata page. Co-location therefore offers
-reuse, not a fixed number of GETs per operation.
+Supported lower queries need no per-file record in the mutable database.
+Private-upper checks, mutations, and ownership coordination continue
+through the workspace and control services.
 
-\subsection{Publication, lifetime, and amortization}
+\subsection{Publication and cost}
 
-Construction needs a consistent source view, established through a snapshot
-or validation protocol; output immutability alone cannot establish it.
-The producer groups records, uploads referenced objects, and produces the
-indexed manifest. Publishing its binding separately requires those objects
-to be durable and valid. Reclamation preserves objects needed by retained
-versions or readers. Rebuilding creates another version; ordinary file close
-does not rebuild a snapshot.
+Construction starts from a consistent source view, established by a
+snapshot or validation protocol. Immutable output alone cannot establish
+source consistency. The producer groups records, uploads objects, and
+builds the indexed manifest. Publication then installs the binding after
+the referenced objects are durable and valid. Retained versions and
+readers keep their objects live until reclamation is safe.
 
-Native overlay fork does not require packing. Its first child pays for
-the native consistency and version-binding steps; a packed child must
-also wait for any required construction and publication. Later children
-can reuse that published representation. These are distinct costs.
-Offloading queries can help while source records remain retained, but
-database space falls only if the lifecycle protocol can safely retire
-them. Replacing reads with object requests does not itself reclaim records.
+A native overlay can fork after native version capture and binding.
+The first packed fork must additionally wait for any required construction,
+upload, validation, and publication. Later children can reuse the published
+pack. Query offload can help while the original database records remain
+retained; reducing their persistent footprint also requires safe retirement.
 
-The access benefit depends on how much of each fetched page is useful.
-Repeated nearby lookups can reuse joint metadata, whereas isolated lookups
-may transfer records they never consume. Inlining file contents, compressing
-pages, and co-packing payload regions also affect transfers, decoding, and
-cache use. Their costs must be separated from the effect of metadata
-co-location.
-
-For one version, $K$ counts uses: one assigned workspace lifecycle or one
-fixed standalone query session, including failures and timeouts. These
-units are reported separately. The accounting interval $T$ spans construction
-through reclamation, including retention after the last use. Each additive
-resource metric $c$ is separate:
-\begin{equation}
-\begin{aligned}
-C_c(K,T)={}&C_{c,\mathrm{build}}+C_{c,\mathrm{publish}}\\
-           &+\sum_{i=1}^{K}C_{c,i}+C_{c,\mathrm{retain}}(T)
-              +C_{c,\mathrm{reclaim}}.
-\end{aligned}
-\end{equation}
-Build and publication include validation; each use includes setup and access.
-Retention includes background maintenance and, for monetary cost, storage
-charges such as $\int_0^T r(t)V(t)\,dt$, where $V(t)$ is billable resident
-bytes and $r(t)$ is currency per byte per unit time. Thus equal $K$ does not
-imply equal cost. Terms use one unit---CPU-seconds, transferred bytes, or
-currency---throughout; concurrent task durations are not a batch makespan.
-Shared work is charged once across uses and versions; a shared object's
-retention uses the union of its residence intervals. Reuse pays only when
-setup and access savings exceed the additional construction, publication,
-retention, and reclamation costs relative to the matched baseline; churn
-and weak locality can erase that benefit.
-
-Immutable object-backed metadata already has strong
-precedents~\cite{deltafs2021,cvmfs2011,nydus_rafs}. We will compare the joint
-layout with immutable sorted-KV records at equal content and cache budgets,
-and with compatible demand-loaded immutable-image systems. Standalone
-read-only and workspace-lower use are separate comparisons. The sorted-KV
-control tests layout organization and is not a reproduction of DeltaFS.
+Packing trades construction and object-access work for lower database
+load. Nearby lookups can reuse joint pages, while isolated lookups may
+transfer unused records. Inlining, compression, and payload co-packing
+introduce additional effects that must be measured separately.
+The relevant cost spans construction, each use, retention, and
+reclamation. Long retention or rapid version churn can outweigh access
+savings even when queries become faster. Section~\ref{sec:evaluation}
+compares native and packed representations over this full lifecycle.

@@ -1,61 +1,62 @@
 \section{Background and Motivation}
 \label{sec:motivation}
 
-\subsection{Task views and reusable state}
+\subsection{Private work and shared inputs}
 
-A coding-agent workspace contains source files, dependencies, generated
+An agent's workspace contains source files, dependencies, generated
 artifacts, and temporary files. Two attempts starting from the same
-revision may initially read the same \code{src/parser.py}.
-If one edits or deletes that file, the other must continue to see its own
-version. The shared starting state must therefore have a stable identity,
-and each attempt's changes must remain private, regardless of where
-metadata and bytes reside.
+revision may read the same file and then make incompatible edits.
+Each must continue to see its own version, including after deletion
+or truncation. A stable baseline identity and private changes provide
+this isolation independently of where metadata and bytes reside.
 
-Reuse is conditional on the deployment. A stable dependency tree may serve
-many attempts, whereas generated outputs may be replaced on every run.
-A baseline can cover a selected subtree; it need not include the entire
-working directory. The value of sharing depends on overlap between tasks,
-the amount of private modification, and how long the baseline remains
-useful. A single task's request distribution cannot establish those
-cross-task properties.
+Read-only inputs have a different lifetime from working state. In the ML
+scenario, an experiment reads a fixed dataset while writing model
+checkpoints and transformed outputs elsewhere. A directory-based image
+loader, for example, enumerates a dataset to build a sample list, then
+opens selected files during loading~\cite{torchvision_folder}. Separate
+experiments can repeat this discovery work against the same version.
+
+Only a selected, already packed directory benefits from Packed Metadata.
+New files and in-place updates are outside that immutable version;
+revised data requires publication of a new version. A private upper can
+hold workspace changes without modifying the packed lower. Small-file
+collections are a particular target because they require many names,
+attributes, and data locators relative to their payload size. Datasets
+stored in a few large shards offer less of this opportunity.
 
 \subsection{From file operations to storage work}
 
-To read \code{src/parser.py}, a tool first needs the path resolved and the
-file's data located. The metadata path supplies names, attributes, and
-file-to-object mappings; the data path retrieves payloads from caches or
-object storage. Metadata services can batch requests and
-cache records~\cite{tablefs2013,indexfs2014}; immutable distributions can
-also organize records for demand fetching~\cite{cvmfs2011,nydus_rafs}.
-Thus a file-system operation need not generate a remote metadata request.
+Reading a file requires path resolution, a data mapping, and access
+to the referenced bytes. Metadata services batch and cache
+records~\cite{tablefs2013,indexfs2014}, while immutable distributions
+organize them for demand fetching~\cite{cvmfs2011,nydus_rafs}. A
+file-system call therefore need not cause a remote metadata request.
+The relevant question is how much database traffic remains under the
+actual cache and concurrency conditions.
 
-For a large fixed collection of small files, the metadata database may
-still serve repeated reads alongside mutable updates. Moving that
-collection's read service to immutable object pages can reduce this shared
-load, but requires first fixing and publishing a version. Its value
-therefore depends on reuse and update frequency as well as query latency.
-The evaluation measures database pressure directly; a high FUSE metadata
-request count alone does not establish such a bottleneck.
+For a fixed small-file collection, object-resident metadata can move read
+service away from the database handling mutable updates. Construction
+and publication must be amortized over the version's uses. The likely
+gain also depends on locality: neighboring queries can share a metadata
+page, whereas scattered queries may fetch records they never use.
 
-The requested file range also differs from the storage work it induces.
-Kernel caching and readahead affect which requests reach FUSE. The client
-then maps those requests to stored objects and may fetch a range or an
-entire object. Backend encoding and integrity checks can require access
-to still different units~\cite{azureec2012,okapi2025}. Writes similarly
-pass through buffering and object formation before publication. Thus a
-small file request does not by itself determine transferred bytes,
-verification work, or uploaded object size. The following observations
-characterize requests received by FUSE handlers.
+Payload access introduces another translation. Kernel caching and
+readahead determine which requests reach FUSE; the client then fetches
+object ranges or complete objects. Encoding and integrity checks may
+require still larger physical reads~\cite{azureec2012,okapi2025}. Writes
+pass through buffering and object formation before publication. FUSE
+request lengths thus describe neither application syscall sizes nor
+physical storage units.
 
 \input{sections/02-agent-observations}
 
-\subsection{Implications for storage design}
+\subsection{Design implications}
 
-The observed mix motivates testing positive and negative metadata queries,
-mixed data-request lengths, and task-specific bursts. It does not select
-a metadata layout or an object size. Grouping can amortize requests when
-nearby records or bytes are reused, but scattered accesses can fetch
-unnecessary data. Measuring locality and version reuse must therefore
-precede any claim that access savings repay construction and retention.
-Section~\ref{sec:overview} defines the state and access interfaces needed
-to compare these choices while preserving each task's file view.
+The coding traces motivate positive and negative metadata queries,
+mixed request lengths, and bursty replay. The ML scenario adds a
+complementary question: can repeated access to a fixed small-file
+dataset repay packing and reduce interference with mutable work?
+Both require measuring the work induced below the file-system interface.
+Section~\ref{sec:overview} describes how \sys separates workspace state,
+metadata representation, and payload layout to make these costs explicit.

@@ -1,94 +1,80 @@
-\subsection{Observed requests in real agent runs}
+\subsection{Observed requests in coding-agent runs}
 \label{sec:agent-observations}
 
-\paragraph{Capture and scope.}
-We reanalyzed eight SWE-bench Verified task runs~\cite{swebench2024}: five
-Core and three Exploratory. All used the same agent harness configured for
-\code{deepseek-v4-flash}. Exploratory runs used a broader
-investigation/testing prompt and a 30-minute budget; all finished earlier.
-Each base-commit checkout was mounted through an instrumented passthrough
-file system on Ubuntu 24.04 under WSL, recording actual FUSE handler
-requests. The companion record retains the harness and instrumentation versions.
-Streaming reanalysis covered all 1,138,884 events: 217,129 Core and 921,755
-Exploratory. Counts retain every status, 64 setup/canary requests before
-agent startup, and teardown, including 24 requests after recorded run finish.
-Group statistics weight requests equally, not tasks. Per-task counts and
-source-validation details are in the companion workload record.
+\paragraph{Capture.}
+We reanalyzed eight SWE-bench Verified task runs~\cite{swebench2024}.
+All used the same harness configured for \code{deepseek-v4-flash}.
+Three runs had a broader investigation
+and testing prompt and a 30-minute budget; all finished earlier.
+Each base-commit checkout used an instrumented passthrough file system
+on Ubuntu 24.04 under WSL. Instrumentation recorded requests reaching
+FUSE handlers.
+
+The capture contains 1,138,884 requests across all eight runs.
+Counts include all statuses, 64 setup/canary requests before
+startup, and teardown, including 24 requests after recorded run completion.
+Pooled statistics weight requests equally rather than tasks. The companion
+workload record retains instrumentation versions, per-task counts, and
+source-validation details.
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{figures/agent-fuse/fuse-single-column.pdf}
-\caption{FUSE request structure across eight task runs.
-Initial and Extended denote the five Core and three broader-prompt
-Exploratory captures.
-(a) All-call shares; hatching marks errors.
-(b) Requested-length distributions within method/group.
-(c) Each task's call share in its busiest 10\% of one-second windows.
-}
+\caption{FUSE requests across eight coding-agent runs.
+(a) Pooled call shares; hatching marks errors within each category.
+(b) Pooled requested-length distributions, normalized separately for
+reads and writes. (c) Each task's call share in its busiest 10\% of
+one-second windows. Panels (a,b) weight requests equally.}
 \label{fig:agent-fuse-combined}
 \end{figure}
 
-\paragraph{Metadata traffic and read dominance.}
-The metadata methods---\code{lookup}, \code{getattr}, \code{getxattr},
-\code{readdirplus}, \code{opendir}, and \code{releasedir}---accounted for
-61.5\% of Core and 56.4\%
-of Exploratory calls (Figure~\ref{fig:agent-fuse-combined}a).
-Other comprises all methods except these six and read/write.
-Restricting the denominator and numerator to \code{ok} events reduces these
-shares to 52.0\% and 44.2\%: failed probes materially change the request mix.
-Across tasks, the all-status share ranged from 39.6\% in SymPy to 65.4\% in
-Django, so the group majority does not describe every task.
-Read calls outnumbered writes by 19.9:1 in Core and 4.16:1 in Exploratory;
-per-task ratios ranged from 3.12:1 (Pytest) to 42.7:1 (Matplotlib).
-These observations motivate evaluating both positive and negative metadata
-paths alongside data I/O.
+\paragraph{Metadata traffic.}
+Six metadata methods (\code{lookup}, \code{getattr}, \code{getxattr},
+\code{readdirplus}, \code{opendir}, and \code{releasedir}) accounted for
+57.3\% of all calls (Figure~\ref{fig:agent-fuse-combined}(a)).
+Other contains methods outside
+these six and read/write. Among successful events, the metadata share
+was 45.8\%, showing the contribution of unsuccessful probes.
+Across individual tasks, all-status shares ranged from 39.6\% in SymPy
+to 65.4\% in Django. Read calls outnumbered writes by 4.87:1 overall;
+per-task ratios ranged from 3.12:1 to 42.7:1.
 
-\paragraph{A mixture of request sizes.}
-All 22,142/98,292 reads and 1,112/23,600 writes (Core/Exploratory) were
-\code{ok}; $1\,\mathrm{KiB}=1024$ bytes.
-Reads ranged from 4 to 128 KiB, with Core and Exploratory medians of 8 and
-16 KiB. Writes ranged from one byte
-to 128 KiB, with medians of 4,084 and 4,117 bytes, respectively.
-Requests of at most 4 KiB accounted for 47.7\% and 34.5\% of reads, and
-74.3\% and 49.9\% of writes. The interval $(4,64]$ KiB contained a further
-36.2\% and 36.4\% of reads and 21.3\% and 44.0\% of writes
-(Figure~\ref{fig:agent-fuse-combined}b).
-This mixture motivates measuring how client fetching and uploads transform
-requests before testing backend layouts. FUSE observations occur below kernel
-caching and readahead; they do not identify application syscall sizes, unique
-bytes, finalized object lengths, or an optimal block size.
+\paragraph{Request sizes.}
+All 120,434 reads and 24,712 writes succeeded.
+Reads ranged from 4 to 128 KiB, with a median of 12 KiB.
+Writes ranged from one byte to 128 KiB, with a median of 4 KiB.
+Requests of at most 4 KiB accounted for 37.0\% of reads and
+51.0\% of writes. The interval $(4,64]$ KiB contained a further
+36.3\% of reads and 43.0\% of writes
+(Figure~\ref{fig:agent-fuse-combined}(b)).
+This mixture calls for measuring how fetching and object formation
+transform requests before selecting storage granularity.
 
-\paragraph{Task and temporal heterogeneity.}
-Tasks generated 8,542--634,726 calls. Astropy contributed 68.9\% of
-Exploratory calls, versus 6.0\% for Pytest. Capture spans, from first to last
-request start, were 42.7--71.3 seconds for Core and 119.9--556.1 seconds for
-Exploratory. Windows include zero-call and final partial windows.
-The busiest 10\% of one-second windows, rounded up per task,
-contained 47.4--83.7\% of its calls (Figure~\ref{fig:agent-fuse-combined}c).
-The companion record retains the full method breakdowns, size ECDFs,
-and per-task cumulative time curves. Replay
-should retain these per-task mixes and bursts. Each task was observed once;
-different repositories, prompts, and budgets prevent a causal interpretation
-of the group contrast. Without tool-phase labels, bursts cannot be assigned
-to searching, editing, or testing.
+\paragraph{Variation across tasks and time.}
+Tasks generated 8,542--634,726 calls over capture spans of
+42.7--556.1 seconds. Astropy contributed 55.7\% of all requests,
+so the pooled distributions describe recorded traffic rather than
+an equally weighted typical task.
+The busiest 10\% of one-second windows contained 47.4--83.7\% of each
+task's calls (Figure~\ref{fig:agent-fuse-combined}(c)). Windows include idle
+and final partial windows; the number selected is rounded up per task.
+These differences favor retaining per-task mixes and timing in replay.
+Each task was observed once, and repositories, prompts, and budgets
+differed; the observations do not isolate their effects.
 
-\paragraph{Status semantics and evidence limits.}
-The capture contained 872,519 \code{ok}, 253,669 \code{error}, and 12,696
-\code{incomplete} events. Errors occurred in \code{lookup} (233,452),
-\code{getxattr} (20,203), and \code{rmdir} (14). Collection notes associate
-many with failed path probes or unsupported attributes; absent errno values
-prevent event-level cause attribution. The parser labels a request
-\code{incomplete} when no recognized completion is paired with it: here,
-12,688 \code{forget} and eight \code{destroy} records. Neither label counts
-failed agent tasks. All eight agent and daemon exit codes were zero, which
-does not establish SWE-bench grading success.
+\paragraph{Measurement limits.}
+The capture contains 872,519 \code{ok}, 253,669 \code{error}, and
+12,696 \code{incomplete} events. Errors came from \code{lookup}
+(233,452), \code{getxattr} (20,203), and \code{rmdir} (14).
+Missing errno values prevent attribution of individual errors.
+Incomplete events lack a recognized paired completion: 12,688 are
+\code{forget} records and eight are \code{destroy} records.
+All agent and daemon exit codes were zero; task-grading success was
+not established.
 
-Handler latency measures WSL passthrough intervals and excludes model response
-time. Elapsed capture time instead includes inter-request gaps, which may
-contain model waiting; summing overlapping handler intervals cannot recover
-task wall time. These observations do not measure RustFS, Redis, network
-object storage, or cloud-disk latency. They motivate metadata and mixed-I/O
-experiments for this single-agent/model panel, but do not establish cross-task
-sharing, sparse mutation, or performance gains from \sysname, RustFS, or
-the automatic hint policy. Those remain questions for
-Section~\ref{sec:evaluation}.
+Handler intervals measure WSL passthrough activity, not remote storage
+latency or model response time. Capture spans include inter-request
+gaps; overlapping handler intervals cannot be summed into task duration.
+The traces establish request mix and timing for this panel. They do not
+measure ML workloads, cross-task sharing, sparse mutation, or \sys
+performance.

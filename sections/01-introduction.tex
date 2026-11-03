@@ -1,63 +1,81 @@
 \section{Introduction}
 \label{sec:intro}
 
-Coding agents work through ordinary file-system tools: they traverse a
-repository, inspect source files, edit code, and run builds and
-tests~\cite{sweagent2024,openhands2025}. Consider a service that launches
-several attempts from the same repository revision and dependency set.
-Each attempt needs a consistent starting view and independent changes.
-Serving it requires both provisioning that view and resolving names,
-attributes, and file data throughout execution.
+Coding agents traverse repositories, inspect files, edit code, and run
+builds and tests~\cite{sweagent2024,openhands2025}. When a service launches
+several attempts from the same revision, each needs a consistent starting
+view and private changes. Saved results must remain available for later
+attempts or another worker. Storage must provide these views while serving
+their names, attributes, and file data throughout execution.
 
-Sharing a baseline addresses provisioning, but leaves these access costs
-open. Layered namespaces and copy-on-write branches already let tasks reuse
-state while keeping changes private~\cite{overlayfs,branchfs2026,deltafs2021}.
-Immutable distributions provide indexed, demand-loaded
-state~\cite{cvmfs2011,nydus_rafs}. A mature immutable lower with a compatible
-writable upper and object backend is therefore a strong direct alternative.
-Any comparison with this composition must include its sharing and caching.
-The remaining
-question is how the metadata and object units fetched by a task affect
-request count, transferred bytes, and processing work.
+Machine-learning (ML) agents also prepare datasets, train models, and
+compare experiments~\cite{mlebench2025}. Consider several such agents
+exploring models against one fixed training dataset. Their code,
+checkpoints, and temporary outputs differ, while the input data remains
+read-only. If the dataset contains many small files, sharing its bytes
+still leaves a large namespace to serve. This case motivates a selective
+optimization: pack the stable data directory once and reuse its metadata
+across experiments, while keeping mutable working state outside the pack.
 
-We reanalyzed 1,138,884 FUSE requests from eight coding-agent task runs
-(Section~\ref{sec:agent-observations}). Metadata operations, including
-unsuccessful probes, made up more than half of the requests in each of the
-two workload groups. Reads and writes had mixed request lengths, and
-activity varied substantially across tasks and over time. These observations
-motivate examining access costs alongside provisioning; request counts alone
-do not identify a latency bottleneck or establish cross-task reuse.
+Prior systems provide much of the foundation. OverlayFS and BranchFS
+isolate private changes over shared state~\cite{overlayfs,branchfs2026};
+DeltaFS publishes private namespace updates as immutable
+logs~\cite{deltafs2021}. IndexFS and InfiniFS improve metadata organization,
+distribution, and caching~\cite{indexfs2014,infinifs2022}. CernVM-FS and
+Nydus serve immutable file trees with indexed metadata and on-demand
+data access~\cite{cvmfs2011,nydus_rafs}. CoFS exploits a fixed image
+namespace to index metadata for kernel lookup~\cite{cofs2026}.
+Building on these approaches, an object-backed workspace must decide how to represent private
+updates, which fixed metadata to serve outside the mutable database,
+and which units to fetch and verify.
 
-Our design separates the state a task shares from the units used to access
-that state. A workspace resolves private changes before querying its pinned
-lower version; lower answers need not depend on one metadata representation.
-Data locators connect those answers to object ranges, whose interpretation
-must preserve the referenced bytes across storage layouts. These interfaces
-allow different access units to serve the same logical file view. Our
-hypothesis is that separating shared-version identity from metadata and
-object access units can reduce lifecycle storage work under matched
-visibility and durability contracts. The expected savings
-depend on unchanged-state reuse, metadata locality, or selective data access,
-and must exceed construction and maintenance costs. Direct composition may
-already capture those savings; matching or exceeding its cost would weaken
-the case for the corresponding mechanism.
+These decisions incur different costs. In a database-backed file system,
+queries over fixed collections can compete with active namespace
+updates~\cite{juicefs_architecture}. Packing redirects supported queries
+to object storage and client caches, at the cost of constructing and
+publishing a version. A native overlay can fork without that additional
+work. Separately, object formation and backend layout determine how much
+storage work a partial read requires. Reducing fork cost therefore does
+not necessarily reduce the cost of using the resulting workspace.
 
-\sys realizes this design in an object-backed file system with three
-mechanisms. \emph{Delta-Based Workspaces} resolve a shared immutable
-baseline with private namespace and data-mapping changes. \emph{Packed
-Metadata} groups immutable names, attributes, and data locators into indexed
-pages on object storage, moving fixed-version queries away from the central
-metadata database while mutable and control records remain there.
-\emph{Variable-Granularity Object Storage} separates
-client object formation from optional backend encoding and verification
-units. Each addresses a different cost and remains optional: workspaces
-can use native metadata, packed snapshots can serve read-only mounts, and
-ordinary volumes can configure object granularity. Section~\ref{sec:overview}
-defines their composition interfaces.
+Our workload study reinforces the need to examine access as well as
+creation. Across 1,138,884 FUSE requests from eight coding-agent runs,
+metadata methods accounted for 57.3\% of all calls.
+Requests also varied in length and arrived in bursts
+(Section~\ref{sec:agent-observations}). These observations characterize
+coding workloads; they do not measure ML data access or establish
+a metadata-service bottleneck.
 
-The paper develops private-view resolution, immutable metadata lookup and
-publication, and file-to-object access rules. It connects those rules to
-the inspected implementation (Section~\ref{sec:implementation}) and the
-completed request-characterization study. System performance and failure
-experiments remain planned (Section~\ref{sec:evaluation}); neither the
-observations nor source inspection establishes a system speedup.
+\sys separates the identity of shared state from its metadata
+representation and payload access units. Three mechanisms implement
+this separation:
+
+\begin{itemize}
+\item \textbf{Delta-Based Workspaces} retain private namespace state and
+data-range mappings over a pinned baseline. Unlike file-level copy-up
+in the BranchFS prototype, unchanged ranges keep their original
+references. The lower-query interface accepts native or packed metadata
+(Section~\ref{sec:delta}).
+\item \textbf{Packed Metadata} serves an explicitly packed read-only
+subtree through authenticated object pages. Directory-name groups
+co-locate entries, common attributes, and data locators for reuse across
+related operations. Fixed-version queries leave the per-file database
+path; mutable updates and lifetime control remain in their existing
+services (Section~\ref{sec:packed}).
+\item \textbf{Variable-Granularity Object Storage} separates client
+object formation from backend encoding and verification. A finalized
+object can carry a layout hint, which the backend validates and persists
+for subsequent reads and repair (Section~\ref{sec:layout}).
+\end{itemize}
+
+Each mechanism can be used independently. A workspace can retain native
+metadata; a packed dataset can serve standalone read-only access; an
+ordinary volume can configure object granularity. Packing is most
+plausible for stable, metadata-intensive collections reused across many
+readers. Frequent updates or little reuse may leave native metadata
+cheaper, while smaller storage units can add requests and checksums.
+
+This paper presents the design, implementation, and completed workload
+characterization. The evaluation plan isolates the three mechanisms
+before examining fork, migration, and concurrent execution
+(Section~\ref{sec:evaluation}).

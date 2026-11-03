@@ -48,11 +48,11 @@
     <g aria-label="1">
       <text x="70.775390625" y="33.1" font-family="Arial" font-size="8" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">1</text>
     </g>
-    <g aria-label="Delta-Based Multi-Agent">
-      <text x="81" y="31" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Delta-Based Multi-Agent</text>
+    <g aria-label="Delta-Based">
+      <text x="81" y="31" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Delta-Based</text>
     </g>
-    <g aria-label="Workspaces">
-      <text x="81" y="41.5" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Workspaces</text>
+    <g aria-label="Workspaces (§4)">
+      <text x="81" y="41.5" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Workspaces (§4)</text>
     </g>
     <g aria-label="Private state first">
       <text x="164.936279296875" y="41.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private state first</text>
@@ -60,24 +60,20 @@
   </g>
   <g id="workspace-view-1">
     <rect x="71" y="45" width="75" height="20" rx="2" fill="#F3DDCD" stroke="#B65F2D" stroke-width="0.65" />
-    <g aria-label="View W₁">
-      <text x="94.572767578125" y="51.5" font-family="Arial" font-size="7.1" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">View W</text>
-      <text x="119.42623437499999" y="52.95" font-family="Arial" font-size="5.396" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">1</text>
+    <g aria-label="View 1">
+      <text x="97.4495849609375" y="51.5" font-family="Arial" font-size="7.1" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">View 1</text>
     </g>
-    <g aria-label="Private state Δ₁">
-      <text x="84.256962890625" y="61.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private state Δ</text>
-      <text x="129.784306640625" y="62.95" font-family="Arial" font-size="5.32" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">1</text>
+    <g aria-label="Private changes">
+      <text x="83.40185546875" y="61.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private changes</text>
     </g>
   </g>
   <g id="workspace-view-2">
     <rect x="153" y="45" width="75" height="20" rx="2" fill="#F3DDCD" stroke="#B65F2D" stroke-width="0.65" />
-    <g aria-label="View W₂">
-      <text x="176.572767578125" y="51.5" font-family="Arial" font-size="7.1" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">View W</text>
-      <text x="201.42623437499998" y="52.95" font-family="Arial" font-size="5.396" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">2</text>
+    <g aria-label="View 2">
+      <text x="179.4495849609375" y="51.5" font-family="Arial" font-size="7.1" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">View 2</text>
     </g>
-    <g aria-label="Private state Δ₂">
-      <text x="166.256962890625" y="61.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private state Δ</text>
-      <text x="211.784306640625" y="62.95" font-family="Arial" font-size="5.32" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">2</text>
+    <g aria-label="Private changes">
+      <text x="165.40185546875" y="61.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private changes</text>
     </g>
   </g>
   <g id="pinned-baseline-references">
@@ -86,8 +82,8 @@
   </g>
   <g id="shared-baseline">
     <rect x="71" y="71" width="157" height="10" rx="2" fill="#2D6084" stroke="#2D6084" stroke-width="0.65" />
-    <g aria-label="Pinned shared immutable S">
-      <text x="103.60009765625" y="78.5" font-family="Arial" font-size="7.0" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">Pinned shared immutable S</text>
+    <g aria-label="Pinned shared immutable baseline">
+      <text x="91.927734375" y="78.5" font-family="Arial" font-size="7.0" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">Pinned shared immutable baseline</text>
     </g>
   </g>
   <g id="common-file-interfaces">
@@ -109,8 +105,8 @@
     <g aria-label="2">
       <text x="9.775390625" y="119.1" font-family="Arial" font-size="8" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">2</text>
     </g>
-    <g aria-label="Packed Metadata">
-      <text x="21" y="119" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Packed Metadata</text>
+    <g aria-label="Packed Metadata (§5)">
+      <text x="21" y="119" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Packed Metadata (§5)</text>
     </g>
   </g>
   <g id="native-records">
@@ -184,8 +180,8 @@
     <g aria-label="Name-range">
       <text x="61.046630859375" y="164" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Name-range</text>
     </g>
-    <g aria-label="index · /src">
-      <text x="63.384521484375" y="172.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">index · /src</text>
+    <g aria-label="index">
+      <text x="72.1328125" y="172.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">index</text>
     </g>
   </g>
   <g id="index-page">
@@ -215,8 +211,8 @@
     <g aria-label="Data ref.">
       <text x="79.57763671875" y="200" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Data ref.</text>
     </g>
-    <g aria-label="main.py">
-      <text x="13.744873046875" y="209.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">main.py</text>
+    <g aria-label="file A">
+      <text x="18.218994140625" y="209.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">file A</text>
     </g>
     <g aria-label="size">
       <text x="52.77587890625" y="209.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">size</text>
@@ -248,8 +244,8 @@
     <g aria-label="Variable-Granularity">
       <text x="141" y="119" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Variable-Granularity</text>
     </g>
-    <g aria-label="Object Storage">
-      <text x="141" y="129" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Object Storage</text>
+    <g aria-label="Object Storage (§6)">
+      <text x="141" y="129" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Object Storage (§6)</text>
     </g>
   </g>
   <g id="ordinary-uploader">
