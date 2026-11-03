@@ -1,29 +1,20 @@
 \section{Packed Metadata}
 \label{sec:packed}
 
-\subsection{Serving a read-only collection}
+Repeated access to a fixed small-file collection can place read
+traffic on the metadata service handling mutable updates. Packed
+Metadata organizes that version into object pages, moving supported
+lower queries to object storage and client caches. This targets
+database load and interference; construction and publication are paid
+once per version and amortized over its readers.
 
-Packed Metadata targets selected read-only directories containing many
-small files. Even when file contents remain fixed, their names,
-attributes, and data locators can occupy and repeatedly query a shared
-metadata database. Packing moves the fixed version's read service to
-indexed object pages and client caches. The benefit sought is less
-database traffic and interference with mutable operations.
+\subsection{What is packed}
 
-The packed snapshot covers only the directory version explicitly built
-and published. It can serve a standalone read-only mount or supply
-a workspace lower. Writes in the latter case go to the private upper;
-they never modify packed pages. Files outside the snapshot receive no
-benefit from this representation.
-
-A fixed ML dataset illustrates the intended use. Several experiments
-can mount the same packed input while keeping code changes, checkpoints,
-and temporary results in writable storage. Packing is paid once per
-published dataset version and can be amortized across readers. Updating
-the source dataset requires another publication. Collections with few
-files, short lifetimes, or frequent changes may not repay that cost.
-
-\subsection{Grouping and indexing records}
+Packed Metadata applies to a selected read-only directory version that
+has been explicitly built and published. It can serve a standalone
+read-only mount or supply a workspace lower. Writes in the latter case
+go to the private upper; they never modify packed pages. Files outside
+the published version receive no benefit from this representation.
 
 A logical read group contains entries from one parent directory over
 a range of raw names in byte order. Its joint metadata page co-locates
@@ -76,7 +67,7 @@ Supported lower queries need no per-file record in the mutable database.
 Private-upper checks, mutations, and ownership coordination continue
 through the workspace and control services.
 
-\subsection{Publication and cost}
+\subsection{Building and publishing a version}
 
 Construction starts from a consistent source view, established by a
 snapshot or validation protocol. Immutable output alone cannot establish
@@ -85,17 +76,24 @@ builds the indexed manifest. Publication then installs the binding after
 the referenced objects are durable and valid. Retained versions and
 readers keep their objects live until reclamation is safe.
 
-A native overlay can fork after native version capture and binding.
-The first packed fork must additionally wait for any required construction,
-upload, validation, and publication. Later children can reuse the published
-pack. Query offload can help while the original database records remain
-retained; reducing their persistent footprint also requires safe retirement.
+If no published pack exists, the first packed fork additionally waits
+for construction, upload, validation, and publication. A native overlay
+requires native version capture and binding but avoids pack construction.
+Later children reuse the published pack rather than rebuilding it. Query
+offload can help while the original database records are retained;
+reducing their persistent footprint also requires safe retirement, which
+is a separate step from the offload itself.
 
-Packing trades construction and object-access work for lower database
-load. Nearby lookups can reuse joint pages, while isolated lookups may
-transfer unused records. Inlining, compression, and payload co-packing
-introduce additional effects that must be measured separately.
-The relevant cost spans construction, each use, retention, and
-reclamation. Long retention or rapid version churn can outweigh access
-savings even when queries become faster. Section~\ref{sec:evaluation}
+The relevant cost therefore spans construction, each use, retention, and
+reclamation. Grouping gives related queries a common page to reuse;
+the available caches determine whether that reuse occurs. Isolated
+lookups may transfer unused records. Inlining, compression, and payload co-packing
+introduce additional effects that must be measured separately. Long
+retention or rapid version churn can outweigh access savings even when
+queries become faster.
+
+A fixed ML dataset illustrates the intended use. Several experiments can
+mount the same packed input while keeping code changes, checkpoints, and
+temporary results in writable storage, so the build cost is paid once
+per dataset version and amortized over its readers. Section~\ref{sec:evaluation}
 compares native and packed representations over this full lifecycle.

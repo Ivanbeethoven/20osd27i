@@ -1,184 +1,158 @@
 \section{Evaluation Plan}
 \label{sec:evaluation}
 
-The planned evaluation isolates each mechanism before testing fork,
-migration, and concurrent execution. It measures storage service to
-agents inside running containers, including access to shared read-only
-inputs. System-performance results are pending. The eight-run
-characterization in Section~\ref{sec:agent-observations} and the seven
-later replay archives are separate datasets.
+The evaluation tests each mechanism in a workload that exposes its
+expected benefit, then asks whether those benefits improve fork,
+migration, and concurrent execution. The formal study remains to be
+conducted. Section~\ref{sec:agent-observations} reports the completed
+request characterization; an exploratory replay is separately archived
+in the companion experiment repository.
 
 \subsection{Systems, inputs, and accounting}
 
 JuiceFS is the external distributed-file-system
-baseline~\cite{juicefs_architecture}, using native cloning and shared
-read-only directories where appropriate. Both systems use the same
-four-server object backend at separate times, with isolated namespaces
-and matched client, metadata, cache, and persistence budgets. Execution
-freezes software revisions and qualifies supported operations and restart
-semantics. Research-backend extensions are reported separately.
+baseline~\cite{juicefs_architecture}. Internal comparisons use ordinary
+volumes, native-metadata workspaces, and packed-metadata workspaces.
+Mechanism ablations keep the execution engine and unrelated policies
+fixed; comparisons between complete paths are reported separately.
+Resource pools match CPU, memory, storage, and metadata-service budgets.
+Concurrent comparisons require independent services; runs sharing a
+service execute sequentially. Software revisions, effective layouts,
+placement, and supported operations are recorded.
 
-Inputs include a 1 GiB tree with 32,896 files, a 1 GiB indexed record
-collection, and trees containing 32,768 or 1,048,576 one-KiB files.
-A larger small-file case is bounded by available resources. Seven
-complete traces cover code tasks, build/test, and archive/indexing work.
-Two capture the same Pytest task; replay copies add load but no task
-diversity. The companion protocol fixes generators, queries, branch
-trees, arrivals, deadlines, and repetitions.
+Inputs include coding and build/test traces, a million-file collection
+with 4 KiB payloads, and fixed collections shared by concurrent readers.
+The companion protocols specify generation, schedules, and repetitions.
+ML dataset access, repeated publication, retention, and scale studies
+extend the configured replay and small-file experiments.
 
-Accounting spans preparation, execution, validation, retention, and
-reclamation, including failed and timed-out attempts. Shared work and
-object residence are counted once across uses and versions. CPU time,
-transferred bytes, and monetary cost retain separate units; storage
-charges include residence after the last use. Batch duration is measured
-directly rather than summed from concurrent tasks. File replay and
-actual agent sessions are evaluated separately.
+Accounting covers preparation, execution, validation, retention, and
+reclamation, including failed attempts. Shared preparation is counted
+once per baseline; object residence continues until reclamation.
+CPU time, transferred bytes, and monetary cost retain separate units.
+Batch duration is measured directly, with queueing included, rather
+than summed from overlapping tasks. Replay and actual agent execution
+are separate studies.
 
 \subsection{Overlay fork and retained branches}
 
 \researchq{1} How much state and work does overlay fork save without
 packing metadata?
-A common operation suite compares an ordinary volume, native-metadata
-overlay, and packed-metadata overlay at fixed object layout and payload
-caching. Lookup, read, write, and sync tests expose steady-state overhead.
-A volume lacking fork uses materialization to produce the same isolated
-child state, including its preparation cost.
+Many children start from one revision and modify a small part of its
+tree. A native-metadata workspace is compared with an eagerly
+materialized private view in the same engine, preserving the API,
+payload sharing, caches, and durability semantics. An ordinary copied
+volume provides a separate system-level comparison.
 
-A parent changes data and names, publishes a version, and forks 1, 16,
-or 64 children. Each child modifies and saves private state. Readback
-checks inheritance and parent/sibling isolation; clean-baseline creation
-is a separate case. A 32-fork budget compares a star, a four-way tree,
-and four chains of depth eight, retaining 33 states in each case.
-
-An internal control materializes metadata under the same API,
-payload-sharing, cache, and durability contract. JuiceFS can retain
-native block sharing. Measurements cover parent preparation, first
-correct child operation, first durable edit, save latency, private
-metadata, and uploaded bytes. Retention tests create 1,000 and 10,000
-recoverable states, with 100,000 attempted under fixed time and memory
-limits. Reopening states and deleting half tests retention and reclamation.
-Admission failures and outstanding cleanup are reported.
+Increasing fan-out tests preparation sharing. Star, branching, and
+chained histories use equal fork budgets to expose the cost of
+descendants of modified parents. Measurements include baseline capture,
+creation to first correct operation, first durable edit, save latency,
+private records, and uploaded bytes. Readback checks inheritance and
+parent/sibling isolation. Retaining, reopening, and deleting states
+measures accumulated metadata and actual reclamation; admission failures
+and outstanding cleanup remain visible.
 
 \subsection{Read-only metadata service}
 
 \researchq{2} When does packing a fixed small-file collection reduce
 database load enough to repay construction and publication?
-The primary comparison holds an overlay and its content fixed while
-changing the lower from native to packed metadata. Both start from a
-consistent version. Standalone read-only mounts isolate representation
-without requiring a workspace.
+Concurrent readers repeatedly access a fixed collection while other
+workspaces update the same metadata service. The pure metadata
+comparison changes native versus packed representation within one
+engine, holding payload layout and caches identical. A separate
+comparison permits each complete format to use its own data layout.
+Standalone read-only mounts isolate the representation from upper checks.
 
-We time native version capture and binding, the additional work needed
-for the first packed fork, and later forks of each published version.
-Packed preparation includes construction, upload, validation, and
-publication. Time to the first useful operation and full-batch duration
-are measured directly, allowing phases to overlap.
+Native version capture and binding are timed alongside the additional
+construction, upload, validation, and publication required for an
+unprepared packed version. First and later forks separate preparation
+from reuse. Equal-use comparisons vary consumers, version churn, and
+post-use retention to identify resource-specific break-even regions.
+Query offload and persistent database reduction are measured separately:
+retained source records still occupy space.
 
-Each small-file query session contains 32,768 operations. Workloads
-cover random positive lookups, mixed positive/negative lookups, inode
-attributes, neighboring names, enumeration followed by attributes, and
-lookup followed by a read. One, 16, or 64 consumers access overlapping
-or disjoint paths. Cold, index-warm, and metadata-warm cases declare
-equal supported cache budgets. Representation controls disable inlining
-and compression; practical configurations measure their additional effects.
+Positive and negative lookups, inode attributes, neighboring names,
+enumeration followed by attributes, and lookup followed by reads
+exercise different locality. Cold, index-warm, and metadata-warm runs
+declare supported cache budgets. Counters separate lower-database,
+private-upper, and control traffic from index, joint-page, descriptor,
+and payload requests. Latency, database CPU and memory, persistent
+bytes, transfers, decoding, and verification reveal where work moves.
+A fixed-rate mutable-workspace probe measures interference through its
+queue, deadline completion, and tail latency.
 
-Counters distinguish lower-database, private-upper, and control requests
-from index, joint-page, descriptor, and payload requests. Measurements
-include query latency, database CPU and memory, persistent bytes,
-transfers, decoding, verification, and client and object-service resources.
-A fixed-rate mutable-workspace probe shares the metadata service with
-identical background schedules against native or packed inputs.
-Its queue, deadline completion, and tail latency test whether offloading
-read-only queries protects active updates.
-
-An ML-oriented case separates dataset discovery from sample access.
-Workers enumerate a fixed directory collection, then open samples under
-controlled sequential and shuffled orders. Fresh sessions and persistent
-sample lists distinguish repeated discovery from steady loading.
-Writable outputs remain outside the packed dataset. The primary metrics
-are metadata service work and interference with concurrent writers;
-loader waiting and training throughput require separate end-to-end
-measurements. Larger-file collections test how the opportunity changes
-as per-file metadata becomes less prominent.
-
-Read-only layout comparisons use a compatible lazy reader, such as
-Nydus or SOCI, at matched content, integrity, cache, and payload settings.
-They measure construction, version updates, memory, transfers, and
-sustained query service. A pre-extracted local image is a placement
-comparison, with local storage charged. An equivalent immutable sorted-KV
-control would isolate joint-page organization, without reproducing DeltaFS.
-
-Each version serves 1, 4, 16, 64, or 256 query sessions. Eight version
-cycles change 0.1\%, 1\%, or 10\% of files, without assuming an
-incremental packer. Post-use retention is 0 or 600 seconds.
-At equal reuse and retention, resource-specific costs identify observed
-break-even regions. Source records retained in the database are
-distinguished from safely retired records. Rapid updates, weak locality,
-or warm native caches may prevent break-even within the measured range.
+An ML-oriented case separates dataset discovery from sample loading:
+fresh enumeration versus sample-list reuse, then ordered versus
+shuffled sample access, with outputs outside the fixed dataset.
+Larger-file inputs test the role of per-file metadata. Compatible
+Nydus or SOCI readers provide read-only layout comparisons at matched
+content, integrity, cache, and payload settings. An immutable sorted-KV
+control isolates joint-page organization. These comparisons charge
+construction, updates, and residence as well as query service.
 
 \subsection{Object formation and backend work}
 
-\researchq{3} How do client and backend granularity affect physical work,
-write completion, and repair?
-Identical writes first compare supported $g=1,4,8,16\MiB$ configurations
-at fixed backend geometry. Fixed objects and S3 requests then compare
-admitted $B$ hints and $q$ policies. Range and whole-object fetching
-are compared separately, controlling caches, coalescing, and prefetch.
-Persisted layouts determine whether a policy actually changed geometry.
+\researchq{3} How do client and backend granularity affect physical
+work, write completion, and repair?
+Small reads within larger objects expose excess fetching and
+verification; scans test the request overhead of smaller units.
+Identical writes compare client sizes of 256 KiB, 1 MiB, and 4 MiB at
+fixed backend geometry. Fixed finalized objects and S3 requests then
+compare admitted encoding-block hints. Verification policies are varied
+separately at a fixed effective encoding block size. Range and
+whole-object fetching have matched cache, coalescing, and prefetch
+controls.
 
-Indexed 4 KiB reads, shared and disjoint keys, boundary-crossing reads,
-scans, overwrites, and supported degraded reads exercise different
-tradeoffs. Object counts, finalized lengths, HTTP and device-read bytes,
-checksum and encoding CPU, remote-write completion, and repair traffic
-explain the resulting latency. Missing physical counters are reported;
-HTTP bytes cannot substitute for device reads.
+Boundary-crossing reads, shared and disjoint keys, overwrites, and
+supported degraded reads test the resulting tradeoffs. Object counts,
+finalized lengths, HTTP and device bytes, checksum and encoding CPU,
+durable-write latency, and repair traffic explain performance.
+Actual $(g,L_o,B,q)$ is recorded. An unchanged $(B,q)$ provides no
+backend-layout intervention, even if the policy changes client fetching.
+HTTP bytes do not substitute for missing physical-read counters.
 
 \subsection{Migration and recovery}
 
 \researchq{4} How much work does migration require before and after
 publication?
-Sixteen workspaces run on four source workers, with four target workers
-already available. We migrate 0, 1, 4, or 8 workspaces while the others
-continue; a larger configuration migrates subsets of 256 workspaces.
-Native and packed paths have paired no-migration controls.
+An agent resumes on another worker while neighboring tasks continue.
+Only paths that reopen the existing workspace enter this comparison;
+fresh-only paths are evaluated for creation instead. Paired stay/move
+runs vary the active population and migrated fraction. Source and target
+host identities establish that a move crosses workers; JuiceFS uses its
+native directory reopen operation.
 
 Handoff occurs at a completed-tool boundary, with either a published
-version or pending modifications. Pending work includes draining, capture,
-and required packing and publication after the request. Queueing counts
-toward interruption. JuiceFS reopens its remote directory without forced
-cloning. Cold and warm targets measure authority transfer, first correct
-operation, full continuation cost, transfers, and neighboring tasks'
-deadline completion and tail latency. Recorded node identities distinguish
-cross-node migration from container handoff.
+version or pending modifications. Interruption includes queueing,
+draining, capture, any required packing, publication, and authority
+transfer. Cold and warm targets measure first correct operation,
+continuation cost, transfers, and neighboring tasks' completion and
+tail latency.
 
-Failure tests interrupt before and after publication, disconnect source
-coordination while retaining storage access, and fail the recovering
-target. Independent readback checks committed data and attempted
-stale-writer changes. Process termination, application checks, and
-storage-enforced rejection are recorded separately. A synthetic state
-file tests file-state handoff. Actual agent tests preserve history and
-remaining budget across fork or migration, and require a subsequent
-valid tool result and final task grading.
+File-state tests check names and bytes. Actual agent tests preserve
+session history and remaining budget through export/import, require
+a subsequent valid tool result, and grade final task completion.
+Published file state does not checkpoint process memory or open handles.
+Failures before and after publication, disconnected source coordination,
+and target failure test recovery and stale-writer rejection.
+Independent readback distinguishes storage-enforced rejection from
+process termination or application checks.
 
 \subsection{Concurrent tasks and analysis}
 
 \researchq{5} Do component savings increase useful capacity at fixed
 resources?
-The fixed-work panel assigns eight copies of each of seven traces:
-56 assignments at concurrency 1, 4, or 16 on four workers.
-A common deadline includes queueing. A separate scale study uses
-4, 16, 64, or 128 workers, four slots and seven assigned traces per
-worker, against fixed backend capacity. Its growing workload measures
-throughput and per-case latency. Node placement and replay-engine CPU
-limits are recorded.
+A fixed assignment set runs at increasing concurrency under a common
+deadline, including queueing. A separate scale study increases workers
+and assigned work against fixed backend capacity. Placement and
+replay-engine CPU limits are recorded.
 
-Internal comparisons change one supported mechanism within a matched
-path. Composition is compared with its best supported proper subset;
-component gains need not imply a positive interaction. External system
-comparisons are reported separately. Three initial independent paired
-batches per cell provide raw outcomes and ranges. Stronger inference
-requires a sample size fixed from a separate variance pilot; individual
-requests and sibling tasks are not independent replicates. Failures remain
-in assigned-work denominators. Complete-success makespan is reported
-only when all assignments succeed, alongside deadline completion,
-failed outcomes, and measurement gaps.
+Internal ablations change one supported mechanism; composition is
+compared with its best supported proper subset. External system
+comparisons remain separate. Paired blocks report raw outcomes and
+ranges. Stronger inference uses a sample size chosen from a separate
+variance pilot; requests and sibling tasks are not independent
+replicates. Deadline completion includes failures in its denominator.
+Complete-success makespan is reported only when every assignment
+succeeds, alongside failed outcomes and measurement gaps.

@@ -32,30 +32,30 @@ and Variable-Granularity Object Storage}
 \date{}
 \maketitle
 \begin{abstract}
-Agent tasks need private working state while reusing source trees,
-dependencies, and datasets. Sharing those bytes avoids duplication, but
-leaves the cost of serving metadata and partial reads.
-\sys addresses these costs through three independently optional mechanisms.
-Delta-Based Workspaces retain private namespace changes and data-range
-mappings over a shared baseline. Packed Metadata serves a selected,
-previously packed read-only subtree through indexed object pages that
-co-locate names, attributes, and data locators. It targets stable
-collections of many small files, including training datasets reused across
-machine-learning experiments. Variable-Granularity Object Storage separates
-client object formation from backend encoding and verification units.
-Each mechanism has a distinct cost: retaining private changes, building
-and publishing packed versions, or fetching and verifying storage units.
-We describe their representations, update protocols, and implementation
-limits. A study of 1,138,884 FUSE requests from eight coding-agent runs
-finds substantial metadata traffic, mixed request sizes, and bursty access.
-The planned evaluation tests whether savings repay preparation and
-retention costs, then examines their effect on fork, migration, and
-concurrent execution.
+Agents exploring alternatives from a common revision need private
+working state and continued access to shared inputs. Sharing file
+contents avoids duplication, but leaves the costs of constructing
+private views, serving metadata, and fetching partial data.
+\sys addresses these costs through three independently optional
+mechanisms. Delta-Based Workspaces keep a shared immutable baseline and
+store private namespace state and data-range mappings, preserving
+references to unchanged data. Packed Metadata moves supported queries
+for a selected, published read-only directory version into authenticated
+object pages that co-locate names, attributes, and data locators. It
+targets stable small-file collections reused across tasks, including
+training inputs. Variable-Granularity Object Storage separates client
+object formation from backend encoding and verification units to
+control the work induced by partial reads. These choices incur distinct
+preparation, access, and retention costs. We describe their
+representations and update protocols, and characterize 1,138,884 FUSE
+requests from eight coding-agent runs. The evaluation plan tests the
+expected benefits in each mechanism's intended workload, then examines
+fork, migration, and concurrent execution.
 \end{abstract}
 
-\noindent\textbf{Draft status.} The workload characterization is complete.
-System-performance experiments and end-to-end recovery validation remain
-to be conducted.
+\noindent\textbf{Draft status.} The workload characterization is
+complete. The formal system-performance study and end-to-end recovery
+validation in Section~\ref{sec:evaluation} remain to be conducted.
 
 \input{sections/01-introduction}
 \input{sections/02-motivation}

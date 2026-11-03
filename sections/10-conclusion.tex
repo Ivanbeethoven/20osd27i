@@ -1,7 +1,12 @@
 \section{Conclusion}
 
-\sys provides independently optional mechanisms for private workspace
-state, read-only metadata, and object granularity. The coding-agent traces
-motivate evaluating access costs alongside fork latency. The remaining
-evaluation must determine when metadata offload and selective reads repay
-construction and retention across concurrent agent tasks.
+\sys gives agents private working state while allowing shared inputs
+to use different metadata representations and storage layouts.
+Range mappings retain unchanged data, packed read-only versions move
+supported queries away from the mutable database, and separate object
+and backend units control the work induced by partial reads. These
+mechanisms can be selected independently for the state and access
+pattern of a workload. The eight-run characterization supplies request
+mixes and timing for evaluation. The planned experiments will quantify
+preparation and reuse costs, worker handoff, and useful capacity under
+concurrent execution.

@@ -10,20 +10,21 @@ Each must continue to see its own version, including after deletion
 or truncation. A stable baseline identity and private changes provide
 this isolation independently of where metadata and bytes reside.
 
-Read-only inputs have a different lifetime from working state. In the ML
-scenario, an experiment reads a fixed dataset while writing model
-checkpoints and transformed outputs elsewhere. A directory-based image
-loader, for example, enumerates a dataset to build a sample list, then
-opens selected files during loading~\cite{torchvision_folder}. Separate
-experiments can repeat this discovery work against the same version.
+Read-only inputs have a different lifetime from working state. In the
+machine-learning scenario, an experiment reads a fixed dataset while
+writing model checkpoints and transformed outputs elsewhere. A
+directory-based image loader, for example, enumerates a dataset to
+build a sample list, then opens selected files during
+loading~\cite{torchvision_folder}. Separate experiments repeat this
+discovery work against the same version, so the namespace of that
+dataset is read repeatedly while the data itself never changes.
 
-Only a selected, already packed directory benefits from Packed Metadata.
-New files and in-place updates are outside that immutable version;
-revised data requires publication of a new version. A private upper can
-hold workspace changes without modifying the packed lower. Small-file
-collections are a particular target because they require many names,
-attributes, and data locators relative to their payload size. Datasets
-stored in a few large shards offer less of this opportunity.
+Two properties make such a collection different from ordinary working
+state. Its content is fixed for the lifetime of a version, so its
+records can be organized once and reused by every reader. And its
+metadata occupies a larger fraction of its representation: every file
+requires a name, attributes, and a data locator regardless of its
+payload length.
 
 \subsection{From file operations to storage work}
 
@@ -35,28 +36,30 @@ file-system call therefore need not cause a remote metadata request.
 The relevant question is how much database traffic remains under the
 actual cache and concurrency conditions.
 
-For a fixed small-file collection, object-resident metadata can move read
-service away from the database handling mutable updates. Construction
-and publication must be amortized over the version's uses. The likely
-gain also depends on locality: neighboring queries can share a metadata
-page, whereas scattered queries may fetch records they never use.
-
 Payload access introduces another translation. Kernel caching and
 readahead determine which requests reach FUSE; the client then fetches
 object ranges or complete objects. Encoding and integrity checks may
 require still larger physical reads~\cite{azureec2012,okapi2025}. Writes
 pass through buffering and object formation before publication. FUSE
 request lengths thus describe neither application syscall sizes nor
-physical storage units.
+physical storage units, and a mechanism that changes one layer does not
+by itself change the others.
 
 \input{sections/02-agent-observations}
 
 \subsection{Design implications}
 
-The coding traces motivate positive and negative metadata queries,
-mixed request lengths, and bursty replay. The ML scenario adds a
-complementary question: can repeated access to a fixed small-file
-dataset repay packing and reduce interference with mutable work?
-Both require measuring the work induced below the file-system interface.
-Section~\ref{sec:overview} describes how \sys separates workspace state,
-metadata representation, and payload layout to make these costs explicit.
+The coding traces supply the access shape that the mechanisms must
+fit: many metadata calls, mixed request lengths, and bursts of activity
+within a task. Baseline reuse is a separate workload assumption:
+attempts that start from the same tree and modify a small part can
+retain references to unchanged state. The traces do not measure that
+sharing or modification pattern.
+
+The machine-learning scenario adds a complementary case: a fixed
+collection of many small files, read repeatedly by many consumers,
+whose namespace should not compete with the mutable updates of the
+writers that use it. Together they point to three separable cost
+reductions, and Section~\ref{sec:overview} describes how \sys keeps
+workspace state, metadata representation, and payload layout apart so
+that each can be chosen on its own terms.

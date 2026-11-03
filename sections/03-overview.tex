@@ -11,13 +11,12 @@ referenced logical bytes using each object's persisted layout. These
 interfaces allow metadata representation and object layout to change
 without changing the file view.
 
-Figure~\ref{fig:overview} maps the design to the following sections.
-The upper region shows shared state and private changes
-(Section~\ref{sec:delta}); the lower-left region shows native or packed
-metadata (Section~\ref{sec:packed}). The lower-right region separates
-object formation from backend layout (Section~\ref{sec:layout}).
-The mechanisms are independently optional. For example, an ML experiment
-can use a standalone packed dataset beside a native writable workspace.
+Figure~\ref{fig:overview} maps the design to the following sections:
+shared state and private changes (Section~\ref{sec:delta}), native or
+packed metadata (Section~\ref{sec:packed}), and object formation
+separated from backend layout (Section~\ref{sec:layout}). The mechanisms
+are independently optional, so an ML experiment can mount a standalone
+packed dataset beside a native writable workspace.
 
 \subsection{Pinning a baseline}
 
@@ -27,12 +26,9 @@ a packed manifest. It may cover a selected subtree; the rest of the
 source volume need not be frozen. Resolving every lookup through a
 mutable latest-version pointer would violate this fixed starting view.
 
-Private names, attributes, deletion markers, and data mappings determine
-which inherited records remain visible. Mutations leave the shared
-baseline and other workspaces' private state unchanged.
-Section~\ref{sec:delta} describes the rules for preserving inode identity,
-updating names atomically, and preventing truncated bytes from reappearing.
-Merging independent edits requires a separate application protocol.
+Private records determine which inherited names and ranges remain
+visible. Section~\ref{sec:delta} gives the lookup and update rules;
+merging independent edits requires an application protocol.
 
 \begin{figure}[!t]
 \centering
@@ -46,16 +42,25 @@ in Section~\ref{sec:implementation}.}
 \label{fig:overview}
 \end{figure}
 
+\subsection{One access, three boundaries}
+
+Consider an agent that opens \code{config.json} in a shared dataset
+and reads its first 4 KiB. Three decisions determine what that read
+costs. The name is resolved against the workspace's private upper and,
+if no private record exists there, against the lower; the lower answers
+through a native catalog or through a joint page fetched from object
+storage. The resulting record supplies a data
+locator, and the client turns it into an object reference and a byte
+range using the geometry in which that object was formed. The backend
+finally reads and verifies the shard interval to which the range maps.
+
 \subsection{Reads, writes, and publication}
 
-An inherited read obtains a locator from the lower reader and fetches
-its payload range. An overwrite stores new bytes and publishes a private
+An overwrite stores new bytes and publishes a private
 mapping, leaving other workspaces' references intact. Buffered writes
 can satisfy local reads before their objects become remotely durable.
 
 Publishing a recoverable version requires durable referenced objects and
 validated metadata. Ownership records retain metadata and payloads while
-workspaces or readers still need them. A version can contain application
-checkpoints, but restoring memory and open handles remains the runtime's
-responsibility. Section~\ref{sec:implementation} describes the connected
-publication and recovery paths.
+workspaces or readers still need them. Section~\ref{sec:implementation}
+describes publication and runtime recovery.

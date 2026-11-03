@@ -2,80 +2,82 @@
 \label{sec:intro}
 
 Coding agents traverse repositories, inspect files, edit code, and run
-builds and tests~\cite{sweagent2024,openhands2025}. When a service launches
-several attempts from the same revision, each needs a consistent starting
-view and private changes. Saved results must remain available for later
-attempts or another worker. Storage must provide these views while serving
-their names, attributes, and file data throughout execution.
+builds and tests~\cite{sweagent2024,openhands2025}. A service that
+launches several attempts from the same revision must give each one a
+consistent starting view and private changes, and must keep saved
+results available to later attempts or to another worker. Storage
+therefore has to serve names, attributes, and file data for a workspace
+while that workspace changes underneath it.
 
-Machine-learning (ML) agents also prepare datasets, train models, and
-compare experiments~\cite{mlebench2025}. Consider several such agents
-exploring models against one fixed training dataset. Their code,
-checkpoints, and temporary outputs differ, while the input data remains
-read-only. If the dataset contains many small files, sharing its bytes
-still leaves a large namespace to serve. This case motivates a selective
-optimization: pack the stable data directory once and reuse its metadata
-across experiments, while keeping mutable working state outside the pack.
+Consider attempts that reuse a large source tree or dataset while
+changing a small part of their working state. Copying the tree repeats
+preparation work; sharing its contents still leaves names, attributes,
+and data mappings to serve. In a database-backed file system, queries
+over fixed inputs can compete with mutable updates. Partial reads incur
+a further cost when the client or storage backend retrieves and
+verifies more bytes than requested. A cheap fork therefore does not
+by itself make the resulting workspace cheap to use.
 
-Prior systems provide much of the foundation. OverlayFS and BranchFS
-isolate private changes over shared state~\cite{overlayfs,branchfs2026};
+Machine-learning agents provide a useful example~\cite{mlebench2025}.
+Several experiments may reuse a fixed training dataset while changing
+their code and writing separate checkpoints and outputs. With many
+small input files, the shared namespace remains substantial even though
+its contents are read-only. Its representation can be chosen separately
+from that of the agents' mutable working state.
+
+Prior systems already provide much of the foundation. OverlayFS and
+BranchFS isolate private changes over shared state~\cite{overlayfs,branchfs2026};
 DeltaFS publishes private namespace updates as immutable
 logs~\cite{deltafs2021}. IndexFS and InfiniFS improve metadata organization,
 distribution, and caching~\cite{indexfs2014,infinifs2022}. CernVM-FS and
 Nydus serve immutable file trees with indexed metadata and on-demand
-data access~\cite{cvmfs2011,nydus_rafs}. CoFS exploits a fixed image
-namespace to index metadata for kernel lookup~\cite{cofs2026}.
-Building on these approaches, an object-backed workspace must decide how to represent private
-updates, which fixed metadata to serve outside the mutable database,
-and which units to fetch and verify.
+data access~\cite{cvmfs2011,nydus_rafs}, and CoFS exploits a fixed image
+namespace to index metadata for kernel lookup~\cite{cofs2026}. An
+object-backed workspace built on these approaches still has to choose
+how to represent private updates, which fixed metadata to serve outside
+the mutable database, and which units to fetch and verify.
 
-These decisions incur different costs. In a database-backed file system,
-queries over fixed collections can compete with active namespace
-updates~\cite{juicefs_architecture}. Packing redirects supported queries
-to object storage and client caches, at the cost of constructing and
-publishing a version. A native overlay can fork without that additional
-work. Separately, object formation and backend layout determine how much
-storage work a partial read requires. Reducing fork cost therefore does
-not necessarily reduce the cost of using the resulting workspace.
+Our workload study shows that the access side deserves that attention.
+Across 1,138,884 FUSE requests from eight coding-agent runs, metadata
+methods accounted for 57.3\% of all calls. Request lengths varied over
+two orders of magnitude and calls arrived in bursts
+(Section~\ref{sec:agent-observations}). The runs characterize coding
+workloads; they do not measure machine-learning data access.
 
-Our workload study reinforces the need to examine access as well as
-creation. Across 1,138,884 FUSE requests from eight coding-agent runs,
-metadata methods accounted for 57.3\% of all calls.
-Requests also varied in length and arrived in bursts
-(Section~\ref{sec:agent-observations}). These observations characterize
-coding workloads; they do not measure ML data access or establish
-a metadata-service bottleneck.
-
-\sys separates the identity of shared state from its metadata
-representation and payload access units. Three mechanisms implement
-this separation:
+\sys therefore separates the identity of shared state from its metadata
+representation and from the units in which payload bytes are fetched.
+Three mechanisms implement this separation:
 
 \begin{itemize}
-\item \textbf{Delta-Based Workspaces} retain private namespace state and
-data-range mappings over a pinned baseline. Unlike file-level copy-up
-in the BranchFS prototype, unchanged ranges keep their original
-references. The lower-query interface accepts native or packed metadata
+\item \textbf{Delta-Based Workspaces} retain private namespace changes
+and data-range mappings over a pinned immutable baseline. For attempts
+that change a small part of a shared tree, unchanged ranges retain
+their references, avoiding whole-file copy-up on those updates. The
+lower-query interface accepts native or packed metadata
 (Section~\ref{sec:delta}).
-\item \textbf{Packed Metadata} serves an explicitly packed read-only
-subtree through authenticated object pages. Directory-name groups
-co-locate entries, common attributes, and data locators for reuse across
-related operations. Fixed-version queries leave the per-file database
-path; mutable updates and lifetime control remain in their existing
-services (Section~\ref{sec:packed}).
+\item \textbf{Packed Metadata} serves an explicitly built and published
+read-only directory version through authenticated object pages whose
+directory-name groups co-locate entries, common attributes, and data
+locators. Repeated reads of a fixed small-file collection can thus
+serve supported lower queries without per-file database access.
+Private-upper checks, mutable updates, and lifetime control retain their
+existing services (Section~\ref{sec:packed}).
 \item \textbf{Variable-Granularity Object Storage} separates client
-object formation from backend encoding and verification. A finalized
-object can carry a layout hint, which the backend validates and persists
-for subsequent reads and repair (Section~\ref{sec:layout}).
+object formation from backend encoding and verification units. For
+small reads within larger objects, these choices control how much
+extra data is fetched and verified. A finalized object can carry an
+encoding-layout hint; the backend validates and persists the effective
+layout for subsequent reads and repair (Section~\ref{sec:layout}).
 \end{itemize}
 
-Each mechanism can be used independently. A workspace can retain native
-metadata; a packed dataset can serve standalone read-only access; an
-ordinary volume can configure object granularity. Packing is most
-plausible for stable, metadata-intensive collections reused across many
-readers. Frequent updates or little reuse may leave native metadata
-cheaper, while smaller storage units can add requests and checksums.
+Each mechanism is independently optional. A workspace can keep its
+baseline in native metadata; a packed dataset can serve standalone
+read-only access without any workspace; an ordinary volume can configure
+object granularity. A native overlay forks without paying the
+construction cost of a packed version, and a published pack is reused
+by later children instead of being rebuilt.
 
-This paper presents the design, implementation, and completed workload
-characterization. The evaluation plan isolates the three mechanisms
-before examining fork, migration, and concurrent execution
-(Section~\ref{sec:evaluation}).
+This paper presents the design, the implementation scope, and a
+completed workload characterization. The evaluation plan
+(Section~\ref{sec:evaluation}) first asks where each mechanism should
+pay off, then examines fork, migration, and concurrent execution.

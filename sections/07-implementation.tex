@@ -1,73 +1,60 @@
 \section{Implementation}
 \label{sec:implementation}
 
-\sys connects the mechanisms through buffered, direct-I/O, and standalone
-read-only paths. Their cache, publication, and recovery behavior differs.
-The following describes the inspected implementation; runtime and failure
-validation is included in the evaluation plan.
+\sys provides buffered, direct-I/O, and standalone read-only paths.
+Their cache, writeback, and fetch policies determine which mechanism
+effects each can expose.
 
 \subsection{Access paths}
 
-An ordinary volume resolves mutable metadata and uses buffered caching
-and writeback. A workspace can reuse that path with private-state
-resolution over a sealed catalog or packed lower. A standalone packed
-reader serves read-only access without a private upper. Its metadata
-cache is separate from payload caching; configurable payload-cache and
-prefetch budgets are not currently admitted on this path.
+Ordinary volumes use mutable metadata and buffered writeback.
+Buffered workspaces add private-state resolution over a sealed catalog
+or packed lower. Standalone packed mounts omit the private upper;
+their entry currently requires zero payload-cache and prefetch budgets.
 
-The packed reader caches index pages, resolved names (including absence),
-and attributes. An uncached name still fetches and decodes its joint
-metadata page. Reusing decoded pages across different names remains
-an optimization opportunity; the current result caches do not establish
-that benefit.
+The authenticated packed reader caches index pages, per-name results
+including absence, and attributes. Directory enumeration retains and
+reuses the decoded joint page for its current group. Independent name
+lookups fetch and decode that page on a per-name cache miss.
+General sharing of decoded pages, partial decoding, and incremental
+rebuilding remain optimization opportunities.
 
-The direct-I/O workspace stores private namespace and mapping records
-transactionally. It implements the rename and truncation protocols in
-Section~\ref{sec:delta}, bypassing buffered writeback and metadata
-time-to-live caching. Admission bounds limit operation sizes,
-complete-directory enumeration, and the live ownership set. This path
-currently supports newly created workspaces without process-crash takeover.
-
-Direct reads authenticate an entire upper object before returning a
-subrange. A smaller backend verification unit may therefore leave
-short-read work unchanged. Comparisons with buffered volumes must
-account for this fetch policy as well as the different caches.
+Direct-I/O workspaces store private namespace and mapping records
+transactionally, implementing the rename and truncation rules in
+Section~\ref{sec:delta}. They bypass buffered writeback and metadata
+time-to-live caching, with admission bounds on operation sizes,
+enumeration, and ownership. This path supports fresh workspaces without
+process-crash takeover. It authenticates an entire upper object before
+returning a subrange, so smaller backend verification units do not
+reduce the bytes this client fetches.
 
 \subsection{Publication and recovery}
 
-Snapshot publication validates uploaded objects before installing the
-lower binding and acquiring reader ownership. Recovery also checks
-generations and leases; a manifest identity alone conveys no write
-authority. The connected recovery path reuses the same persistent
-storage allocation and checks worker identity and scoped metadata
-authority. Arbitrary-worker migration still requires orchestration.
-
-Catalog lifecycle operations support quiescence, object verification,
-retention, and atomic version transitions. A runtime must connect these
-operations to handoff, checkpoint execution state, and reopen tools.
-The recoverable storage state is a published file version.
+Publication validates durable objects before installing a lower binding
+and acquiring reader ownership. Recovery checks generations and leases;
+a manifest identity alone conveys no write authority. The connected
+recovery path reuses the same storage allocation and checks worker
+identity and scoped metadata authority. Catalog operations provide
+quiescence, verification, retention, and atomic version transitions.
+Cross-worker handoff requires runtime orchestration to connect them to
+session checkpoints and tool reopening.
 
 \subsection{Layout support}
 
-The ordinary uploader defaults to $g=4\MiB$ within 64 MiB chunks,
-and readers use the same geometry. Incompatible configurations are
-rejected. The proposed 1/4/8/16 MiB settings are fixed configurations.
+The ordinary uploader defaults to $g=4\MiB$ within 64 MiB chunks.
+Readers use the same geometry; incompatible configurations are rejected.
+The client size remains a fixed configuration.
 
-Backend hints require compatible client and server support. Hint
-admission and new verification framing have separate enable and
-fleet-compatibility gates, both disabled by default. Effective layouts
-are persisted for later reads and repair; changing settings does not
-re-encode existing objects.
-
-The ordinary uploader propagates hints. Direct workspace writes and the
-current snapshot producer use defaults; extending them must preserve
-conditional object creation and conflict rejection. Direct workspace
-objects contain write fragments, capped at the automatic policy's
-no-hint threshold, rather than ordinary buffered blocks.
+Encoding hints and new verification framing require compatible client
+and backend support, with separate admission gates disabled by default
+in the inspected backend. Effective layouts are persisted; configuration
+changes do not re-encode existing objects. The ordinary uploader passes
+hints. Direct workspace writes and the snapshot producer use defaults.
+Direct writes hold fragments capped at the automatic policy's no-hint
+threshold.
 
 The current policy omits hints for $L_o\leq1\MiB$ and requests
 $B=1\MiB$ otherwise. The inspected backend already defaults to
-$B=1\MiB$, so enabling the policy can leave stored geometry unchanged.
-It can nevertheless change client fetch and cache behavior. Experiments
-must inspect actual $(g,L_o,B,q)$ and separate these client effects
-from changes in physical layout.
+$B=1\MiB$, so the policy can leave geometry unchanged while changing
+client fetch and cache behavior. Evaluation distinguishes these effects
+using actual $(g,L_o,B,q)$ and the path's fetch policy.

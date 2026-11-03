@@ -1,13 +1,22 @@
 \section{Delta-Based Workspaces}
 \label{sec:delta}
 
-\subsection{Creating a view and resolving names}
+\subsection{A shared baseline and private changes}
 
-Workspace creation registers an immutable base and private control state
-without copying the metadata tree. The catalog identifies the base by
-layer, sealed version, and root hash; a packed lower also binds its
+Delta-based workspaces retain a shared immutable baseline and private
+records for modified names, attributes, deletion markers, and data
+mappings. This avoids materializing the baseline for every attempt.
+Private records hold current state, including complete attributes where
+needed; data-range mappings preserve references to unchanged bytes.
+
+Workspace creation registers the immutable base and the private control
+state without copying the metadata tree. The catalog identifies the base
+by layer, sealed version, and root hash; a packed lower also binds its
 authenticated manifest. Creation still pays for binding validation,
-ownership records, and mount preparation.
+ownership records, and mount preparation. The lower can use native
+metadata or an already published pack (Section~\ref{sec:packed}).
+
+\subsection{Resolving names}
 
 Lookup first checks the private upper. An entry supplies the result;
 a deletion marker reports absence and stops the lookup. Otherwise, the
@@ -40,8 +49,11 @@ An overwrite changes the data references for a file range. The buffered
 path records private extents alongside namespace and inode changes.
 The direct-I/O path represents each changed logical chunk with a
 normalized map of upper data, lower references, and zero-filled holes.
-An explicit map covers its applicable range completely; an uncovered
-interval does not implicitly refer to the lower.
+Within the range a map covers, every interval names exactly one source,
+so no part of it refers to the lower by accident. A range with no
+private override at all continues to inherit the lower's bytes, and the
+inherited boundary only shrinks, so an attempt never exposes more of the
+baseline than it started with.
 
 A short overwrite replaces its interval and retains lower references
 elsewhere. Truncation must invalidate both inherited and previously
@@ -71,8 +83,8 @@ Worker handoff requires stopping source writes and making payloads and
 metadata durable before publishing the version. The destination binds
 that version and acquires write authority; lease and generation checks
 must reject stale writers. Applications checkpoint execution state
-and reopen files separately. Section~\ref{sec:implementation} identifies
-which recovery steps are connected in the implementation.
+and reopen files separately, because a published file version carries
+file contents and names, not process memory or open handles.
 
 Reclamation retains every object still referenced by a workspace or
 reader and distinguishes these objects from abandoned construction output.

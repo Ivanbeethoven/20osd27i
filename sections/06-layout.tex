@@ -1,13 +1,13 @@
 \section{Variable-Granularity Object Storage}
 \label{sec:layout}
 
-A file read names a logical byte range, but storage cost depends on the
-objects containing it and the units fetched and verified. Large objects
-can reduce request count for sequential access while increasing work
-for a partial read. \sys separates client object formation from backend
-encoding and verification. The finalized object connects these decisions:
-its length is known after assembly, compression where applicable, and
-framing.
+Small reads within large objects can fetch and verify unused bytes.
+Smaller objects reduce that opportunity but add requests and per-object
+overhead; smaller verification units add checksums. \sys separates
+client object formation from backend encoding and verification so these
+costs can be controlled at their respective layers. The finalized object
+connects them: its length is known after assembly, compression where
+applicable, and framing.
 
 \subsection{From file ranges to objects}
 

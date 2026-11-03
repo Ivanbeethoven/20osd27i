@@ -6,7 +6,7 @@
 
 | 规范英文 | 规范中文 | 定义与使用边界 |
 |---|---|---|
-| Delta-Based Multi-Agent Workspaces | 基于增量状态的多智能体工作区 | 简称 delta-based workspaces／增量工作区。可选的视图构成机制，将固定共享基线与私有增量状态组合；Delta 包括被修改实体的当前状态和显式数据映射，不要求字段级或字节级差分编码，也不要求基线采用 Packed 格式。 |
+| Delta-Based Multi-Agent Workspaces | 基于增量状态的多智能体工作区 | 简称 delta-based workspaces／增量工作区；正文小节标题、条目与结论中写作 Delta-Based Workspaces，论文标题保留全称，两者指同一机制。可选的视图构成机制，将固定共享基线与私有增量状态组合；Delta 包括被修改实体的当前状态和显式数据映射，不要求字段级或字节级差分编码，也不要求基线采用 Packed 格式。 |
 | Packed Metadata | 打包式元数据 | 可选的不可变元数据组织与读取机制；只作用于显式构建并发布的只读目录版本，按目录和名称区间联合组织目录项、常用属性及数据定位信息，通过分页索引访问。重点面向稳定、可复用且小文件多的集合，例如 ML 训练输入。可独立只读使用，也可用作工作区下层；修改进入私有上层或通过新版本发布，不会原地修改 Packed 页。 |
 | packed immutable snapshot | 打包式不可变快照 | Packed Metadata 机制的产物；定义后可简称 packed snapshot。机制名与产物名按各自含义使用。 |
 | Variable-Granularity Object Storage | 可变粒度对象存储 | 可选的数据路径策略：选择客户端块大小 g 以控制对象形成，并可在最终上传对象长度 L_o 已知后向兼容后端请求 B，由后端验证和持久化有效 B 及适用的 q。普通 flat 卷可独立使用；当前 g 为固定配置，尚无 PPT 所讨论的在线动态选档控制器。 |
