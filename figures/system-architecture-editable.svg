@@ -4,29 +4,50 @@
     <g aria-label="Agents">
       <text x="20.3251953125" y="12" font-family="Arial" font-size="7.5" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Agents</text>
     </g>
-    <g aria-label="FUSE">
-      <text x="85.33203125" y="12" font-family="Arial" font-size="8.0" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">FUSE</text>
-    </g>
-    <g aria-label="1–3 independently optional">
-      <text x="147.158935546875" y="12" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">1–3 independently optional</text>
-    </g>
-    <polyline points="96,16 27.5,16 27.5,46" fill="none" stroke="#182B3A" stroke-width="0.7" stroke-linejoin="round" stroke-linecap="round" />
   </g>
   <g id="agents">
     <circle cx="10" cy="6" r="2" fill="white" stroke="#182B3A" stroke-width="0.8" />
     <polyline points="6.3,12.5 6.5,10 8,8.5 12,8.5 13.5,10 13.7,12.5 6.3,12.5" fill="none" stroke="#182B3A" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
   </g>
   <g id="agent-fuse">
-    <polyline points="48,9 79,9" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
-    <polygon points="79,9 76.0,7.75 76.0,10.25" fill="#182B3A" />
+    <polyline points="48,9 80,9" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="80,9 77.0,7.75 77.0,10.25" fill="#182B3A" />
+  </g>
+  <g id="fuse-entry">
+    <rect x="80" y="1" width="32" height="13" rx="2" fill="#F3F5F6" stroke="#72808D" stroke-width="0.65" />
+    <g aria-label="FUSE">
+      <text x="85.33203125" y="11" font-family="Arial" font-size="8.0" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">FUSE</text>
+    </g>
+  </g>
+  <g id="fuse-view-junction">
+    <polyline points="96,14 96,18" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="96" cy="18" r="1.0" fill="#182B3A" />
   </g>
   <g id="fuse-workspace">
-    <polyline points="96,16 150,16 150,21" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="96,18 150,18 150,21" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
     <polygon points="150,21 151.25,18.0 148.75,18.0" fill="#182B3A" />
   </g>
   <g id="fuse-ordinary">
-    <polyline points="27.5,42 27.5,46" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="96,18 27.5,18 27.5,46" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
     <polygon points="27.5,46 28.75,43.0 26.25,43.0" fill="#182B3A" />
+  </g>
+  <g id="optional-mechanisms-legend">
+    <rect x="129" y="1" width="108" height="15" rx="2" fill="white" stroke="#72808D" stroke-width="0.6" stroke-dasharray="2.5 1.8" />
+    <circle cx="135" cy="8.5" r="4.2" fill="#182B3A" />
+    <g aria-label="1">
+      <text x="133.053466796875" y="11" font-family="Arial" font-size="7.0" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">1</text>
+    </g>
+    <circle cx="146" cy="8.5" r="4.2" fill="#182B3A" />
+    <g aria-label="2">
+      <text x="144.053466796875" y="11" font-family="Arial" font-size="7.0" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">2</text>
+    </g>
+    <circle cx="157" cy="8.5" r="4.2" fill="#182B3A" />
+    <g aria-label="3">
+      <text x="155.053466796875" y="11" font-family="Arial" font-size="7.0" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">3</text>
+    </g>
+    <g aria-label="independently optional">
+      <text x="165" y="11" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">independently optional</text>
+    </g>
   </g>
   <g id="ordinary-volume">
     <rect x="4" y="46" width="47" height="25" rx="2" fill="#F3F5F6" stroke="#72808D" stroke-width="0.65" />

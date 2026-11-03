@@ -2,6 +2,18 @@
   "width_pt": 240,
   "height_pt": 280,
   "nodes": {
+    "fuse-entry": [
+      80,
+      1,
+      32,
+      13
+    ],
+    "optional-mechanisms-legend": [
+      129,
+      1,
+      108,
+      15
+    ],
     "ordinary-volume": [
       4,
       46,
@@ -179,24 +191,57 @@
     },
     {
       "text": "FUSE",
-      "group": "common-entry",
+      "group": "fuse-entry",
       "size_pt": 8.0,
       "bbox": [
         85.33203125,
-        4.0,
+        3.0,
         106.66796875,
-        13.5
+        12.5
       ]
     },
     {
-      "text": "1\u20133 independently optional",
-      "group": "common-entry",
+      "text": "1",
+      "group": "optional-mechanisms-legend",
       "size_pt": 7.0,
       "bbox": [
-        147.158935546875,
-        5.0,
-        230.841064453125,
-        13.5
+        133.053466796875,
+        4.0,
+        136.946533203125,
+        12.5
+      ]
+    },
+    {
+      "text": "2",
+      "group": "optional-mechanisms-legend",
+      "size_pt": 7.0,
+      "bbox": [
+        144.053466796875,
+        4.0,
+        147.946533203125,
+        12.5
+      ]
+    },
+    {
+      "text": "3",
+      "group": "optional-mechanisms-legend",
+      "size_pt": 7.0,
+      "bbox": [
+        155.053466796875,
+        4.0,
+        158.946533203125,
+        12.5
+      ]
+    },
+    {
+      "text": "independently optional",
+      "group": "optional-mechanisms-legend",
+      "size_pt": 7.0,
+      "bbox": [
+        165,
+        4.0,
+        235.05810546875,
+        12.5
       ]
     },
     {
@@ -682,22 +727,36 @@
           9
         ],
         [
-          79,
+          80,
           9
         ]
       ],
-      "meaning": "file operations through FUSE"
+      "meaning": "file operations enter the FUSE node"
+    },
+    {
+      "id": "fuse-to-view-choice",
+      "points": [
+        [
+          96,
+          14
+        ],
+        [
+          96,
+          18
+        ]
+      ],
+      "meaning": "continuous connection from FUSE to the ordinary/workspace view choice"
     },
     {
       "id": "fuse-workspace",
       "points": [
         [
           96,
-          16
+          18
         ],
         [
           150,
-          16
+          18
         ],
         [
           150,
@@ -710,8 +769,12 @@
       "id": "fuse-ordinary",
       "points": [
         [
+          96,
+          18
+        ],
+        [
           27.5,
-          42
+          18
         ],
         [
           27.5,
