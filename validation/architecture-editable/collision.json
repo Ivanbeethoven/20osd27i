@@ -3,15 +3,15 @@
   "auditable": true,
   "verdict": "REVIEW REQUIRED",
   "page_count": 1,
-  "visible_text_box_count": 51,
-  "text_trace_count": 74,
+  "visible_text_box_count": 43,
+  "text_trace_count": 46,
   "stroke_path_count": 80,
-  "filled_region_count": 70,
+  "filled_region_count": 84,
   "image_region_count": 0,
   "summary": {
     "fail": 0,
     "warn": 3,
-    "contained_fill_overlays": 38,
+    "contained_fill_overlays": 48,
     "contained_image_overlays": 0
   },
   "thresholds": {
@@ -25,23 +25,23 @@
       "kind": "text-fill-edge",
       "page": 1,
       "message": "Text partially overlaps the edge of 1 filled region(s)",
-      "text": "1Delta-Based Multi-Agent Workspaces",
+      "text": "2Packed Metadata (§5)",
       "text_bbox": [
-        3.775391101837158,
-        4.199999809265137,
-        155.23599243164062,
-        12.700000762939453
+        9.775390625,
+        112.40608978271484,
+        107.44505310058594,
+        120.90608978271484
       ],
       "other_text": null,
       "other_bbox": [
-        1.0,
-        3.0,
-        11.0,
-        13.0
+        7.0,
+        111.0,
+        17.0,
+        121.0
       ],
       "object_count": 1,
       "object_indexes": [
-        0
+        25
       ]
     },
     {
@@ -49,23 +49,23 @@
       "kind": "text-fill-edge",
       "page": 1,
       "message": "Text partially overlaps the edge of 1 filled region(s)",
-      "text": "2Packed Metadata",
+      "text": "1Delta-Based Workspaces (§4)",
       "text_bbox": [
-        3.775391101837158,
-        99.19999694824219,
-        80.14830017089844,
-        107.69999694824219
+        70.775390625,
+        25.40608787536621,
+        200.0340576171875,
+        34.89396286010742
       ],
       "other_text": null,
       "other_bbox": [
-        1.0,
-        98.0,
-        11.0,
-        108.0
+        68.0,
+        25.0,
+        78.0,
+        35.0
       ],
       "object_count": 1,
       "object_indexes": [
-        24
+        11
       ]
     },
     {
@@ -73,23 +73,23 @@
       "kind": "text-fill-edge",
       "page": 1,
       "message": "Text partially overlaps the edge of 1 filled region(s)",
-      "text": "3Variable-Granularity Object Storage",
+      "text": "3Variable-Granularity",
       "text_bbox": [
-        3.775391101837158,
-        179.1999969482422,
-        148.63279724121094,
-        187.70001220703125
+        129.77540588378906,
+        112.40608978271484,
+        222.25282287597656,
+        120.90608978271484
       ],
       "other_text": null,
       "other_bbox": [
-        1.0,
-        178.0,
-        11.0,
-        188.0
+        127.0,
+        111.0,
+        137.0,
+        121.0
       ],
       "object_count": 1,
       "object_indexes": [
-        53
+        79
       ]
     }
   ]

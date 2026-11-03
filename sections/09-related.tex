@@ -2,86 +2,77 @@
 \label{sec:related}
 
 \paragraph{Private workspaces.}
-OverlayFS combines upper and lower trees using copy-up and deletion
-markers~\cite{overlayfs}, and BranchFS adds a fork, explore, and commit
-lifecycle whose evaluated prototype copies an inherited file when it is
-first modified~\cite{branchfs2026}. \sys keeps the shared baseline
-immutable and stores an attempt's own names, attributes, and data
-mappings, so unchanged ranges keep their original references instead of
-being copied as a whole file. The lower-query interface accepts either
-native or packed metadata, which is what allows the two mechanisms to be
-used together or apart. YoloFS emphasizes staging, reversible effects,
-and permissions~\cite{yolofs2026}; AgentFS combines files, key-value
-state, and tool-call records in SQLite~\cite{agentfs2025}. These
-execution-control and observability functions complement the storage
-mechanisms studied here.
+OverlayFS combines upper and lower trees through copy-up and deletion
+markers~\cite{overlayfs}. BranchFS adds a fork, explore, and commit
+lifecycle; its evaluated prototype copies an inherited file on first
+modification~\cite{branchfs2026}. \sys represents private names,
+attributes, and file ranges over an immutable baseline. Unchanged ranges
+retain their original references, and the lower-query interface accepts
+native or packed metadata. The distinction is the state copied and
+resolved on each operation. YoloFS provides staging, reversible effects,
+and permissions~\cite{yolofs2026}; AgentFS records files, key-value state,
+and tool calls in SQLite~\cite{agentfs2025}. These systems address
+execution control and observability, which can use the workspace and
+storage mechanisms described here.
 
 \paragraph{Mutable metadata services.}
-TableFS and IndexFS use table-based layouts for metadata and small
-files; IndexFS also partitions directories and supports caching and
-bulk insertion~\cite{tablefs2013,indexfs2014}. LocoFS and InfiniFS
-separate metadata responsibilities to improve distribution and
-access~\cite{locofs2017,infinifs2022}. Mantle targets hierarchical object
-metadata, while SwitchFS coordinates asynchronous directory
-updates~\cite{mantle2025,switchfs2026}. Their partitioning and caching
-reduce work in mutable metadata services. Packed Metadata changes the
-representation and service path of a selected fixed subtree: supported
-queries use bounded object pages, while private-upper checks, updates,
-and lifetime control retain their existing services. Its contribution
-is evaluated through the database work displaced and the object-access
-and publication costs introduced.
+TableFS and IndexFS organize metadata and small files in tables;
+IndexFS also partitions directories and supports caching and bulk
+insertion~\cite{tablefs2013,indexfs2014}. LocoFS and InfiniFS distribute
+metadata responsibilities~\cite{locofs2017,infinifs2022}, while Mantle
+and SwitchFS address hierarchical metadata and asynchronous directory
+updates~\cite{mantle2025,switchfs2026}. These designs improve mutable
+metadata service. \sys instead specializes the service path of a selected
+read-only version: supported lower queries fetch object-backed pages.
+Private updates and lifetime control remain in the mutable service.
+The resulting tradeoff is database query work displaced versus page
+access and version-publication cost.
 
 \paragraph{Private namespaces and immutable logs.}
-DeltaFS combines private namespaces with object-backed metadata. Jobs
-publish mutation logs as SSTables; subsequent jobs select and, when
-needed, merge snapshots. Job-local servers and compaction reduce
-dependence on a globally synchronized metadata
+DeltaFS publishes private-namespace mutation logs as SSTables for
+subsequent jobs to select and merge. Job-local servers and compaction
+reduce dependence on a globally synchronized metadata
 service~\cite{deltafs2021}. \sys maintains a current-value private upper
-over a pinned lower. Packing is a separate step that organizes fixed
-records by directory and name range, co-locating attributes and data
-locators. A native-metadata workspace avoids this construction while
-still paying for version capture, private updates, and ownership.
-The distinction concerns the update representation, query organization,
-and choice of when to construct an immutable read representation.
+over a pinned lower. A separate publication step can organize the lower
+by directory and name range, placing attributes and data locators beside
+names. Native-metadata workspaces omit that construction. The two designs
+therefore differ in how private updates are represented and when an
+immutable query representation is built.
 
 \paragraph{Read-only distribution and indexing.}
-CernVM-FS publishes content-addressed trees through nested SQLite
-catalogs and downloads metadata and data on demand~\cite{cvmfs2011}.
-It is a close precedent for serving large immutable collections outside
-a mutable metadata service. OCI defines layered filesystem archives,
-including compressed tar representations~\cite{oci_layers}. Lazy loading
-is supported by systems such as SOCI~\cite{soci}. Nydus separates
-filesystem metadata from chunked data and provides caching and integrity
-verification~\cite{nydus_rafs}. Slacker and DADI also reduce image
-distribution and startup work through demand-driven
-access~\cite{slacker2016,dadi2020}.
+CernVM-FS uses nested SQLite catalogs to publish content-addressed trees
+and fetch metadata and data on demand~\cite{cvmfs2011}. It directly
+demonstrates the value of serving immutable collections outside a mutable
+metadata service. OCI specifies layered archives~\cite{oci_layers};
+SOCI indexes image data for lazy access~\cite{soci}. Nydus separates
+filesystem metadata from chunked data and supports caching and integrity
+verification~\cite{nydus_rafs}. Slacker and DADI likewise use
+demand-driven access for image distribution~\cite{slacker2016,dadi2020}.
+These systems provide close precedents for immutable, remotely accessed
+file representations.
 
-CoFS exploits a fixed image namespace by building minimal perfect hashes
-and storing metadata in a dense array, so that lookup happens in the
-kernel and cached-data paths avoid userspace interposition~\cite{cofs2026}.
-Its setting is the container image, while \sys addresses the metadata
-service that agents use throughout execution and
-keeps mutable workspace operations in their existing services. Its
-packed representation groups directory entries, attributes, and data
-locators into bounded pages reached through authenticated range indexes,
-and those groups are the remote metadata access units independently of
-the physical containers that hold them. The relevant comparison with
-these immutable distributions is the work required to locate, fetch,
-retain, and reuse those records for a version that is shared by many
-readers.
+CoFS specializes a fixed image namespace with minimal perfect hashing
+and a dense metadata array. In-kernel lookup avoids userspace
+interposition on cached-data paths~\cite{cofs2026}. \sys organizes
+directory names, attributes, and data locators into bounded joint pages
+reached through authenticated range indexes. A page is the remote
+metadata access unit, independently of its physical container. This
+organization targets repeated queries over a published directory version
+alongside mutable agent workspaces. Compared with image indexes and
+catalogs, the relevant differences are the records fetched per operation,
+their reuse across queries, and the cost of constructing and retaining
+each version. The comparison concerns access during execution as well
+as initial materialization.
 
 \paragraph{Object granularity.}
 Ceph and Tectonic separate metadata and storage
 services~\cite{ceph2006,tectonic2021}. Azure's erasure coding reduces repair
-traffic, Morph studies redundancy transitions over a file's lifetime,
-and Okapi separates striping from redundancy
-grouping~\cite{azureec2012,morph2024,okapi2025}. \sys exposes object
-formation and backend layout as separate filesystem choices.
-Client block size $g$ controls
-formation, backend block size $B$ controls encoding, and $q$ controls
-shard verification and read coverage. Finalized object length informs
-a hint, the backend validates and persists the effective layout, and
-persisted geometry governs reads and repair. The design retains the
-backend's erasure code and exposes these distinct units to the
-filesystem, so that a volume with small reads can form and verify
-objects that suit them.
+traffic; Morph studies redundancy transitions over a file's lifetime;
+Okapi separates striping from redundancy
+grouping~\cite{azureec2012,morph2024,okapi2025}. Our co-design with RustFS
+connects filesystem object formation to per-object coding geometry.
+The client can request a coding-block size after forming an object.
+RustFS validates the hint, selects verification framing under a separate
+policy, and persists the effective layout for reads and repair. The
+interface exposes these access units while retaining the backend's
+erasure code and its control over admissible layouts.

@@ -1,27 +1,27 @@
 \section{Packed Metadata}
 \label{sec:packed}
 
-Repeated access to a fixed small-file collection can place read
-traffic on the metadata service handling mutable updates. Packed
-Metadata organizes that version into object pages, moving supported
-lower queries to object storage and client caches. This targets
-database load and interference; construction and publication are paid
-once per version and amortized over its readers.
+A fixed collection requires no namespace updates, yet serving it through
+the mutable catalog can consume the same query capacity as active
+workspaces. Packed Metadata uses immutability to change this service
+path. It organizes a directory version into authenticated object pages
+from which readers obtain names, common attributes, and data locators.
+Construction is paid per version; subsequent readers reuse the result.
 
 \subsection{What is packed}
 
 Packed Metadata applies to a selected read-only directory version that
 has been explicitly built and published. It can serve a standalone
 read-only mount or supply a workspace lower. Writes in the latter case
-go to the private upper; they never modify packed pages. Files outside
-the published version receive no benefit from this representation.
+go to the private upper, leaving the published pages immutable.
 
 A logical read group contains entries from one parent directory over
 a range of raw names in byte order. Its joint metadata page co-locates
 each entry with common attributes and data locators. A name lookup can
 therefore supply information needed by subsequent attribute and data
-operations. Grouping neighboring names also makes the page a natural
-unit for reuse; Section~\ref{sec:implementation} describes current caching.
+operations from the same fetched page. During enumeration, a decoded
+page supplies successive entries in its range. Section~\ref{sec:implementation}
+describes the caches used by individual name queries.
 
 Raw pages are bounded at 256 KiB. A physical container may hold several
 groups, so the metadata access unit need not equal the stored object.
@@ -70,9 +70,9 @@ through the workspace and control services.
 \subsection{Building and publishing a version}
 
 Construction starts from a consistent source view, established by a
-snapshot or validation protocol. Immutable output alone cannot establish
-source consistency. The producer groups records, uploads objects, and
-builds the indexed manifest. Publication then installs the binding after
+snapshot or validation protocol. This captures one directory version
+before its records are reorganized. The producer groups records,
+uploads objects, and builds the indexed manifest. Publication installs the binding after
 the referenced objects are durable and valid. Retained versions and
 readers keep their objects live until reclamation is safe.
 
@@ -92,8 +92,5 @@ introduce additional effects that must be measured separately. Long
 retention or rapid version churn can outweigh access savings even when
 queries become faster.
 
-A fixed ML dataset illustrates the intended use. Several experiments can
-mount the same packed input while keeping code changes, checkpoints, and
-temporary results in writable storage, so the build cost is paid once
-per dataset version and amortized over its readers. Section~\ref{sec:evaluation}
-compares native and packed representations over this full lifecycle.
+Section~\ref{sec:evaluation} varies the number of readers, query locality,
+and version lifetime to identify when reuse repays this preparation cost.

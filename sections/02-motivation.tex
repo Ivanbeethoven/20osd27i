@@ -19,12 +19,11 @@ loading~\cite{torchvision_folder}. Separate experiments repeat this
 discovery work against the same version, so the namespace of that
 dataset is read repeatedly while the data itself never changes.
 
-Two properties make such a collection different from ordinary working
-state. Its content is fixed for the lifetime of a version, so its
-records can be organized once and reused by every reader. And its
-metadata occupies a larger fraction of its representation: every file
-requires a name, attributes, and a data locator regardless of its
-payload length.
+Such a collection permits an organization specialized for reading:
+its records can be prepared once and reused for the lifetime of a
+version. Small files make this organization particularly relevant.
+Every file requires a name, attributes, and a data locator, so metadata
+work grows with file count even when total payload size stays fixed.
 
 \subsection{From file operations to storage work}
 
@@ -49,17 +48,11 @@ by itself change the others.
 
 \subsection{Design implications}
 
-The coding traces supply the access shape that the mechanisms must
-fit: many metadata calls, mixed request lengths, and bursts of activity
-within a task. Baseline reuse is a separate workload assumption:
-attempts that start from the same tree and modify a small part can
-retain references to unchanged state. The traces do not measure that
-sharing or modification pattern.
-
-The machine-learning scenario adds a complementary case: a fixed
-collection of many small files, read repeatedly by many consumers,
-whose namespace should not compete with the mutable updates of the
-writers that use it. Together they point to three separable cost
-reductions, and Section~\ref{sec:overview} describes how \sys keeps
-workspace state, metadata representation, and payload layout apart so
-that each can be chosen on its own terms.
+Figure~\ref{fig:agent-fuse-combined} establishes the operation mixes,
+request lengths, and per-task timing to retain in replay. The workspace
+and ML scenarios supply two further design targets: retaining unchanged
+state when attempts diverge, and serving a fixed small-file namespace
+without repeatedly querying the mutable metadata service. These costs
+arise at different interfaces. Section~\ref{sec:overview} places private
+state in the workspace view, fixed-record queries in the metadata
+representation, and transfer and verification units in the data path.

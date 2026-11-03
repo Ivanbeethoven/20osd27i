@@ -1,6 +1,6 @@
 {
   "width_pt": 240,
-  "height_pt": 258,
+  "height_pt": 280,
   "nodes": {
     "ordinary-volume": [
       4,
@@ -36,7 +36,7 @@
       4,
       107,
       112,
-      141
+      161
     ],
     "native-records": [
       8,
@@ -88,19 +88,19 @@
     ],
     "joint-metadata-page": [
       10,
-      180,
+      192,
       100,
-      42
+      46
     ],
     "joint-records": [
       12,
-      193,
+      205,
       96,
-      27
+      31
     ],
     "referenced-bytes": [
       10,
-      230,
+      252,
       100,
       12
     ],
@@ -108,53 +108,59 @@
       124,
       107,
       112,
-      141
+      161
+    ],
+    "ordinary-uploader": [
+      128,
+      136,
+      104,
+      46
     ],
     "file-a-object": [
       176,
-      166,
+      169,
       16,
       8
     ],
     "file-b-object-0": [
       207,
-      166,
+      169,
       7,
       8
     ],
     "file-b-object-1": [
       215.5,
-      166,
+      169,
       7,
       8
     ],
     "file-b-object-2": [
       224,
-      166,
+      169,
       5,
       8
     ],
     "backend-layout-scope": [
       128,
-      184,
+      200,
       104,
       64
     ],
     "shard-example": [
       180,
-      234,
+      250,
       12,
       10
     ],
     "other-shard-example": [
       218,
-      234,
+      250,
       12,
       10
     ],
     "backend": [
       4,
-      250,
+      272,
       232,
       8
     ]
@@ -238,25 +244,14 @@
       ]
     },
     {
-      "text": "Delta-Based",
+      "text": "Delta-Based Workspaces (\u00a74)",
       "group": "workspace-choice",
       "size_pt": 8.5,
       "bbox": [
         81,
-        22.5,
-        130.128173828125,
-        32.5
-      ]
-    },
-    {
-      "text": "Workspaces (\u00a74)",
-      "group": "workspace-choice",
-      "size_pt": 8.5,
-      "bbox": [
-        81,
-        33.0,
-        148.555908203125,
-        43.0
+        23.5,
+        200.045654296875,
+        33.5
       ]
     },
     {
@@ -430,9 +425,9 @@
       "size_pt": 7.0,
       "bbox": [
         26.15869140625,
-        182.0,
+        194.0,
         93.84130859375,
-        190.5
+        202.5
       ]
     },
     {
@@ -441,9 +436,9 @@
       "size_pt": 7.0,
       "bbox": [
         16.663818359375,
-        193.0,
+        205.5,
         35.336181640625,
-        201.5
+        214.0
       ]
     },
     {
@@ -452,9 +447,9 @@
       "size_pt": 7.0,
       "bbox": [
         44.215576171875,
-        193.0,
+        205.5,
         73.784423828125,
-        201.5
+        214.0
       ]
     },
     {
@@ -463,9 +458,9 @@
       "size_pt": 7.0,
       "bbox": [
         79.57763671875,
-        193.0,
+        205.5,
         106.42236328125,
-        201.5
+        214.0
       ]
     },
     {
@@ -474,9 +469,9 @@
       "size_pt": 7.0,
       "bbox": [
         18.218994140625,
-        202.5,
+        216.0,
         33.781005859375,
-        211.0
+        224.5
       ]
     },
     {
@@ -485,9 +480,9 @@
       "size_pt": 7.0,
       "bbox": [
         52.77587890625,
-        202.5,
+        216.0,
         65.22412109375,
-        211.0
+        224.5
       ]
     },
     {
@@ -496,9 +491,9 @@
       "size_pt": 7.0,
       "bbox": [
         27.120849609375,
-        231.5,
+        253.5,
         92.879150390625,
-        240.0
+        262.0
       ]
     },
     {
@@ -535,14 +530,14 @@
       ]
     },
     {
-      "text": "Ordinary upload \u00b7 fixed g",
+      "text": "BrewFS uploader \u00b7 fixed g",
       "group": "ordinary-uploader",
-      "size_pt": 7.5,
+      "size_pt": 7.2,
       "bbox": [
-        135.6207275390625,
-        134.5,
-        224.3792724609375,
-        143.5
+        135.594140625,
+        136.8,
+        224.405859375,
+        145.5
       ]
     },
     {
@@ -551,9 +546,9 @@
       "size_pt": 7.5,
       "bbox": [
         141.08251953125,
-        147.5,
+        150.5,
         156.91748046875,
-        156.5
+        159.5
       ]
     },
     {
@@ -562,31 +557,53 @@
       "size_pt": 7.5,
       "bbox": [
         136.2869873046875,
-        165.5,
+        168.5,
         161.7130126953125,
-        174.5
+        177.5
       ]
     },
     {
-      "text": "Backend \u00b7 layout choices",
-      "group": "backend-layout-scope",
+      "text": "Hint B",
+      "group": "client-backend-interface",
       "size_pt": 7.0,
       "bbox": [
-        137.986328125,
-        186.0,
-        222.013671875,
-        194.5
+        134.93798828125,
+        186.5,
+        154.0,
+        195.0
       ]
     },
     {
-      "text": "Coding blocks",
+      "text": "Bytes",
+      "group": "client-backend-interface",
+      "size_pt": 7.0,
+      "bbox": [
+        194.4931640625,
+        186.5,
+        212.0,
+        195.0
+      ]
+    },
+    {
+      "text": "RustFS optimizations",
+      "group": "backend-layout-scope",
+      "size_pt": 7.5,
+      "bbox": [
+        141.6668701171875,
+        202.0,
+        218.3331298828125,
+        211.0
+      ]
+    },
+    {
+      "text": "Per-object block size B",
       "group": "backend-layout-scope",
       "size_pt": 7.0,
       "bbox": [
-        158.015625,
-        197.0,
-        201.984375,
-        205.5
+        144.40185546875,
+        213.0,
+        215.59814453125,
+        221.5
       ]
     },
     {
@@ -595,9 +612,9 @@
       "size_pt": 7.5,
       "bbox": [
         138.2918701171875,
-        209.0,
+        225.0,
         143.7081298828125,
-        218.0
+        234.0
       ]
     },
     {
@@ -606,9 +623,9 @@
       "size_pt": 7.5,
       "bbox": [
         197.2918701171875,
-        209.0,
+        225.0,
         202.7081298828125,
-        218.0
+        234.0
       ]
     },
     {
@@ -617,20 +634,20 @@
       "size_pt": 7.0,
       "bbox": [
         176.887939453125,
-        209.5,
+        225.5,
         183.112060546875,
-        218.0
+        234.0
       ]
     },
     {
-      "text": "Read/verify q",
+      "text": "Verify unit q",
       "group": "shard-read-quantum",
       "size_pt": 7.0,
       "bbox": [
-        131.7587890625,
-        233.0,
+        136.0380859375,
+        249.0,
         173.0,
-        241.5
+        257.5
       ]
     },
     {
@@ -639,31 +656,20 @@
       "size_pt": 7.0,
       "bbox": [
         192.910400390625,
-        225.0,
+        241.0,
         215.089599609375,
-        233.5
+        249.5
       ]
     },
     {
-      "text": "RustFS",
+      "text": "Stored objects \u00b7 layout retained for reads and repair",
       "group": "backend",
       "size_pt": 7.0,
       "bbox": [
-        12.75,
-        249.3,
-        37.25,
-        257.8
-      ]
-    },
-    {
-      "text": "Persisted object layout",
-      "group": "backend",
-      "size_pt": 7.0,
-      "bbox": [
-        111.786376953125,
-        249.3,
-        182.213623046875,
-        257.8
+        40.038330078125,
+        271.3,
+        199.961669921875,
+        279.8
       ]
     }
   ],
@@ -779,7 +785,7 @@
         ],
         [
           80.5,
-          180
+          192
         ]
       ],
       "meaning": "select a bounded joint-metadata page by directory and raw-name range"
@@ -789,11 +795,11 @@
       "points": [
         [
           93,
-          222
+          238
         ],
         [
           93,
-          230
+          252
         ]
       ],
       "meaning": "the packed page data reference resolves existing file bytes directly below; never feed an upload slice"
@@ -803,11 +809,11 @@
       "points": [
         [
           184,
-          159
+          162
         ],
         [
           184,
-          166
+          169
         ]
       ],
       "meaning": "one example file forms a short object under fixed g, after applicable formatting"
@@ -817,39 +823,53 @@
       "points": [
         [
           222,
-          159
+          162
         ],
         [
           222,
-          166
+          169
         ]
       ],
       "meaning": "another file can form multiple objects under the same fixed g; no per-file g selection"
     },
     {
-      "id": "eligible-object-layout",
+      "id": "layout-hint",
       "points": [
         [
-          203,
-          179
+          158,
+          182
         ],
         [
-          203,
-          184
+          158,
+          200
         ]
       ],
-      "meaning": "each eligible formed object may use admitted backend layout choices; file type does not select a layout"
+      "meaning": "optional client hint requests B; RustFS admits or retains the default; q is not a client hint"
+    },
+    {
+      "id": "object-upload",
+      "points": [
+        [
+          216,
+          182
+        ],
+        [
+          216,
+          200
+        ]
+      ],
+      "meaning": "formed object bytes are uploaded with or without a block-size hint"
     },
     {
       "id": "coding-to-shard-example",
       "points": [
         [
           186,
-          225
+          241
         ],
         [
           186,
-          234
+          250
         ]
       ],
       "meaning": "backend erasure coding of the selected B block produces shard pieces"
@@ -859,11 +879,11 @@
       "points": [
         [
           224,
-          225
+          241
         ],
         [
           224,
-          234
+          250
         ]
       ],
       "meaning": "additional data/parity shards; count and coding geometry are abstracted"
@@ -873,11 +893,11 @@
       "points": [
         [
           60,
-          242
+          264
         ],
         [
           60,
-          250
+          272
         ]
       ],
       "meaning": "referenced file bytes are stored objects; reference is not an upload action"
@@ -887,11 +907,11 @@
       "points": [
         [
           224,
-          244
+          260
         ],
         [
           224,
-          250
+          272
         ]
       ],
       "meaning": "encoded objects retain their effective backend layout for subsequent reads and repair; B and q have independent admission gates"

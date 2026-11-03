@@ -14,10 +14,11 @@
 \usetikzlibrary{arrows.meta,positioning,fit,calc}
 \usepackage{microtype}
 \usepackage{xurl}
+\usepackage{xspace}
 \hypersetup{breaklinks=true,hidelinks}
 \newcommand{\sysname}{BrewFS}
 \hypersetup{pdftitle={BrewFS: Delta-Based Multi-Agent Workspaces with Packed Metadata and Variable-Granularity Object Storage},pdfauthor={}}
-\newcommand{\sys}{\sysname{} }
+\newcommand{\sys}{\sysname\xspace}
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\KiB}{\,\mathrm{KiB}}
 \newcommand{\MiB}{\,\mathrm{MiB}}
@@ -32,30 +33,27 @@ and Variable-Granularity Object Storage}
 \date{}
 \maketitle
 \begin{abstract}
-Agents exploring alternatives from a common revision need private
-working state and continued access to shared inputs. Sharing file
-contents avoids duplication, but leaves the costs of constructing
-private views, serving metadata, and fetching partial data.
-\sys addresses these costs through three independently optional
-mechanisms. Delta-Based Workspaces keep a shared immutable baseline and
-store private namespace state and data-range mappings, preserving
-references to unchanged data. Packed Metadata moves supported queries
-for a selected, published read-only directory version into authenticated
-object pages that co-locate names, attributes, and data locators. It
-targets stable small-file collections reused across tasks, including
-training inputs. Variable-Granularity Object Storage separates client
-object formation from backend encoding and verification units to
-control the work induced by partial reads. These choices incur distinct
-preparation, access, and retention costs. We describe their
+Agent services need private working state and repeated access to shared
+repositories, dependencies, and datasets. Reusing file contents leaves
+the costs of representing edits, querying shared metadata, and serving
+partial reads. We present \sys, an object-backed distributed file system
+with three independently optional mechanisms. Delta-Based Workspaces
+retain private namespace records and data-range mappings over a pinned
+baseline, preserving references to unchanged data. Packed Metadata
+organizes a published read-only directory version into authenticated
+pages that co-locate names, common attributes, and data locators. These
+pages serve supported queries outside the mutable metadata database,
+targeting stable small-file collections shared by many readers.
+Variable-Granularity Object Storage separates client object formation
+from backend encoding and verification. A co-designed RustFS extension
+accepts coding-block-size hints and persists each object's effective
+layout for subsequent reads and repair. A native workspace can fork
+without packing, and a packed version can serve independent read-only
+access. We describe the
 representations and update protocols, and characterize 1,138,884 FUSE
-requests from eight coding-agent runs. The evaluation plan tests the
-expected benefits in each mechanism's intended workload, then examines
-fork, migration, and concurrent execution.
+requests from eight coding-agent runs to establish access patterns
+for evaluation.
 \end{abstract}
-
-\noindent\textbf{Draft status.} The workload characterization is
-complete. The formal system-performance study and end-to-end recovery
-validation in Section~\ref{sec:evaluation} remain to be conducted.
 
 \input{sections/01-introduction}
 \input{sections/02-motivation}

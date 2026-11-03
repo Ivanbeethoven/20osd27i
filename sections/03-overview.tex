@@ -1,66 +1,72 @@
 \section{System Overview}
 \label{sec:overview}
 
-\subsection{State, metadata, and payloads}
+\subsection{File views and storage interfaces}
 
-\sys separates three decisions along the file-access path: which version
-a task sees, how it retrieves immutable metadata, and how it stores and
-fetches payloads. A lower reader resolves names, attributes, and data
-locators under a fixed version identity. The data path returns the
-referenced logical bytes using each object's persisted layout. These
-interfaces allow metadata representation and object layout to change
-without changing the file view.
+\sys exposes file operations through a FUSE client backed by a metadata
+service and object storage. An ordinary volume keeps its namespace in
+mutable metadata. A workspace instead resolves private records over a
+pinned immutable lower. Both views locate file bytes through data
+mappings, allowing changes to a name or range to preserve references
+to the remaining data.
 
-Figure~\ref{fig:overview} maps the design to the following sections:
-shared state and private changes (Section~\ref{sec:delta}), native or
-packed metadata (Section~\ref{sec:packed}), and object formation
-separated from backend layout (Section~\ref{sec:layout}). The mechanisms
-are independently optional, so an ML experiment can mount a standalone
-packed dataset beside a native writable workspace.
-
-\subsection{Pinning a baseline}
-
-A workspace binds a shared immutable lower and a private writable upper.
-The lower supplies a fixed version through a sealed native layer or
-a packed manifest. It may cover a selected subtree; the rest of the
-source volume need not be frozen. Resolving every lookup through a
-mutable latest-version pointer would violate this fixed starting view.
-
-Private records determine which inherited names and ranges remain
-visible. Section~\ref{sec:delta} gives the lookup and update rules;
-merging independent edits requires an application protocol.
+Figure~\ref{fig:overview} shows where the three mechanisms act.
+Delta-Based Workspaces compose the file view
+(Section~\ref{sec:delta}). Packed Metadata supplies an alternative
+representation for a selected read-only lower
+(Section~\ref{sec:packed}). Variable-Granularity Object Storage governs
+object formation and the BrewFS--RustFS layout interface
+(Section~\ref{sec:layout}). An ordinary volume can use that interface,
+and a packed version can be mounted directly for read-only access.
 
 \begin{figure}[!t]
 \centering
 \input{figures/architecture}
-\caption{The three optional mechanisms and their corresponding sections.
-Workspaces retain private changes over shared state; Packed Metadata
-serves a selected read-only subtree. Object granularity separates client
-block size $g$, backend encoding block size $B$, and shard verification
-quantum $q$. Layouts are schematic. Implementation coverage is described
-in Section~\ref{sec:implementation}.}
+\caption{Three optional mechanisms in \sys
+(Sections~\ref{sec:delta}--\ref{sec:layout}). Workspaces share a pinned
+baseline; packed pages serve read-only metadata. The ordinary uploader
+forms objects with client block size $g$ and can attach a $B$ hint
+(dashed). Our RustFS extensions provide per-object coding-block sizing
+and finer shard verification units $q$; admitted geometry persists
+for reads and repair.}
 \label{fig:overview}
 \end{figure}
 
-\subsection{One access, three boundaries}
+\subsection{Binding shared state}
 
-Consider an agent that opens \code{config.json} in a shared dataset
-and reads its first 4 KiB. Three decisions determine what that read
-costs. The name is resolved against the workspace's private upper and,
-if no private record exists there, against the lower; the lower answers
-through a native catalog or through a joint page fetched from object
-storage. The resulting record supplies a data
-locator, and the client turns it into an object reference and a byte
-range using the geometry in which that object was formed. The backend
-finally reads and verifies the shard interval to which the range maps.
+A workspace binds a fixed lower version and a private writable upper.
+The version may be a sealed native layer or a packed manifest covering
+a selected subtree. Pinning that identity gives every inherited lookup
+the same starting view even as other workspaces change or newer versions
+are published. The private upper determines which names, attributes,
+and byte ranges override that view.
 
-\subsection{Reads, writes, and publication}
+The lower-query interface resolves names, attributes, and data locators.
+Native metadata answers through the catalog; Packed Metadata answers
+through authenticated indexes and joint pages. This interface separates
+workspace isolation from the preparation of a packed representation.
+An ML experiment can, for example, use a native writable workspace for
+code and outputs while mounting a separately published training dataset.
 
-An overwrite stores new bytes and publishes a private
-mapping, leaving other workspaces' references intact. Buffered writes
-can satisfy local reads before their objects become remotely durable.
+\subsection{Reading and publishing data}
 
-Publishing a recoverable version requires durable referenced objects and
-validated metadata. Ownership records retain metadata and payloads while
-workspaces or readers still need them. Section~\ref{sec:implementation}
-describes publication and runtime recovery.
+Consider a workspace reading the first 4 KiB of an inherited file.
+Lookup checks private records and inheritance rules before consulting
+the lower. A packed lookup returns the name, common attributes, and
+data locator from a joint page. The data path follows the locator to
+the stored bytes, using the representation in which those bytes were
+written. RustFS translates the resulting object request into shard
+reads under the object's persisted layout.
+
+For new ordinary data, the client forms an object before requesting
+a backend coding-block size. Our RustFS extensions support per-object
+coding-block selection and finer shard verification, subject to backend
+admission and compatibility checks. Persisting
+the layout lets later reads and repair interpret an object independently
+of the configuration used for subsequent writes.
+
+An overwrite publishes a private mapping to new data while preserving
+other workspaces' references. Publishing a recoverable version requires
+durable objects and validated metadata; retention keeps referenced
+objects live. Section~\ref{sec:delta} gives the update rules, and
+Section~\ref{sec:implementation} describes writeback and recovery.

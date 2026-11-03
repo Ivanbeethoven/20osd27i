@@ -3,17 +3,19 @@
 
 \subsection{A shared baseline and private changes}
 
-Delta-based workspaces retain a shared immutable baseline and private
-records for modified names, attributes, deletion markers, and data
-mappings. This avoids materializing the baseline for every attempt.
-Private records hold current state, including complete attributes where
-needed; data-range mappings preserve references to unchanged bytes.
+The unit of private state determines the cost of an isolated edit.
+Copying a namespace at fork repeats its metadata; copying an inherited
+file on its first write can materialize bytes the attempt never changes.
+Delta-based workspaces instead retain private records for changed names,
+attributes, deletion markers, and data ranges over a shared immutable
+baseline. The baseline keeps inherited references stable, while private
+records describe the current visible state.
 
 Workspace creation registers the immutable base and the private control
 state without copying the metadata tree. The catalog identifies the base
 by layer, sealed version, and root hash; a packed lower also binds its
-authenticated manifest. Creation still pays for binding validation,
-ownership records, and mount preparation. The lower can use native
+authenticated manifest. Creation validates this binding, registers
+ownership, and prepares the mount. The lower can use native
 metadata or an already published pack (Section~\ref{sec:packed}).
 
 \subsection{Resolving names}
@@ -32,16 +34,14 @@ inherited file's inode number when materializing private attributes or
 mappings. Updates through one hard-link alias therefore remain visible
 through the others.
 
-The direct-I/O path keeps private namespace records in transactions.
-Rename locks participating inodes in number order, validates the observed
-records and writer authority, and commits the source deletion marker
-and destination binding atomically. The transaction also updates affected
-inode and parent records. Namespace reads validate an operation-local view
-and retry conflicts, so they cannot return partially applied rename
-records. Separate calls may observe opposite sides of the commit.
-The buffered path instead serializes local mutations and uses
-version-guarded catalog transactions. Neither provides a snapshot across
-multiple system calls.
+Rename must change the source and destination bindings together.
+The direct-I/O path locks participating inodes in number order, validates
+the observed records and writer authority, and commits the source
+deletion marker, destination binding, and affected inode and parent
+records in one transaction. Namespace reads validate an operation-local
+view and retry conflicts, preventing a partially applied rename from
+becoming visible within an operation. Section~\ref{sec:implementation}
+describes the buffered path and the scope of these guarantees.
 
 \subsection{Overwrites and truncation}
 
@@ -50,25 +50,19 @@ path records private extents alongside namespace and inode changes.
 The direct-I/O path represents each changed logical chunk with a
 normalized map of upper data, lower references, and zero-filled holes.
 Within the range a map covers, every interval names exactly one source,
-so no part of it refers to the lower by accident. A range with no
-private override at all continues to inherit the lower's bytes, and the
-inherited boundary only shrinks, so an attempt never exposes more of the
-baseline than it started with.
+which makes the visible source unambiguous. Ranges without a private
+override inherit the lower's bytes up to the lower-visible boundary.
+This boundary only shrinks as the workspace truncates inherited data.
 
 A short overwrite replaces its interval and retains lower references
 elsewhere. Truncation must invalidate both inherited and previously
 written bytes. The direct-I/O path first commits the reduced size,
 a nonincreasing lower-visible boundary, and a cleanup intent. Cleanup
 replaces discarded spans with zeros; extension completes pending cleanup
-before increasing the size. For example, writing $[6,10)$, shrinking to
-7, and extending to 34 must leave zeros throughout $[7,34)$.
-Restricting only the visible lower size would expose the old upper bytes.
-
-The buffered client's dirty overlay serves local writes before writeback.
-If dirty data covers $[4,8)$ KiB, a read of $[2,10)$ KiB combines
-two committed 2 KiB ranges with the dirty 4 KiB range. Persistent
-private mappings and this local overlay can coexist. Their durability
-differs, and a short logical write need not produce a short stored object.
+before increasing the size. For example, after an overwrite of
+6--10 KiB, truncation to 7 KiB, and extension to 12 KiB, the range
+7--12 KiB must read as zeros. Reducing only the inherited boundary
+would leave the discarded upper bytes available to a later extension.
 
 \subsection{Publication and retention}
 
@@ -88,8 +82,6 @@ file contents and names, not process memory or open handles.
 
 Reclamation retains every object still referenced by a workspace or
 reader and distinguishes these objects from abandoned construction output.
-The metadata footprint consists of the shared baseline, each workspace's
-private records and mappings, and binding and ownership records.
-Private state grows with modifications and deletions. Physical accounting
-also includes payloads, encoding and checksum overhead, unreclaimed
-objects, and caches.
+Private metadata grows with modifications and deletion markers; retained
+baselines and ownership records contribute shared overhead. The evaluation
+accounts for both live references and objects awaiting reclamation.

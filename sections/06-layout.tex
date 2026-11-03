@@ -1,13 +1,14 @@
 \section{Variable-Granularity Object Storage}
 \label{sec:layout}
 
-Small reads within large objects can fetch and verify unused bytes.
-Smaller objects reduce that opportunity but add requests and per-object
-overhead; smaller verification units add checksums. \sys separates
-client object formation from backend encoding and verification so these
-costs can be controlled at their respective layers. The finalized object
-connects them: its length is known after assembly, compression where
-applicable, and framing.
+Object formation and physical access make different tradeoffs. Small
+client objects limit whole-object transfers but add requests and
+per-object overhead. Backend coding blocks and checksum frames determine
+how an object is encoded and how much shard data a partial read verifies.
+We co-design \sys and a RustFS extension to expose these decisions across
+the file-system--object-store boundary. The client supplies a formed
+object and an optional coding-block-size hint; RustFS admits and stores
+the effective layout.
 
 \subsection{From file ranges to objects}
 
@@ -27,31 +28,35 @@ interval can leave untouched intervals referencing older objects.
 
 Chunk size must be a nonzero multiple of $g$. Because readers reconstruct
 addresses from this geometry, changing $g$ for existing data requires
-a compatible representation or migration. It is a configuration choice,
-rather than a controller that adapts to observed access.
+a compatible representation or migration. The implementation fixes this
+geometry for a compatible configuration.
 
-\subsection{Backend encoding and verification}
+\subsection{Co-design with RustFS}
 
-Once $L_o$ is known, the client can pass an optional encoding-block-size
-hint to a compatible RustFS research backend. The hint requests backend
-erasure-coding block size $B$ without changing $g$ or multipart part
-sizes. The backend checks eligibility and compatibility, then persists
-the effective $B$. Omitting a hint retains default selection.
-Multipart initiation uses the complete object's length, and retries
-retain that object's decision.
+The client knows the finalized upload length $L_o$ after assembly,
+compression where applicable, and framing. It can therefore choose a
+hint for the object that will actually be stored. Our RustFS extension
+accepts a requested erasure-coding block size $B$, checks write eligibility
+and deployment compatibility, and selects the effective size. An omitted
+or inapplicable hint uses the default layout. Payload upload proceeds
+through the same interface in either case. The hint leaves client
+geometry $g$ and multipart part sizes unchanged.
 
-The interface accepts fixed hints of 64 KiB, 256 KiB, 1 MiB, and 4 MiB,
-or a length-based policy. These choices apply to the formed object.
-Section~\ref{sec:implementation} describes the current policy and its
-relationship to the backend default.
+RustFS stores the admitted coding geometry in the object's layout
+metadata. Subsequent reads and repair use that stored geometry rather
+than re-evaluating a request hint or the current write configuration.
+Later write-configuration changes therefore leave existing objects
+readable. The client retains an object's hint across upload retries.
+Multipart initiation chooses the layout using the complete object's
+length; its parts share that decision.
 
 The physical verification/read quantum $q$ determines how much shard
 data is verified together. A separate backend policy can select
 smaller units for eligible new framing. Full stripes must contain
 a whole number of verification units per shard, with coding blocks
 aligned across all data shards. Hint admission and new verification
-framing have separate compatibility gates. Reads and repair use persisted
-geometry even after write settings change.
+framing have separate compatibility gates, and both decisions are
+recorded in the object layout.
 
 \subsection{Physical work for a partial read}
 
@@ -105,8 +110,8 @@ Request count, compression work, and cache occupancy capture additional
 costs. Compaction, retries, and short slices can increase upload work,
 so smaller objects need not reduce write amplification.
 
-A smaller backend quantum helps only if client fetching exposes
-sufficiently small ranges. Snapshot producers and workspace upper writers
-also have their own upload formats. The implementation differences below
-determine which combinations can be compared without changing the
-client path.
+Smaller verification units target the excess shard bytes introduced by
+integrity boundaries. Their end-to-end effect also depends on client
+fetching, decoding, and caching. Snapshot producers and workspace upper
+writers use their own object formats; Section~\ref{sec:implementation}
+identifies the paths that issue hints and the paths that fetch whole objects.

@@ -1,27 +1,32 @@
 \section{Implementation}
 \label{sec:implementation}
 
-\sys provides buffered, direct-I/O, and standalone read-only paths.
-Their cache, writeback, and fetch policies determine which mechanism
-effects each can expose.
+\sys implements the representations through buffered workspaces,
+direct-I/O workspaces, and standalone read-only mounts. Their cache,
+writeback, and recovery policies determine which operations and
+performance effects the evaluation can compare.
 
 \subsection{Access paths}
 
 Ordinary volumes use mutable metadata and buffered writeback.
 Buffered workspaces add private-state resolution over a sealed catalog
-or packed lower. Standalone packed mounts omit the private upper;
-their entry currently requires zero payload-cache and prefetch budgets.
+or packed lower. They serialize local mutations and use version-guarded
+catalog transactions. Dirty buffers satisfy local reads before writeback;
+recovery additionally requires the referenced data to become durable.
+Standalone packed mounts omit the private upper and currently require
+zero payload-cache and prefetch budgets.
 
 The authenticated packed reader caches index pages, per-name results
 including absence, and attributes. Directory enumeration retains and
 reuses the decoded joint page for its current group. Independent name
-lookups fetch and decode that page on a per-name cache miss.
-General sharing of decoded pages, partial decoding, and incremental
-rebuilding remain optimization opportunities.
+lookups fetch and decode that page on a per-name cache miss; decoded-page
+reuse across those queries is not implemented.
 
 Direct-I/O workspaces store private namespace and mapping records
 transactionally, implementing the rename and truncation rules in
-Section~\ref{sec:delta}. They bypass buffered writeback and metadata
+Section~\ref{sec:delta}. Namespace protocols on both paths are scoped
+to individual operations; separate calls can observe different committed
+versions. Direct-I/O workspaces bypass buffered writeback and metadata
 time-to-live caching, with admission bounds on operation sizes,
 enumeration, and ownership. This path supports fresh workspaces without
 process-crash takeover. It authenticates an entire upper object before
@@ -43,18 +48,16 @@ session checkpoints and tool reopening.
 
 The ordinary uploader defaults to $g=4\MiB$ within 64 MiB chunks.
 Readers use the same geometry; incompatible configurations are rejected.
-The client size remains a fixed configuration.
+The RustFS extension accepts explicit coding-block-size hints of
+64 KiB, 256 KiB, 1 MiB, and 4 MiB. Hint admission and new verification
+framing have separate rollout gates requiring deployment-wide
+compatibility confirmation. The ordinary uploader passes hints;
+direct workspace writes and the snapshot producer use defaults.
+Existing objects retain their stored layout after configuration changes.
 
-Encoding hints and new verification framing require compatible client
-and backend support, with separate admission gates disabled by default
-in the inspected backend. Effective layouts are persisted; configuration
-changes do not re-encode existing objects. The ordinary uploader passes
-hints. Direct workspace writes and the snapshot producer use defaults.
-Direct writes hold fragments capped at the automatic policy's no-hint
-threshold.
-
-The current policy omits hints for $L_o\leq1\MiB$ and requests
-$B=1\MiB$ otherwise. The inspected backend already defaults to
-$B=1\MiB$, so the policy can leave geometry unchanged while changing
-client fetch and cache behavior. Evaluation distinguishes these effects
-using actual $(g,L_o,B,q)$ and the path's fetch policy.
+The current automatic policy omits hints for $L_o\leq1\MiB$ and
+requests $B=1\MiB$ otherwise. RustFS's default coding-block size is also
+1 MiB, so this policy can leave geometry unchanged. Enabling hints also
+changes the ordinary client's fetch and cache policy. The evaluation
+therefore records actual $(g,L_o,B,q)$ and holds the client policy fixed
+when isolating the effect of a backend layout change.

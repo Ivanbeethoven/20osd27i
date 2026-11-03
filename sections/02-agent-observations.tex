@@ -11,8 +11,7 @@ on Ubuntu 24.04 under WSL. Instrumentation recorded requests reaching
 FUSE handlers.
 
 The capture contains 1,138,884 requests across all eight runs.
-Counts include all statuses, 64 setup/canary requests before
-startup, and teardown, including 24 requests after recorded run completion.
+Counts include all statuses, setup, and teardown.
 Pooled statistics weight requests equally rather than tasks. The companion
 workload record retains instrumentation versions, per-task counts, and
 source-validation details.
@@ -20,11 +19,12 @@ source-validation details.
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{figures/agent-fuse/fuse-single-column.pdf}
-\caption{FUSE requests across eight coding-agent runs.
-(a) Pooled call shares; hatching marks errors within each category.
-(b) Pooled requested-length distributions, normalized separately for
-reads and writes. (c) Each task's call share in its busiest 10\% of
-one-second windows. Panels (a,b) weight requests equally.}
+\caption{FUSE requests from eight coding-agent runs (1,138,884 total).
+(a) Operation shares across all statuses; hatching marks errors within
+each category. (b) Requested lengths in KiB, normalized separately for
+reads and writes. (c) Each task's request share in its busiest 10\% of
+one-second windows, including idle and final partial windows.
+Panels (a,b) pool requests across tasks rather than averaging task shares.}
 \label{fig:agent-fuse-combined}
 \end{figure}
 
@@ -32,7 +32,7 @@ one-second windows. Panels (a,b) weight requests equally.}
 Six metadata methods (\code{lookup}, \code{getattr}, \code{getxattr},
 \code{readdirplus}, \code{opendir}, and \code{releasedir}) accounted for
 57.3\% of all calls (Figure~\ref{fig:agent-fuse-combined}(a)).
-Other contains methods outside
+The Other category contains methods outside
 these six and read/write. Among successful events, the metadata share
 was 45.8\%, showing the contribution of unsuccessful probes.
 Across individual tasks, all-status shares ranged from 39.6\% in SymPy
@@ -59,22 +59,13 @@ The busiest 10\% of one-second windows contained 47.4--83.7\% of each
 task's calls (Figure~\ref{fig:agent-fuse-combined}(c)). Windows include idle
 and final partial windows; the number selected is rounded up per task.
 These differences favor retaining per-task mixes and timing in replay.
-Each task was observed once, and repositories, prompts, and budgets
-differed; the observations do not isolate their effects.
 
 \paragraph{Measurement limits.}
-The capture contains 872,519 \code{ok}, 253,669 \code{error}, and
-12,696 \code{incomplete} events. Errors came from \code{lookup}
-(233,452), \code{getxattr} (20,203), and \code{rmdir} (14).
-Missing errno values prevent attribution of individual errors.
-Incomplete events lack a recognized paired completion: 12,688 are
-\code{forget} records and eight are \code{destroy} records.
-All agent and daemon exit codes were zero; task-grading success was
-not established.
-
-Handler intervals measure WSL passthrough activity, not remote storage
-latency or model response time. Capture spans include inter-request
-gaps; overlapping handler intervals cannot be summed into task duration.
-The traces establish request mix and timing for this panel. They do not
-measure ML workloads, cross-task sharing, sparse mutation, or \sys
-performance.
+The capture contains 872,519 successful, 253,669 error, and 12,696
+unpaired events. Errors are lookup and attribute probes except for 14
+\code{rmdir} calls; missing errno values prevent finer attribution.
+Unpaired events are \code{forget} and \code{destroy} records. Each task
+was observed once, and task-grading success was not established.
+The traces characterize requests reaching the passthrough file system.
+They do not establish remote latency, ML access patterns, cross-task
+sharing, sparse mutation, or \sys performance.
