@@ -2,13 +2,13 @@
   b/.style={draw,rounded corners=2pt,align=center,text width=6.5cm,minimum height=0.56cm,font=\small,fill=black!3},
   a/.style={-{Latex[length=1.7mm]},semithick}
 ]
-\node[b] (root) {Pinned manifest and authenticated roots};
-\node[b,below=0.35cm of root] (index) {Paged directory-name index\\parent directory and name range};
-\node[b,below=0.35cm of index] (group) {Joint metadata page\\name, common attributes, data locator};
-\node[b,below=0.58cm of group] (frame) {Packed frame descriptor\\container offset, length, content verification};
-\node[b,below=0.35cm of frame] (data) {Payload range read and verification};
+\node[b] (root) {Pinned manifest};
+\node[b,below=0.35cm of root] (index) {Directory-name index};
+\node[b,below=0.35cm of index] (group) {Joint page: name, attributes, data locator};
+\node[b,below=0.58cm of group] (frame) {Frame descriptor: offset and length};
+\node[b,below=0.35cm of frame] (data) {Verified payload range};
 \draw[a] (root) -- (index);
 \draw[a] (index) -- (group);
-\draw[a,dashed] (group) -- node[midway,right=2pt,font=\footnotesize] {Non-inline file read} (frame);
+\draw[a,dashed] (group) -- node[midway,right=2pt,font=\footnotesize] {Non-inline read} (frame);
 \draw[a] (frame) -- (data);
 \end{tikzpicture}

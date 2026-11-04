@@ -23,13 +23,12 @@ and a packed version can be mounted directly for read-only access.
 \centering
 \input{figures/architecture}
 \caption{Three optional mechanisms in \sys. The left branch bypasses
-workspace composition. In a published directory $D$, a lookup for
-\emph{cat} selects the \emph{cat--dog} page within a packed object;
-the matching row answers the lookup directly. The ordinary uploader
-forms objects with client block size $g$. The dashed arrow carries
-its optional $B$ hint. Our RustFS extensions admit a per-object coding
-block size, select the shard verification unit $q$, and persist both
-for reads and repair.}
+workspace composition. \sys publishes the index once per packed
+directory version. To find \emph{cat} in $D$, the reader verifies the
+highlighted page and returns the matching row. The uploader forms
+objects with block size $g$ and can send a $B$ hint (dashed). Our RustFS
+extensions admit a per-object coding block size, select the shard
+verification unit $q$, and persist both for reads and repair.}
 \label{fig:overview}
 \end{figure}
 

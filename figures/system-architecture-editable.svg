@@ -114,101 +114,75 @@
         <text x="21" y="119" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Packed Metadata (§5)</text>
       </g>
     </g>
-    <g id="version-build">
-      <g aria-label="Publish once per version">
-        <text x="10" y="131" font-family="Arial" font-size="7.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Publish once per version</text>
-      </g>
-      <g aria-label="Fixed tree">
-        <text x="10" y="143" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Fixed tree</text>
-      </g>
-      <g aria-label="Index + pages">
-        <text x="62" y="143" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Index + pages</text>
-      </g>
-      <polyline points="10,150 110,150" fill="none" stroke="#B8C8D4" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round" />
-    </g>
-    <g id="build-index-and-pages">
-      <polyline points="46,140.5 58,140.5" fill="none" stroke="#72808D" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
-      <polygon points="58,140.5 55.0,139.25 55.0,141.75" fill="#72808D" />
-    </g>
     <g id="lookup-key">
-      <g aria-label="Find cat in D">
-        <text x="10" y="163" font-family="Arial" font-size="7.3" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Find cat in D</text>
+      <g aria-label="(D, cat)">
+        <text x="11" y="145" font-family="Arial" font-size="8" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">(D, cat)</text>
       </g>
     </g>
     <g id="lookup-index">
-      <polyline points="57,160.5 65,160.5" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
-      <polygon points="65,160.5 62.0,159.25 62.0,161.75" fill="#2D6084" />
+      <polyline points="46,142 62,142" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+      <polygon points="62,142 59.0,140.75 59.0,143.25" fill="#2D6084" />
     </g>
     <g id="name-range-index">
-      <rect x="65" y="154" width="45" height="13" rx="2" fill="#DDE8F0" stroke="#2D6084" stroke-width="0.65" />
+      <rect x="62" y="134" width="48" height="16" rx="2" fill="#DDE8F0" stroke="#2D6084" stroke-width="0.65" />
       <g aria-label="Range index">
-        <text x="67.8466796875" y="163" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Range index</text>
+        <text x="65.50439453125" y="144.5" font-family="Arial" font-size="7.3" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Range index</text>
       </g>
     </g>
     <g id="index-page">
-      <polyline points="87.5,167 87.5,172 60,172 60,184" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
-      <polygon points="60,184 61.25,181.0 58.75,181.0" fill="#2D6084" />
+      <polyline points="86,150 86,159 60,159 60,177" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+      <polygon points="60,177 61.25,174.0 58.75,174.0" fill="#2D6084" />
     </g>
     <g id="packed-object-label">
-      <g aria-label="Packed object">
-        <text x="10" y="179" font-family="Arial" font-size="7.3" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Packed object</text>
+      <g aria-label="Object">
+        <text x="10" y="172" font-family="Arial" font-size="7.3" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Object</text>
       </g>
     </g>
     <g id="packed-object">
-      <rect x="10" y="184" width="100" height="16" rx="0" fill="#F3F5F6" stroke="#72808D" stroke-width="0.65" />
-      <rect x="41" y="184" width="38" height="16" fill="#2D6084" stroke="#2D6084" stroke-width="0.75" />
-      <g aria-label="ant–bee">
-        <text x="12.848388671875" y="194.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">ant–bee</text>
-      </g>
-      <g aria-label="eel–fox">
-        <text x="83.2138671875" y="194.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">eel–fox</text>
-      </g>
+      <rect x="10" y="177" width="100" height="18" rx="0" fill="#F3F5F6" stroke="#72808D" stroke-width="0.65" />
+      <rect x="40" y="177" width="40" height="18" fill="#2D6084" stroke="#2D6084" stroke-width="0.75" />
       <g aria-label="cat–dog">
-        <text x="45.62255859375" y="194.5" font-family="Arial" font-size="7.5" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">cat–dog</text>
+        <text x="45.62255859375" y="188.5" font-family="Arial" font-size="7.5" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">cat–dog</text>
       </g>
     </g>
     <g id="enlarge-one-page">
-      <polyline points="41,200 10,212" fill="none" stroke="#2D6084" stroke-width="0.65" stroke-linejoin="round" stroke-linecap="round" />
-      <polyline points="79,200 110,212" fill="none" stroke="#2D6084" stroke-width="0.65" stroke-linejoin="round" stroke-linecap="round" />
+      <polyline points="40,195 10,210" fill="none" stroke="#2D6084" stroke-width="0.65" stroke-linejoin="round" stroke-linecap="round" />
+      <polyline points="80,195 110,210" fill="none" stroke="#2D6084" stroke-width="0.65" stroke-linejoin="round" stroke-linecap="round" />
     </g>
     <g id="joint-metadata-page">
-      <rect x="10" y="212" width="100" height="48" rx="0" fill="white" stroke="#2D6084" stroke-width="0.65" />
-      <g aria-label="Verified metadata page">
-        <text x="18.944091796875" y="222" font-family="Arial" font-size="7.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Verified metadata page</text>
-      </g>
-      <polyline points="10,225 110,225" fill="none" stroke="#2D6084" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" />
-      <rect x="10.5" y="237" width="99" height="11.5" fill="#DDE8F0" />
-      <rect x="10.5" y="237" width="1.7" height="11.5" fill="#2D6084" />
-      <polyline points="39,225 39,260" fill="none" stroke="#A4B3BE" stroke-width="0.4" stroke-linejoin="round" stroke-linecap="round" />
-      <polyline points="70,225 70,260" fill="none" stroke="#A4B3BE" stroke-width="0.4" stroke-linejoin="round" stroke-linecap="round" />
-      <polyline points="10,237 110,237" fill="none" stroke="#A4B3BE" stroke-width="0.4" stroke-linejoin="round" stroke-linecap="round" />
-      <polyline points="10,248.5 110,248.5" fill="none" stroke="#A4B3BE" stroke-width="0.4" stroke-linejoin="round" stroke-linecap="round" />
+      <rect x="10" y="210" width="100" height="45" rx="0" fill="white" stroke="#2D6084" stroke-width="0.65" />
+      <rect x="10.5" y="225" width="99" height="15" fill="#DDE8F0" />
+      <rect x="10.5" y="225" width="1.7" height="15" fill="#2D6084" />
+      <polyline points="39,210 39,255" fill="none" stroke="#A4B3BE" stroke-width="0.4" stroke-linejoin="round" stroke-linecap="round" />
+      <polyline points="70,210 70,255" fill="none" stroke="#A4B3BE" stroke-width="0.4" stroke-linejoin="round" stroke-linecap="round" />
+      <polyline points="10,225 110,225" fill="none" stroke="#A4B3BE" stroke-width="0.4" stroke-linejoin="round" stroke-linecap="round" />
+      <polyline points="10,240 110,240" fill="none" stroke="#A4B3BE" stroke-width="0.4" stroke-linejoin="round" stroke-linecap="round" />
       <g aria-label="Name">
-        <text x="15.163818359375" y="233.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Name</text>
+        <text x="14.897070312499999" y="220" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Name</text>
       </g>
       <g aria-label="Size">
-        <text x="47.69140625" y="233.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Size</text>
+        <text x="47.496875" y="220" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Size</text>
       </g>
       <g aria-label="Data ref.">
-        <text x="76.57763671875" y="233.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Data ref.</text>
+        <text x="76.194140625" y="220" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Data ref.</text>
       </g>
       <g aria-label="cat">
-        <text x="19.296875" y="245.3" font-family="Arial" font-size="7.2" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">cat</text>
+        <text x="19.296875" y="235" font-family="Arial" font-size="7.2" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">cat</text>
       </g>
       <g aria-label="4 KiB">
-        <text x="45.2978515625" y="245.3" font-family="Arial" font-size="7.2" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">4 KiB</text>
+        <text x="45.2978515625" y="235" font-family="Arial" font-size="7.2" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">4 KiB</text>
       </g>
       <g aria-label="A">
-        <text x="87.4001953125" y="245.3" font-family="Arial" font-size="7.2" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">A</text>
+        <text x="87.4001953125" y="235" font-family="Arial" font-size="7.2" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">A</text>
       </g>
       <g aria-label="dog">
-        <text x="18.4935546875" y="256.8" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">dog</text>
+        <text x="18.4935546875" y="250" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">dog</text>
       </g>
       <g aria-label="8 KiB">
-        <text x="45.8955078125" y="256.8" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">8 KiB</text>
+        <text x="45.8955078125" y="250" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">8 KiB</text>
       </g>
       <g aria-label="B">
-        <text x="87.598828125" y="256.8" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">B</text>
+        <text x="87.598828125" y="250" font-family="Arial" font-size="7.2" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">B</text>
       </g>
     </g>
     <g id="granularity-choice">
@@ -356,7 +330,7 @@
       </g>
     </g>
     <g id="packed-object-storage">
-      <polyline points="110,192 113,192 113,272" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+      <polyline points="110,186 113,186 113,272" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
       <polygon points="113,272 114.25,269.0 111.75,269.0" fill="#2D6084" />
     </g>
     <g id="encoded-object-storage">

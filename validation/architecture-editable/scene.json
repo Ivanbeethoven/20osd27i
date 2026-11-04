@@ -45,22 +45,22 @@
       161
     ],
     "name-range-index": [
-      65,
-      142,
-      45,
-      13
+      62,
+      122,
+      48,
+      16
     ],
     "packed-object": [
       10,
-      172,
+      165,
       100,
-      16
+      18
     ],
     "joint-metadata-page": [
       10,
-      200,
+      198,
       100,
-      48
+      45
     ],
     "granularity-choice": [
       124,
@@ -301,91 +301,36 @@
       ]
     },
     {
-      "text": "Publish once per version",
-      "group": "version-build",
-      "size_pt": 7.5,
-      "bbox": [
-        10,
-        111.5,
-        99.190673828125,
-        120.5
-      ]
-    },
-    {
-      "text": "Fixed tree",
-      "group": "version-build",
-      "size_pt": 7.2,
-      "bbox": [
-        10,
-        123.8,
-        42.013281250000006,
-        132.5
-      ]
-    },
-    {
-      "text": "Index + pages",
-      "group": "version-build",
-      "size_pt": 7.2,
-      "bbox": [
-        62,
-        123.8,
-        107.4359375,
-        132.5
-      ]
-    },
-    {
-      "text": "Find cat in D",
+      "text": "(D, cat)",
       "group": "lookup-key",
-      "size_pt": 7.3,
+      "size_pt": 8,
       "bbox": [
-        10,
-        143.7,
-        53.8,
-        152.5
+        11,
+        125,
+        38.11328125,
+        134.5
       ]
     },
     {
       "text": "Range index",
       "group": "name-range-index",
-      "size_pt": 7.0,
+      "size_pt": 7.3,
       "bbox": [
-        67.8466796875,
-        144.0,
-        107.1533203125,
-        152.5
+        65.50439453125,
+        125.2,
+        106.49560546875,
+        134.0
       ]
     },
     {
-      "text": "Packed object",
+      "text": "Object",
       "group": "packed-object-label",
       "size_pt": 7.3,
       "bbox": [
         10,
-        159.7,
-        55.856689453125,
-        168.5
-      ]
-    },
-    {
-      "text": "ant\u2013bee",
-      "group": "packed-object",
-      "size_pt": 7.0,
-      "bbox": [
-        12.848388671875,
-        175.5,
-        38.151611328125,
-        184.0
-      ]
-    },
-    {
-      "text": "eel\u2013fox",
-      "group": "packed-object",
-      "size_pt": 7.0,
-      "bbox": [
-        83.2138671875,
-        175.5,
-        105.7861328125,
-        184.0
+        152.7,
+        31.097998046875,
+        161.5
       ]
     },
     {
@@ -394,53 +339,42 @@
       "size_pt": 7.5,
       "bbox": [
         45.62255859375,
-        175.0,
+        169.0,
         74.37744140625,
-        184.0
-      ]
-    },
-    {
-      "text": "Verified metadata page",
-      "group": "joint-metadata-page",
-      "size_pt": 7.5,
-      "bbox": [
-        18.944091796875,
-        202.5,
-        101.055908203125,
-        211.5
+        178.0
       ]
     },
     {
       "text": "Name",
       "group": "joint-metadata-page",
-      "size_pt": 7.0,
+      "size_pt": 7.2,
       "bbox": [
-        15.163818359375,
-        214.5,
-        33.836181640625,
-        223.0
+        14.897070312499999,
+        200.8,
+        34.1029296875,
+        209.5
       ]
     },
     {
       "text": "Size",
       "group": "joint-metadata-page",
-      "size_pt": 7.0,
+      "size_pt": 7.2,
       "bbox": [
-        47.69140625,
-        214.5,
-        61.30859375,
-        223.0
+        47.496875,
+        200.8,
+        61.503125000000004,
+        209.5
       ]
     },
     {
       "text": "Data ref.",
       "group": "joint-metadata-page",
-      "size_pt": 7.0,
+      "size_pt": 7.2,
       "bbox": [
-        76.57763671875,
-        214.5,
-        103.42236328125,
-        223.0
+        76.194140625,
+        200.8,
+        103.80585937500001,
+        209.5
       ]
     },
     {
@@ -449,9 +383,9 @@
       "size_pt": 7.2,
       "bbox": [
         19.296875,
-        226.10000000000002,
+        215.8,
         29.703125,
-        234.8
+        224.5
       ]
     },
     {
@@ -460,9 +394,9 @@
       "size_pt": 7.2,
       "bbox": [
         45.2978515625,
-        226.10000000000002,
+        215.8,
         63.7021484375,
-        234.8
+        224.5
       ]
     },
     {
@@ -471,9 +405,9 @@
       "size_pt": 7.2,
       "bbox": [
         87.4001953125,
-        226.10000000000002,
+        215.8,
         92.5998046875,
-        234.8
+        224.5
       ]
     },
     {
@@ -482,9 +416,9 @@
       "size_pt": 7.2,
       "bbox": [
         18.4935546875,
-        237.60000000000002,
+        230.8,
         30.506445312500002,
-        246.3
+        239.5
       ]
     },
     {
@@ -493,9 +427,9 @@
       "size_pt": 7.2,
       "bbox": [
         45.8955078125,
-        237.60000000000002,
+        230.8,
         63.1044921875,
-        246.3
+        239.5
       ]
     },
     {
@@ -504,9 +438,9 @@
       "size_pt": 7.2,
       "bbox": [
         87.598828125,
-        237.60000000000002,
+        230.8,
         92.401171875,
-        246.3
+        239.5
       ]
     },
     {
@@ -780,29 +714,15 @@
       "meaning": "both view types expose data access; each producer retains its own upload contract"
     },
     {
-      "id": "build-index-and-pages",
-      "points": [
-        [
-          46,
-          128.5
-        ],
-        [
-          58,
-          128.5
-        ]
-      ],
-      "meaning": "build and publish the name-range index and packed pages from one consistent directory version"
-    },
-    {
       "id": "lookup-index",
       "points": [
         [
-          57,
-          148.5
+          46,
+          130
         ],
         [
-          65,
-          148.5
+          62,
+          130
         ]
       ],
       "meaning": "a live query submits the parent directory identity D and the raw name cat to the pinned index"
@@ -811,20 +731,20 @@
       "id": "index-page",
       "points": [
         [
-          87.5,
-          155
+          86,
+          138
         ],
         [
-          87.5,
-          160
-        ],
-        [
-          60,
-          160
+          86,
+          147
         ],
         [
           60,
-          172
+          147
+        ],
+        [
+          60,
+          165
         ]
       ],
       "meaning": "the authenticated reference identifies the object, metadata offset, length, and digest for cat through dog"
@@ -918,11 +838,11 @@
       "points": [
         [
           110,
-          180
+          174
         ],
         [
           113,
-          180
+          174
         ],
         [
           113,

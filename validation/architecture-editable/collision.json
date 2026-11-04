@@ -3,15 +3,15 @@
   "auditable": true,
   "verdict": "REVIEW REQUIRED",
   "page_count": 1,
-  "visible_text_box_count": 48,
-  "text_trace_count": 51,
-  "stroke_path_count": 70,
-  "filled_region_count": 61,
+  "visible_text_box_count": 42,
+  "text_trace_count": 45,
+  "stroke_path_count": 67,
+  "filled_region_count": 60,
   "image_region_count": 0,
   "summary": {
     "fail": 0,
     "warn": 3,
-    "contained_fill_overlays": 45,
+    "contained_fill_overlays": 42,
     "contained_image_overlays": 0
   },
   "thresholds": {
@@ -89,7 +89,7 @@
       ],
       "object_count": 1,
       "object_indexes": [
-        52
+        48
       ]
     }
   ]

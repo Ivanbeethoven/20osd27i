@@ -167,44 +167,33 @@ p=box('metadata-choice',4,107,112,161,'white','#B8C8D4')
 el(p,'circle',cx=12,cy=116,r=5,fill=INK)
 text(p,12,119.1,'2',8,bold=True,color='white')
 text(p,21,119,'Packed Metadata (§5)',8.5,anchor='start',bold=True)
-# A fixed version is built once; a running lookup enters at the index.
-# Use exact inclusive name bounds for one parent in the worked example.
-p=group('version-build')
-text(p,10,131,'Publish once per version',7.5,anchor='start',bold=True)
-text(p,10,143,'Fixed tree',7.2,anchor='start')
-arrow('build-index-and-pages',[(46,140.5),(58,140.5)],EDGE,
-      meaning='build and publish the name-range index and packed pages from one consistent directory version')
-text(p,62,143,'Index + pages',7.2,anchor='start')
-line(p,[(10,150),(110,150)],'#B8C8D4',.55)
+# Follow one live request; construction belongs in the caption. The empty
+# intervals are other pages in the same object, not additional lookup steps.
 p=group('lookup-key')
-text(p,10,163,'Find cat in D',7.3,anchor='start',bold=True)
-arrow('lookup-index',[(57,160.5),(65,160.5)],BLUE,
+text(p,11,145,'(D, cat)',8,anchor='start',bold=True)
+arrow('lookup-index',[(46,142),(62,142)],BLUE,
       meaning='a live query submits the parent directory identity D and the raw name cat to the pinned index')
-p=box('name-range-index',65,154,45,13,PALE,BLUE)
-text(p,87.5,163,'Range index',7.0)
-arrow('index-page',[(87.5,167),(87.5,172),(60,172),(60,184)],BLUE,
+p=box('name-range-index',62,134,48,16,PALE,BLUE)
+text(p,86,144.5,'Range index',7.3)
+arrow('index-page',[(86,150),(86,159),(60,159),(60,177)],BLUE,
       meaning='the authenticated reference identifies the object, metadata offset, length, and digest for cat through dog')
 p=group('packed-object-label')
-text(p,10,179,'Packed object',7.3,anchor='start')
-p=box('packed-object',10,184,100,16,GRAY,EDGE,0)
-el(p,'rect',x=41,y=184,width=38,height=16,fill=BLUE,stroke=BLUE,stroke_width=.75)
-for x,label in [(25.5,'ant–bee'),(94.5,'eel–fox')]:
-    text(p,x,194.5,label,7.0)
-text(p,60,194.5,'cat–dog',7.5,bold=True,color='white')
+text(p,10,172,'Object',7.3,anchor='start')
+p=box('packed-object',10,177,100,18,GRAY,EDGE,0)
+el(p,'rect',x=40,y=177,width=40,height=18,fill=BLUE,stroke=BLUE,stroke_width=.75)
+text(p,60,188.5,'cat–dog',7.5,bold=True,color='white')
 # These leaders enlarge the selected byte range. They are not data-flow edges.
 p=group('enlarge-one-page')
-line(p,[(41,200),(10,212)],BLUE,.65)
-line(p,[(79,200),(110,212)],BLUE,.65)
-p=box('joint-metadata-page',10,212,100,48,'white',BLUE,0)
-text(p,60,222,'Verified metadata page',7.5,bold=True)
-line(p,[(10,225),(110,225)],BLUE,.5)
-el(p,'rect',x=10.5,y=237,width=99,height=11.5,fill=PALE)
-el(p,'rect',x=10.5,y=237,width=1.7,height=11.5,fill=BLUE)
-for x in (39,70): line(p,[(x,225),(x,260)],'#A4B3BE',.4)
-for y in (237,248.5): line(p,[(10,y),(110,y)],'#A4B3BE',.4)
+line(p,[(40,195),(10,210)],BLUE,.65)
+line(p,[(80,195),(110,210)],BLUE,.65)
+p=box('joint-metadata-page',10,210,100,45,'white',BLUE,0)
+el(p,'rect',x=10.5,y=225,width=99,height=15,fill=PALE)
+el(p,'rect',x=10.5,y=225,width=1.7,height=15,fill=BLUE)
+for x in (39,70): line(p,[(x,210),(x,255)],'#A4B3BE',.4)
+for y in (225,240): line(p,[(10,y),(110,y)],'#A4B3BE',.4)
 for x,label in [(24.5,'Name'),(54.5,'Size'),(90,'Data ref.')]:
-    text(p,x,233.5,label,7.0)
-for y,name,size,ref,selected in [(245.3,'cat','4 KiB','A',True),(256.8,'dog','8 KiB','B',False)]:
+    text(p,x,220,label,7.2)
+for y,name,size,ref,selected in [(235,'cat','4 KiB','A',True),(250,'dog','8 KiB','B',False)]:
     for x,val in [(24.5,name),(54.5,size),(90,ref)]:
         text(p,x,y,val,7.2,bold=selected)
 
@@ -271,7 +260,7 @@ text(p,204,248,'Shards',7.0)
 # Persisted layout is shared infrastructure, outside the optional view/format choices.
 p=box('backend',4,272,232,8,TEAL,TEAL)
 text(p,120,278.3,'Stored objects · layout retained for reads and repair',7.0,color='white')
-arrow('packed-object-storage',[(110,192),(113,192),(113,272)],BLUE,
+arrow('packed-object-storage',[(110,186),(113,186),(113,272)],BLUE,
       meaning='the physical pack resides in the object store; a metadata lookup ends at the verified record and does not follow its data reference')
 arrow('encoded-object-storage',[(224,260),(224,272)],TEAL,meaning='encoded objects retain their effective backend layout for subsequent reads and repair; B and q have independent admission gates')
 
