@@ -3,7 +3,7 @@
   "verdict": "PASS WITH WARNINGS",
   "auditable": true,
   "width_mm": 84.66666666666667,
-  "text_count": 49,
+  "text_count": 46,
   "minimum_found_pt": 7.0,
   "maximum_found_pt": 8.5,
   "thresholds": {

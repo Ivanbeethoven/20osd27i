@@ -24,12 +24,12 @@
     <circle cx="96" cy="18" r="1.0" fill="#182B3A" />
   </g>
   <g id="fuse-workspace">
-    <polyline points="96,18 150,18 150,21" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
-    <polygon points="150,21 151.25,18.0 148.75,18.0" fill="#182B3A" />
+    <polyline points="96,18 96,21" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="96,21 97.25,18.0 94.75,18.0" fill="#182B3A" />
   </g>
-  <g id="fuse-ordinary">
-    <polyline points="96,18 27.5,18 27.5,46" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
-    <polygon points="27.5,46 28.75,43.0 26.25,43.0" fill="#182B3A" />
+  <g id="workspace-bypass">
+    <polyline points="96,18 10,18 10,93 35,93" fill="none" stroke="#182B3A" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polygon points="35,93 32.0,91.75 32.0,94.25" fill="#182B3A" />
   </g>
   <g id="optional-mechanisms-legend">
     <rect x="129" y="1" width="108" height="15" rx="2" fill="white" stroke="#72808D" stroke-width="0.6" stroke-dasharray="2.5 1.8" />
@@ -49,65 +49,51 @@
       <text x="165" y="11" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">independently optional</text>
     </g>
   </g>
-  <g id="ordinary-volume">
-    <rect x="4" y="46" width="47" height="25" rx="2" fill="#F3F5F6" stroke="#72808D" stroke-width="0.65" />
-    <g aria-label="Ordinary">
-      <text x="13.5041748046875" y="56" font-family="Arial" font-size="7.3" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">Ordinary</text>
-    </g>
-    <g aria-label="volume">
-      <text x="15.733740234375" y="65" font-family="Arial" font-size="7.3" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">volume</text>
-    </g>
-  </g>
-  <g id="view-alternative">
-    <g aria-label="or">
-      <text x="54.387939453125" y="61" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#182B3A" xml:space="preserve">or</text>
-    </g>
-  </g>
   <g id="workspace-choice">
-    <rect x="64" y="21" width="172" height="63" rx="2" fill="white" stroke="#72808D" stroke-width="0.65" />
-    <circle cx="73" cy="30" r="5" fill="#182B3A" />
+    <rect x="24" y="21" width="212" height="63" rx="2" fill="white" stroke="#72808D" stroke-width="0.65" />
+    <circle cx="33" cy="30" r="5" fill="#182B3A" />
     <g aria-label="1">
-      <text x="70.775390625" y="33.1" font-family="Arial" font-size="8" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">1</text>
+      <text x="30.775390625" y="33.1" font-family="Arial" font-size="8" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">1</text>
     </g>
     <g aria-label="Delta-Based Workspaces (§4)">
-      <text x="81" y="32" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Delta-Based Workspaces (§4)</text>
+      <text x="41" y="32" font-family="Arial" font-size="8.5" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">Delta-Based Workspaces (§4)</text>
     </g>
     <g aria-label="Private state first">
-      <text x="164.936279296875" y="41.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private state first</text>
+      <text x="175.87255859375" y="32" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private state first</text>
     </g>
   </g>
   <g id="workspace-view-1">
-    <rect x="71" y="45" width="75" height="20" rx="2" fill="#F3DDCD" stroke="#B65F2D" stroke-width="0.65" />
+    <rect x="31" y="39" width="95" height="23" rx="2" fill="#F3DDCD" stroke="#B65F2D" stroke-width="0.65" />
     <g aria-label="View 1">
-      <text x="97.4495849609375" y="51.5" font-family="Arial" font-size="7.1" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">View 1</text>
+      <text x="67.4495849609375" y="48" font-family="Arial" font-size="7.1" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">View 1</text>
     </g>
     <g aria-label="Private changes">
-      <text x="83.40185546875" y="61.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private changes</text>
+      <text x="53.40185546875" y="58.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private changes</text>
     </g>
   </g>
   <g id="workspace-view-2">
-    <rect x="153" y="45" width="75" height="20" rx="2" fill="#F3DDCD" stroke="#B65F2D" stroke-width="0.65" />
+    <rect x="133" y="39" width="95" height="23" rx="2" fill="#F3DDCD" stroke="#B65F2D" stroke-width="0.65" />
     <g aria-label="View 2">
-      <text x="179.4495849609375" y="51.5" font-family="Arial" font-size="7.1" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">View 2</text>
+      <text x="169.4495849609375" y="48" font-family="Arial" font-size="7.1" font-weight="bold" text-anchor="start" fill="#182B3A" xml:space="preserve">View 2</text>
     </g>
     <g aria-label="Private changes">
-      <text x="165.40185546875" y="61.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private changes</text>
+      <text x="155.40185546875" y="58.5" font-family="Arial" font-size="7.0" font-weight="normal" text-anchor="start" fill="#7F3D1B" xml:space="preserve">Private changes</text>
     </g>
   </g>
   <g id="pinned-baseline-references">
-    <polyline points="108.5,65 108.5,71" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
-    <polyline points="190.5,65 190.5,71" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="78.5,62 78.5,69" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="180.5,62 180.5,69" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />
   </g>
   <g id="shared-baseline">
-    <rect x="71" y="71" width="157" height="10" rx="2" fill="#2D6084" stroke="#2D6084" stroke-width="0.65" />
+    <rect x="31" y="69" width="197" height="12" rx="2" fill="#2D6084" stroke="#2D6084" stroke-width="0.65" />
     <g aria-label="Pinned shared immutable baseline">
-      <text x="91.927734375" y="78.5" font-family="Arial" font-size="7.0" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">Pinned shared immutable baseline</text>
+      <text x="71.927734375" y="77.5" font-family="Arial" font-size="7.0" font-weight="bold" text-anchor="start" fill="white" xml:space="preserve">Pinned shared immutable baseline</text>
     </g>
   </g>
   <g id="common-file-interfaces">
-    <polyline points="27.5,71 27.5,93 184,93" fill="none" stroke="#182B3A" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
-    <polyline points="150,84 150,93" fill="none" stroke="#182B3A" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
-    <circle cx="150" cy="93" r="1.2" fill="#182B3A" />
+    <polyline points="35,93 184,93" fill="none" stroke="#182B3A" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <polyline points="130,84 130,93" fill="none" stroke="#182B3A" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="130" cy="93" r="1.2" fill="#182B3A" />
   </g>
   <g id="metadata-access">
     <polyline points="60,93 60,107" fill="none" stroke="#2D6084" stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" />

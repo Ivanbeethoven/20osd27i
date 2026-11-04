@@ -23,8 +23,9 @@ and a packed version can be mounted directly for read-only access.
 \centering
 \input{figures/architecture}
 \caption{Three optional mechanisms in \sys
-(Sections~\ref{sec:delta}--\ref{sec:layout}). Workspaces share a pinned
-baseline; packed pages serve read-only metadata. The ordinary uploader
+(Sections~\ref{sec:delta}--\ref{sec:layout}). The left branch reaches
+the metadata and data paths without a workspace. Packed pages serve
+read-only metadata. The ordinary uploader
 forms objects with client block size $g$ and can attach a $B$ hint
 (dashed). Our RustFS extensions provide per-object coding-block sizing
 and finer shard verification units $q$; admitted geometry persists
