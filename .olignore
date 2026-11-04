@@ -1,0 +1,9 @@
+# Files synchronized to the BrewFS Overleaf manuscript.
+# Paths not listed here stay local to this repository.
+/*
+!/main.tex
+!/references.bib
+!/usenix2019_v3.sty
+!/usenix2019_v3_xetex.sty
+!/sections/
+!/figures/

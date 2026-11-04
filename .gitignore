@@ -28,3 +28,7 @@ __pycache__/
 !/figures/agent-fuse/*.pdf
 !/figures/system-architecture-editable.pdf
 !planning/paper-layout.pdf
+# Local Overleaf project binding and synchronization state.
+.olcli.json
+# fio verification checkpoints from local runs.
+/local-entity-randrw-*-verify.state
