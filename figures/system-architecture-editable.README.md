@@ -7,7 +7,7 @@ The current single-column figure places metadata access and data access in paral
 - `system-architecture-editable.png`: preview only.
 - `../tools/draw_architecture_editable.py`: reproducible scene source; rerunning it overwrites all three exports. Keep lasting geometry or label changes in this source, or export a separately edited SVG under a new filename.
 
-The canvas is **240 × 280 pt (84.67 × 98.78 mm)**, included at column width. Labels are **7–8.5 pt**. Arial regular and bold are embedded in the PDF; it contains no raster objects.
+The canvas is **240 × 268 pt (84.67 × 94.54 mm)**, included at column width. The workspace and lower panels are separated by 11 pt for the shared branch and its two arrows. Labels are **7–8.5 pt**. Arial regular and bold are embedded in the PDF; it contains no raster objects.
 
 ## Reading the diagram
 

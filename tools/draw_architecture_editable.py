@@ -15,7 +15,12 @@ from svglib.fonts import register_font
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'figures/system-architecture-editable'
 QA = ROOT / 'validation/architecture-editable'
-W, H = 240, 280
+# Keep the lower panels' internal coordinates and translate the row as a unit.
+ROW_GAP = 11
+ROW_TOP = 84 + ROW_GAP
+BUS_Y = 84 + ROW_GAP // 2
+LOWER_DY = ROW_TOP - 107
+W, H = 240, 280 + LOWER_DY
 NS = 'http://www.w3.org/2000/svg'
 ET.register_namespace('', NS)
 INK, BLUE, TEAL, ORANGE = '#182B3A', '#2D6084', '#4C5965', '#B65F2D'
@@ -29,12 +34,13 @@ register_font('Arial', font_path='C:/Windows/Fonts/arialbd.ttf', weight='bold', 
 rl_config.useA85 = 0
 root = ET.Element('{'+NS+'}svg', width=f'{W}pt', height=f'{H}pt', viewBox=f'0 0 {W} {H}')
 records, nodes, edges = [], {}, []
+layer, scene_dy = root, 0  # Scene records use final canvas coordinates.
 
 def el(p, tag, **attrs):
     return ET.SubElement(p, '{'+NS+'}'+tag, {k.replace('_', '-'):str(v) for k,v in attrs.items()})
 
 def group(ident):
-    return el(root, 'g', id=ident)
+    return el(layer, 'g', id=ident)
 
 def text(p, x, y, value, size=6.8, anchor='middle', bold=False, color=INK):
     size=max(7.0,size)
@@ -64,7 +70,7 @@ def text(p, x, y, value, size=6.8, anchor='middle', bold=False, color=INK):
         item.set('{http://www.w3.org/XML/1998/namespace}space','preserve')
         item.text=s
         cursor+=run_width
-    records.append(dict(text=value, group=p.get('id'), size_pt=size, bbox=[left, y-size, left+width, y+1.5]))
+    records.append(dict(text=value, group=p.get('id'), size_pt=size, bbox=[left, y+scene_dy-size, left+width, y+scene_dy+1.5]))
     return n
 
 def line(p, pts, color=INK, width=.7, dashed=False):
@@ -80,12 +86,12 @@ def arrow(ident, pts, color=INK, dashed=False, meaning='reference/access'):
     a = math.atan2(y-py, x-px)
     bx,by=x-3*math.cos(a), y-3*math.sin(a)
     el(p,'polygon',points=f'{x},{y} {bx+1.25*math.sin(a)},{by-1.25*math.cos(a)} {bx-1.25*math.sin(a)},{by+1.25*math.cos(a)}', fill=color)
-    edges.append(dict(id=ident,points=pts,meaning=meaning))
+    edges.append(dict(id=ident,points=[(px,py+scene_dy) for px,py in pts],meaning=meaning))
 
 def box(ident, x, y, w, h, fill='white', stroke=EDGE, radius=2):
     p=group(ident)
     el(p,'rect',x=x,y=y,width=w,height=h,rx=radius,fill=fill,stroke=stroke,stroke_width=.65)
-    nodes[ident]=[x,y,w,h]
+    nodes[ident]=[x,y+scene_dy,w,h]
     return p
 
 def title(number,y,label):
@@ -123,7 +129,7 @@ line(p,[(96,14),(96,18)],INK,.75)
 el(p,'circle',cx=96,cy=18,r=1.0,fill=INK)
 edges.append(dict(id='fuse-to-view-choice',points=[(96,14),(96,18)],meaning='continuous connection from FUSE to the ordinary/workspace view choice'))
 arrow('fuse-workspace',[(96,18),(96,21)],INK,meaning='select workspace view composition')
-arrow('workspace-bypass',[(96,18),(10,18),(10,93),(35,93)],INK,meaning='an ordinary volume reaches the shared metadata and data paths without workspace composition')
+arrow('workspace-bypass',[(96,18),(10,18),(10,BUS_Y),(35,BUS_Y)],INK,meaning='an ordinary volume reaches the shared metadata and data paths without workspace composition')
 # Match the mechanism badges using vector circles, without relying on a font's
 # circled-digit glyphs. The dashed border marks this as a legend, not a stage.
 p=group('optional-mechanisms-legend')
@@ -148,13 +154,15 @@ line(p,[(180.5,62),(180.5,69)],BLUE,.75)
 p=box('shared-baseline',31,69,197,12,BLUE,BLUE)
 text(p,129.5,77.5,'Pinned shared immutable baseline',7.0,bold=True,color='white')
 p=group('common-file-interfaces')
-line(p,[(35,93),(184,93)],INK,.8)
-line(p,[(130,84),(130,93)],INK,.8)
-el(p,'circle',cx=130,cy=93,r=1.2,fill=INK)
-arrow('metadata-access',[(60,93),(60,107)],BLUE,meaning='both ordinary and workspace views expose metadata access; representation remains optional')
-arrow('data-access',[(184,93),(184,107)],TEAL,meaning='both view types expose data access; each producer retains its own upload contract')
+line(p,[(35,BUS_Y),(184,BUS_Y)],INK,.8)
+line(p,[(130,84),(130,BUS_Y)],INK,.8)
+el(p,'circle',cx=130,cy=BUS_Y,r=1.2,fill=INK)
+arrow('metadata-access',[(60,BUS_Y),(60,ROW_TOP)],BLUE,meaning='both ordinary and workspace views expose metadata access; representation remains optional')
+arrow('data-access',[(184,BUS_Y),(184,ROW_TOP)],TEAL,meaning='both view types expose data access; each producer retains its own upload contract')
 
 # 2 and 3 are parallel choices, with explicit default alternatives.
+layer=el(root,'g',id='metadata-and-data-row',transform=f'translate(0 {LOWER_DY})')
+scene_dy=LOWER_DY
 p=box('metadata-choice',4,107,112,161,'white','#B8C8D4')
 el(p,'circle',cx=12,cy=116,r=5,fill=INK)
 text(p,12,119.1,'2',8,bold=True,color='white')

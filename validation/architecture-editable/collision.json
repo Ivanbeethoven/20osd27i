@@ -11,7 +11,7 @@
   "summary": {
     "fail": 0,
     "warn": 3,
-    "contained_fill_overlays": 54,
+    "contained_fill_overlays": 47,
     "contained_image_overlays": 0
   },
   "thresholds": {
@@ -28,16 +28,16 @@
       "text": "2Packed Metadata (§5)",
       "text_bbox": [
         9.775390625,
-        112.40608978271484,
+        100.40608978271484,
         107.44505310058594,
-        120.90608978271484
+        108.90608978271484
       ],
       "other_text": null,
       "other_bbox": [
         7.0,
-        111.0,
+        99.0,
         17.0,
-        121.0
+        109.0
       ],
       "object_count": 1,
       "object_indexes": [
@@ -76,16 +76,16 @@
       "text": "3Variable-Granularity",
       "text_bbox": [
         129.77540588378906,
-        112.40608978271484,
+        100.40608978271484,
         222.25282287597656,
-        120.90608978271484
+        108.90608978271484
       ],
       "other_text": null,
       "other_bbox": [
         127.0,
-        111.0,
+        99.0,
         137.0,
-        121.0
+        109.0
       ],
       "object_count": 1,
       "object_indexes": [
