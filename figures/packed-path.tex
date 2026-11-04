@@ -5,10 +5,10 @@
 \node[b] (root) {Pinned manifest and authenticated roots};
 \node[b,below=0.35cm of root] (index) {Paged directory-name index\\parent directory and name range};
 \node[b,below=0.35cm of index] (group) {Joint metadata page\\name, common attributes, data locator};
-\node[b,below=0.35cm of group] (frame) {Packed frame descriptor\\container offset, length, content verification};
+\node[b,below=0.58cm of group] (frame) {Packed frame descriptor\\container offset, length, content verification};
 \node[b,below=0.35cm of frame] (data) {Payload range read and verification};
 \draw[a] (root) -- (index);
 \draw[a] (index) -- (group);
-\draw[a] (group) -- (frame);
+\draw[a,dashed] (group) -- node[midway,right=2pt,font=\footnotesize] {Non-inline file read} (frame);
 \draw[a] (frame) -- (data);
 \end{tikzpicture}

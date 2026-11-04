@@ -1,12 +1,12 @@
 \section{Packed Metadata}
 \label{sec:packed}
 
-A fixed collection requires no namespace updates, yet serving it through
-the mutable catalog can consume the same query capacity as active
-workspaces. Packed Metadata uses immutability to change this service
-path. It organizes a directory version into authenticated object pages
-from which readers obtain names, common attributes, and data locators.
-Construction is paid per version; subsequent readers reuse the result.
+Consider a training dataset with a wide directory of small samples.
+Backing up its catalog entries preserves them for recovery. Packing the
+directory changes who answers the next training job's requests: the
+job lists samples and looks up their attributes from the published pages.
+The live catalog can retain every original record while serving
+concurrent updates elsewhere.
 
 \subsection{What is packed}
 
@@ -23,29 +23,30 @@ operations from the same fetched page. During enumeration, a decoded
 page supplies successive entries in its range. Section~\ref{sec:implementation}
 describes the caches used by individual name queries.
 
-Raw pages are bounded at 256 KiB. A physical container may hold several
-groups, so the metadata access unit need not equal the stored object.
-Range indexes route queries to groups; index height depends on page
-capacity and record count rather than source-directory depth.
+Raw pages are bounded at 256 KiB. A large directory can span many pages,
+and one stored object can hold several of them. In
+Figure~\ref{fig:overview}, the index entry for \emph{cat--dog} identifies
+an object, a byte offset and length, and a digest. A cold reader fetches
+and verifies that range to resolve \emph{cat}; it need not fetch either
+neighboring page or follow the file's data reference.
 
 \begin{figure}[t]
 \centering
 \input{figures/packed-path}
-\caption{Packed-snapshot lookup and data access. A name lookup returns
-joint metadata and a data locator. A file read resolves authenticated
-descriptors before fetching and verifying the referenced payload range.}
+\caption{A name lookup ends at the joint page. Only a read of external
+file data follows the lower path; inline bytes come from the page itself.}
 \label{fig:packed}
 \end{figure}
 
 \subsection{Querying a pinned snapshot}
 
 A reader pins a manifest and starts from its authenticated index roots.
-For a name lookup, the directory-name index identifies the group covering
-the key. The reader resolves the container and fetches the metadata page's
-byte range. Before decoding, it verifies the stored-byte digest; after
-decoding, it checks entry counts and name boundaries against the
-authenticated group reference. The matching record supplies the inode,
-common attributes, and data locator (Figure~\ref{fig:packed}).
+For a name lookup, it searches the directory-name index with the parent
+identity and raw name. On a page miss, it checks the digest of the
+stored bytes before decoding, then checks the entry count and name
+boundaries against the authenticated index entry. The matching record
+supplies the inode, common attributes, and data locator
+(Figure~\ref{fig:packed}).
 
 Other queries use indexes suited to their keys. Attribute queries
 addressed by inode use a separate index. Enumeration traverses ordered
@@ -69,12 +70,13 @@ through the workspace and control services.
 
 \subsection{Building and publishing a version}
 
-Construction starts from a consistent source view, established by a
-snapshot or validation protocol. This captures one directory version
-before its records are reorganized. The producer groups records,
-uploads objects, and builds the indexed manifest. Publication installs the binding after
-the referenced objects are durable and valid. Retained versions and
-readers keep their objects live until reclamation is safe.
+Version capture fixes which records belong to a directory; packing
+determines which of those records a reader will fetch together.
+Starting from a consistent source view, the producer groups entries by
+parent and name range, uploads the objects, and indexes the stored
+ranges. It publishes the binding only after the referenced objects are
+durable and valid. Retained versions and readers keep their objects
+live until reclamation is safe.
 
 If no published pack exists, the first packed fork additionally waits
 for construction, upload, validation, and publication. A native overlay

@@ -64,3 +64,12 @@ v2 的 `.brfc` reader 只读取固定 superblock，随后按需读取独立认�
 - 写出查询所需信息如何从 manifest/index/GroupMeta/locator 到达，不把元数据格式简化成一个“包”，也不把查询独立性扩大成整个系统零 KV。
 - 维护成本包括构建、认证、发布、重建与回收；减少在线逐文件查询的目标可能转移为索引请求、过取、解码和缓存代价。没有本次实测收益或加速数字。
 - 当前入口的限制作实验证据边界，不取代设计原理；尤其不能沿用早期“只有 Entity 组合路径”的结论，也不能因为 frozen Native Base 库存在就宣称其 CLI 已接通。
+
+## 7. 2026-11-04：查询单位、页复用与备份对照
+
+Figure 2 和第 5、7 节的读路径复核固定在 [BrewFS `488e35f`](https://github.com/brewfs/brewfs/tree/488e35f47cef0df88828a587a45b7cbf9c83841e)。这是源码核验，不是性能结果。
+
+- [组内记录](https://github.com/brewfs/brewfs/blob/488e35f47cef0df88828a587a45b7cbf9c83841e/src/workspace_overlay/packed_v3/meta.rs#L26-L77)包含名称、inode、常用属性、内联数据或数据区间；256 KiB 是未压缩编码页的上限，不是容器或已解码内存的上限。
+- [名称查找](https://github.com/brewfs/brewfs/blob/488e35f47cef0df88828a587a45b7cbf9c83841e/src/workspace_overlay/packed_v3/wire005/manifest.rs#L804-L821)通过父目录和原始名称取组引用，再解析容器并查该组中的记录。[范围读取](https://github.com/brewfs/brewfs/blob/488e35f47cef0df88828a587a45b7cbf9c83841e/src/workspace_overlay/packed_v3/wire005/container.rs#L156-L225)按偏移和存储长度取页，先验摘要，再解码并核验条目数和首尾名称。图中三个名称范围、文件属性和定位符均为示意；没有声称冷查询只发一次请求。
+- [当前读端](https://github.com/brewfs/brewfs/blob/488e35f47cef0df88828a587a45b7cbf9c83841e/src/workspace_overlay/packed_v3/wire005/index.rs#L638-L715)在预算内按读取代际、组和容器身份缓存已验证的解码页。第二个不同名称可命中同一页；是否命中取决于预算和驻留情况。这更新了旧稿“不同名称不能复用解码页”的描述。名称查询不以访问外部 payload 为必要步骤。
+- 备份比较分开两个实际工作流：[JuiceFS 导出和恢复](https://juicefs.com/docs/community/metadata_dump_load/)将记录重新载入元数据引擎；[restic 快照](https://restic.readthedocs.io/en/v0.19.0/050_restore.html)也能直接挂载，其[存储格式](https://restic.readthedocs.io/en/v0.19.0/100_references.html)描述树和内容寻址的 blob。论文比较目录查询所取的单位、运行期由谁服务查询，以及逐版本发布成本，没有推断备份均需完整恢复或本方法更快。

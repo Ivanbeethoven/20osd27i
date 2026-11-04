@@ -28,6 +28,17 @@ Private updates and lifetime control remain in the mutable service.
 The resulting tradeoff is database query work displaced versus page
 access and version-publication cost.
 
+\paragraph{Backups and mountable snapshots.}
+JuiceFS exports metadata that an operator can load into a metadata
+engine for recovery or migration~\cite{juicefs_backup}. Some backups
+also support direct reads: restic represents directories as trees,
+indexes blobs by content ID, and exposes snapshots through a FUSE
+mount~\cite{restic_backup}. In \sys the access unit for a name is a
+bounded range within one directory. The index identifies the bytes
+containing that range's names, attributes, and data locators. A
+workspace can use this representation as its live read-only lower while
+sending private updates to its upper.
+
 \paragraph{Private namespaces and immutable logs.}
 DeltaFS publishes private-namespace mutation logs as SSTables for
 subsequent jobs to select and merge. Job-local servers and compaction

@@ -22,13 +22,13 @@ and a packed version can be mounted directly for read-only access.
 \begin{figure}[!t]
 \centering
 \input{figures/architecture}
-\caption{Three optional mechanisms in \sys
-(Sections~\ref{sec:delta}--\ref{sec:layout}). The left branch reaches
-the metadata and data paths without a workspace. Packed pages serve
-read-only metadata. The ordinary uploader
-forms objects with client block size $g$ and can attach a $B$ hint
-(dashed). Our RustFS extensions provide per-object coding-block sizing
-and finer shard verification units $q$; admitted geometry persists
+\caption{Three optional mechanisms in \sys. The left branch bypasses
+workspace composition. In a published directory $D$, a lookup for
+\emph{cat} selects the \emph{cat--dog} page within a packed object;
+the matching row answers the lookup directly. The ordinary uploader
+forms objects with client block size $g$. The dashed arrow carries
+its optional $B$ hint. Our RustFS extensions admit a per-object coding
+block size, select the shard verification unit $q$, and persist both
 for reads and repair.}
 \label{fig:overview}
 \end{figure}

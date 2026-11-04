@@ -167,51 +167,46 @@ p=box('metadata-choice',4,107,112,161,'white','#B8C8D4')
 el(p,'circle',cx=12,cy=116,r=5,fill=INK)
 text(p,12,119.1,'2',8,bold=True,color='white')
 text(p,21,119,'Packed Metadata (§5)',8.5,anchor='start',bold=True)
-p=box('native-records',8,127,50,24,GRAY,EDGE)
-text(p,33,135,'Native records',7.0)
-# Each native card and each packed row contains the same three field marks.
-# The contrast is separate records versus multiple whole records in one page,
-# not small-file payload packing or an extra lookup stage.
-for row,y in enumerate([138,142,146]):
-    p=box(f'native-record-{row}',16,y,34,3,'white',EDGE,0)
-    for x,w in [(18,8),(28,11),(42,5)]:
-        el(p,'rect',x=x,y=y+.8,width=w,height=1.4,fill=BLUE)
-p=box('packed-records',68,127,44,24,PALE,BLUE)
-text(p,90,135,'Packed',7.2,bold=True)
-p=box('packed-records-page',74,138,32,11,'white',BLUE,0)
-for row,y in enumerate([138,141.67,145.33]):
-    if row: line(p,[(74,y),(106,y)],EDGE,.4)
-    for x,w in [(76,7),(85,11),(99,5)]:
-        el(p,'rect',x=x,y=y+1.1,width=w,height=1.4,fill=BLUE)
-p=group('metadata-alternative')
-text(p,63,143,'or',7.0)
-p=box('readonly-mount',7,154,38,21,'white',BLUE)
-text(p,26,162,'Read-only',7.0)
-text(p,26,171,'mount',7.0)
-arrow('readonly-entry',[(45,164.5),(51,164.5)],BLUE,meaning='standalone read-only access does not require a workspace or native metadata')
-arrow('packed-index',[(90,151),(90,156)],BLUE)
-p=box('name-range-index',51,156,59,20,PALE,BLUE)
-text(p,80.5,164,'Name-range',7.0)
-text(p,80.5,172.5,'index',7.0)
-arrow('index-page',[(80.5,176),(80.5,192)],BLUE,meaning='select a bounded joint-metadata page by directory and raw-name range')
-p=box('joint-metadata-page',10,192,100,46,'white',BLUE)
-text(p,60,201,'Joint metadata page',7.0,bold=True)
-p=box('joint-records',12,205,96,31,'white',EDGE,0)
-el(p,'rect',x=12,y=215,width=96,height=11,fill=PALE)
-for x in [40,78]: line(p,[(x,205),(x,236)],EDGE,.5)
-for y in [215,226,231]: line(p,[(12,y),(108,y)],EDGE,.5)
-text(p,26,212.5,'Name',7.0)
-text(p,59,212.5,'Attributes',7.0)
-text(p,93,212.5,'Data ref.',7.0)
-text(p,26,223,'file A',7.0)
-text(p,59,223,'size',7.0)
-el(p,'rect',x=89,y=218,width=8,height=4,fill=BLUE)
-for y in [228.5,233.5]:
-    for a,b in [(17,34),(45,71)]: line(p,[(a,y),(b,y)],EDGE,.55)
-    el(p,'rect',x=89,y=y-1,width=8,height=2,fill=BLUE)
-p=box('referenced-bytes',10,252,100,12,PALE,BLUE)
-text(p,60,260.5,'Referenced file bytes',7.0)
-arrow('record-bytes',[(93,238),(93,252)],BLUE,meaning='the packed page data reference resolves existing file bytes directly below; never feed an upload slice')
+# A fixed version is built once; a running lookup enters at the index.
+# Use exact inclusive name bounds for one parent in the worked example.
+p=group('version-build')
+text(p,10,131,'Publish once per version',7.5,anchor='start',bold=True)
+text(p,10,143,'Fixed tree',7.2,anchor='start')
+arrow('build-index-and-pages',[(46,140.5),(58,140.5)],EDGE,
+      meaning='build and publish the name-range index and packed pages from one consistent directory version')
+text(p,62,143,'Index + pages',7.2,anchor='start')
+line(p,[(10,150),(110,150)],'#B8C8D4',.55)
+p=group('lookup-key')
+text(p,10,163,'Find cat in D',7.3,anchor='start',bold=True)
+arrow('lookup-index',[(57,160.5),(65,160.5)],BLUE,
+      meaning='a live query submits the parent directory identity D and the raw name cat to the pinned index')
+p=box('name-range-index',65,154,45,13,PALE,BLUE)
+text(p,87.5,163,'Range index',7.0)
+arrow('index-page',[(87.5,167),(87.5,172),(60,172),(60,184)],BLUE,
+      meaning='the authenticated reference identifies the object, metadata offset, length, and digest for cat through dog')
+p=group('packed-object-label')
+text(p,10,179,'Packed object',7.3,anchor='start')
+p=box('packed-object',10,184,100,16,GRAY,EDGE,0)
+el(p,'rect',x=41,y=184,width=38,height=16,fill=BLUE,stroke=BLUE,stroke_width=.75)
+for x,label in [(25.5,'ant–bee'),(94.5,'eel–fox')]:
+    text(p,x,194.5,label,7.0)
+text(p,60,194.5,'cat–dog',7.5,bold=True,color='white')
+# These leaders enlarge the selected byte range. They are not data-flow edges.
+p=group('enlarge-one-page')
+line(p,[(41,200),(10,212)],BLUE,.65)
+line(p,[(79,200),(110,212)],BLUE,.65)
+p=box('joint-metadata-page',10,212,100,48,'white',BLUE,0)
+text(p,60,222,'Verified metadata page',7.5,bold=True)
+line(p,[(10,225),(110,225)],BLUE,.5)
+el(p,'rect',x=10.5,y=237,width=99,height=11.5,fill=PALE)
+el(p,'rect',x=10.5,y=237,width=1.7,height=11.5,fill=BLUE)
+for x in (39,70): line(p,[(x,225),(x,260)],'#A4B3BE',.4)
+for y in (237,248.5): line(p,[(10,y),(110,y)],'#A4B3BE',.4)
+for x,label in [(24.5,'Name'),(54.5,'Size'),(90,'Data ref.')]:
+    text(p,x,233.5,label,7.0)
+for y,name,size,ref,selected in [(245.3,'cat','4 KiB','A',True),(256.8,'dog','8 KiB','B',False)]:
+    for x,val in [(24.5,name),(54.5,size),(90,ref)]:
+        text(p,x,y,val,7.2,bold=selected)
 
 p=box('granularity-choice',124,107,112,161,'white','#B8C8D4')
 el(p,'circle',cx=132,cy=116,r=5,fill=INK)
@@ -276,7 +271,8 @@ text(p,204,248,'Shards',7.0)
 # Persisted layout is shared infrastructure, outside the optional view/format choices.
 p=box('backend',4,272,232,8,TEAL,TEAL)
 text(p,120,278.3,'Stored objects · layout retained for reads and repair',7.0,color='white')
-arrow('referenced-storage',[(60,264),(60,272)],BLUE,meaning='referenced file bytes are stored objects; reference is not an upload action')
+arrow('packed-object-storage',[(110,192),(113,192),(113,272)],BLUE,
+      meaning='the physical pack resides in the object store; a metadata lookup ends at the verified record and does not follow its data reference')
 arrow('encoded-object-storage',[(224,260),(224,272)],TEAL,meaning='encoded objects retain their effective backend layout for subsequent reads and repair; B and q have independent admission gates')
 
 

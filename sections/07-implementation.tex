@@ -16,11 +16,11 @@ recovery additionally requires the referenced data to become durable.
 Standalone packed mounts omit the private upper and currently require
 zero payload-cache and prefetch budgets.
 
-The authenticated packed reader caches index pages, per-name results
-including absence, and attributes. Directory enumeration retains and
-reuses the decoded joint page for its current group. Independent name
-lookups fetch and decode that page on a per-name cache miss; decoded-page
-reuse across those queries is not implemented.
+The packed reader caches index pages, per-name results (including
+absence), and attributes. A separate, bounded cache retains verified
+joint pages for the pinned version. A lookup for a second name in the
+same range can reuse the decoded page even on a per-name miss.
+Enumeration also reuses its current page for successive entries.
 
 Direct-I/O workspaces store private namespace and mapping records
 transactionally, implementing the rename and truncation rules in

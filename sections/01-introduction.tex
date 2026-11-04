@@ -23,13 +23,13 @@ references to the rest of a distributed baseline.
 Shared inputs introduce a separate access cost. Consider ML experiments
 that reuse a fixed training dataset while writing different code,
 checkpoints, and outputs~\cite{mlebench2025}. For a collection of many
-small files, repeated enumeration and lookup can place substantial demand
-on the metadata service used by mutable workspaces. Immutable
-distribution systems already show how to serve fixed trees through
-indexed metadata and on-demand access~\cite{cvmfs2011,nydus_rafs,cofs2026}.
-Applying that approach to a selected dataset requires deciding which
-records to publish together, how readers locate them, and how much
-reuse repays preparation of the version.
+small files, each run may enumerate the same directories and request
+the same attributes from the catalog that handles workspace updates.
+Exporting metadata for recovery leaves that lookup path unchanged.
+Immutable distribution systems show how to serve a fixed tree through
+an index~\cite{cvmfs2011,nydus_rafs,cofs2026}. For a training dataset,
+the design question is which records a lookup should fetch together and
+how many runs will reuse the published version before the dataset changes.
 
 The bytes returned by those lookups introduce a third cost. A small
 file read may fetch a larger client object, and the object store may
@@ -51,12 +51,11 @@ and data-range mappings over a pinned immutable baseline. An edit
 replaces the affected mappings while unchanged ranges retain their
 references. Deletion and truncation rules prevent discarded state from
 reappearing (Section~\ref{sec:delta}).
-\item \textbf{Packed Metadata} serves a published read-only directory
-version through authenticated joint pages that co-locate names, common
-attributes, and data locators. Supported queries use these pages in
-object storage and client caches, removing their per-file database
-access. The representation targets stable small-file collections reused
-by many readers (Section~\ref{sec:packed}).
+\item \textbf{Packed Metadata} partitions a fixed directory version
+by parent and name range. Each page holds names, common attributes,
+and data locators. Once the version is published, readers can resolve
+a name from its authenticated page in object storage or cache without
+querying the mutable catalog for that entry (Section~\ref{sec:packed}).
 \item \textbf{Variable-Granularity Object Storage} separates client
 object formation from backend encoding and verification. We co-design
 the interface with RustFS: \sys can attach a coding-block-size hint to

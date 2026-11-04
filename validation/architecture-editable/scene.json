@@ -44,71 +44,23 @@
       112,
       161
     ],
-    "native-records": [
-      8,
-      115,
-      50,
-      24
-    ],
-    "native-record-0": [
-      16,
-      126,
-      34,
-      3
-    ],
-    "native-record-1": [
-      16,
-      130,
-      34,
-      3
-    ],
-    "native-record-2": [
-      16,
-      134,
-      34,
-      3
-    ],
-    "packed-records": [
-      68,
-      115,
-      44,
-      24
-    ],
-    "packed-records-page": [
-      74,
-      126,
-      32,
-      11
-    ],
-    "readonly-mount": [
-      7,
-      142,
-      38,
-      21
-    ],
     "name-range-index": [
-      51,
-      144,
-      59,
-      20
+      65,
+      142,
+      45,
+      13
+    ],
+    "packed-object": [
+      10,
+      172,
+      100,
+      16
     ],
     "joint-metadata-page": [
       10,
-      180,
+      200,
       100,
-      46
-    ],
-    "joint-records": [
-      12,
-      193,
-      96,
-      31
-    ],
-    "referenced-bytes": [
-      10,
-      240,
-      100,
-      12
+      48
     ],
     "granularity-choice": [
       124,
@@ -349,157 +301,212 @@
       ]
     },
     {
-      "text": "Native records",
-      "group": "native-records",
-      "size_pt": 7.0,
+      "text": "Publish once per version",
+      "group": "version-build",
+      "size_pt": 7.5,
       "bbox": [
-        10.436279296875,
-        116.0,
-        55.563720703125,
-        124.5
+        10,
+        111.5,
+        99.190673828125,
+        120.5
       ]
     },
     {
-      "text": "Packed",
-      "group": "packed-records",
+      "text": "Fixed tree",
+      "group": "version-build",
       "size_pt": 7.2,
       "bbox": [
-        77.3912109375,
-        115.8,
-        102.60878906250001,
-        124.5
-      ]
-    },
-    {
-      "text": "or",
-      "group": "metadata-alternative",
-      "size_pt": 7.0,
-      "bbox": [
-        59.887939453125,
-        124.0,
-        66.112060546875,
+        10,
+        123.8,
+        42.013281250000006,
         132.5
       ]
     },
     {
-      "text": "Read-only",
-      "group": "readonly-mount",
-      "size_pt": 7.0,
+      "text": "Index + pages",
+      "group": "version-build",
+      "size_pt": 7.2,
       "bbox": [
-        10.046630859375,
-        143.0,
-        41.953369140625,
-        151.5
+        62,
+        123.8,
+        107.4359375,
+        132.5
       ]
     },
     {
-      "text": "mount",
-      "group": "readonly-mount",
-      "size_pt": 7.0,
+      "text": "Find cat in D",
+      "group": "lookup-key",
+      "size_pt": 7.3,
       "bbox": [
-        16.2724609375,
-        152.0,
-        35.7275390625,
-        160.5
+        10,
+        143.7,
+        53.8,
+        152.5
       ]
     },
     {
-      "text": "Name-range",
+      "text": "Range index",
       "group": "name-range-index",
       "size_pt": 7.0,
       "bbox": [
-        61.046630859375,
-        145.0,
-        99.953369140625,
-        153.5
+        67.8466796875,
+        144.0,
+        107.1533203125,
+        152.5
       ]
     },
     {
-      "text": "index",
-      "group": "name-range-index",
+      "text": "Packed object",
+      "group": "packed-object-label",
+      "size_pt": 7.3,
+      "bbox": [
+        10,
+        159.7,
+        55.856689453125,
+        168.5
+      ]
+    },
+    {
+      "text": "ant\u2013bee",
+      "group": "packed-object",
       "size_pt": 7.0,
       "bbox": [
-        72.1328125,
-        153.5,
-        88.8671875,
-        162.0
+        12.848388671875,
+        175.5,
+        38.151611328125,
+        184.0
       ]
     },
     {
-      "text": "Joint metadata page",
+      "text": "eel\u2013fox",
+      "group": "packed-object",
+      "size_pt": 7.0,
+      "bbox": [
+        83.2138671875,
+        175.5,
+        105.7861328125,
+        184.0
+      ]
+    },
+    {
+      "text": "cat\u2013dog",
+      "group": "packed-object",
+      "size_pt": 7.5,
+      "bbox": [
+        45.62255859375,
+        175.0,
+        74.37744140625,
+        184.0
+      ]
+    },
+    {
+      "text": "Verified metadata page",
       "group": "joint-metadata-page",
-      "size_pt": 7.0,
+      "size_pt": 7.5,
       "bbox": [
-        26.15869140625,
-        182.0,
-        93.84130859375,
-        190.5
+        18.944091796875,
+        202.5,
+        101.055908203125,
+        211.5
       ]
     },
     {
       "text": "Name",
-      "group": "joint-records",
+      "group": "joint-metadata-page",
       "size_pt": 7.0,
       "bbox": [
-        16.663818359375,
-        193.5,
-        35.336181640625,
-        202.0
+        15.163818359375,
+        214.5,
+        33.836181640625,
+        223.0
       ]
     },
     {
-      "text": "Attributes",
-      "group": "joint-records",
+      "text": "Size",
+      "group": "joint-metadata-page",
       "size_pt": 7.0,
       "bbox": [
-        44.215576171875,
-        193.5,
-        73.784423828125,
-        202.0
+        47.69140625,
+        214.5,
+        61.30859375,
+        223.0
       ]
     },
     {
       "text": "Data ref.",
-      "group": "joint-records",
+      "group": "joint-metadata-page",
       "size_pt": 7.0,
       "bbox": [
-        79.57763671875,
-        193.5,
-        106.42236328125,
-        202.0
+        76.57763671875,
+        214.5,
+        103.42236328125,
+        223.0
       ]
     },
     {
-      "text": "file A",
-      "group": "joint-records",
-      "size_pt": 7.0,
+      "text": "cat",
+      "group": "joint-metadata-page",
+      "size_pt": 7.2,
       "bbox": [
-        18.218994140625,
-        204.0,
-        33.781005859375,
-        212.5
+        19.296875,
+        226.10000000000002,
+        29.703125,
+        234.8
       ]
     },
     {
-      "text": "size",
-      "group": "joint-records",
-      "size_pt": 7.0,
+      "text": "4 KiB",
+      "group": "joint-metadata-page",
+      "size_pt": 7.2,
       "bbox": [
-        52.77587890625,
-        204.0,
-        65.22412109375,
-        212.5
+        45.2978515625,
+        226.10000000000002,
+        63.7021484375,
+        234.8
       ]
     },
     {
-      "text": "Referenced file bytes",
-      "group": "referenced-bytes",
-      "size_pt": 7.0,
+      "text": "A",
+      "group": "joint-metadata-page",
+      "size_pt": 7.2,
       "bbox": [
-        27.120849609375,
-        241.5,
-        92.879150390625,
-        250.0
+        87.4001953125,
+        226.10000000000002,
+        92.5998046875,
+        234.8
+      ]
+    },
+    {
+      "text": "dog",
+      "group": "joint-metadata-page",
+      "size_pt": 7.2,
+      "bbox": [
+        18.4935546875,
+        237.60000000000002,
+        30.506445312500002,
+        246.3
+      ]
+    },
+    {
+      "text": "8 KiB",
+      "group": "joint-metadata-page",
+      "size_pt": 7.2,
+      "bbox": [
+        45.8955078125,
+        237.60000000000002,
+        63.1044921875,
+        246.3
+      ]
+    },
+    {
+      "text": "B",
+      "group": "joint-metadata-page",
+      "size_pt": 7.2,
+      "bbox": [
+        87.598828125,
+        237.60000000000002,
+        92.401171875,
+        246.3
       ]
     },
     {
@@ -773,60 +780,54 @@
       "meaning": "both view types expose data access; each producer retains its own upload contract"
     },
     {
-      "id": "readonly-entry",
+      "id": "build-index-and-pages",
       "points": [
         [
-          45,
-          152.5
+          46,
+          128.5
         ],
         [
-          51,
-          152.5
+          58,
+          128.5
         ]
       ],
-      "meaning": "standalone read-only access does not require a workspace or native metadata"
+      "meaning": "build and publish the name-range index and packed pages from one consistent directory version"
     },
     {
-      "id": "packed-index",
+      "id": "lookup-index",
       "points": [
         [
-          90,
-          139
+          57,
+          148.5
         ],
         [
-          90,
-          144
+          65,
+          148.5
         ]
       ],
-      "meaning": "reference/access"
+      "meaning": "a live query submits the parent directory identity D and the raw name cat to the pinned index"
     },
     {
       "id": "index-page",
       "points": [
         [
-          80.5,
-          164
+          87.5,
+          155
         ],
         [
-          80.5,
-          180
-        ]
-      ],
-      "meaning": "select a bounded joint-metadata page by directory and raw-name range"
-    },
-    {
-      "id": "record-bytes",
-      "points": [
-        [
-          93,
-          226
+          87.5,
+          160
         ],
         [
-          93,
-          240
+          60,
+          160
+        ],
+        [
+          60,
+          172
         ]
       ],
-      "meaning": "the packed page data reference resolves existing file bytes directly below; never feed an upload slice"
+      "meaning": "the authenticated reference identifies the object, metadata offset, length, and digest for cat through dog"
     },
     {
       "id": "file-a-objects",
@@ -913,18 +914,22 @@
       "meaning": "additional data/parity shards; count and coding geometry are abstracted"
     },
     {
-      "id": "referenced-storage",
+      "id": "packed-object-storage",
       "points": [
         [
-          60,
-          252
+          110,
+          180
         ],
         [
-          60,
+          113,
+          180
+        ],
+        [
+          113,
           260
         ]
       ],
-      "meaning": "referenced file bytes are stored objects; reference is not an upload action"
+      "meaning": "the physical pack resides in the object store; a metadata lookup ends at the verified record and does not follow its data reference"
     },
     {
       "id": "encoded-object-storage",
