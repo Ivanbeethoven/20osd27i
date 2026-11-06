@@ -1,0 +1,90 @@
+% Preliminary measurements for RQ3 (client--RustFS layout co-design).
+% Two panels of log2-scaled ratio bars; ratios above 1 favor the candidate.
+\begin{figure*}[t]
+\centering
+\definecolor{gainc}{HTML}{2A78D6}
+\definecolor{lossc}{HTML}{E34948}
+\begin{tikzpicture}[x=1cm,y=1cm,font=\footnotesize]
+  % Ratio r is drawn at x = s * log2(r / 0.5).
+  \def\s{0.62}
+  \def\barh{0.32}
+  \pgfmathsetmacro{\xone}{\s*1}
+  \tikzset{
+    gain/.style={fill=gainc,draw=none},
+    loss/.style={fill=lossc,draw=none},
+    flat/.style={fill=black!25,draw=none},
+    lbl/.style={anchor=east,inner sep=1pt,align=right},
+    val/.style={anchor=west,inner sep=2pt,font=\footnotesize\bfseries},
+  }
+  % Solid bar from the 1x baseline to lo; a lighter extension covers lo..hi
+  % when a row summarizes several cells. Values sit right of the bar end, or
+  % right of the baseline when the bar points left.
+  \newcommand{\ratiobar}[6]{% #1 y, #2 lo, #3 hi, #4 style, #5 label, #6 value text
+    \pgfmathsetmacro{\xa}{\s*log2(#2/0.5)}
+    \pgfmathsetmacro{\xb}{\s*log2(#3/0.5)}
+    \node[lbl] at (-0.15,#1) {#5};
+    \ifdim #3pt>#2pt
+      \fill[#4,opacity=0.35] (\xa,#1-\barh/2) rectangle (\xb,#1+\barh/2);
+    \fi
+    \ifdim #2pt<1pt
+      \fill[#4] (\xa,#1-\barh/2) rectangle (\xone,#1+\barh/2);
+    \else
+      \fill[#4] (\xone,#1-\barh/2) rectangle (\xa,#1+\barh/2);
+    \fi
+    \pgfmathsetmacro{\xv}{max(\xb,\xone)}
+    \node[val] at (\xv,#1) {#6};
+  }
+  \newcommand{\ratioaxis}[2]{% #1 top y, #2 bottom y
+    \pgfmathsetmacro{\ga}{\s*log2(0.95/0.5)}
+    \pgfmathsetmacro{\gb}{\s*log2(1.05/0.5)}
+    \fill[black!7] (\ga,#2) rectangle (\gb,#1);
+    \foreach \t/\tl in {0.5/0.5,1/1,2/2,4/4,8/8,16/16,32/32} {
+      \pgfmathsetmacro{\tx}{\s*log2(\t/0.5)}
+      \draw[black!15] (\tx,#2) -- (\tx,#1);
+      \node[anchor=north,text=black!55,font=\scriptsize] at (\tx,#2) {\tl$\times$};
+    }
+    \draw[black!45] (\xone,#2) -- (\xone,#1);
+  }
+
+  % ---- (a) RustFS: I versus M, direct S3 requests ----
+  \begin{scope}
+    \ratioaxis{0.45}{-7.45}
+    \node[anchor=south west,font=\small\bfseries] at (-4.2,0.55)
+      {(a) RustFS backend: revision I / revision M};
+    \ratiobar{0}{23.9}{26.4}{gain}{Cold Range, $B=64\KiB$}{23.9--26.4$\times$}
+    \ratiobar{-1}{4.15}{9.34}{gain}{Cold Range, $B=4\MiB$}{4.2--9.3$\times$}
+    \ratiobar{-2}{2.08}{2.08}{gain}{Cold CPU per request$^{-1}$}{2.08$\times$}
+    \ratiobar{-3}{1.504}{1.512}{gain}{Warm whole GET, 1 client}{1.50--1.51$\times$}
+    \ratiobar{-4}{1.215}{1.215}{gain}{Warm CPU per request$^{-1}$}{1.22$\times$}
+    \ratiobar{-5}{1.109}{1.140}{gain}{Cold whole GET}{1.11--1.14$\times$}
+    \ratiobar{-6}{1.073}{1.123}{gain}{Warm whole GET, 8 clients}{1.07--1.12$\times$}
+    \ratiobar{-7}{0.979}{1.512}{gain}{All 24 warm cells}{0.98--1.51$\times$}
+  \end{scope}
+
+  % ---- (b) BrewFS: range-heavy versus the default, through FUSE ----
+  \begin{scope}[xshift=8.9cm]
+    \ratioaxis{0.45}{-9.45}
+    \node[anchor=south west,font=\small\bfseries] at (-4.2,0.55)
+      {(b) \sysname{} client: range-heavy / default};
+    \ratiobar{0}{23.45}{23.45}{gain}{4\,KiB random, 8 jobs, cold}{23.4$\times$}
+    \ratiobar{-1}{16.8}{16.8}{gain}{64\,KiB random, 4 jobs, cold}{16.8$\times$}
+    \ratiobar{-2}{3.56}{3.56}{gain}{4\,KiB random, 1 job, cold}{3.56$\times$}
+    \ratiobar{-3}{1.02}{1.02}{flat}{Hot set, cold start}{1.02$\times$}
+    \ratiobar{-4}{1.017}{1.017}{flat}{Mixed read/write, writes}{1.02$\times$}
+    \ratiobar{-5}{1.001}{1.001}{flat}{4\,KiB random, warm}{1.00$\times$}
+    \ratiobar{-6}{0.995}{0.995}{flat}{Mixed read/write, reads}{1.00$\times$}
+    \ratiobar{-7}{0.98}{0.98}{flat}{1\,MiB sequential read, cold}{0.98$\times$}
+    \ratiobar{-8}{0.97}{0.97}{flat}{Cold read of new file}{0.97$\times$}
+    \ratiobar{-9}{0.91}{0.91}{loss}{256\,MiB sequential write}{0.91$\times$}
+  \end{scope}
+\end{tikzpicture}
+\caption{Preliminary layout measurements on one cloud VM (EC~2+2,
+four directories on one ESSD). Bars show candidate/baseline ratios on a
+logarithmic axis; the gray band marks $\pm5\%$. (a)~Direct S3 requests,
+eight paired cycles; where a row covers several request windows of one
+kind, the lighter part spans their minimum to maximum. CPU rows show the
+reciprocal of CPU time per request.
+(b)~FUSE workloads; cold cells use the two cycles measured before the
+environment degraded, warm and mixed cells all eight cycles.}
+\label{fig:layout-preliminary}
+\end{figure*}
