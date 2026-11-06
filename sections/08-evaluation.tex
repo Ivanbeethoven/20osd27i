@@ -3,7 +3,9 @@
 
 Formal performance and end-to-end recovery experiments remain to be conducted.
 The completed characterization in Section~\ref{sec:agent-observations}
-supplies request mixes and timing. The following five questions test
+supplies request mixes and timing, and
+Section~\ref{sec:layout-preliminary} reports preliminary measurements
+for RQ3. The following five questions test
 the expected benefit and cost of each mechanism, then examine workspace
 handoff and concurrent execution.
 
@@ -103,6 +105,56 @@ latency, and repair traffic explain the results. The recorded
 $(g,L_o,B,q)$ distinguishes requested hints from actual interventions;
 only a changed effective layout establishes a backend-layout comparison.
 Physical-read claims require device counters in addition to HTTP bytes.
+
+\subsection{Preliminary RQ3 measurements}
+\label{sec:layout-preliminary}
+
+We ran a preliminary version of RQ3 on one cloud VM
+(\code{ecs.u1-c1m2.2xlarge}, Ubuntu~26.04). RustFS used EC~2+2 over four
+directories of one 100\,GiB ESSD, so the disks are not independent failure
+domains. Each layer was compared with its own baseline in paired ABBA
+cycles. Figure~\ref{fig:layout-preliminary} summarizes the results.
+
+\paragraph{Backend.} The RustFS extension admits a requested $B$ and
+persists $B$ and $q$ with each object. The measured revision~I reads the
+$q$-aligned shard windows of a request in one local batch and tells the
+kernel exactly which bytes it will read; revision~M is the preceding
+integration of the same extension without the batch. With direct S3
+requests over eight cycles, cold Range reads ran $4.2$--$9.3\times$ faster
+for $B=4\MiB$ and $24$--$26\times$ faster for $B=64\KiB$, cold whole-object
+GETs $11$--$14\%$ faster, and cold requests used half the CPU time. Warm
+cells ranged from $0.98$ to $1.51\times$. Two warm cells missed a $5\%$
+bound; the larger miss came from one late cycle in which several
+unrelated cells dropped together.
+
+\paragraph{Client.} The \sys \code{range-heavy} profile omits the hint
+for objects within the inline-admission bound, requests $B=64\KiB$ up to
+$L_o=8\MiB$ and $256\KiB$ above, and switches ordinary reads to sparse
+fetching of 64\,KiB pages. Sparse fetching alone made sequential scans
+issue one Range GET per kernel readahead window, so whole-block background
+prefetch is restored for three access shapes: a read that continues the
+previous one, a read of at least 128\,KiB, and a slice with at least ten
+page misses per second. Through FUSE, against the same binary with hints
+and the read policy unset, cold 4\,KiB random reads over a 3.75\,GiB set
+ran $23\times$ faster with 8 jobs and $3.6\times$ with one, and 64\,KiB
+reads $17\times$. Sequential and fresh-file reads, warm reads, a hot set,
+and mixed read/write stayed within $3\%$. A 256\,MiB sequential write took
+a fixed extra ${\approx}0.25$\,s ($0.91\times$; $0.97\times$ at 512\,MiB).
+With the read policy held fixed, $B=256\KiB$ read freshly written files
+exactly as fast as $B=64\KiB$ and delivered only $63$--$78\%$ of its sparse
+throughput, so the smaller block itself contributes to the gain.
+
+\paragraph{Limits.} Every comparison verified the persisted layout of its
+datasets, and every written file passed a checksummed read-back. The runs
+report throughput, latency, and request counts, not device bytes, so they
+make no physical-read claim. Later in two runs, cold reads of the
+long-lived datasets slowed to ${\approx}0.6$\,s per request for all
+configurations, while writes and reads of new files did not; the cold
+client cells therefore rest on two cycles. The two layers were not
+measured end to end together, and the setup covers a single node, no
+compression, and SQLite metadata.
+
+\input{figures/layout-preliminary}
 
 \subsection{Migration and recovery}
 
